@@ -3,7 +3,7 @@
 class SingletonResource extends Resource
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     protected static function scopedSingletonRetrieve($class, $apiKey = null)

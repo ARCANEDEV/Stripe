@@ -41,7 +41,10 @@ class RecipientTest extends StripeTest
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $this->recipient);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Recipient',
+            $this->recipient
+        );
     }
 
     public function testDeletion()

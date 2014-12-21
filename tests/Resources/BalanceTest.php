@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Balance;
-use Arcanedev\Stripe\Util;
-
 use Arcanedev\Stripe\Tests\StripeTest;
+
+use Arcanedev\Stripe\Resources\Balance;
+use Arcanedev\Stripe\Utilities\Util;
 
 class BalanceTest extends StripeTest
 {
@@ -12,7 +12,7 @@ class BalanceTest extends StripeTest
      | ------------------------------------------------------------------------------------------------
      */
     /** @var Balance */
-    private $balance;
+    protected $object;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -23,7 +23,7 @@ class BalanceTest extends StripeTest
     {
         parent::setUp();
 
-        $this->balance = Balance::retrieve();
+        $this->object = Balance::retrieve();
     }
 
     public function tearDown()
@@ -35,11 +35,15 @@ class BalanceTest extends StripeTest
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
+    public function testCanBeInstantiate()
+    {
+        $this->assertStripeInstance('Resources\\Balance', $this->object);
+    }
+
     public function testRetrieve()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Balance', $this->balance);
-        $this->assertEquals("balance", $this->balance->object);
-        $this->assertTrue(Util::isList($this->balance->available));
-        $this->assertTrue(Util::isList($this->balance->pending));
+        $this->assertEquals("balance", $this->object->object);
+        $this->assertTrue(Util::isList($this->object->available));
+        $this->assertTrue(Util::isList($this->object->pending));
     }
 }

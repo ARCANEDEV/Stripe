@@ -1,14 +1,31 @@
 <?php namespace Arcanedev\Stripe;
 
+use Arcanedev\Stripe\Contracts\ResourceInterface;
+use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Exceptions\BadMethodCallException;
+use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
-use Arcanedev\Stripe\Exceptions\StripeError;
-
-abstract class Resource extends Object
+abstract class Resource extends Object implements ResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+    const METHOD_ALL    = 'all';
+    const METHOD_CREATE = 'create';
+    const METHOD_SAVE   = 'save';
+    const METHOD_DELETE = 'delete';
+
+    /** @var array */
+    private static $allowedMethods = [
+        self::METHOD_ALL, self::METHOD_CREATE, self::METHOD_SAVE, self::METHOD_DELETE
+    ];
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -18,10 +35,10 @@ abstract class Resource extends Object
      */
     public function refresh()
     {
-        $requestor  = new Requestor($this->apiKey);
-        $url        = $this->instanceUrl();
+        $url    = $this->instanceUrl();
 
-        list($response, $apiKey) = $requestor->get($url, $this->retrieveOptions);
+        list($response, $apiKey) = (new Requestor($this->apiKey))
+            ->get($url, $this->retrieveOptions);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -37,9 +54,10 @@ abstract class Resource extends Object
      */
     public static function className($class = '')
     {
-        $className = self::getShortNameClass($class);
+        $name = self::getShortNameClass($class);
+        $name = splitCamelCase($name, '_');
 
-        return strtolower(urlencode($className));
+        return strtolower(urlencode($name));
     }
 
     /**
@@ -47,9 +65,9 @@ abstract class Resource extends Object
      *
      * @return string
      */
-    private static function getShortNameClass($class = '')
+    protected static function getShortNameClass($class = '')
     {
-        if ( empty($class) ) {
+        if (empty($class)) {
             $class = get_called_class();
         }
 
@@ -73,7 +91,7 @@ abstract class Resource extends Object
     }
 
     /**
-     * @throws InvalidRequestErrorException
+     * @throws InvalidRequestException
      *
      * @return string The full API URL for this API resource.
      */
@@ -82,10 +100,10 @@ abstract class Resource extends Object
         $id     = $this['id'];
         $class  = get_class($this);
 
-        if ( $id === null ) {
+        if (is_null($id)) {
             $message = "Could not determine which URL to request: $class instance has invalid ID: $id";
 
-            throw new InvalidRequestErrorException($message, null);
+            throw new InvalidRequestException($message, null);
         }
 
         $id     = Requestor::utf8($id);
@@ -103,10 +121,10 @@ abstract class Resource extends Object
     {
         self::validateCall('all', $params, $apiKey);
 
-        $requestor  = new Requestor($apiKey);
-        $url        = self::scopedLsb($class, 'classUrl', $class);
+        $url    = self::scopedLsb($class, 'classUrl', $class);
 
-        list($response, $apiKey) = $requestor->get($url, $params);
+        list($response, $apiKey) = Requestor::make($apiKey)
+            ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }
@@ -118,7 +136,7 @@ abstract class Resource extends Object
      *
      * @return Resource
      */
-    protected static function scopedRetrieve($class, $id, $apiKey=null)
+    protected static function scopedRetrieve($class, $id, $apiKey = null)
     {
         /** @var self $instance */
         $instance = new $class($id, $apiKey);
@@ -132,18 +150,19 @@ abstract class Resource extends Object
      * @param array  $params
      * @param string $apiKey
      *
-     * @throws StripeError
+     * @throws ApiException
+     * @throws InvalidArgumentException
      *
-     * @return array|Object
+     * @return Object|array
      */
-    protected static function scopedCreate($class, $params=null, $apiKey=null)
+    protected static function scopedCreate($class, $params = null, $apiKey = null)
     {
         self::validateCall('create', $params, $apiKey);
 
-        $requestor  = new Requestor($apiKey);
-        $url        = self::scopedLsb($class, 'classUrl', $class);
+        $url    = self::scopedLsb($class, 'classUrl', $class);
 
-        list($response, $apiKey) = $requestor->post($url, $params);
+        list($response, $apiKey) = Requestor::make($apiKey)
+            ->post($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }
@@ -151,20 +170,22 @@ abstract class Resource extends Object
     /**
      * @param string $class
      *
-     * @throws InvalidRequestErrorException
-     * @throws StripeError
+     * @throws ApiException
+     * @throws InvalidArgumentException
+     * @throws InvalidRequestException
      *
      * @return Resource
      */
-    // TODO: Remove unused $class arg from scopedSave($class)
     protected function scopedSave($class)
     {
+        // TODO: Remove unused $class arg from scopedSave($class)
         self::validateCall('save');
-        $requestor  = new Requestor($this->apiKey);
-        $params     = $this->serializeParameters();
+
+        $params = $this->serializeParameters();
 
         if (count($params) > 0) {
-            list($response, $apiKey) = $requestor->post($this->instanceUrl(), $params);
+            list($response, $apiKey) = Requestor::make($this->apiKey)
+                ->post($this->instanceUrl(), $params);
 
             $this->refreshFrom($response, $apiKey);
         }
@@ -173,21 +194,22 @@ abstract class Resource extends Object
     }
 
     /**
-     * @param string     $class
+     * @param string $class
      * @param array|null $params
      *
-     * @throws InvalidRequestErrorException
-     * @throws StripeError
+     * @throws ApiException
+     * @throws InvalidArgumentException
+     * @throws InvalidRequestException
      *
      * @return Resource
      */
-    // TODO: Remove unused $class arg from scopedDelete($class)
     protected function scopedDelete($class, $params = null)
     {
+        // TODO: Remove unused $class arg from scopedDelete($class)
         self::validateCall('delete');
 
-        $requestor               = new Requestor($this->apiKey);
-        list($response, $apiKey) = $requestor->delete($this->instanceUrl(), $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->delete($this->instanceUrl(), $params);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -198,12 +220,51 @@ abstract class Resource extends Object
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @param string $method
+     * @param null $params
+     * @param string|null $apiKey
+     *
+     * @throws ApiException
+     * @throws BadMethodCallException
+     * @throws InvalidArgumentException
+     */
     private static function validateCall($method, $params = null, $apiKey = null)
     {
-        if ( ! in_array($method, ['all', 'create', 'save', 'delete'])) {
-            // TODO: To Throw or not To Throw ??
-        }
+        self::checkMethodCall($method);
 
+        self::checkParameters($params);
+
+        self::checkApiKey($apiKey);
+    }
+
+    /**
+     * Check Method is allowed
+     *
+     * @param string $method
+     *
+     * @throws BadMethodCallException
+     */
+    private static function checkMethodCall($method)
+    {
+        if (! in_array($method, self::$allowedMethods)) {
+            $methods = implode(', ', self::$allowedMethods);
+
+            throw new BadMethodCallException(
+                "The available methods are [$methods], $method is called !",
+                501
+            );
+        }
+    }
+    /**
+     * Check parameters
+     *
+     * @param array $params
+     *
+     * @throws InvalidArgumentException
+     */
+    private static function checkParameters($params)
+    {
         if ($params and ! is_array($params)) {
             $message = "You must pass an array as the first argument to Stripe API "
                 . "method calls.  (HINT: an example call to create a charge "
@@ -211,16 +272,25 @@ abstract class Resource extends Object
                 . "'currency' => 'usd', 'card' => array('number' => "
                 . "4242424242424242, 'exp_month' => 5, 'exp_year' => 2015)))\")";
 
-            throw new StripeError($message);
+            throw new InvalidArgumentException($message);
         }
+    }
 
+    /**
+     * Check API Key
+     *
+     * @param string $apiKey
+     *
+     * @throws ApiException
+     */
+    private static function checkApiKey($apiKey)
+    {
         if ($apiKey and ! is_string($apiKey)) {
             $message = 'The second argument to Stripe API method calls is an '
                 . 'optional per-request apiKey, which must be a string.  '
-                . '(HINT: you can set a global apiKey by '
-                . '"Stripe::setApiKey(<apiKey>)")';
+                . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")';
 
-            throw new StripeError($message);
+            throw new ApiException($message);
         }
     }
 }

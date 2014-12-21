@@ -1,12 +1,10 @@
-<?php
+<?php namespace Arcanedev\Stripe\Tests\Exceptions;
 
+use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Tests\TestCase;
 
-namespace Arcanedev\Stripe\Tests\Exceptions;
-
-
-use Arcanedev\Stripe\Exceptions\StripeError;
-
-class StripeErrorTest extends \PHPUnit_Framework_TestCase {
+class ApiExceptionTest extends TestCase
+{
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -33,17 +31,24 @@ class StripeErrorTest extends \PHPUnit_Framework_TestCase {
     public function testCreation()
     {
         try {
-            throw new StripeError(
-                "Stripe error message", // Message
-                500,                    // Status Code
-                null,                   // Stripe error type
-                null,                   // Stripe error code
-                "{'foo':'bar'}",        // Body json
-                ['foo'  => 'bar'],      // Body array
-                ['param'=> 'some-id']   // Params
+            throw new ApiException(
+                // Message
+                "Stripe error message",
+                // Status Code
+                500,
+                // Stripe error type
+                null,
+                // Stripe error code
+                null,
+                // Response Body json
+                "{'foo':'bar'}",
+                // Response Body array
+                ['foo'  => 'bar'],
+                // Params
+                ['param'=> 'some-id']
             );
         }
-        catch (StripeError $e) {
+        catch (ApiException $e) {
             $this->assertEquals("Stripe error message", $e->getMessage());
             $this->assertEquals(500, $e->getCode());
             $this->assertEquals(500, $e->getHttpStatus());

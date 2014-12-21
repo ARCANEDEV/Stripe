@@ -1,15 +1,20 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
  * @property mixed|null deleted
  * @property string     name
  */
-class Plan extends Resource
+class Plan extends Resource implements PlanInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * @param string      $id The ID of the plan to retrieve.
+     * @param string      $id     The ID of the plan to retrieve.
      * @param string|null $apiKey
      *
      * @return Plan

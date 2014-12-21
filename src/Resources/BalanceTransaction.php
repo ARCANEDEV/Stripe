@@ -1,9 +1,14 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\Resource;
 
-class BalanceTransaction extends Resource
+class BalanceTransaction extends Resource implements BalanceTransactionInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * The class URL for this resource. It needs to be special cased because
      * it doesn't fit into the standard resource pattern.
@@ -17,6 +22,10 @@ class BalanceTransaction extends Resource
         return "/v1/balance/history";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param string      $id     The ID of the balance transaction to retrieve.
      * @param string|null $apiKey

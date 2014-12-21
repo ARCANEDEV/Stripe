@@ -1,10 +1,18 @@
-<?php namespace Arcanedev\Stripe;
+<?php namespace Arcanedev\Stripe\Utilities;
 
-abstract class Util
+use Arcanedev\Stripe\Object;
+use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
+
+abstract class Util implements UtilInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Available Resources
+     *
+     * @var array
      */
     private static $resources = [
         // Resource Object
@@ -13,7 +21,7 @@ abstract class Util
         'coupon'        => 'Arcanedev\\Stripe\\Resources\\Coupon',
         'customer'      => 'Arcanedev\\Stripe\\Resources\\Customer',
         'invoice'       => 'Arcanedev\\Stripe\\Resources\\Invoice',
-        'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
+        'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItems',
         'event'         => 'Arcanedev\\Stripe\\Resources\\Event',
         'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
         'plan'          => 'Arcanedev\\Stripe\\Resources\\Plan',
@@ -23,11 +31,13 @@ abstract class Util
         'fee_refund'    => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
 
         // List Object
-        'list'          => 'Arcanedev\\Stripe\\ObjectList',
+        'list'          => 'Arcanedev\\Stripe\\ListObject',
     ];
 
+    const DEFAULT_RESOURCE = 'Arcanedev\\Stripe\\Object';
+
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -43,7 +53,7 @@ abstract class Util
 
         foreach ($values as $k => $v) {
             // FIXME: this is an encapsulation violation
-            if ( $k[0] == '_' ) {
+            if ($k[0] == '_') {
                 continue;
             }
 
@@ -71,22 +81,54 @@ abstract class Util
      */
     public static function convertToStripeObject($response, $apiKey)
     {
-        if ( self::isList($response) ) {
-            $mapped = [];
-
-            foreach ($response as $i) {
-                array_push($mapped, self::convertToStripeObject($i, $apiKey));
-            }
+        if (self::isList($response)) {
+            //$mapped = [];
+            //
+            //foreach ($response as $i) {
+            //    array_push($mapped, self::convertToStripeObject($i, $apiKey));
+            //}
+            $mapped = array_map(function($i) use ($apiKey) {
+                return self::convertToStripeObject($i, $apiKey);
+            }, $response);
 
             return $mapped;
         }
-        elseif ( is_array($response) ) {
+        elseif (is_array($response)) {
             $class = self::getClassTypeObject($response);
 
             return Object::scopedConstructFrom($class, $response, $apiKey);
         }
 
         return $response;
+    }
+
+    /**
+     * Get Class Type
+     *
+     * @param array $response
+     *
+     * @return string
+     */
+    private static function getClassTypeObject($response)
+    {
+        if (self::isClassTypeObjectExist($response)) {
+            $object = $response['object'];
+            return self::getClassTypeFromAvailableResources($object);
+        }
+
+        return self::DEFAULT_RESOURCE;
+    }
+
+    /**
+     * Get Class Type from available resources
+     *
+     * @param string $object
+     *
+     * @return string
+     */
+    private static function getClassTypeFromAvailableResources($object)
+    {
+        return self::$resources[$object];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -102,27 +144,18 @@ abstract class Util
      */
     public static function isList($array)
     {
-        if ( ! is_array($array) ) {
+        if (! is_array($array)) {
             return false;
         }
 
         // TODO: generally incorrect, but it's correct given Stripe's response
         foreach (array_keys($array) as $k) {
-            if ( ! is_numeric($k) ) {
+            if (! is_numeric($k)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    private static function getClassTypeObject($response)
-    {
-        if ( self::isClassTypeObjectExist($response) ) {
-            return self::$resources[$response['object']];
-        }
-
-        return 'Arcanedev\\Stripe\\Object';
     }
 
     /**
@@ -132,7 +165,23 @@ abstract class Util
      */
     private static function isClassTypeObjectExist($response)
     {
-        return isset( $response['object'] ) and is_string( $response['object'] ) and
-               isset( self::$resources[$response['object']] );
+        if (
+            isset($response['object'])
+            and is_string($response['object'])
+        ) {
+            return self::isInAvailableResources($response['object']);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $object
+     *
+     * @return bool
+     */
+    private static function isInAvailableResources($object)
+    {
+        return array_key_exists($object, self::$resources);
     }
 }

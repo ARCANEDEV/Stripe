@@ -51,7 +51,10 @@ class PlanTest extends StripeTest
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Plan', $this->plan);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Plan',
+            $this->plan
+        );
     }
 
     /**
@@ -67,7 +70,8 @@ class PlanTest extends StripeTest
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestErrorException
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode 404
      * @expectedExceptionMessage No such plan: 0
      */
     public function testMustThrowInvalidRequestErrorOnFalseId()

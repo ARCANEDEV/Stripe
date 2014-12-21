@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Resources\Recipient;
 
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 
 abstract class StripeTest extends TestCase
 {
@@ -17,6 +17,9 @@ abstract class StripeTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     const API_KEY = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I";
+
+    /** @var mixed */
+    protected $object;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -28,7 +31,7 @@ abstract class StripeTest extends TestCase
 
         $apiKey = getenv('STRIPE_API_KEY');
 
-        if ( ! $apiKey ) {
+        if (! $apiKey) {
             $apiKey = self::API_KEY;
         }
 
@@ -38,12 +41,22 @@ abstract class StripeTest extends TestCase
     public function tearDown()
     {
         parent::tearDown();
+
+        unset($object);
+    }
+
+    protected function assertStripeInstance($expected, $actual, $message = '')
+    {
+        $expected = 'Arcanedev\\Stripe\\' . $expected;
+
+        $this->assertInstanceOf($expected, $actual, $message);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Tests Functions
      | ------------------------------------------------------------------------------------------------
      */
+
     /**
      * Create a valid test charge.
      *
@@ -117,7 +130,7 @@ abstract class StripeTest extends TestCase
         try {
             return Plan::retrieve($id);
         }
-        catch (InvalidRequestErrorException $exception) {
+        catch (InvalidRequestException $exception) {
             return Plan::create([
                 'id'        => $id,
                 'amount'    => 0,
@@ -141,7 +154,7 @@ abstract class StripeTest extends TestCase
         try {
             return Coupon::retrieve($id);
         }
-        catch (InvalidRequestErrorException $exception) {
+        catch (InvalidRequestException $exception) {
             return Coupon::create([
                 'id'          => $id,
                 'duration'    => 'forever',

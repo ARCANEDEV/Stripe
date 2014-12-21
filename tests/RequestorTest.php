@@ -1,10 +1,8 @@
-<?php namespace Arcanedev\Stripe\Tests\Api;
+<?php namespace Arcanedev\Stripe\Tests;
 
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
 use ReflectionClass;
-
-use Arcanedev\Stripe\Tests\StripeTest;
 
 class RequestorTest extends StripeTest
 {
@@ -12,44 +10,78 @@ class RequestorTest extends StripeTest
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-
+    /** @var Requestor */
+    private $requestor;
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->requestor = new Requestor;
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        unset($this->requestor);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * @test
      */
+    public function testCanBeInstantiate()
+    {
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Requestor', $this->requestor);
+    }
+
+    /**
+     * @test
+     */
     public function testCanEncode()
     {
-        $a = [
+        $enc = Requestor::encode([
             'my'    => 'value',
             'that'  => [
                 'your' => 'example'
             ],
             'bar'   => 1,
             'baz'   => null
-        ];
+        ]);
+        $this->assertEquals('my=value&that%5Byour%5D=example&bar=1', $enc);
 
-        $enc = Requestor::encode($a);
-        $this->assertEquals($enc, 'my=value&that%5Byour%5D=example&bar=1');
+        $enc = Requestor::encode([
+            'that' => [
+                'your'  => 'example',
+                'foo'   => null,
+            ],
+        ]);
+        $this->assertEquals('that%5Byour%5D=example', $enc);
 
-        $a = ['that' => ['your' => 'example', 'foo' => null]];
-        $enc = Requestor::encode($a);
-        $this->assertEquals($enc, 'that%5Byour%5D=example');
+        $enc = Requestor::encode([
+            'that' => 'example',
+            'foo' => [
+                'bar', 'baz'
+            ]
+        ]);
+        $this->assertEquals('that=example&foo%5B%5D=bar&foo%5B%5D=baz', $enc);
 
-        $a = ['that' => 'example', 'foo' => ['bar', 'baz']];
-        $enc = Requestor::encode($a);
-        $this->assertEquals($enc, 'that=example&foo%5B%5D=bar&foo%5B%5D=baz');
-
-        $a = [
+        $enc        = Requestor::encode([
             'my' => 'value',
-            'that' => ['your' => ['cheese', 'whiz', null]],
+            'that' => [
+                'your' => ['cheese', 'whiz', null]
+            ],
             'bar' => 1,
             'baz' => null
-        ];
+        ]);
 
-        $enc        = Requestor::encode($a);
         $expected   = 'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1';
         $this->assertEquals($expected, $enc);
     }
@@ -60,16 +92,13 @@ class RequestorTest extends StripeTest
     public function testCanUtf8()
     {
         // UTF-8 string
-        $x = "\xc3\xa9";
-        $this->assertEquals($x, Requestor::utf8($x));
+        $this->assertEquals("\xc3\xa9", Requestor::utf8("\xc3\xa9"));
 
         // Latin-1 string
-        $x = "\xe9";
-        $this->assertEquals("\xc3\xa9", Requestor::utf8($x));
+        $this->assertEquals("\xc3\xa9", Requestor::utf8("\xe9"));
 
         // Not a string
-        $x = TRUE;
-        $this->assertEquals($x, Requestor::utf8($x));
+        $this->assertEquals(true, Requestor::utf8(true));
     }
 
     /**
@@ -84,19 +113,17 @@ class RequestorTest extends StripeTest
             $method = $reflector->getMethod('encodeObjects');
             $method->setAccessible(true);
 
-            $a = ['customer' => new Customer('abcd')];
-            $enc = $method->invoke(null, $a);
-            $this->assertEquals(['customer' => 'abcd'], $enc);
+            $this->assertEquals(['customer' => 'abcd'], $method->invoke(null, [
+                'customer' => new Customer('abcd')
+            ]));
 
             // Preserves UTF-8
-            $v = ['customer' => "☃"];
-            $enc = $method->invoke(null, $v);
-            $this->assertEquals($v, $enc);
+            $v      = ['customer' => "☃"];
+            $this->assertEquals($v, $method->invoke(null, $v));
 
             // Encodes latin-1 -> UTF-8
-            $v = ['customer' => "\xe9"];
-            $enc = $method->invoke(null, $v);
-            $this->assertEquals(['customer' => "\xc3\xa9"], $enc);
+            $v      = ['customer' => "\xe9"];
+            $this->assertEquals(['customer' => "\xc3\xa9"], $method->invoke(null, $v));
         }
     }
 

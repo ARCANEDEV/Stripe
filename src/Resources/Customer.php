@@ -1,15 +1,16 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-use Arcanedev\Stripe\ObjectAttached;
-use Arcanedev\Stripe\ObjectList;
 
 /**
  * @property int                id
  * @property string             object
  * @property bool               livemode
- * @property ObjectList         cards
+ * @property ListObject         cards
  * @property int                created
  * @property int                account_balance
  * @property string             currency
@@ -18,19 +19,30 @@ use Arcanedev\Stripe\ObjectList;
  * @property string             description
  * @property mixed|null         discount
  * @property string             email
- * @property ObjectAttached     metadata
+ * @property AttachedObject     metadata
  * @property bool               deleted
  * @property mixed|null         subscription
  * @property mixed|null         subscriptions
  */
-class Customer extends Resource
+class Customer extends Resource implements CustomerInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $id The ID of the customer to retrieve.
+     * Allow to check attributes while setting
+     *
+     * @var bool
+     */
+    protected $checkUnsavedAttributes = true;
+
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @param string      $id     The ID of the customer to retrieve.
      * @param string|null $apiKey
      *
      * @return Customer
@@ -43,7 +55,7 @@ class Customer extends Resource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @return array An array of Stripe_Customers.
@@ -56,7 +68,7 @@ class Customer extends Resource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @return Customer The created customer.
@@ -93,17 +105,15 @@ class Customer extends Resource
     /**
      * @param array|null $params
      *
-     * @returns InvoiceItem The resulting invoice item.
+     * @returns InvoiceItems The resulting invoice item.
      */
     public function addInvoiceItem($params = null)
     {
-        if ( is_null($params) ) {
-            $params = [];
-        }
+        self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
-        return InvoiceItem::create($params, $this->apiKey);
+        return InvoiceItems::create($params, $this->apiKey);
     }
 
     /**
@@ -113,9 +123,7 @@ class Customer extends Resource
      */
     public function invoices($params = null)
     {
-        if ( is_null($params) ) {
-            $params = [];
-        }
+        self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
@@ -129,13 +137,11 @@ class Customer extends Resource
      */
     public function invoiceItems($params = null)
     {
-        if ( is_null($params) ) {
-            $params = [];
-        }
+        self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
-        return InvoiceItem::all($params, $this->apiKey);
+        return InvoiceItems::all($params, $this->apiKey);
     }
 
     /**
@@ -145,9 +151,7 @@ class Customer extends Resource
      */
     public function charges($params = null)
     {
-        if ( is_null($params) ) {
-            $params = [];
-        }
+        self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
@@ -161,10 +165,11 @@ class Customer extends Resource
      */
     public function updateSubscription($params = null)
     {
-        $requestor  = new Requestor($this->apiKey);
-        $url        = $this->instanceUrl() . '/subscription';
+        $url    = $this->instanceUrl() . '/subscription';
 
-        list($response, $apiKey) = $requestor->post($url, $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url, $params);
+
         $this->refreshFrom(['subscription' => $response], $apiKey, true);
 
         return $this->subscription;
@@ -177,10 +182,11 @@ class Customer extends Resource
      */
     public function cancelSubscription($params = null)
     {
-        $requestor  = new Requestor($this->apiKey);
-        $url        = $this->instanceUrl() . '/subscription';
+        $url    = $this->instanceUrl() . '/subscription';
 
-        list($response, $apiKey) = $requestor->delete($url, $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->delete($url, $params);
+
         $this->refreshFrom(['subscription' => $response], $apiKey, true);
 
         return $this->subscription;
@@ -191,10 +197,25 @@ class Customer extends Resource
      */
     public function deleteDiscount()
     {
-        $requestor  = new Requestor($this->apiKey);
-        $url        = $this->instanceUrl() . '/discount';
-        list($response, $apiKey) = $requestor->delete($url);
+        $url    = $this->instanceUrl() . '/discount';
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->delete($url);
 
         $this->refreshFrom(['discount' => null], $apiKey, true);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @param array|null $params
+     */
+    protected static function prepareParameters(&$params)
+    {
+        // TODO: Move this method to parent
+        if (is_null($params)) {
+            $params = [];
+        }
     }
 }

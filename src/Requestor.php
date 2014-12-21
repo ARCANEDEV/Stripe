@@ -1,14 +1,15 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Exceptions\ApiConnectionErrorException;
-use Arcanedev\Stripe\Exceptions\ApiErrorException;
+use Arcanedev\Stripe\Contracts\RequestorInterface;
+use Arcanedev\Stripe\Exceptions\ApiConnectionException;
+use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
-use Arcanedev\Stripe\Exceptions\AuthenticationErrorException;
-use Arcanedev\Stripe\Exceptions\CardErrorException;
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
-use Arcanedev\Stripe\Exceptions\RateLimitErrorException;
+use Arcanedev\Stripe\Exceptions\AuthenticationException;
+use Arcanedev\Stripe\Exceptions\CardException;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Exceptions\RateLimitException;
 
-class Requestor
+class Requestor implements RequestorInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -23,35 +24,62 @@ class Requestor
 
     private static $preFlight;
 
+    private static $allowedMethods = [
+        'get', 'post', 'delete'
+    ];
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     public function __construct($apiKey = null)
     {
-        $this->_apiKey = $apiKey;
+        $this->setApiKey($apiKey);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
-    private function getApiKey()
+    /**
+     * Get Stripe API Key
+     *
+     * @return string|null
+     */
+    public function getApiKey()
     {
-        $apiKey = $this->_apiKey;
-
-        if ( ! $apiKey ) {
-            return Stripe::$apiKey;
+        if (! $this->apiKey) {
+            $this->setApiKey(Stripe::$apiKey);
         }
 
-        return $apiKey;
+        return $this->apiKey;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
+     * @param string $apiKey
+     *
+     * @return Requestor
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get the certificates file path
+     *
+     * @return string
+     */
+    private function caBundle()
+    {
+        return ca_certificates();
+    }
+
+    /**
+     * Get black listed certificates
+     *
      * @return array
      */
     private static function blacklistedCerts()
@@ -60,6 +88,36 @@ class Requestor
             '05c0b3643694470a888c6e7feb5c9e24e823dc53',
             '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
         ];
+    }
+
+    /**
+     * Get User Agent
+     *
+     * @return string
+     */
+    private static function userAgent()
+    {
+        return json_encode([
+            'bindings_version' => Stripe::VERSION,
+            'lang'             => 'php',
+            'lang_version'     => phpversion(),
+            'publisher'        => 'stripe',
+            'uname'            => php_uname(),
+        ]);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @param string|null $apiKey
+     *
+     * @return Requestor
+     */
+    public static function make($apiKey = null)
+    {
+        return new self($apiKey);
     }
 
     /**
@@ -74,83 +132,10 @@ class Requestor
         return "$apiBase$url";
     }
 
-    private static function encodeObjects($d)
-    {
-        if ($d instanceof Resource) {
-            return self::utf8($d->id);
-        }
-        elseif ($d === true) {
-            return 'true';
-        }
-        elseif ($d === false) {
-            return 'false';
-        }
-        elseif (is_array($d)) {
-            $res = [];
-
-            foreach ($d as $k => $v) {
-                $res[$k] = self::encodeObjects($v);
-            }
-
-            return $res;
-        }
-        else {
-            return self::utf8($d);
-        }
-    }
-
-    /**
-     * @param string|mixed $value A string to UTF8-encode.
-     *
-     * @returns string|mixed The UTF8-encoded string, or the object passed in if it wasn't a string.
+    /* ------------------------------------------------------------------------------------------------
+     |  Request Functions
+     | ------------------------------------------------------------------------------------------------
      */
-    public static function utf8($value)
-    {
-        if (
-            is_string($value)
-            and mb_detect_encoding($value, "UTF-8", TRUE) != "UTF-8"
-        ) {
-            return utf8_encode($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     *  A query string, essentially.
-     *
-     * @param array $arr An map of param keys to values.
-     * @param string|null $prefix (It doesn't look like we ever use $prefix...)
-     *
-     * @returns string
-     */
-    public static function encode($arr, $prefix = null)
-    {
-        if ( ! is_array($arr) ) {
-            return $arr;
-        }
-
-        $r = [];
-
-        foreach ($arr as $k => $v) {
-            if ( is_null($v) ) {
-                continue;
-            }
-
-            if ( $prefix ) {
-                $k = ( $k and ! is_int($k) )
-                    ? $prefix . "[$k]"
-                    : $prefix . "[]";
-            }
-
-            $r[] = is_array($v)
-                ? self::encode($v, $k, true)
-                : urlencode($k) . "=" . urlencode($v);
-        }
-
-        return implode("&", $r);
-    }
-
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
@@ -201,9 +186,7 @@ class Requestor
      */
     public function request($method, $url, $params = null)
     {
-        if ( ! $params) {
-            $params = [];
-        }
+        $this->prepareParams($params);
 
         list($rbody, $rcode, $myApiKey) = $this->requestRaw($method, $url, $params);
 
@@ -213,61 +196,73 @@ class Requestor
     }
 
     /**
+     * Prepare parameters
+     *
+     * @param $params
+     */
+    protected function prepareParams(&$params)
+    {
+        if (! $params) {
+            $params = [];
+        }
+    }
+
+    /**
      * @param string $method
      * @param string $url
      * @param array  $params
      *
-     * @throws ApiErrorException
+     * @throws ApiException
      * @throws ApiKeyNotSetException
      *
      * @return array
      */
     private function requestRaw($method, $url, $params)
     {
-        if ( ! $this->isApiKeySet() ) {
-            throw new ApiKeyNotSetException;
-        }
+        $this->checkApiKey();
 
-        $absUrl         = $this->apiUrl($url);
-        $params         = self::encodeObjects($params);
-        $langVersion    = phpversion();
-        $uname          = php_uname();
-
-        $ua = [
-            'bindings_version'  => Stripe::VERSION,
-            'lang'              => 'php',
-            'lang_version'      => $langVersion,
-            'publisher'         => 'stripe',
-            'uname'             => $uname,
-        ];
-
-        $apiKey     = $this->getApiKey();
-        $headers    = [
-            'X-Stripe-Client-User-Agent: ' . json_encode($ua),
-            'User-Agent: Stripe/v1 PhpBindings/' . Stripe::VERSION,
-            'Authorization: Bearer ' . $apiKey,
-            'Content-Type: application/x-www-form-urlencoded',
-        ];
-
-        if ( Stripe::$apiVersion ) {
-            $headers[] = 'Stripe-Version: ' . Stripe::$apiVersion;
-        }
+        $absUrl  = $this->apiUrl($url);
+        $params  = self::encodeObjects($params);
+        $apiKey  = $this->getApiKey();
+        $headers = $this->prepareHeaders($apiKey);
 
         list($rbody, $rcode) = $this->curlRequest($method, $absUrl, $headers, $params);
 
         return [$rbody, $rcode, $apiKey];
     }
 
+    /**
+     * Prepare request Headers
+     *
+     * @param $apiKey
+     *
+     * @return array
+     */
+    private function prepareHeaders($apiKey)
+    {
+        $headers = [
+            'X-Stripe-Client-User-Agent: ' . self::userAgent(),
+            'User-Agent: Stripe/v1 PhpBindings/' . Stripe::VERSION,
+            'Authorization: Bearer ' . $apiKey,
+            'Content-Type: application/x-www-form-urlencoded',
+        ];
+
+        if (Stripe::$apiVersion) {
+            $headers[] = 'Stripe-Version: ' . Stripe::$apiVersion;
+        }
+
+        return $headers;
+    }
 
     /**
      * @param $respBody
      * @param $respCode
      *
-     * @throws ApiErrorException
-     * @throws AuthenticationErrorException
-     * @throws CardErrorException
-     * @throws InvalidRequestErrorException
-     * @throws RateLimitErrorException
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws CardException
+     * @throws InvalidRequestException
+     * @throws RateLimitException
      *
      * @return array
      */
@@ -277,9 +272,9 @@ class Requestor
             $response = json_decode($respBody, true);
         }
         catch (\Exception $e) {
-            throw new ApiErrorException(
-                "Invalid response body from API: $respBody (HTTP response code was $respCode)",
-                $respCode, 'api_error', null, $respBody
+            $message = "Invalid response body from API: $respBody (HTTP response code was $respCode)";
+            throw new ApiException(
+                $message, $respCode, 'api_error', null, $respBody
             );
         }
 
@@ -291,20 +286,21 @@ class Requestor
     }
 
     /**
+     * Curl the request
+     *
      * @param string $method
      * @param string $absUrl
      * @param array  $headers
      * @param array  $params
      *
-     * @throws ApiConnectionError
-     * @throws ApiErrorException
+     * @throws ApiConnectionException
+     * @throws ApiException
      *
      * @return array
      */
     private function curlRequest($method, $absUrl, $headers, $params)
     {
-
-        if ( ! self::$preFlight ) {
+        if (! self::$preFlight) {
             self::$preFlight = $this->checkSslCert($this->apiUrl());
         }
 
@@ -314,11 +310,11 @@ class Requestor
 
         $this->checkMethod($method);
 
-        if ( $method == 'post') {
+        if ($method === 'post') {
             $opts[CURLOPT_POST] = 1;
             $opts[CURLOPT_POSTFIELDS] = self::encode($params);
         }
-        elseif ($method == 'delete') {
+        elseif ($method === 'delete') {
             $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
             $absUrl = $this->parseAbsoluteUrl($absUrl, $params);
         }
@@ -327,22 +323,22 @@ class Requestor
             $absUrl = $this->parseAbsoluteUrl($absUrl, $params);
         }
 
-        $absUrl                         = self::utf8($absUrl);
-        $opts[CURLOPT_URL]              = $absUrl;
-        $opts[CURLOPT_RETURNTRANSFER]   = true;
-        $opts[CURLOPT_CONNECTTIMEOUT]   = 30;
-        $opts[CURLOPT_TIMEOUT]          = 80;
-        $opts[CURLOPT_RETURNTRANSFER]   = true;
-        $opts[CURLOPT_HTTPHEADER]       = $headers;
+        $absUrl                       = self::utf8($absUrl);
+        $opts[CURLOPT_URL]            = $absUrl;
+        $opts[CURLOPT_RETURNTRANSFER] = true;
+        $opts[CURLOPT_CONNECTTIMEOUT] = 30;
+        $opts[CURLOPT_TIMEOUT]        = 80;
+        $opts[CURLOPT_RETURNTRANSFER] = true;
+        $opts[CURLOPT_HTTPHEADER]     = $headers;
 
-        if ( ! Stripe::$verifySslCerts ) {
+        if (! Stripe::$verifySslCerts) {
             $opts[CURLOPT_SSL_VERIFYPEER] = false;
         }
 
         curl_setopt_array($curl, $opts);
-        $rbody = curl_exec($curl);
+        $response = curl_exec($curl);
 
-        if ( ! defined('CURLE_SSL_CACERT_BADFILE') ) {
+        if (! defined('CURLE_SSL_CACERT_BADFILE')) {
             define('CURLE_SSL_CACERT_BADFILE', 77);  // constant not defined in PHP
         }
 
@@ -360,29 +356,47 @@ class Requestor
             $cert = $this->caBundle();
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_CAINFO, $cert);
-            $rbody = curl_exec($curl);
+            $response = curl_exec($curl);
         }
 
-        if ( $rbody === false ) {
-            $errno = curl_errno($curl);
+        if ( $response === false ) {
+            $errno   = curl_errno($curl);
             $message = curl_error($curl);
             curl_close($curl);
             $this->handleCurlError($errno, $message);
         }
 
-        $rcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return [$rbody, $rcode];
+        return [$response, $statusCode];
+    }
+
+    /**
+     * Parse absolute URL
+     *
+     * @param string $absUrl
+     * @param array  $params
+     *
+     * @return string
+     */
+    private function parseAbsoluteUrl($absUrl, $params)
+    {
+        if (count($params) > 0) {
+            $encoded = self::encode($params);
+            $absUrl  = "$absUrl?$encoded";
+        }
+
+        return $absUrl;
     }
 
     /**
      * @param number $errno
      * @param string $message
      *
-     * @throws ApiConnectionError
+     * @throws ApiConnectionException
      */
-    public function handleCurlError($errno, $message)
+    private function handleCurlError($errno, $message)
     {
         $apiBase = Stripe::$apiBase;
 
@@ -413,7 +427,7 @@ class Requestor
 
         $msg .= "\n\n(Network error [errno $errno]: $message)";
 
-        throw new ApiConnectionErrorException($msg);
+        throw new ApiConnectionException($msg);
     }
 
     /**
@@ -428,7 +442,7 @@ class Requestor
      *
      * @param string $url
      *
-     * @throws ApiConnectionError
+     * @throws ApiConnectionException
      *
      * @return bool
      */
@@ -447,9 +461,9 @@ class Requestor
             return true;
         }
 
-        $url    = parse_url($url);
-        $port   = isset($url["port"]) ? $url["port"] : 443;
-        $url    = "ssl://{$url["host"]}:{$port}";
+        $url  = parse_url($url);
+        $port = isset($url["port"]) ? $url["port"] : 443;
+        $url  = "ssl://{$url["host"]}:{$port}";
 
         $sslContext = stream_context_create([
             'ssl' => [
@@ -464,12 +478,12 @@ class Requestor
         );
 
         if (
-            ($errno !== 0 && $errno !== NULL) or
+            ($errno !== 0 && $errno !== null) or
             $result === false
         ) {
             $apiBase = Stripe::$apiBase;
 
-            throw new ApiConnectionError(
+            throw new ApiConnectionException(
                 "Could not connect to Stripe ($apiBase).  Please check your ".
                 "internet connection and try again.  If this problem persists, ".
                 "you should check Stripe's service status at ".
@@ -483,8 +497,8 @@ class Requestor
 
         openssl_x509_export($cert, $pemCert);
 
-        if ( self::isBlackListed($pemCert) ) {
-            throw new ApiConnectionError(
+        if (self::isBlackListed($pemCert)) {
+            throw new ApiConnectionException(
                 'Invalid server certificate. You tried to connect to a server that '.
                 'has a revoked SSL certificate, which means we cannot securely send '.
                 'data to that server.  Please email support@stripe.com if you need '.
@@ -511,20 +525,22 @@ class Requestor
         return ! empty($apiKey);
     }
 
-    /* Checks if a valid PEM encoded certificate is blacklisted
-
+    /**
+     * Checks if a valid PEM encoded certificate is blacklisted
+     *
      * @return bool
      */
     public static function isBlackListed($cert)
     {
-        $cert   = trim($cert);
-        $lines  = explode("\n", $cert);
+        $cert  = trim($cert);
+        $lines = explode("\n", $cert);
 
         // Kludgily remove the PEM padding
-        array_shift($lines); array_pop($lines);
+        array_shift($lines);
+        array_pop($lines);
 
-        $derCert        = base64_decode(implode("", $lines));
-        $fingerprint    = sha1($derCert);
+        $derCert     = base64_decode(implode("", $lines));
+        $fingerprint = sha1($derCert);
 
         return in_array($fingerprint, self::blacklistedCerts());
     }
@@ -534,107 +550,170 @@ class Requestor
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * @param Resource|bool|array|string $d
+     *
+     * @return array|string
+     */
+    private static function encodeObjects($d)
+    {
+        if ($d instanceof Resource) {
+            return self::utf8($d->id);
+        }
+        elseif (is_bool($d)) {
+            return $d === true ? 'true' : 'false';
+        }
+        elseif (is_array($d)) {
+            $res = [];
+
+            foreach ($d as $k => $v) {
+                $res[$k] = self::encodeObjects($v);
+            }
+
+            return $res;
+        }
+
+        return self::utf8($d);
+    }
+
+    /**
+     * @param string|mixed $value A string to UTF8-encode.
+     *
+     * @returns string|mixed The UTF8-encoded string, or the object passed in if it wasn't a string.
+     */
+    public static function utf8($value)
+    {
+        if (
+            is_string($value)
+            and mb_detect_encoding($value, "UTF-8", TRUE) != "UTF-8"
+        ) {
+            $value = utf8_encode($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     *  A query string, essentially.
+     *
+     * @param array $arr An map of param keys to values.
+     * @param string|null $prefix (It doesn't look like we ever use $prefix...)
+     *
+     * @returns string
+     */
+    public static function encode($arr, $prefix = null)
+    {
+        if (! is_array($arr)) {
+            return $arr;
+        }
+
+        $r = [];
+
+        foreach ($arr as $k => $v) {
+            if (is_null($v)) {
+                continue;
+            }
+
+            if ($prefix) {
+                $k = $prefix . (($k and ! is_int($k)) ? "[$k]" : "[]");
+            }
+
+            $r[] = is_array($v)
+                ? self::encode($v, $k, true)
+                : urlencode($k) . "=" . urlencode($v);
+        }
+
+        return implode("&", $r);
+    }
+
+    /**
+     * @throws ApiKeyNotSetException
+     */
+    private function checkApiKey()
+    {
+        if (! $this->isApiKeySet()) {
+            throw new ApiKeyNotSetException;
+        }
+    }
+
+    /**
      * @param string $respBody A JSON string.
      * @param int    $respCode
      * @param array  $response
      *
-     * @throws ApiErrorException
-     * @throws RateLimitErrorException
-     * @throws InvalidRequestErrorException
-     * @throws AuthenticationErrorException
-     * @throws CardErrorException
+     * @throws ApiException
+     * @throws RateLimitException
+     * @throws InvalidRequestException
+     * @throws AuthenticationException
+     * @throws CardException
      */
-    public function handleApiError($respBody, $respCode, $response)
+    private function handleApiError($respBody, $respCode, $response)
     {
-        if ( ! is_array($response) or ! isset($response['error']) ) {
-            throw new ApiErrorException(
-                "Invalid response object from API: $respBody (HTTP response code was $respCode)",
-                $respCode,
-                $respBody,
-                $response
-            );
+        if (! is_array($response) or ! isset($response['error'])) {
+            $msg = "Invalid response object from API: $respBody (HTTP response code was $respCode)";
+
+            throw new ApiException($msg, $respCode, $respBody, $response);
         }
 
         $error      = $response['error'];
-        $type       = isset($error['type'])     ? $error['type'] : null;
-        $message    = isset($error['message'])  ? $error['message'] : null;
-        $stripeCode = isset($error['code'])     ? $error['code']    : null;
+        $type       = isset($error['type'])    ? $error['type']    : null;
+        $msg        = isset($error['message']) ? $error['message'] : null;
+        $stripeCode = isset($error['code'])    ? $error['code']    : null;
+        $params     = isset($error['param'])   ? $error['param']   : null;
 
-        $excluded   = array_flip(['type', 'message', 'code']);
-        $params     = isset($error['param']) ? $error['param'] : array_diff_key($error, $excluded);
+        if (is_null($params)) {
+            $params = array_diff_key($error, array_flip([
+                'type', 'message', 'code'
+            ]));
+        }
 
         switch ($respCode) {
             case 400:
                 if ($stripeCode == 'rate_limit') {
-                    throw new RateLimitErrorException(
-                        $message, $respCode, $type, $stripeCode, $respBody, $response, $params
+                    throw new RateLimitException(
+                        $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
                     );
                 }
                 break;
 
             case 404:
                 // If the error is caused by the user.
-                throw new InvalidRequestErrorException(
-                    $message, $respCode, $type, $stripeCode, $respBody, $response, $params
+                throw new InvalidRequestException(
+                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
                 );
 
             case 401:
                 // If the error is caused by a lack of permissions.
-                throw new AuthenticationErrorException(
-                    $message, $respCode, $type, $stripeCode, $respBody, $response, $params
+                throw new AuthenticationException(
+                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
                 );
 
             case 402:
                 // If the error is the error code is 402 (payment required)
-                throw new CardErrorException(
-                    $message, $respCode, $type, $stripeCode, $respBody, $response, $params
+                throw new CardException(
+                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
                 );
 
             default:
                 // Otherwise...
-                throw new ApiErrorException(
-                    $message, $respCode, $type, $stripeCode, $respBody, $response, $params
+                throw new ApiException(
+                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
                 );
         }
-    }
-
-    /**
-     * Get the certificates file path
-     *
-     * @return string
-     */
-    private function caBundle()
-    {
-        return __DIR__ . '/data/ca-certificates.crt';
     }
 
     /**
      * @param string $method
      *
-     * @throws ApiErrorException
+     * @throws ApiException
      */
     private function checkMethod($method)
     {
-        if ( ! in_array($method, ['get', 'post', 'delete'])) {
-            throw new ApiErrorException("Unrecognized method $method", 500);
-        }
-    }
-
-    /**
-     * @param $absUrl
-     * @param $params
-     *
-     * @return string
-     */
-    private function parseAbsoluteUrl($absUrl, $params)
-    {
-        if ( count($params) > 0 ) {
-            $encoded = self::encode($params);
-            $absUrl = "$absUrl?$encoded";
-
-            return $absUrl;
+        if (in_array($method, self::$allowedMethods)) {
+            return;
         }
 
-        return $absUrl;
+        $methods = implode(', ', self::$allowedMethods);
+
+        throw new ApiException("Unrecognized method $method, must be [$methods].", 500);
     }
 }

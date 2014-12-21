@@ -1,20 +1,21 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\EventInterface;
 use Arcanedev\Stripe\Resource;
 
-class Event extends Resource
+class Event extends Resource implements EventInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $id The ID of the event to retrieve.
+     * @param string      $id The ID of the event to retrieve.
      * @param string|null $apiKey
      *
      * @return Event
      */
-    public static function retrieve($id, $apiKey=null)
+    public static function retrieve($id, $apiKey = null)
     {
         $class = get_class();
 

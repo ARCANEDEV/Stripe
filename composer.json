@@ -28,6 +28,9 @@
             "Arcanedev\\Stripe\\": "src/",
             "Arcanedev\\Stripe\\Tests\\": "tests/"
         },
-        "files": ["src/helpers.php"]
+        "files": [
+            "src/start.php",
+            "src/helpers.php"
+        ]
     }
 }

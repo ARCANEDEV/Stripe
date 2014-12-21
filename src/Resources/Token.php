@@ -1,15 +1,16 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\TokenInterface;
 use Arcanedev\Stripe\Resource;
 
-class Token extends Resource
+class Token extends Resource implements TokenInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the token to retrieve.
+     * @param string      $id     The ID of the token to retrieve.
      * @param string|null $apiKey
      *
      * @return Token

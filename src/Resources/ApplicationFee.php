@@ -1,10 +1,16 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
-class ApplicationFee extends Resource
+class ApplicationFee extends Resource implements ApplicationFeeInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * This is a special case because the application fee endpoint has an
      *    underscore in it. The parent `className` function strips underscores.
@@ -13,11 +19,15 @@ class ApplicationFee extends Resource
      *
      * @return string The name of the class.
      */
-    public static function className($class)
+    public static function className($class = '')
     {
-        return 'application_fee';
+        return parent::className();
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param string      $id The ID of the application fee to retrieve.
      * @param string|null $apiKey
@@ -32,10 +42,12 @@ class ApplicationFee extends Resource
     }
 
     /**
+     * Get an array of application fees.
+     *
      * @param string|null $params
      * @param string|null $apiKey
      *
-     * @return array An array of application fees.
+     * @return ListObject|array
      */
     public static function all($params = null, $apiKey = null)
     {
@@ -51,11 +63,10 @@ class ApplicationFee extends Resource
      */
     public function refund($params = null)
     {
-        $requestor = new Requestor($this->apiKey);
+        $url       = $this->instanceUrl() . '/refund';
 
-        $url = $this->instanceUrl() . '/refund';
-
-        list($response, $apiKey) = $requestor->post($url, $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url, $params);
 
         $this->refreshFrom($response, $apiKey);
 

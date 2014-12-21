@@ -1,9 +1,11 @@
-<?php namespace Arcanedev\Stripe;
+<?php namespace Arcanedev\Stripe\Utilities;
 
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
+use Arcanedev\Stripe\Contracts\Utilities\UtilSetInterface;
 
-class UtilSet implements IteratorAggregate
+class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -16,6 +18,9 @@ class UtilSet implements IteratorAggregate
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @param array $attributes
+     */
     public function __construct($attributes = [])
     {
         $this->items = [];
@@ -26,7 +31,7 @@ class UtilSet implements IteratorAggregate
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -81,5 +86,15 @@ class UtilSet implements IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->toArray());
+    }
+
+    /**
+     * Count items
+     *
+     * @return int The custom count as an integer.
+     */
+    public function count()
+    {
+        return count($this->items);
     }
 }

@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
 
 /**
  * @property string     id
@@ -11,24 +11,25 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
  * @property mixed|null charge
  * @property mixed|null metadata
  */
-class Refund extends Resource
+class Refund extends Resource implements RefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @throws InvalidRequestErrorException
+     * @throws InvalidRequestException
      *
      * @return string The API URL for this Stripe refund.
      */
     public function instanceUrl()
     {
+        // TODO: Refactor this method
         $id     = $this['id'];
         $charge = $this['charge'];
 
         if ( ! $id) {
-            throw new InvalidRequestErrorException(
+            throw new InvalidRequestException(
                 "Could not determine which URL to request: class instance has invalid ID: $id", null
             );
         }
@@ -43,6 +44,10 @@ class Refund extends Resource
         return "$base/$chargeExtn/refunds/$extn";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @return Refund The saved refund.
      */

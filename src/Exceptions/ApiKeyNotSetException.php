@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class ApiKeyNotSetException extends AuthenticationErrorException
+class ApiKeyNotSetException extends AuthenticationException
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constructor

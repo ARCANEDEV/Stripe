@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
 use Arcanedev\Stripe\SingletonResource;
 
 /**
@@ -8,7 +9,7 @@ use Arcanedev\Stripe\SingletonResource;
  * @property mixed|null charges_enabled
  * @property mixed|null details_submitted
  */
-class Account extends SingletonResource
+class Account extends SingletonResource implements AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Functions

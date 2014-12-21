@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
@@ -8,14 +9,14 @@ use Arcanedev\Stripe\Resource;
  * @property mixed|null status
  * @property mixed|null metadata
  */
-class Transfer extends Resource
+class Transfer extends Resource implements TransferInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the transfer to retrieve.
+     * @param string      $id     The ID of the transfer to retrieve.
      * @param string|null $apiKey
      *
      * @return Transfer
@@ -58,10 +59,11 @@ class Transfer extends Resource
      */
     public function cancel()
     {
-        $requestor  = new Requestor($this->apiKey);
-        $url        = $this->instanceUrl() . '/cancel';
+        $url    = $this->instanceUrl() . '/cancel';
 
-        list($response, $apiKey) = $requestor->post($url);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url);
+
         $this->refreshFrom($response, $apiKey);
 
         return $this;

@@ -135,7 +135,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\CardErrorException
+     * @expectedException \Arcanedev\Stripe\Exceptions\CardException
      * @expectedExceptionCode 402
      */
     public function testMustThrowCardErrorOnDeclinedCard()

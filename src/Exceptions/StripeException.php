@@ -1,33 +1,70 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class StripeError extends \Exception
+abstract class StripeException extends \Exception
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Stripe Error type
+     *
      * @var string
      */
     protected $type;
 
+    /**
+     * Stripe Error code
+     *
+     * @var string
+     */
     protected $stripeCode;
 
+    /**
+     * HTTP Response Body (json)
+     *
+     * @var string
+     */
     protected $httpBody;
 
+    /**
+     * HTTP Response Body (array)
+     *
+     * @var array
+     */
     protected $jsonBody;
 
-    /** @var array */
+    /**
+     * Parameters
+     *
+     * @var array
+     */
     protected $params = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Stripe Error Constructor
+     *
+     * @param string $message
+     * @param int    $statusCode
+     * @param null   $type
+     * @param null   $stripeCode
+     * @param null   $httpBody
+     * @param array  $jsonBody
+     * @param array  $params
+     */
     public function __construct(
-        $message, $statusCode = 0, $type = null, $stripeCode = null, $httpBody = null, $jsonBody = [], $params = []
-    )
-    {
+        $message,
+        $statusCode = 0,
+        $type = null,
+        $stripeCode = null,
+        $httpBody = null,
+        $jsonBody = [],
+        $params = []
+    ) {
         parent::__construct($message, $statusCode);
 
         // Stripe Properties

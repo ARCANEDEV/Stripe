@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Exceptions;
 
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Customer;
@@ -31,7 +31,7 @@ class InvalidRequestErrorTest extends StripeTest
         try {
             Customer::retrieve('invalid');
         }
-        catch (InvalidRequestErrorException $e) {
+        catch (InvalidRequestException $e) {
             $this->assertEquals(404, $e->getCode());
             $this->assertEquals(404, $e->getHttpStatus());
         }
@@ -42,7 +42,7 @@ class InvalidRequestErrorTest extends StripeTest
         try {
             Charge::create();
         }
-        catch (InvalidRequestErrorException $e) {
+        catch (InvalidRequestException $e) {
             $this->assertEquals(400, $e->getCode());
             $this->assertEquals(400, $e->getHttpStatus());
         }

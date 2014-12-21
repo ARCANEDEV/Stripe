@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
@@ -11,10 +12,10 @@ use Arcanedev\Stripe\Resource;
  * @property mixed|null refunded
  * @property mixed|null paid
  */
-class Charge extends Resource
+class Charge extends Resource implements ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -48,7 +49,7 @@ class Charge extends Resource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @return Charge The created charge.
@@ -77,9 +78,8 @@ class Charge extends Resource
      */
     public function refund($params = null)
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl() . '/refund', $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl() . '/refund', $params);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -93,9 +93,8 @@ class Charge extends Resource
      */
     public function capture($params = null)
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl() . '/capture', $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl() . '/capture', $params);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -109,9 +108,8 @@ class Charge extends Resource
      */
     public function updateDispute($params = null)
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl() . '/dispute', $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl() . '/dispute', $params);
 
         $this->refreshFrom(['dispute' => $response], $apiKey, true);
 
@@ -123,9 +121,8 @@ class Charge extends Resource
      */
     public function closeDispute()
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl() . '/dispute/close');
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl() . '/dispute/close');
 
         $this->refreshFrom($response, $apiKey);
 
@@ -137,13 +134,12 @@ class Charge extends Resource
      */
     public function markAsFraudulent()
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl(), [
-            'fraud_details' => [
-                'user_report' => 'fraudulent',
-            ],
-        ]);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl(), [
+                'fraud_details' => [
+                    'user_report' => 'fraudulent',
+                ],
+            ]);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -155,13 +151,12 @@ class Charge extends Resource
      */
     public function markAsSafe()
     {
-        $requestor  = new Requestor($this->apiKey);
-
-        list($response, $apiKey) = $requestor->post($this->instanceUrl(), [
-            'fraud_details' => [
-                'user_report' => 'safe',
-            ],
-        ]);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($this->instanceUrl(), [
+                'fraud_details' => [
+                    'user_report' => 'safe',
+                ],
+            ]);
 
         $this->refreshFrom($response, $apiKey);
 

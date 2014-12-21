@@ -1,16 +1,21 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-use Arcanedev\Stripe\Util;
+use Arcanedev\Stripe\Utilities\Util;
 
 /**
  * @property mixed|null customer
  * @property mixed|null attempted
  * @property mixed|null lines
  */
-class Invoice extends Resource
+class Invoice extends Resource implements InvoiceInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param array|null  $params
      * @param string|null $apiKey
@@ -25,7 +30,7 @@ class Invoice extends Resource
     }
 
     /**
-     * @param string      $id The ID of the invoice to retrieve.
+     * @param string      $id     The ID of the invoice to retrieve.
      * @param string|null $apiKey
      *
      * @return Invoice
@@ -38,7 +43,7 @@ class Invoice extends Resource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @return array An array of Stripe_Invoices.
@@ -51,17 +56,17 @@ class Invoice extends Resource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @return Invoice The upcoming invoice.
      */
     public static function upcoming($params = null, $apiKey = null)
     {
-        $requestor  = new Requestor($apiKey);
         $url        = self::classUrl(get_class()) . '/upcoming';
 
-        list($response, $apiKey) = $requestor->get($url, $params);
+        list($response, $apiKey) = Requestor::make($apiKey)
+            ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }
@@ -72,6 +77,7 @@ class Invoice extends Resource
     public function save()
     {
         $class = get_class();
+
         return self::scopedSave($class);
     }
 
@@ -80,10 +86,10 @@ class Invoice extends Resource
      */
     public function pay()
     {
-        $requestor  = new Requestor($this->apiKey);
         $url        = $this->instanceUrl() . '/pay';
 
-        list($response, $apiKey) = $requestor->post($url);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url);
 
         $this->refreshFrom($response, $apiKey);
 

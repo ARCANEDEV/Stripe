@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -9,10 +10,25 @@ use Arcanedev\Stripe\Resource;
  * @property mixed|null cards
  * @property mixed|null metadata
  */
-class Recipient extends Resource
+class Recipient extends Resource implements RecipientInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * @param string      $id The ID of the recipient to retrieve.
+     * Allow to check attributes while setting
+     *
+     * @var bool
+     */
+    protected $checkUnsavedAttributes = true;
+
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @param string      $id     The ID of the recipient to retrieve.
      * @param string|null $apiKey
      *
      * @return Recipient
@@ -73,19 +89,34 @@ class Recipient extends Resource
     }
 
     /**
+     * Get an array of the recipient's Transfers.
+     *
      * @param array|null $params
      *
-     * @return array An array of the recipient's Stripe_Transfers.
+     * @return array
      */
     public function transfers($params = null)
     {
-        if ( ! $params ) {
-            $params = [];
-        }
+        self::prepareParameters($params);
 
         $params['recipient'] = $this->id;
         $transfers           = Transfer::all($params, $this->apiKey);
 
         return $transfers;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @param array|null $params
+     */
+    protected static function prepareParameters(&$params)
+    {
+        // TODO: Move this method to parent
+        if (is_null($params)) {
+            $params = [];
+        }
     }
 }

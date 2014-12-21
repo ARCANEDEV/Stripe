@@ -1,15 +1,15 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\CardInterface;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
 
 /**
  * @property string id
  * @property string name
  */
-class Card extends Resource
+class Card extends Resource implements CardInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -17,6 +17,11 @@ class Card extends Resource
      */
     const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
     const RECIPIENT_CLASS   = 'Arcanedev\\Stripe\\Resources\\Recipient';
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param array $values
      * @param null  $apiKey
@@ -31,19 +36,20 @@ class Card extends Resource
     }
 
     /**
-     * @throws InvalidRequestErrorException
+     * @throws InvalidRequestException
      *
      * @return string The instance URL for this resource. It needs to be special
      *         cased because it doesn't fit into the standard resource pattern.
      */
     public function instanceUrl()
     {
+        // TODO: Refactor this method
         $id = $this['id'];
 
         if ( ! $id ) {
             $class = get_class($this);
 
-            throw new InvalidRequestErrorException(
+            throw new InvalidRequestException(
                 "Could not determine which URL to request: $class instance " . "has invalid ID: $id", null
             );
         }
@@ -70,6 +76,10 @@ class Card extends Resource
         return "$base/$parentExtn/cards/$extn";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param array|null $params
      *

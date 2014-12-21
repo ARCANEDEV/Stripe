@@ -2,7 +2,6 @@
 
 use Arcanedev\Stripe\Resources\Customer;
 
-use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Resources\Token;
 
 use Arcanedev\Stripe\Tests\StripeTest;

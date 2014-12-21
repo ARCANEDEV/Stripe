@@ -1,28 +1,46 @@
 <?php namespace Arcanedev\Stripe;
 
-abstract class Stripe
+use Arcanedev\Stripe\Contracts\StripeInterface;
+
+abstract class Stripe implements StripeInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @var string The Stripe API key to be used for requests.
+     * The Stripe API key to be used for requests.
+     *
+     * @var string
      */
     public static $apiKey;
+
     /**
-     * @var string The base URL for the Stripe API.
+     * The base URL for the Stripe API.
+     *
+     * @var string
      */
     public static $apiBase = 'https://api.stripe.com';
+
     /**
-     * @var string|null The version of the Stripe API to use for requests.
+     * The version of the Stripe API to use for requests.
+     *
+     * @var string|null
      */
     public static $apiVersion = null;
+
     /**
-     * @var boolean Defaults to true.
+     * Verify SSL Certs (Default: True)
+     *
+     * @var boolean
      */
     public static $verifySslCerts = true;
 
+    /**
+     * Library Version
+     *
+     * @var string|null
+     */
     const VERSION = '1.17.4';
 
     /* ------------------------------------------------------------------------------------------------
@@ -30,7 +48,9 @@ abstract class Stripe
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @return string The API key used for requests.
+     * Get the API key used for requests.
+     *
+     * @return string
      */
     public static function getApiKey()
     {
@@ -48,8 +68,9 @@ abstract class Stripe
     }
 
     /**
-     * @return string The API version used for requests. null if we're using the
-     *    latest version.
+     * The API version used for requests. null if we're using the latest version.
+     *
+     * @return string
      */
     public static function getApiVersion()
     {
@@ -57,7 +78,19 @@ abstract class Stripe
     }
 
     /**
-     * @param string $apiVersion The API version to use for requests.
+     * The API version used for requests. null if we're using the latest version.
+     *
+     * @return string
+     */
+    public static function version()
+    {
+        return self::getApiVersion();
+    }
+
+    /**
+     * Sets the API version to use for requests.
+     *
+     * @param string $apiVersion
      */
     public static function setApiVersion($apiVersion)
     {
@@ -65,7 +98,9 @@ abstract class Stripe
     }
 
     /**
-     * @return boolean
+     * Get Verify SSL Certs
+     *
+     * @return bool
      */
     public static function getVerifySslCerts()
     {
@@ -73,10 +108,12 @@ abstract class Stripe
     }
 
     /**
-     * @param boolean $verify
+     * Sets Verify SSL Certs
+     *
+     * @param bool $verify
      */
     public static function setVerifySslCerts($verify)
     {
-        self::$verifySslCerts = $verify;
+        self::$verifySslCerts = validate_bool($verify);
     }
 }

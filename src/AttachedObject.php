@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe;
 
-class ObjectAttached extends Object
+use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
+
+class AttachedObject extends Object implements AttachedObjectInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -10,7 +12,7 @@ class ObjectAttached extends Object
     protected $checkUnsavedAttributes = false;
 
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

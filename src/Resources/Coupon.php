@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -7,8 +8,12 @@ use Arcanedev\Stripe\Resource;
  * @property mixed|null percent_off
  * @property mixed|null metadata
  */
-class Coupon extends Resource
+class Coupon extends Resource implements CouponInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param string      $id The ID of the coupon to retrieve.
      * @param string|null $apiKey

@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-
-use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
 
 /**
  * @property string     id
@@ -13,24 +13,25 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestErrorException;
  * @property mixed|null cancel_at_period_end
  * @property mixed|null quantity
  */
-class Subscription extends Resource
+class Subscription extends Resource implements SubscriptionInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @throws InvalidRequestErrorException
+     * @throws InvalidRequestException
      *
      * @return string The API URL for this Stripe subscription.
      */
     public function instanceUrl()
     {
+        // TODO: Refactor this method
         $id       = $this['id'];
         $customer = $this['customer'];
 
         if ( ! $id ) {
-            throw new InvalidRequestErrorException(
+            throw new InvalidRequestException(
                 "Could not determine which URL to request: class instance has invalid ID: $id", null
             );
         }
@@ -45,11 +46,16 @@ class Subscription extends Resource
         return "$base/$customerExtn/subscriptions/$extn";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param array|null $params
+     *
      * @return Subscription The deleted subscription.
      */
-    public function cancel($params=null)
+    public function cancel($params = null)
     {
         $class = get_class();
 
@@ -71,10 +77,8 @@ class Subscription extends Resource
      */
     public function deleteDiscount()
     {
-        $requestor = new Requestor($this->apiKey);
-        $url       = $this->instanceUrl() . '/discount';
-
-        list($response, $apiKey) = $requestor->delete($url);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->delete($this->instanceUrl() . '/discount');
 
         $this->refreshFrom(['discount' => null], $apiKey, true);
     }
