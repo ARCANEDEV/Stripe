@@ -68,6 +68,10 @@ class ListObject extends Object implements ListObjectInterface
         return Util::convertToStripeObject($response, $apiKey);
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     private function extractPathAndUpdateParams($params)
     {
         $url = parse_url($this->url);

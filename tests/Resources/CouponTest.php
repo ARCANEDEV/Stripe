@@ -32,7 +32,7 @@ class CouponTest extends StripeTest
     /**
      * @test
      */
-    public function testSave()
+    public function testCanCreateAndSave()
     {
         $couponId   = $this->getCouponId();
         $coupon     = Coupon::create([
@@ -55,7 +55,7 @@ class CouponTest extends StripeTest
     /**
      * @test
      */
-    public function testDeletion()
+    public function testCanDelete()
     {
         $couponId   = $this->getCouponId();
         Coupon::create([

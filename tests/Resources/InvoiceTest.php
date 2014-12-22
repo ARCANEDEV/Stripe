@@ -45,8 +45,20 @@ class InvoiceTest extends StripeTest
 
     /**
      * @test
+     *
+     * This is really just making sure that this operation does not trigger any warnings, as it's highly nested.
      */
-    public function testUpcoming()
+    public function testCanGetAll()
+    {
+        $invoices = Invoice::all();
+
+        $this->assertTrue(count($invoices) > 0);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanUpcoming()
     {
         $customer = self::createTestCustomer();
 
@@ -87,17 +99,5 @@ class InvoiceTest extends StripeTest
 
         $this->assertEquals(1, count($lines->data));
         $this->assertEquals(100, $lines->data[0]->amount);
-    }
-
-    /**
-     * @test
-     *
-     * This is really just making sure that this operation does not trigger any warnings, as it's highly nested.
-     */
-    public function testAll()
-    {
-        $invoices = Invoice::all();
-
-        $this->assertTrue(count($invoices) > 0);
     }
 }

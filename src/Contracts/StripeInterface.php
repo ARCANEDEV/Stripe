@@ -19,29 +19,48 @@ interface StripeInterface
     public static function setApiKey($apiKey);
 
     /**
-     * @return string The API version used for requests. null if we're using the
-     *    latest version.
+     * The API version used for requests. null if we're using the latest version.
+     *
+     * @return string
      */
     public static function getApiVersion();
 
     /**
-     * @return string The API version used for requests. null if we're using the
-     *    latest version.
+     * The API version used for requests. null if we're using the latest version.
+     *
+     * @return string
      */
     public static function version();
 
     /**
-     * @param string $apiVersion The API version to use for requests.
+     * Sets the API version to use for requests.
+     *
+     * @param string $apiVersion
      */
     public static function setApiVersion($apiVersion);
 
     /**
-     * @return boolean
+     * Get Verify SSL Certs
+     *
+     * @return bool
      */
     public static function getVerifySslCerts();
 
     /**
-     * @param boolean $verify
+     * Sets Verify SSL Certs
+     *
+     * @param bool $verify
      */
     public static function setVerifySslCerts($verify);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Init Stripe
+     *
+     * @param string $apiKey
+     */
+    public static function init($apiKey);
 }

@@ -54,7 +54,7 @@ class ApplicationFeeTest extends StripeTest
     /**
      * @test
      */
-    public function testUrls()
+    public function testCanGetUrl()
     {
         $this->assertEquals(
             '/v1/application_fees/abcd%2Fefgh',
@@ -75,7 +75,7 @@ class ApplicationFeeTest extends StripeTest
     /**
      * @test
      */
-    public function testList()
+    public function testCanGetAll()
     {
         $fees = ApplicationFee::all();
 

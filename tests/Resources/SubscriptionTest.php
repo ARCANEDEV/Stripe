@@ -28,7 +28,10 @@ class SubscriptionTest extends StripeTest
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function testCreateUpdateCancel()
+    /**
+     * @test
+     */
+    public function testCanCreateUpdateCancel()
     {
         $planID = 'gold-' . self::randomString();
         self::retrieveOrCreatePlan($planID);
@@ -58,7 +61,10 @@ class SubscriptionTest extends StripeTest
         $this->assertTrue($subscription->cancel_at_period_end);
     }
 
-    public function testDeleteDiscount()
+    /**
+     * @test
+     */
+    public function testCanDeleteDiscount()
     {
         $planID = 'gold-' . self::randomString();
         self::retrieveOrCreatePlan($planID);

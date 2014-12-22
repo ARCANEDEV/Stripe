@@ -49,6 +49,50 @@ if (! function_exists('splitCamelCase')) {
 }
 
 /* ------------------------------------------------------------------------------------------------
+ |  Array
+ | ------------------------------------------------------------------------------------------------
+ */
+if (! function_exists('is_multi_dim_array')) {
+    /**
+     * Check if array is a multidimensional array
+     *
+     * @param array $array
+     *
+     * @return bool
+     */
+    function is_multi_dim_array($array)
+    {
+        if (! is_array($array)) {
+            return false;
+        }
+
+        $array = array_filter($array, 'is_array');
+
+        return (bool) count($array);
+    }
+}
+
+if (! function_exists('is_assoc_array')) {
+    /**
+     * Check if array is an associative array
+     *
+     * @param array $array
+     *
+     * @return bool
+     */
+    function is_assoc_array($array)
+    {
+        if (! is_array($array)) {
+            return false;
+        }
+
+        $array = array_filter(array_keys($array), 'is_string');
+
+        return (bool) count($array);
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------
  |  MISC
  | ------------------------------------------------------------------------------------------------
  */

@@ -47,7 +47,10 @@ class RecipientTest extends StripeTest
         );
     }
 
-    public function testDeletion()
+    /**
+     * @test
+     */
+    public function testCanDelete()
     {
         $recipient = self::createTestRecipient();
         $recipient->delete();
@@ -55,7 +58,10 @@ class RecipientTest extends StripeTest
         $this->assertTrue($recipient->deleted);
     }
 
-    public function testSave()
+    /**
+     * @test
+     */
+    public function testCanSave()
     {
         $recipient = self::createTestRecipient();
 
@@ -82,7 +88,39 @@ class RecipientTest extends StripeTest
     /**
      * @test
      */
-    public function testRecipientAddCard()
+    public function testCanUpdateRecipientAllMetadata()
+    {
+        $recipient = self::createTestRecipient();
+
+        $recipient->metadata = ['test' => 'foo bar'];
+        $recipient->save();
+
+        $updatedRecipient = Recipient::retrieve($recipient->id);
+        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanUpdateRecipientOneMetadata()
+    {
+        $recipient = self::createTestRecipient();
+
+        $recipient->metadata['test'] = 'foo bar';
+        $recipient->save();
+
+        $updatedRecipient = Recipient::retrieve($recipient->id);
+        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Cards Tests
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @test
+     */
+    public function testCanAddCard()
     {
         $token = Token::create([
             "card" => [
@@ -108,7 +146,7 @@ class RecipientTest extends StripeTest
     /**
      * @test
      */
-    public function testRecipientUpdateCard()
+    public function testCanUpdateCard()
     {
         $token = Token::create([
             "card" => [
@@ -141,7 +179,7 @@ class RecipientTest extends StripeTest
     /**
      * @test
      */
-    public function testRecipientDeleteCard()
+    public function testCanDeleteCard()
     {
         $token = Token::create([
             "card" => [

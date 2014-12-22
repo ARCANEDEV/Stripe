@@ -45,7 +45,7 @@ class TokenTest extends StripeTest
     /**
      * @test
      */
-    public function testUrls()
+    public function testCanGetUrls()
     {
         $this->assertEquals('/v1/tokens', Token::classUrl());
 

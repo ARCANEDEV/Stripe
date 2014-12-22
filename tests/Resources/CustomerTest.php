@@ -47,7 +47,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testDeletion()
+    public function testCanDelete()
     {
         $customer = self::createTestCustomer();
         $customer->delete();
@@ -59,7 +59,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testSave()
+    public function testCanCreateAndSave()
     {
         $customer = self::createTestCustomer();
 
@@ -103,7 +103,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testUpdateDescriptionMustBeNull()
+    public function testCanUpdateDescription()
     {
         $customer = self::createTestCustomer(['description' => 'foo bar']);
         $customer->description = null;
@@ -113,6 +113,8 @@ class CustomerTest extends StripeTest
         $updatedCustomer = Customer::retrieve($customer->id);
         $this->assertEquals(null, $updatedCustomer->description);
     }
+
+    // TODO: Add Test MustBeNull Exception on description update
 
     /**
      * @test
@@ -163,7 +165,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testUpdateAllMetadata()
+    public function testCanUpdateAllMetadata()
     {
         $customer = self::createTestCustomer();
         $customer->metadata['shoe size'] = '7';
@@ -217,7 +219,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testCanCustomerAddCard()
+    public function testCanAddCard()
     {
         $token      = $this->createToken();
         $customer   = $this->createTestCustomer();
@@ -236,7 +238,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testCanCustomerUpdateCard()
+    public function testCanUpdateCard()
     {
         $customer = $this->createTestCustomer();
         $customer->save();
@@ -257,7 +259,7 @@ class CustomerTest extends StripeTest
     /**
      * @test
      */
-    public function testCustomerDeleteCard()
+    public function testCanDeleteCard()
     {
         $token          = $this->createToken();
         $customer       = $this->createTestCustomer();

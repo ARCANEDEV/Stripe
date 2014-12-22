@@ -40,7 +40,7 @@ class BalanceTest extends StripeTest
         $this->assertStripeInstance('Resources\\Balance', $this->object);
     }
 
-    public function testRetrieve()
+    public function testCanRetrieve()
     {
         $this->assertEquals("balance", $this->object->object);
         $this->assertTrue(Util::isList($this->object->available));

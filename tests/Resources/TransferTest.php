@@ -33,7 +33,7 @@ class TransferTest extends StripeTest
     /**
      * @test
      */
-    public function testCreate()
+    public function testCanCreate()
     {
         $recipient = self::createTestRecipient();
 
@@ -49,7 +49,7 @@ class TransferTest extends StripeTest
     /**
      * @test
      */
-    public function testRetrieve()
+    public function testCanRetrieve()
     {
         $recipient = self::createTestRecipient();
 
@@ -66,7 +66,7 @@ class TransferTest extends StripeTest
     /**
      * @test
      */
-    public function testCancel()
+    public function testCanCancel()
     {
         $recipient = self::createTestRecipient();
 
@@ -85,7 +85,7 @@ class TransferTest extends StripeTest
     /**
      * @test
      */
-    public function testTransferUpdateMetadata()
+    public function testCanUpdateOneMetadata()
     {
         $recipient = self::createTestRecipient();
 
@@ -105,7 +105,7 @@ class TransferTest extends StripeTest
     /**
      * @test
      */
-    public function testTransferUpdateMetadataAll()
+    public function testCanUpdateAllMetadata()
     {
         $recipient = self::createTestRecipient();
 
@@ -120,33 +120,5 @@ class TransferTest extends StripeTest
 
         $updatedTransfer = Transfer::retrieve($transfer->id);
         $this->assertEquals('foo bar', $updatedTransfer->metadata['test']);
-    }
-
-    /**
-     * @test
-     */
-    public function testRecipientUpdateMetadata()
-    {
-        $recipient = self::createTestRecipient();
-
-        $recipient->metadata['test'] = 'foo bar';
-        $recipient->save();
-
-        $updatedRecipient = Recipient::retrieve($recipient->id);
-        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
-    }
-
-    /**
-     * @test
-     */
-    public function testRecipientUpdateMetadataAll()
-    {
-        $recipient = self::createTestRecipient();
-
-        $recipient->metadata = ['test' => 'foo bar'];
-        $recipient->save();
-
-        $updatedRecipient = Recipient::retrieve($recipient->id);
-        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
     }
 }

@@ -65,8 +65,9 @@ Please see https://stripe.com/docs/api for up-to-date documentation.
 
 ### TODOS:
 
-  - Exctract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
+  - Documentation
+  - Examples
+  - Extract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
   - More tests and code coverage.
   - Mockery for curl request.
   - Refactoring.
-

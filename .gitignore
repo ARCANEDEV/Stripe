@@ -2,6 +2,4 @@
 vendor/
 .idea/
 _arcanedev/
-_arcanedev/lib/
-_arcanedev/test/
 composer.lock

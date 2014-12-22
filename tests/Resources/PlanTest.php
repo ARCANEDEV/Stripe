@@ -26,11 +26,11 @@ class PlanTest extends StripeTest
         $this->planId   = 'gold-' . parent::randomString();
 
         $this->plan     = Plan::create([
-            'amount'   => 2000,
-            'interval' => 'month',
-            'currency' => 'usd',
+            'id'       => $this->planId,
             'name'     => 'Plan',
-            'id'       => $this->planId
+            'interval' => 'month',
+            'amount'   => 2000,
+            'currency' => 'usd',
         ]);
     }
 
@@ -60,6 +60,19 @@ class PlanTest extends StripeTest
     /**
      * @test
      */
+    public function testCanSave()
+    {
+        $this->plan->name = 'A new plan name';
+        $this->plan->save();
+        $this->assertEquals($this->plan->name, 'A new plan name');
+
+        $stripePlan = Plan::retrieve($this->planId);
+        $this->assertEquals($this->plan->name, $stripePlan->name);
+    }
+
+    /**
+     * @test
+     */
     public function testCanDelete()
     {
         $this->plan->delete();
@@ -77,18 +90,5 @@ class PlanTest extends StripeTest
     public function testMustThrowInvalidRequestErrorOnFalseId()
     {
         Plan::retrieve('0');
-    }
-
-    /**
-     * @test
-     */
-    public function testCanSave()
-    {
-        $this->plan->name = 'A new plan name';
-        $this->plan->save();
-        $this->assertEquals($this->plan->name, 'A new plan name');
-
-        $stripePlan = Plan::retrieve($this->planId);
-        $this->assertEquals($this->plan->name, $stripePlan->name);
     }
 }

@@ -116,4 +116,18 @@ abstract class Stripe implements StripeInterface
     {
         self::$verifySslCerts = validate_bool($verify);
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Init Stripe
+     *
+     * @param string $apiKey
+     */
+    public static function init($apiKey)
+    {
+        self::setApiKey($apiKey);
+    }
 }

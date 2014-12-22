@@ -46,7 +46,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testChargeUrls()
+    public function testCanGetUrl()
     {
         $this->assertEquals(Charge::classUrl(), '/v1/charges');
 
@@ -58,7 +58,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanCreateCharge()
+    public function testCanCreate()
     {
         $c = Charge::create($this->chargeData);
 
@@ -69,7 +69,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanRetrieveCharge()
+    public function testCanRetrieve()
     {
         $c = Charge::create($this->chargeData);
 
@@ -80,7 +80,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanUpdateChargeOneMetadata()
+    public function testCanUpdateOneMetadata()
     {
         $charge = Charge::create($this->chargeData);
 
@@ -94,7 +94,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanUpdateChargeAllMetadata()
+    public function testCanUpdateAllMetadata()
     {
         $charge = Charge::create($this->chargeData);
 
@@ -108,7 +108,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanMarkChargeAsFraudulent()
+    public function testCanMarkAsFraudulent()
     {
         $charge = Charge::create($this->chargeData);
 
@@ -122,7 +122,7 @@ class ChargeTest extends StripeTest
     /**
      * @test
      */
-    public function testCanMarkChargeAsSafe()
+    public function testCanMarkAsSafe()
     {
         $charge = Charge::create($this->chargeData);
 

@@ -1,37 +1,37 @@
-<?php namespace Arcanedev\Stripe\Tests\Resources;
+<?php namespace Arcanedev\Stripe\Utilities\CurlEntities;
 
+use Arcanedev\Stripe\Contracts\Utilities\Arrayable;
 
-use Arcanedev\Stripe\Resources\BalanceTransaction;
-use Arcanedev\Stripe\Tests\StripeTest;
-
-class BalanceTransactionTest extends StripeTest
+class ResponseObject implements Arrayable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    private $rawResult;
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function setUp()
+    public function isEmpty()
     {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
+        return empty($this->rawResult);
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
+     |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function testCanGetAll()
+    /**
+     * Convert object to Array
+     *
+     * @return mixed
+     */
+    public function toArray()
     {
-        $balanceTransactions  = BalanceTransaction::all();
-        $this->assertEquals($balanceTransactions->url, '/v1/balance/history');
+        return ! $this->isEmpty()
+            ? json_decode($this->rawResult)
+            : [];
     }
 }

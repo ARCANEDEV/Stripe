@@ -8,6 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
+use Arcanedev\Stripe\Utilities\CurlRequest;
 
 class Requestor implements RequestorInterface
 {
@@ -88,22 +89,6 @@ class Requestor implements RequestorInterface
             '05c0b3643694470a888c6e7feb5c9e24e823dc53',
             '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
         ];
-    }
-
-    /**
-     * Get User Agent
-     *
-     * @return string
-     */
-    private static function userAgent()
-    {
-        return json_encode([
-            'bindings_version' => Stripe::VERSION,
-            'lang'             => 'php',
-            'lang_version'     => phpversion(),
-            'publisher'        => 'stripe',
-            'uname'            => php_uname(),
-        ]);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -255,6 +240,22 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Get User Agent
+     *
+     * @return string
+     */
+    private static function userAgent()
+    {
+        return json_encode([
+            'bindings_version' => Stripe::VERSION,
+            'lang'             => 'php',
+            'lang_version'     => phpversion(),
+            'publisher'        => 'stripe',
+            'uname'            => php_uname(),
+        ]);
+    }
+
+    /**
      * @param $respBody
      * @param $respCode
      *
@@ -305,22 +306,32 @@ class Requestor implements RequestorInterface
         }
 
         $curl   = curl_init();
+
         $method = strtolower($method);
         $opts   = [];
 
         $this->checkMethod($method);
 
-        if ($method === 'post') {
-            $opts[CURLOPT_POST] = 1;
-            $opts[CURLOPT_POSTFIELDS] = self::encode($params);
-        }
-        elseif ($method === 'delete') {
-            $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
+        if ($method !== 'post') {
             $absUrl = $this->parseAbsoluteUrl($absUrl, $params);
         }
-        else {
-            $opts[CURLOPT_HTTPGET] = 1;
-            $absUrl = $this->parseAbsoluteUrl($absUrl, $params);
+
+        switch($method) {
+            case 'post':
+                $opts[CURLOPT_POST]          = true;
+                $opts[CURLOPT_CUSTOMREQUEST] = 'POST';
+                $opts[CURLOPT_POSTFIELDS]    = self::encode($params);
+                break;
+
+            case 'delete':
+                $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
+                break;
+
+            case 'get':
+            default:
+                $opts[CURLOPT_HTTPGET]       = true;
+                $opts[CURLOPT_CUSTOMREQUEST] = 'GET';
+                break;
         }
 
         $absUrl                       = self::utf8($absUrl);
@@ -337,33 +348,29 @@ class Requestor implements RequestorInterface
 
         curl_setopt_array($curl, $opts);
         $response = curl_exec($curl);
-
-        if (! defined('CURLE_SSL_CACERT_BADFILE')) {
-            define('CURLE_SSL_CACERT_BADFILE', 77);  // constant not defined in PHP
-        }
-
-        $errno = curl_errno($curl);
+        $errorNum = curl_errno($curl);
 
         if (
-            $errno == CURLE_SSL_CACERT or
-            $errno == CURLE_SSL_PEER_CERTIFICATE or
-            $errno == CURLE_SSL_CACERT_BADFILE
+            $errorNum == CURLE_SSL_CACERT or
+            $errorNum == CURLE_SSL_PEER_CERTIFICATE or
+            $errorNum == CURLE_SSL_CACERT_BADFILE
         ) {
             array_push(
                 $headers,
                 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
             );
-            $cert = $this->caBundle();
+
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($curl, CURLOPT_CAINFO, $cert);
+            curl_setopt($curl, CURLOPT_CAINFO, $this->caBundle());
+
             $response = curl_exec($curl);
         }
 
-        if ( $response === false ) {
-            $errno   = curl_errno($curl);
-            $message = curl_error($curl);
+        if ($response === false) {
+            $errorNum   = curl_errno($curl);
+            $message    = curl_error($curl);
             curl_close($curl);
-            $this->handleCurlError($errno, $message);
+            $this->handleCurlError($errorNum, $message);
         }
 
         $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -391,16 +398,16 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * @param number $errno
+     * @param number $errorNum
      * @param string $message
      *
      * @throws ApiConnectionException
      */
-    private function handleCurlError($errno, $message)
+    private function handleCurlError($errorNum, $message)
     {
         $apiBase = Stripe::$apiBase;
 
-        switch ($errno) {
+        switch ($errorNum) {
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
@@ -425,7 +432,7 @@ class Requestor implements RequestorInterface
 
         $msg .= " let us know at support@stripe.com.";
 
-        $msg .= "\n\n(Network error [errno $errno]: $message)";
+        $msg .= "\n\n(Network error [errno $errorNum]: $message)";
 
         throw new ApiConnectionException($msg);
     }
@@ -706,8 +713,10 @@ class Requestor implements RequestorInterface
      *
      * @throws ApiException
      */
-    private function checkMethod($method)
+    private function checkMethod(&$method)
     {
+        $method = strtolower($method);
+
         if (in_array($method, self::$allowedMethods)) {
             return;
         }
