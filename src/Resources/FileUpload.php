@@ -57,9 +57,7 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedRetrieve($class, $id, $apiKey);
+        return self::scopedRetrieve(get_class(), $id, $apiKey);
     }
 
     /**
@@ -72,8 +70,6 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedCreate($class, $params, $apiKey);
+        return self::scopedCreate(get_class(), $params, $apiKey);
     }
 }

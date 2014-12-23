@@ -36,8 +36,6 @@ class Account extends SingletonResource implements AccountInterface
      */
     public static function retrieve($apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedSingletonRetrieve($class, $apiKey);
+        return self::scopedSingletonRetrieve(get_class(), $apiKey);
     }
 }

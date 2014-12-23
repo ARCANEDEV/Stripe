@@ -2,7 +2,6 @@
 
 use Arcanedev\Stripe\Contracts\Resources\CardInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -53,9 +52,7 @@ class Card extends Resource implements CardInterface
      */
     public static function constructFrom($values, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedConstructFrom($class, $values, $apiKey);
+        return self::scopedConstructFrom(get_class(), $values, $apiKey);
     }
 
     /**
@@ -88,8 +85,8 @@ class Card extends Resource implements CardInterface
             return null;
         }
 
-        $parentExtn = urlencode(Requestor::utf8($parent));
-        $extn       = urlencode(Requestor::utf8($id));
+        $parentExtn = urlencode(str_utf8($parent));
+        $extn       = urlencode(str_utf8($id));
 
         return "$base/$parentExtn/cards/$extn";
     }
@@ -106,9 +103,7 @@ class Card extends Resource implements CardInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 
     /**
@@ -121,8 +116,6 @@ class Card extends Resource implements CardInterface
      */
     public function delete($params = [])
     {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
+        return self::scopedDelete(get_class(), $params);
     }
 }

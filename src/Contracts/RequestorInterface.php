@@ -73,20 +73,4 @@ interface RequestorInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @param string|mixed $value A string to UTF8-encode.
-     *
-     * @returns string|mixed The UTF8-encoded string, or the object passed in if it wasn't a string.
-     */
-    public static function utf8($value);
-
-    /**
-     *  A query string, essentially.
-     *
-     * @param array $arr An map of param keys to values.
-     * @param string|null $prefix (It doesn't look like we ever use $prefix...)
-     *
-     * @returns string
-     */
-    public static function encode($arr, $prefix = null);
 }

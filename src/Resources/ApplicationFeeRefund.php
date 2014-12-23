@@ -3,7 +3,6 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeRefundInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -44,8 +43,8 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
         $fee     = $this['fee'];
 
         $base    = self::classUrl(self::BASE_CLASS);
-        $feeExtn = urlencode(Requestor::utf8($fee));
-        $extn    = urlencode(Requestor::utf8($id));
+        $feeExtn = urlencode(str_utf8($fee));
+        $extn    = urlencode(str_utf8($id));
 
         return "$base/$feeExtn/refunds/$extn";
     }
@@ -62,9 +61,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 
     /* ------------------------------------------------------------------------------------------------

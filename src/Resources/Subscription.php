@@ -52,8 +52,8 @@ class Subscription extends Resource implements SubscriptionInterface
         }
 
         $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
-        $customerId     = urlencode(Requestor::utf8($customerId));
-        $subscriptionId = urlencode(Requestor::utf8($id));
+        $customerId     = urlencode(str_utf8($customerId));
+        $subscriptionId = urlencode(str_utf8($id));
 
         return "$base/$customerId/subscriptions/$subscriptionId";
     }
@@ -72,9 +72,7 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function cancel($params = [])
     {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
+        return self::scopedDelete(get_class(), $params);
     }
 
     /**
@@ -85,9 +83,7 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 
     /**

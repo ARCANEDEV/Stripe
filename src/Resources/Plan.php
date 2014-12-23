@@ -39,9 +39,7 @@ class Plan extends Resource implements PlanInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedRetrieve($class, $id, $apiKey);
+        return self::scopedRetrieve(get_class(), $id, $apiKey);
     }
 
     /**
@@ -55,9 +53,7 @@ class Plan extends Resource implements PlanInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedAll($class, $params, $apiKey);
+        return self::scopedAll(get_class(), $params, $apiKey);
     }
 
     /**
@@ -71,9 +67,7 @@ class Plan extends Resource implements PlanInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedCreate($class, $params, $apiKey);
+        return self::scopedCreate(get_class(), $params, $apiKey);
     }
 
     /**
@@ -84,9 +78,7 @@ class Plan extends Resource implements PlanInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 
     /**
@@ -99,8 +91,6 @@ class Plan extends Resource implements PlanInterface
      */
     public function delete($params = [])
     {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
+        return self::scopedDelete(get_class(), $params);
     }
 }

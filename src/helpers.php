@@ -31,7 +31,82 @@ if (! function_exists('validate_bool')) {
  |  STRINGS
  | ------------------------------------------------------------------------------------------------
  */
-if (! function_exists('splitCamelCase')) {
+if (! function_exists('str_utf8')) {
+    /**
+     * Encoding string to UTF-8
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    function str_utf8($string)
+    {
+        if (
+            is_string($string)
+            and mb_detect_encoding($string, "UTF-8", true) != "UTF-8"
+        ) {
+            $string = utf8_encode($string);
+        }
+
+        return $string;
+    }
+}
+
+if (! function_exists('str_parse_url')) {
+    /**
+     * Parse url with queries
+     *
+     * @param string $baseUrl
+     * @param array  $queries
+     *
+     * @return string
+     */
+    function str_parse_url($baseUrl, array $queries = [])
+    {
+        if (! is_string($baseUrl) or empty($queries)) {
+            return $baseUrl;
+        }
+
+        return $baseUrl . "?". str_url_queries($queries);
+    }
+}
+
+if (! function_exists('str_url_queries')) {
+    /**
+     *  A query string, essentially.
+     *
+     * @param array       $queries An map of param keys to values.
+     * @param string|null $prefix  (It doesn't look like we ever use $prefix...)
+     *
+     * @returns string
+     */
+    function str_url_queries($queries, $prefix = null)
+    {
+        if (! is_array($queries)) {
+            return $queries;
+        }
+
+        $r = [];
+
+        foreach ($queries as $k => $v) {
+            if (is_null($v)) {
+                continue;
+            }
+
+            if ($prefix) {
+                $k = $prefix . (($k and ! is_int($k)) ? "[$k]" : "[]");
+            }
+
+            $r[] = is_array($v)
+                ? str_url_queries($v, $k)
+                : urlencode($k) . "=" . urlencode($v);
+        }
+
+        return implode("&", $r);
+    }
+}
+
+if (! function_exists('str_split_camelcase')) {
     /**
      * Split Camel Case String
      *
@@ -40,8 +115,12 @@ if (! function_exists('splitCamelCase')) {
      *
      * @return string
      */
-    function splitCamelCase($string, $glue = ' ')
+    function str_split_camelcase($string, $glue = ' ')
     {
+        if (! is_string($string)) {
+            return $string;
+        }
+
         $string = preg_split('/(?<=\\w)(?=[A-Z])/', $string);
 
         return implode($glue, $string);

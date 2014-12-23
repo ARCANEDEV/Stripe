@@ -64,7 +64,7 @@ class ListObject extends Object implements ListObjectInterface
     {
         list($url, $params) = $this->extractPathAndUpdateParams($params);
 
-        $id        = Requestor::utf8($id);
+        $id        = str_utf8($id);
         $extn      = urlencode($id);
 
         list($response, $apiKey) = Requestor::make($this->apiKey)

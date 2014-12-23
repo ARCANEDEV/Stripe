@@ -46,8 +46,8 @@ class Refund extends Resource implements RefundInterface
         }
 
         $base       = self::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
-        $chargeId   = urlencode(Requestor::utf8($chargeId));
-        $refundId   = urlencode(Requestor::utf8($id));
+        $chargeId   = urlencode(str_utf8($chargeId));
+        $refundId   = urlencode(str_utf8($id));
 
         return "$base/$chargeId/refunds/$refundId";
     }

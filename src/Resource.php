@@ -65,7 +65,7 @@ abstract class Resource extends Object implements ResourceInterface
     public static function className($class = '')
     {
         $name = self::getShortNameClass($class);
-        $name = splitCamelCase($name, '_');
+        $name = str_split_camelcase($name, '_');
 
         return strtolower(urlencode($name));
     }
@@ -116,7 +116,7 @@ abstract class Resource extends Object implements ResourceInterface
             throw new InvalidRequestException($message, null);
         }
 
-        $id     = Requestor::utf8($id);
+        $id     = str_utf8($id);
         $base   = $this->lsb('classUrl', $class);
         $extn   = urlencode($id);
 

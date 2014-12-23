@@ -57,9 +57,7 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedRetrieve($class, $id, $apiKey);
+        return self::scopedRetrieve(get_class(), $id, $apiKey);
     }
 
     /**
@@ -73,9 +71,7 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedAll($class, $params, $apiKey);
+        return self::scopedAll(get_class(), $params, $apiKey);
     }
 
     /**

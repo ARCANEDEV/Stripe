@@ -45,65 +45,6 @@ class RequestorTest extends StripeTest
     /**
      * @test
      */
-    public function testCanEncode()
-    {
-        $enc = Requestor::encode([
-            'my'    => 'value',
-            'that'  => [
-                'your' => 'example'
-            ],
-            'bar'   => 1,
-            'baz'   => null
-        ]);
-        $this->assertEquals('my=value&that%5Byour%5D=example&bar=1', $enc);
-
-        $enc = Requestor::encode([
-            'that' => [
-                'your'  => 'example',
-                'foo'   => null,
-            ],
-        ]);
-        $this->assertEquals('that%5Byour%5D=example', $enc);
-
-        $enc = Requestor::encode([
-            'that' => 'example',
-            'foo' => [
-                'bar', 'baz'
-            ]
-        ]);
-        $this->assertEquals('that=example&foo%5B%5D=bar&foo%5B%5D=baz', $enc);
-
-        $enc        = Requestor::encode([
-            'my' => 'value',
-            'that' => [
-                'your' => ['cheese', 'whiz', null]
-            ],
-            'bar' => 1,
-            'baz' => null
-        ]);
-
-        $expected   = 'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1';
-        $this->assertEquals($expected, $enc);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanUtf8()
-    {
-        // UTF-8 string
-        $this->assertEquals("\xc3\xa9", Requestor::utf8("\xc3\xa9"));
-
-        // Latin-1 string
-        $this->assertEquals("\xc3\xa9", Requestor::utf8("\xe9"));
-
-        // Not a string
-        $this->assertEquals(true, Requestor::utf8(true));
-    }
-
-    /**
-     * @test
-     */
     public function testCanEncodeObjects()
     {
         // We have to do some work here because this is normally private.

@@ -50,9 +50,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedRetrieve($class, $id, $apiKey);
+        return self::scopedRetrieve(get_class(), $id, $apiKey);
     }
 
     /**
@@ -66,9 +64,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedAll($class, $params, $apiKey);
+        return self::scopedAll(get_class(), $params, $apiKey);
     }
 
     /**
@@ -82,9 +78,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedCreate($class, $params, $apiKey);
+        return self::scopedCreate(get_class(), $params, $apiKey);
     }
 
     /**
@@ -95,9 +89,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 
     /**
@@ -110,9 +102,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public function delete($params = [])
     {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
+        return self::scopedDelete(get_class(), $params);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -128,9 +118,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public function transfers($params = [])
     {
-        self::prepareParameters($params);
-
-        $params['recipient'] = $this->id;
+        $this->addRecipientParam($params);
 
         return Transfer::all($params, $this->apiKey);
     }
@@ -140,13 +128,12 @@ class Recipient extends Resource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Add Recipient ID to Parameters
+     *
      * @param array $params
      */
-    protected static function prepareParameters(&$params)
+    private function addRecipientParam(&$params)
     {
-        // TODO: Move this method to parent
-        if (is_null($params)) {
-            $params = [];
-        }
+        $params['recipient'] = $this->id;
     }
 }

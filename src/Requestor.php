@@ -46,6 +46,19 @@ class Requestor implements RequestorInterface
         $this->setApiBase($apiBase);
     }
 
+    /**
+     * Create Requestor with static method
+     *
+     * @param string|null $apiKey
+     * @param string      $apiBase
+     *
+     * @return Requestor
+     */
+    public static function make($apiKey = null, $apiBase = '')
+    {
+        return new self($apiKey, $apiBase);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -99,21 +112,6 @@ class Requestor implements RequestorInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * @param string|null $apiKey
-     * @param string      $apiBase
-     *
-     * @return Requestor
-     */
-    public static function make($apiKey = null, $apiBase = '')
-    {
-        return new self($apiKey, $apiBase);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Request Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -121,11 +119,11 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string $url
-     * @param array|null $params
+     * @param array  $params
      *
      * @return array
      */
-    public function get($url, $params = null)
+    public function get($url, $params = [])
     {
         return $this->request('get', $url, $params);
     }
@@ -134,11 +132,11 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string $url
-     * @param array|null $params
+     * @param array  $params
      *
      * @return array
      */
-    public function post($url, $params = null)
+    public function post($url, $params = [])
     {
         return $this->request('post', $url, $params);
     }
@@ -147,11 +145,11 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string $url
-     * @param array|null $params
+     * @param array  $params
      *
      * @return array
      */
-    public function delete($url, $params = null)
+    public function delete($url, $params = [])
     {
         return $this->request('delete', $url, $params);
     }
@@ -161,13 +159,15 @@ class Requestor implements RequestorInterface
      *
      * @param string $method
      * @param string $url
-     * @param array|null $params
+     * @param array  $params
      *
      * @return array
      */
-    public function request($method, $url, $params = null)
+    public function request($method, $url, $params = [])
     {
-        $this->prepareParams($params);
+        if (! is_array($params) or is_null($params)) {
+            $params = [];
+        }
 
         list($rbody, $rcode, $myApiKey) = $this->requestRaw($method, $url, $params);
 
@@ -183,9 +183,7 @@ class Requestor implements RequestorInterface
      */
     protected function prepareParams(&$params)
     {
-        if (! $params) {
-            $params = [];
-        }
+
     }
 
     /**
@@ -200,25 +198,27 @@ class Requestor implements RequestorInterface
      */
     private function requestRaw($method, $url, $params)
     {
-        if (! array_key_exists($this->apiBase, self::$preFlight)
-            || !self::$preFlight[$this->apiBase]) {
+        if (
+            ! array_key_exists($this->apiBase, self::$preFlight) or
+            ! self::$preFlight[$this->apiBase]
+        ) {
             self::$preFlight[$this->apiBase] = $this->checkSslCert($this->apiBase);
         }
 
         $this->checkApiKey();
 
-        $absUrl                  = $this->apiBase . $url;
-        $params                  = self::encodeObjects($params);
-        $apiKey                  = $this->getApiKey();
+        $absUrl      = $this->apiBase . $url;
+        $params      = self::encodeObjects($params);
+        $apiKey      = $this->getApiKey();
 
-        $hasFile = false;
+        $hasFile     = false;
         $hasCurlFile = class_exists('CURLFile');
         foreach ($params as $k => $v) {
             if (is_resource($v)) {
                 $hasFile    = true;
                 $params[$k] = self::processResourceParam($v);
             }
-            elseif ($hasCurlFile && $v instanceof CURLFile) {
+            elseif ($hasCurlFile and $v instanceof CURLFile) {
                 $hasFile    = true;
             }
         }
@@ -277,7 +277,7 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Get User Agent
+     * Get User Agent (JSON format)
      *
      * @return string
      */
@@ -346,14 +346,14 @@ class Requestor implements RequestorInterface
         $this->checkMethod($method);
 
         if ($method !== 'post') {
-            $absUrl = $this->parseAbsoluteUrl($absUrl, $params);
+            $absUrl = str_parse_url($absUrl, $params);
         }
 
         switch($method) {
             case 'post':
                 $opts[CURLOPT_POST]          = true;
                 $opts[CURLOPT_CUSTOMREQUEST] = 'POST';
-                $opts[CURLOPT_POSTFIELDS]    = $hasFile ? $params : self::encode($params);
+                $opts[CURLOPT_POSTFIELDS]    = $hasFile ? $params : str_url_queries($params);
                 break;
 
             case 'delete':
@@ -370,7 +370,7 @@ class Requestor implements RequestorInterface
                 break;
         }
 
-        $absUrl                       = self::utf8($absUrl);
+        $absUrl                       = str_utf8($absUrl);
         $opts[CURLOPT_URL]            = $absUrl;
         $opts[CURLOPT_RETURNTRANSFER] = true;
         $opts[CURLOPT_CONNECTTIMEOUT] = 30;
@@ -413,24 +413,6 @@ class Requestor implements RequestorInterface
         curl_close($curl);
 
         return [$response, $statusCode];
-    }
-
-    /**
-     * Parse absolute URL
-     *
-     * @param string $absUrl
-     * @param array  $params
-     *
-     * @return string
-     */
-    private function parseAbsoluteUrl($absUrl, $params)
-    {
-        if (count($params) > 0) {
-            $encoded = self::encode($params);
-            $absUrl  = "$absUrl?$encoded";
-        }
-
-        return $absUrl;
     }
 
     /**
@@ -591,79 +573,27 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param Resource|bool|array|string $d
+     * @param Resource|bool|array|string $obj
      *
      * @return array|string
      */
-    private static function encodeObjects($d)
+    private static function encodeObjects($obj)
     {
-        if ($d instanceof Resource) {
-            return self::utf8($d->id);
-        }
-        elseif (is_bool($d)) {
-            return $d === true ? 'true' : 'false';
-        }
-        elseif (is_array($d)) {
-            $res = [];
-
-            foreach ($d as $k => $v) {
-                $res[$k] = self::encodeObjects($v);
-            }
-
-            return $res;
+        if ($obj instanceof Resource) {
+            return str_utf8($obj->id);
         }
 
-        return self::utf8($d);
-    }
-
-    /**
-     * @param string|mixed $value A string to UTF8-encode.
-     *
-     * @returns string|mixed The UTF8-encoded string, or the object passed in if it wasn't a string.
-     */
-    public static function utf8($value)
-    {
-        if (
-            is_string($value)
-            and mb_detect_encoding($value, "UTF-8", TRUE) != "UTF-8"
-        ) {
-            $value = utf8_encode($value);
+        if (is_bool($obj)) {
+            return ($obj) ? 'true' : 'false';
         }
 
-        return $value;
-    }
-
-    /**
-     *  A query string, essentially.
-     *
-     * @param array $arr An map of param keys to values.
-     * @param string|null $prefix (It doesn't look like we ever use $prefix...)
-     *
-     * @returns string
-     */
-    public static function encode($arr, $prefix = null)
-    {
-        if (! is_array($arr)) {
-            return $arr;
+        if (is_array($obj)) {
+            return array_map(function($v) {
+                return self::encodeObjects($v);
+            }, $obj);
         }
 
-        $r = [];
-
-        foreach ($arr as $k => $v) {
-            if (is_null($v)) {
-                continue;
-            }
-
-            if ($prefix) {
-                $k = $prefix . (($k and ! is_int($k)) ? "[$k]" : "[]");
-            }
-
-            $r[] = is_array($v)
-                ? self::encode($v, $k, true)
-                : urlencode($k) . "=" . urlencode($v);
-        }
-
-        return implode("&", $r);
+        return str_utf8($obj);
     }
 
     /**
@@ -677,7 +607,9 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * @param string $respBody A JSON string.
+     * Handle API Errors
+     *
+     * @param string $respBody
      * @param int    $respCode
      * @param array  $response
      *

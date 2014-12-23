@@ -46,9 +46,7 @@ class Transfer extends Resource implements TransferInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedRetrieve($class, $id, $apiKey);
+        return self::scopedRetrieve(get_class(), $id, $apiKey);
     }
 
     /**
@@ -62,9 +60,7 @@ class Transfer extends Resource implements TransferInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedAll($class, $params, $apiKey);
+        return self::scopedAll(get_class(), $params, $apiKey);
     }
 
     /**
@@ -78,9 +74,7 @@ class Transfer extends Resource implements TransferInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        $class = get_class();
-
-        return self::scopedCreate($class, $params, $apiKey);
+        return self::scopedCreate(get_class(), $params, $apiKey);
     }
 
     /**
@@ -107,8 +101,6 @@ class Transfer extends Resource implements TransferInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave(get_class());
     }
 }
