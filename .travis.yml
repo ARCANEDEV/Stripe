@@ -19,4 +19,5 @@ script:
   - phpunit
 
 after_script:
+  - php vendor/bin/phpcov merge --clover build/logs/clover.xml --whitelist src build/coverage
   - php vendor/bin/coveralls

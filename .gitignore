@@ -2,4 +2,5 @@
 vendor/
 .idea/
 _arcanedev/
+build/
 composer.lock
