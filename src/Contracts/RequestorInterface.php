@@ -13,13 +13,6 @@ interface RequestorInterface
      */
     public function getApiKey();
 
-    /**
-     * @param string $apiKey
-     *
-     * @return RequestorInterface
-     */
-    public function setApiKey($apiKey);
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -30,13 +23,6 @@ interface RequestorInterface
      * @return RequestorInterface
      */
     public static function make($apiKey = null);
-
-    /**
-     * @param string $url The path to the API endpoint.
-     *
-     * @returns string The full path.
-     */
-    public static function apiUrl($url = '');
 
     /* ------------------------------------------------------------------------------------------------
      |  Request Functions

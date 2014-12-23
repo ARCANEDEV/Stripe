@@ -29,6 +29,16 @@ abstract class Resource extends Object implements ResourceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get the base url
+     *
+     * @return string
+     */
+    public static function baseUrl()
+    {
+        return Stripe::$apiBase;
+    }
+
+    /**
      * Get the refreshed resource.
      *
      * @returns Resource
@@ -37,7 +47,7 @@ abstract class Resource extends Object implements ResourceInterface
     {
         $url    = $this->instanceUrl();
 
-        list($response, $apiKey) = (new Requestor($this->apiKey))
+        list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
             ->get($url, $this->retrieveOptions);
 
         $this->refreshFrom($response, $apiKey);
@@ -121,9 +131,10 @@ abstract class Resource extends Object implements ResourceInterface
     {
         self::validateCall('all', $params, $apiKey);
 
-        $url    = self::scopedLsb($class, 'classUrl', $class);
+        $base = self::scopedLsb($class, 'baseUrl');
+        $url  = self::scopedLsb($class, 'classUrl', $class);
 
-        list($response, $apiKey) = Requestor::make($apiKey)
+        list($response, $apiKey) = Requestor::make($apiKey, $base)
             ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
@@ -159,9 +170,9 @@ abstract class Resource extends Object implements ResourceInterface
     {
         self::validateCall('create', $params, $apiKey);
 
-        $url    = self::scopedLsb($class, 'classUrl', $class);
-
-        list($response, $apiKey) = Requestor::make($apiKey)
+        $url  = self::scopedLsb($class, 'classUrl', $class);
+        $base = self::scopedLsb($class, 'baseUrl');
+        list($response, $apiKey) = Requestor::make($apiKey, $base)
             ->post($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
@@ -184,7 +195,7 @@ abstract class Resource extends Object implements ResourceInterface
         $params = $this->serializeParameters();
 
         if (count($params) > 0) {
-            list($response, $apiKey) = Requestor::make($this->apiKey)
+            list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
                 ->post($this->instanceUrl(), $params);
 
             $this->refreshFrom($response, $apiKey);
@@ -208,7 +219,7 @@ abstract class Resource extends Object implements ResourceInterface
         // TODO: Remove unused $class arg from scopedDelete($class)
         self::validateCall('delete');
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
+        list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
             ->delete($this->instanceUrl(), $params);
 
         $this->refreshFrom($response, $apiKey);

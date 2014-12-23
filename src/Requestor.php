@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
-use Arcanedev\Stripe\Utilities\CurlRequest;
+use CURLFile;
 
 class Requestor implements RequestorInterface
 {
@@ -21,21 +21,29 @@ class Requestor implements RequestorInterface
      *
      * @var string
      */
-    public $apiKey;
+    private $apiKey;
 
-    private static $preFlight;
+    private $apiBase;
+
+    private static $preFlight = [];
 
     private static $allowedMethods = [
         'get', 'post', 'delete'
+    ];
+
+    private static $blacklistedCerts = [
+        '05c0b3643694470a888c6e7feb5c9e24e823dc53',
+        '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
     ];
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct($apiKey = null)
+    public function __construct($apiKey = null, $apiBase = null)
     {
         $this->setApiKey($apiKey);
+        $this->setApiBase($apiBase);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -61,11 +69,23 @@ class Requestor implements RequestorInterface
      *
      * @return Requestor
      */
-    public function setApiKey($apiKey)
+    private function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
 
         return $this;
+    }
+
+    /**
+     * @param $apiBase
+     */
+    private function setApiBase($apiBase)
+    {
+        if (! $apiBase) {
+            $apiBase = Stripe::$apiBase;
+        }
+
+        $this->apiBase = $apiBase;
     }
 
     /**
@@ -78,43 +98,19 @@ class Requestor implements RequestorInterface
         return ca_certificates();
     }
 
-    /**
-     * Get black listed certificates
-     *
-     * @return array
-     */
-    private static function blacklistedCerts()
-    {
-        return [
-            '05c0b3643694470a888c6e7feb5c9e24e823dc53',
-            '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
-        ];
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * @param string|null $apiKey
+     * @param string      $apiBase
      *
      * @return Requestor
      */
-    public static function make($apiKey = null)
+    public static function make($apiKey = null, $apiBase = '')
     {
-        return new self($apiKey);
-    }
-
-    /**
-     * @param string $url The path to the API endpoint.
-     *
-     * @returns string The full path.
-     */
-    public static function apiUrl($url = '')
-    {
-        $apiBase = Stripe::$apiBase;
-
-        return "$apiBase$url";
+        return new self($apiKey, $apiBase);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -204,14 +200,32 @@ class Requestor implements RequestorInterface
      */
     private function requestRaw($method, $url, $params)
     {
+        if (! array_key_exists($this->apiBase, self::$preFlight)
+            || !self::$preFlight[$this->apiBase]) {
+            self::$preFlight[$this->apiBase] = $this->checkSslCert($this->apiBase);
+        }
+
         $this->checkApiKey();
 
-        $absUrl  = $this->apiUrl($url);
-        $params  = self::encodeObjects($params);
-        $apiKey  = $this->getApiKey();
-        $headers = $this->prepareHeaders($apiKey);
+        $absUrl                  = $this->apiBase . $url;
+        $params                  = self::encodeObjects($params);
+        $apiKey                  = $this->getApiKey();
 
-        list($rbody, $rcode) = $this->curlRequest($method, $absUrl, $headers, $params);
+        $hasFile = false;
+        $hasCurlFile = class_exists('CURLFile');
+        foreach ($params as $k => $v) {
+            if (is_resource($v)) {
+                $hasFile    = true;
+                $params[$k] = self::processResourceParam($v);
+            }
+            elseif ($hasCurlFile && $v instanceof CURLFile) {
+                $hasFile    = true;
+            }
+        }
+
+        $headers             = $this->prepareHeaders($apiKey, $hasFile);
+
+        list($rbody, $rcode) = $this->curlRequest($method, $absUrl, $headers, $params, $hasFile);
 
         return [$rbody, $rcode, $apiKey];
     }
@@ -219,24 +233,47 @@ class Requestor implements RequestorInterface
     /**
      * Prepare request Headers
      *
-     * @param $apiKey
+     * @param string $apiKey
+     * @param bool   $hasFile
      *
      * @return array
      */
-    private function prepareHeaders($apiKey)
+    private function prepareHeaders($apiKey, $hasFile)
     {
         $headers = [
             'X-Stripe-Client-User-Agent: ' . self::userAgent(),
             'User-Agent: Stripe/v1 PhpBindings/' . Stripe::VERSION,
             'Authorization: Bearer ' . $apiKey,
-            'Content-Type: application/x-www-form-urlencoded',
         ];
 
         if (Stripe::$apiVersion) {
             $headers[] = 'Stripe-Version: ' . Stripe::$apiVersion;
         }
 
+        $headers[] = $hasFile
+            ? 'Content-Type: multipart/form-data'
+            : 'Content-Type: application/x-www-form-urlencoded';
+
         return $headers;
+    }
+
+    private function processResourceParam($resource)
+    {
+        if (get_resource_type($resource) !== 'stream') {
+            throw new ApiException(
+                'Attempted to upload a resource that is not a stream'
+            );
+        }
+
+        $metaData = stream_get_meta_data($resource);
+        if ($metaData['wrapper_type'] !== 'plainfile') {
+            throw new ApiException('Only plainfile resource streams are supported');
+        }
+
+        // We don't have the filename or mimetype, but the API doesn't care
+        return class_exists('CURLFile')
+            ? new CURLFile($metaData['uri'])
+            : '@' . $metaData['uri'];
     }
 
     /**
@@ -293,18 +330,14 @@ class Requestor implements RequestorInterface
      * @param string $absUrl
      * @param array  $headers
      * @param array  $params
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
+     * @param bool   $hasFile
      *
      * @return array
+     * @throws ApiConnectionException
+     * @throws ApiException
      */
-    private function curlRequest($method, $absUrl, $headers, $params)
+    private function curlRequest($method, $absUrl, $headers, $params, $hasFile)
     {
-        if (! self::$preFlight) {
-            self::$preFlight = $this->checkSslCert($this->apiUrl());
-        }
-
         $curl   = curl_init();
 
         $method = strtolower($method);
@@ -320,7 +353,7 @@ class Requestor implements RequestorInterface
             case 'post':
                 $opts[CURLOPT_POST]          = true;
                 $opts[CURLOPT_CUSTOMREQUEST] = 'POST';
-                $opts[CURLOPT_POSTFIELDS]    = self::encode($params);
+                $opts[CURLOPT_POSTFIELDS]    = $hasFile ? $params : self::encode($params);
                 break;
 
             case 'delete':
@@ -329,6 +362,9 @@ class Requestor implements RequestorInterface
 
             case 'get':
             default:
+                if ($hasFile) {
+                    throw new ApiException("Issuing a GET request with a file parameter");
+                }
                 $opts[CURLOPT_HTTPGET]       = true;
                 $opts[CURLOPT_CUSTOMREQUEST] = 'GET';
                 break;
@@ -405,7 +441,7 @@ class Requestor implements RequestorInterface
      */
     private function handleCurlError($errorNum, $message)
     {
-        $apiBase = Stripe::$apiBase;
+        $apiBase = $this->apiBase;
 
         switch ($errorNum) {
             case CURLE_COULDNT_CONNECT:
@@ -488,10 +524,8 @@ class Requestor implements RequestorInterface
             ($errno !== 0 && $errno !== null) or
             $result === false
         ) {
-            $apiBase = Stripe::$apiBase;
-
             throw new ApiConnectionException(
-                "Could not connect to Stripe ($apiBase).  Please check your ".
+                "Could not connect to Stripe ($url).  Please check your ".
                 "internet connection and try again.  If this problem persists, ".
                 "you should check Stripe's service status at ".
                 "https://twitter.com/stripestatus. Reason was: $errstr"
@@ -549,7 +583,7 @@ class Requestor implements RequestorInterface
         $derCert     = base64_decode(implode("", $lines));
         $fingerprint = sha1($derCert);
 
-        return in_array($fingerprint, self::blacklistedCerts());
+        return in_array($fingerprint, self::$blacklistedCerts);
     }
 
     /* ------------------------------------------------------------------------------------------------

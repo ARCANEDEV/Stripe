@@ -29,6 +29,7 @@ abstract class Util implements UtilInterface
         'refund'        => 'Arcanedev\\Stripe\\Resources\\Refund',
         'subscription'  => 'Arcanedev\\Stripe\\Resources\\Subscription',
         'fee_refund'    => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
+        'file'          => 'Arcanedev\\Stripe\\Resources\\FileUpload',
 
         // List Object
         'list'          => 'Arcanedev\\Stripe\\ListObject',

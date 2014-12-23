@@ -20,7 +20,14 @@ abstract class Stripe implements StripeInterface
      *
      * @var string
      */
-    public static $apiBase = 'https://api.stripe.com';
+    public static $apiBase        = 'https://api.stripe.com';
+
+    /**
+     * The base URL for the Stripe API uploads endpoint.
+     *
+     * @var string
+     */
+    public static $apiUploadBase  = 'https://uploads.stripe.com';
 
     /**
      * The version of the Stripe API to use for requests.
