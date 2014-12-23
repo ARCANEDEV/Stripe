@@ -1,9 +1,35 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
+use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
+use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\Contracts\ObjectInterface;
+
+/**
+ * Customer Object Interface
+ * @link https://stripe.com/docs/api/php#customers
+ *
+ * @property int                     id
+ * @property string                  object  // "customer"
+ * @property bool                    livemode
+ * @property ListObjectInterface     cards
+ * @property int                     created
+ * @property int                     account_balance
+ * @property string                  currency
+ * @property string                  default_card
+ * @property bool                    delinquent
+ * @property string                  description
+ * @property mixed|null              discount
+ * @property string                  email
+ * @property AttachedObjectInterface metadata
+ * @property ListObjectInterface     subscriptions
+ */
 interface CustomerInterface
 {
     /**
-     * @param string      $id     The ID of the customer to retrieve.
+     * Retrieve a Customer
+     * @link https://stripe.com/docs/api/php#retrieve_customer
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return CustomerInterface
@@ -11,77 +37,107 @@ interface CustomerInterface
     public static function retrieve($id, $apiKey = null);
 
     /**
-     * @param array|null  $params
+     * List all Customers
+     * @link https://stripe.com/docs/api/php#list_customers
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array An array of Stripe_Customers.
+     * @return ListObjectInterface
      */
-    public static function all($params = null, $apiKey = null);
+    public static function all($params = [], $apiKey = null);
 
     /**
-     * @param array|null  $params
+     * Create Customer
+     * @link https://stripe.com/docs/api/php#create_customer
+     *
+     * @param array  $params
      * @param string|null $apiKey
      *
-     * @return CustomerInterface The created customer.
+     * @return CustomerInterface
      */
-    public static function create($params = null, $apiKey = null);
+    public static function create($params = [], $apiKey = null);
 
     /**
-     * @returns CustomerInterface The saved customer.
+     * Update/Save Customer
+     * @link https://stripe.com/docs/api/php#create_customer
+     *
+     * @returns CustomerInterface
      */
     public function save();
 
     /**
-     * @param array|null $params
+     * Delete Customer
+     * @link https://stripe.com/docs/api/php#delete_customer
      *
-     * @returns CustomerInterface The deleted customer.
+     * @param array $params
+     *
+     * @returns CustomerInterface
      */
-    public function delete($params = null);
+    public function delete($params = []);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Relationships Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Add an invoice item
+     *
+     * @param array $params
+     *
+     * @returns InvoiceItemInterface
+     */
+    public function addInvoiceItem($params = []);
 
     /**
-     * @param array|null $params
+     * Get all invoices
      *
-     * @returns InvoiceItemsInterface The resulting invoice item.
+     * @param array $params
+     *
+     * @returns ListObjectInterface
      */
-    public function addInvoiceItem($params = null);
+    public function invoices($params = []);
 
     /**
-     * @param array|null $params
+     * Get all invoice items
      *
-     * @returns array An array of the customer's Stripe_Invoices.
+     * @param array $params
+     *
+     * @returns array
      */
-    public function invoices($params = null);
+    public function invoiceItems($params = []);
 
     /**
-     * @param array|null $params
+     * Get all charges
      *
-     * @returns array An array of the customer's Stripe_InvoiceItems.
+     * @param array $params
+     *
+     * @returns ListObjectInterface
      */
-    public function invoiceItems($params = null);
+    public function charges($params = []);
 
     /**
-     * @param array|null $params
+     * Update Subscription
      *
-     * @returns array An array of the customer's Stripe_Charges.
-     */
-    public function charges($params = null);
-
-    /**
-     * @param array|null $params
+     * @param array $params
      *
-     * @returns SubscriptionInterface The updated subscription.
+     * @returns SubscriptionInterface
      */
     public function updateSubscription($params = null);
 
     /**
-     * @param array|null $params
+     * Cancel Subscription
      *
-     * @returns SubscriptionInterface The cancelled subscription.
+     * @param array $params
+     *
+     * @returns SubscriptionInterface
      */
     public function cancelSubscription($params = null);
 
     /**
-     * @returns CustomerInterface The updated customer.
+     * Delete Discount
+     *
+     * @returns ObjectInterface
      */
     public function deleteDiscount();
 }

@@ -5,6 +5,24 @@ use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
+/**
+ * Application Fee Object
+ * @link https://stripe.com/docs/api/php#application_fees
+ *
+ * @property string     id
+ * @property string     object // "application_fee"
+ * @property bool       livemode
+ * @property string     account
+ * @property int        amount
+ * @property string     application
+ * @property string     balance_transaction
+ * @property string     charge
+ * @property int        created // timestamp
+ * @property string     currency
+ * @property bool       refunded
+ * @property ListObject refunds
+ * @property int        amount_refunded
+ */
 class ApplicationFee extends Resource implements ApplicationFeeInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -29,7 +47,10 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the application fee to retrieve.
+     * Retrieving an Application Fee
+     * @link https://stripe.com/docs/api/php#retrieve_application_fee
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return ApplicationFee
@@ -42,14 +63,15 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
     }
 
     /**
-     * Get an array of application fees.
+     * List all Application Fees
+     * @link https://stripe.com/docs/api/php#list_application_fees
      *
-     * @param string|null $params
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return ListObject|array
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -57,16 +79,17 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
     }
 
     /**
-     * @param string|null $params
+     * Creating an Application Fee Refund
+     * @link https://stripe.com/docs/api/php#create_fee_refund
      *
-     * @return ApplicationFee The refunded application fee.
+     * @param array $params
+     *
+     * @return ApplicationFee
      */
-    public function refund($params = null)
+    public function refund($params = [])
     {
-        $url       = $this->instanceUrl() . '/refund';
-
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url, $params);
+            ->post($this->instanceUrl() . '/refund', $params);
 
         $this->refreshFrom($response, $apiKey);
 

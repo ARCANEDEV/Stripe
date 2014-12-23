@@ -4,9 +4,14 @@ use Arcanedev\Stripe\Contracts\Resources\BalanceInterface;
 use Arcanedev\Stripe\SingletonResource;
 
 /**
- * @property mixed|null object
- * @property mixed|null available
- * @property mixed|null pending
+ * Balance Object
+ *
+ * @link https://stripe.com/docs/api/php#balance_object
+ *
+ * @property string object   // "balance"
+ * @property bool   livemode
+ * @property array  available
+ * @property array  pending
  */
 class Balance extends SingletonResource implements BalanceInterface
 {
@@ -15,6 +20,9 @@ class Balance extends SingletonResource implements BalanceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Retrieve a balance
+     * @link https://stripe.com/docs/api/php#retrieve_balance
+     *
      * @param string|null $apiKey
      *
      * @return Balance

@@ -1,12 +1,28 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * @property string id
- * @property mixed|null percent_off
- * @property mixed|null metadata
+ * Coupon Object
+ * @link https://stripe.com/docs/api/php#coupons
+ *
+ * @property string         id
+ * @property string         object // "coupon"
+ * @property bool           livemode
+ * @property int            created
+ * @property string         duration
+ * @property int            amount_off
+ * @property string         currency
+ * @property int            duration_in_months
+ * @property int            max_redemptions
+ * @property AttachedObject metadata
+ * @property int            percent_off
+ * @property int            redeem_by
+ * @property int            times_redeemed
+ * @property bool           valid
  */
 class Coupon extends Resource implements CouponInterface
 {
@@ -15,7 +31,10 @@ class Coupon extends Resource implements CouponInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the coupon to retrieve.
+     * Retrieve a Coupon
+     * @link https://stripe.com/docs/api/php#retrieve_coupon
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return Coupon
@@ -28,12 +47,31 @@ class Coupon extends Resource implements CouponInterface
     }
 
     /**
-     * @param array|null  $params
+     * List all Coupons
+     * @link https://stripe.com/docs/api/php#list_coupons
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return Coupon The created coupon.
+     * @return ListObject
      */
-    public static function create($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
+    {
+        $class = get_class();
+
+        return self::scopedAll($class, $params, $apiKey);
+    }
+
+    /**
+     * Create coupon
+     * @link https://stripe.com/docs/api/php#create_coupon
+     *
+     * @param array       $params
+     * @param string|null $apiKey
+     *
+     * @return Coupon
+     */
+    public static function create($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -41,19 +79,10 @@ class Coupon extends Resource implements CouponInterface
     }
 
     /**
-     * @param array|null $params
+     * Update/Save a Coupon
+     * @link https://stripe.com/docs/api/php#update_coupon
      *
-     * @return Coupon The deleted coupon.
-     */
-    public function delete($params = null)
-    {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
-    }
-
-    /**
-     * @return Coupon The saved coupon.
+     * @return Coupon
      */
     public function save()
     {
@@ -63,15 +92,17 @@ class Coupon extends Resource implements CouponInterface
     }
 
     /**
-     * @param array|null  $params
-     * @param string|null $apiKey
+     * Delete a coupon
+     * @link https://stripe.com/docs/api/php#delete_coupon
      *
-     * @return array An array of Stripe_Coupons.
+     * @param array $params
+     *
+     * @return Coupon
      */
-    public static function all($params = null, $apiKey = null)
+    public function delete($params = [])
     {
         $class = get_class();
 
-        return self::scopedAll($class, $params, $apiKey);
+        return self::scopedDelete($class, $params);
     }
 }

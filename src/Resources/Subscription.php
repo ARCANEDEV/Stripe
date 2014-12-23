@@ -1,17 +1,32 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
- * @property string     id
- * @property mixed|null status
- * @property mixed|null plan
- * @property mixed|null discount
- * @property mixed|null cancel_at_period_end
- * @property mixed|null quantity
+ * Subscription Object
+ * @link https://stripe.com/docs/api/php#subscription_object
+ *
+ * @property string         id
+ * @property string         object // "subscription"
+ * @property boolean        cancel_at_period_end
+ * @property string         customer
+ * @property Plan           plan
+ * @property int            quantity
+ * @property int            start
+ * @property string         status
+ * @property float          application_fee_percent
+ * @property int            canceled_at
+ * @property int            current_period_start
+ * @property int            current_period_end
+ * @property Object         discount
+ * @property int            ended_at
+ * @property AttachedObject metadata
+ * @property int            trial_end
+ * @property int            trial_start
  */
 class Subscription extends Resource implements SubscriptionInterface
 {
@@ -27,23 +42,20 @@ class Subscription extends Resource implements SubscriptionInterface
     public function instanceUrl()
     {
         // TODO: Refactor this method
-        $id       = $this['id'];
-        $customer = $this['customer'];
+        $id         = $this['id'];
+        $customerId = $this['customer'];
 
-        if ( ! $id ) {
-            throw new InvalidRequestException(
-                "Could not determine which URL to request: class instance has invalid ID: $id", null
-            );
+        if (! $id) {
+            $msg = "Could not determine which URL to request: class instance has invalid ID: $id";
+
+            throw new InvalidRequestException($msg, null);
         }
 
-        $id       = Requestor::utf8($id);
-        $customer = Requestor::utf8($customer);
+        $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
+        $customerId     = urlencode(Requestor::utf8($customerId));
+        $subscriptionId = urlencode(Requestor::utf8($id));
 
-        $base         = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
-        $customerExtn = urlencode($customer);
-        $extn         = urlencode($id);
-
-        return "$base/$customerExtn/subscriptions/$extn";
+        return "$base/$customerId/subscriptions/$subscriptionId";
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -51,11 +63,14 @@ class Subscription extends Resource implements SubscriptionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null $params
+     * Cancel a Subscription
+     * @link https://stripe.com/docs/api/php#cancel_subscription
      *
-     * @return Subscription The deleted subscription.
+     * @param array $params
+     *
+     * @return Subscription
      */
-    public function cancel($params = null)
+    public function cancel($params = [])
     {
         $class = get_class();
 
@@ -63,7 +78,10 @@ class Subscription extends Resource implements SubscriptionInterface
     }
 
     /**
-     * @return Subscription The saved subscription.
+     * Update/Save a Subscription
+     * @link https://stripe.com/docs/api/php#update_subscription
+     *
+     * @return Subscription
      */
     public function save()
     {
@@ -73,7 +91,10 @@ class Subscription extends Resource implements SubscriptionInterface
     }
 
     /**
-     * @return Subscription The updated subscription.
+     * Delete a Subscription Discount
+     * @link https://stripe.com/docs/api/curl#delete_subscription_discount
+     *
+     * @return Subscription
      */
     public function deleteDiscount()
     {

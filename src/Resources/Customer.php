@@ -7,8 +7,11 @@ use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
+ * Customer Object
+ * @link https://stripe.com/docs/api/php#customers
+ *
  * @property int                id
- * @property string             object
+ * @property string             object  // "customer"
  * @property bool               livemode
  * @property ListObject         cards
  * @property int                created
@@ -20,9 +23,7 @@ use Arcanedev\Stripe\Resource;
  * @property mixed|null         discount
  * @property string             email
  * @property AttachedObject     metadata
- * @property bool               deleted
- * @property mixed|null         subscription
- * @property mixed|null         subscriptions
+ * @property ListObject         subscriptions
  */
 class Customer extends Resource implements CustomerInterface
 {
@@ -42,7 +43,10 @@ class Customer extends Resource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id     The ID of the customer to retrieve.
+     * Retrieve a Customer
+     * @link https://stripe.com/docs/api/php#retrieve_customer
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return Customer
@@ -55,12 +59,15 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null  $params
+     * List all Customers
+     * @link https://stripe.com/docs/api/php#list_customers
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array An array of Stripe_Customers.
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -68,12 +75,15 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null  $params
+     * Create Customer
+     * @link https://stripe.com/docs/api/php#create_customer
+     *
+     * @param array  $params
      * @param string|null $apiKey
      *
-     * @return Customer The created customer.
+     * @return Customer
      */
-    public static function create($params = null, $apiKey = null)
+    public static function create($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -81,7 +91,10 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @returns Customer The saved customer.
+     * Update/Save Customer
+     * @link https://stripe.com/docs/api/php#create_customer
+     *
+     * @returns Customer
      */
     public function save()
     {
@@ -91,37 +104,48 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null $params
+     * Delete Customer
+     * @link https://stripe.com/docs/api/php#delete_customer
      *
-     * @returns Customer The deleted customer.
+     * @param array $params
+     *
+     * @returns Customer
      */
-    public function delete($params = null)
+    public function delete($params = [])
     {
         $class = get_class();
 
         return self::scopedDelete($class, $params);
     }
 
-    /**
-     * @param array|null $params
-     *
-     * @returns InvoiceItems The resulting invoice item.
+    /* ------------------------------------------------------------------------------------------------
+     |  Relationships Functions
+     | ------------------------------------------------------------------------------------------------
      */
-    public function addInvoiceItem($params = null)
+    /**
+     * Add an invoice item
+     *
+     * @param array $params
+     *
+     * @returns InvoiceItem
+     */
+    public function addInvoiceItem($params = [])
     {
         self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
-        return InvoiceItems::create($params, $this->apiKey);
+        return InvoiceItem::create($params, $this->apiKey);
     }
 
     /**
-     * @param array|null $params
+     * Get all invoices
      *
-     * @returns array An array of the customer's Stripe_Invoices.
+     * @param array $params
+     *
+     * @returns ListObject
      */
-    public function invoices($params = null)
+    public function invoices($params = [])
     {
         self::prepareParameters($params);
 
@@ -131,25 +155,29 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null $params
+     * Get all invoice items
      *
-     * @returns array An array of the customer's Stripe_InvoiceItems.
+     * @param array $params
+     *
+     * @returns array
      */
-    public function invoiceItems($params = null)
+    public function invoiceItems($params = [])
     {
         self::prepareParameters($params);
 
         $params['customer'] = $this->id;
 
-        return InvoiceItems::all($params, $this->apiKey);
+        return InvoiceItem::all($params, $this->apiKey);
     }
 
     /**
-     * @param array|null $params
+     * Get all charges
      *
-     * @returns array An array of the customer's Stripe_Charges.
+     * @param array $params
+     *
+     * @returns ListObject
      */
-    public function charges($params = null)
+    public function charges($params = [])
     {
         self::prepareParameters($params);
 
@@ -159,16 +187,33 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null $params
+     * Update Subscription
      *
-     * @returns Subscription The updated subscription.
+     * @param array $params
+     *
+     * @returns Subscription
      */
-    public function updateSubscription($params = null)
+    public function updateSubscription($params = [])
     {
-        $url    = $this->instanceUrl() . '/subscription';
-
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url, $params);
+            ->post($this->instanceUrl() . '/subscription', $params);
+
+        $this->refreshFrom(['subscription' => $response], $apiKey, true);
+        // TODO: Check if updateSubscription return one subscription or many
+        return $this->subscription;
+    }
+
+    /**
+     * Cancel Subscription
+     *
+     * @param array $params
+     *
+     * @returns Subscription
+     */
+    public function cancelSubscription($params = [])
+    {
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->delete($this->instanceUrl() . '/subscription', $params);
 
         $this->refreshFrom(['subscription' => $response], $apiKey, true);
 
@@ -176,30 +221,14 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * @param array|null $params
+     * Delete Discount
      *
-     * @returns Subscription The cancelled subscription.
-     */
-    public function cancelSubscription($params = null)
-    {
-        $url    = $this->instanceUrl() . '/subscription';
-
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->delete($url, $params);
-
-        $this->refreshFrom(['subscription' => $response], $apiKey, true);
-
-        return $this->subscription;
-    }
-
-    /**
-     * @returns Customer The updated customer.
+     * @returns Object
      */
     public function deleteDiscount()
     {
-        $url    = $this->instanceUrl() . '/discount';
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->delete($url);
+            ->delete($this->instanceUrl() . '/discount');
 
         $this->refreshFrom(['discount' => null], $apiKey, true);
     }
@@ -209,7 +238,7 @@ class Customer extends Resource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null $params
+     * @param array $params
      */
     protected static function prepareParameters(&$params)
     {

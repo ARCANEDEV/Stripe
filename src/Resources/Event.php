@@ -1,8 +1,25 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\EventInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
+/**
+ * Event Object
+ * @link https://stripe.com/docs/api/php#event_object
+ * @link https://stripe.com/docs/api/php#event_types
+ *
+ * @property string id
+ * @property string object // "event"
+ * @property bool   livemode
+ * @property int    created
+ * @property array  data
+ * @property int    pending_webhooks
+ * @property string type
+ * @property string api_version
+ * @property string request
+ * @property string customer_email
+ */
 class Event extends Resource implements EventInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -10,7 +27,10 @@ class Event extends Resource implements EventInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the event to retrieve.
+     * Retrieve an event
+     * @link https://stripe.com/docs/api/php#retrieve_event
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return Event
@@ -23,14 +43,15 @@ class Event extends Resource implements EventInterface
     }
 
     /**
-     * An array of Stripe Events.
+     * List all events
+     * @link https://stripe.com/docs/api/php#list_events
      *
-     * @param array|null  $params
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 

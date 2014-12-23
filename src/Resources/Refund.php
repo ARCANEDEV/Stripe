@@ -1,15 +1,26 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
- * @property string     id
- * @property mixed|null amount
- * @property mixed|null charge
- * @property mixed|null metadata
+ * Refund Object
+ * @link https://stripe.com/docs/api/php#refund_object
+ *
+ * @property string         id
+ * @property string         object // "refund"
+ * @property int            amount
+ * @property int            created
+ * @property string         currency
+ * @property string         balance_transaction
+ * @property string         charge
+ * @property AttachedObject metadata
+ * @property string         reason
+ * @property string         receipt_number
+ * @property string         description
  */
 class Refund extends Resource implements RefundInterface
 {
@@ -25,23 +36,20 @@ class Refund extends Resource implements RefundInterface
     public function instanceUrl()
     {
         // TODO: Refactor this method
-        $id     = $this['id'];
-        $charge = $this['charge'];
+        $id         = $this['id'];
+        $chargeId   = $this['charge'];
 
-        if ( ! $id) {
-            throw new InvalidRequestException(
-                "Could not determine which URL to request: class instance has invalid ID: $id", null
-            );
+        if (! $id) {
+            $msg    = "Could not determine which URL to request: class instance has invalid ID: $id";
+
+            throw new InvalidRequestException($msg, null);
         }
 
-        $id     = Requestor::utf8($id);
-        $charge = Requestor::utf8($charge);
-
         $base       = self::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
-        $chargeExtn = urlencode($charge);
-        $extn       = urlencode($id);
+        $chargeId   = urlencode(Requestor::utf8($chargeId));
+        $refundId   = urlencode(Requestor::utf8($id));
 
-        return "$base/$chargeExtn/refunds/$extn";
+        return "$base/$chargeId/refunds/$refundId";
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +57,10 @@ class Refund extends Resource implements RefundInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @return Refund The saved refund.
+     * Update/Save a Refund
+     * @link https://stripe.com/docs/api/php#update_refund
+     *
+     * @return Refund
      */
     public function save()
     {

@@ -4,6 +4,17 @@ use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * File Upload Object
+ * @link https://stripe.com/docs/guides/file-upload
+ *
+ * @property string id
+ * @property int    created
+ * @property int    size
+ * @property string purpose
+ * @property string url
+ * @property string mimetype [application/pdf|image/jpeg|image/png]
+ */
 class FileUpload extends Resource implements FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -19,6 +30,7 @@ class FileUpload extends Resource implements FileUploadInterface
     {
         return 'file';
     }
+
     /**
      * Get the endpoint URL for the given class.
      *
@@ -36,7 +48,9 @@ class FileUpload extends Resource implements FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the file upload to retrieve.
+     * Retrieve a File
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return FileUpload
@@ -49,12 +63,14 @@ class FileUpload extends Resource implements FileUploadInterface
     }
 
     /**
-     * @param array|null  $params
+     * Create/Upload a File
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return FileUpload The created file upload.
+     * @return FileUpload
      */
-    public static function create($params = null, $apiKey = null)
+    public static function create($params = [], $apiKey = null)
     {
         $class = get_class();
 

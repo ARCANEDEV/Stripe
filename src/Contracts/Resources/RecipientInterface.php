@@ -1,9 +1,32 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
+use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
+use Arcanedev\Stripe\Contracts\ListObjectInterface;
+
+/**
+ * Recipient object Interface
+ * @link https://stripe.com/docs/api/php#recipient_object
+ *
+ * @property string                  id
+ * @property string                  object      // "recipient"
+ * @property bool                    livemode
+ * @property int                     created
+ * @property string                  type
+ * @property Object                  active_account
+ * @property string                  description
+ * @property string                  email
+ * @property AttachedObjectInterface metadata
+ * @property string                  name
+ * @property ListObjectInterface     cards
+ * @property string                  default_card
+ */
 interface RecipientInterface
 {
     /**
-     * @param string      $id The ID of the recipient to retrieve.
+     * Retrieve a Recipient
+     * @link https://stripe.com/docs/api/php#retrieve_recipient
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return RecipientInterface
@@ -11,39 +34,55 @@ interface RecipientInterface
     public static function retrieve($id, $apiKey = null);
 
     /**
-     * @param array|null  $params
+     * List all Recipients
+     * @link https://stripe.com/docs/api/php#list_recipients
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array An array of Stripe_Recipients.
+     * @return ListObjectInterface
      */
-    public static function all($params = null, $apiKey = null);
+    public static function all($params = [], $apiKey = null);
 
     /**
-     * @param array|null  $params
+     * Create a New Recipient
+     * @link https://stripe.com/docs/api/php#create_recipient
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return RecipientInterface The created recipient.
+     * @return RecipientInterface
      */
-    public static function create($params = null, $apiKey = null);
+    public static function create($params = [], $apiKey = null);
 
     /**
-     * @return RecipientInterface The saved recipient.
+     * Update/Save a recipient
+     * @link https://stripe.com/docs/api/php#update_recipient
+     *
+     * @return RecipientInterface
      */
     public function save();
 
     /**
-     * @param array|null $params
+     * Delete a Recipient
+     * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @return RecipientInterface The deleted recipient.
+     * @param array $params
+     *
+     * @return RecipientInterface
      */
-    public function delete($params = null);
+    public function delete($params = []);
 
-    /**
-     * Get an array of the recipient's Transfers.
-     *
-     * @param array|null $params
-     *
-     * @return array
+    /* ------------------------------------------------------------------------------------------------
+     |  Relationships Functions
+     | ------------------------------------------------------------------------------------------------
      */
-    public function transfers($params = null);
+    /**
+     * List all recipient's Transfers.
+     *
+     * @param array $params
+     *
+     * @return ListObjectInterface
+     */
+    public function transfers($params = []);
 }

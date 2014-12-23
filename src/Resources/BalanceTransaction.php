@@ -1,8 +1,28 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
+/**
+ * Balance Transaction Object
+ *
+ * @link https://stripe.com/docs/api/php#balance_transaction_object
+ *
+ * @property string     id
+ * @property string     object// "balance_transaction"
+ * @property int        amount
+ * @property int        available_on
+ * @property int        created
+ * @property string     currency
+ * @property int        fee
+ * @property ListObject fee_details
+ * @property int        net
+ * @property string     status
+ * @property string     type
+ * @property string     description
+ * @property string     source
+ */
 class BalanceTransaction extends Resource implements BalanceTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -27,6 +47,9 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Retrieving a Balance Transaction
+     * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
+     *
      * @param string      $id     The ID of the balance transaction to retrieve.
      * @param string|null $apiKey
      *
@@ -40,14 +63,15 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
     }
 
     /**
-     * Get an array of BalanceTransactions.
+     * List balance history
+     * @link https://stripe.com/docs/api/php#balance_history
      *
-     * @param array|null  $params
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 

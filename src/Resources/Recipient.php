@@ -1,14 +1,26 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * @property string     id
- * @property mixed|null deleted
- * @property string     email
- * @property mixed|null cards
- * @property mixed|null metadata
+ * The recipient object
+ * @link https://stripe.com/docs/api/php#recipient_object
+ *
+ * @property string         id
+ * @property string         object      // "recipient"
+ * @property bool           livemode
+ * @property int            created
+ * @property string         type
+ * @property Object         active_account
+ * @property string         description
+ * @property string         email
+ * @property AttachedObject metadata
+ * @property string         name
+ * @property ListObject     cards
+ * @property string         default_card
  */
 class Recipient extends Resource implements RecipientInterface
 {
@@ -28,7 +40,10 @@ class Recipient extends Resource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id     The ID of the recipient to retrieve.
+     * Retrieve a Recipient
+     * @link https://stripe.com/docs/api/php#retrieve_recipient
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return Recipient
@@ -41,12 +56,15 @@ class Recipient extends Resource implements RecipientInterface
     }
 
     /**
-     * @param array|null  $params
+     * List all Recipients
+     * @link https://stripe.com/docs/api/php#list_recipients
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array An array of Stripe_Recipients.
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -54,12 +72,15 @@ class Recipient extends Resource implements RecipientInterface
     }
 
     /**
-     * @param array|null  $params
+     * Create a New Recipient
+     * @link https://stripe.com/docs/api/php#create_recipient
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return Recipient The created recipient.
+     * @return Recipient
      */
-    public static function create($params = null, $apiKey = null)
+    public static function create($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -67,7 +88,10 @@ class Recipient extends Resource implements RecipientInterface
     }
 
     /**
-     * @return Recipient The saved recipient.
+     * Update/Save a recipient
+     * @link https://stripe.com/docs/api/php#update_recipient
+     *
+     * @return Recipient
      */
     public function save()
     {
@@ -77,32 +101,38 @@ class Recipient extends Resource implements RecipientInterface
     }
 
     /**
-     * @param array|null $params
+     * Delete a Recipient
+     * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @return Recipient The deleted recipient.
+     * @param array $params
+     *
+     * @return Recipient
      */
-    public function delete($params = null)
+    public function delete($params = [])
     {
         $class = get_class();
 
         return self::scopedDelete($class, $params);
     }
 
-    /**
-     * Get an array of the recipient's Transfers.
-     *
-     * @param array|null $params
-     *
-     * @return array
+    /* ------------------------------------------------------------------------------------------------
+     |  Relationships Functions
+     | ------------------------------------------------------------------------------------------------
      */
-    public function transfers($params = null)
+    /**
+     * List all recipient's Transfers.
+     *
+     * @param array $params
+     *
+     * @return ListObject
+     */
+    public function transfers($params = [])
     {
         self::prepareParameters($params);
 
         $params['recipient'] = $this->id;
-        $transfers           = Transfer::all($params, $this->apiKey);
 
-        return $transfers;
+        return Transfer::all($params, $this->apiKey);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -110,7 +140,7 @@ class Recipient extends Resource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null $params
+     * @param array $params
      */
     protected static function prepareParameters(&$params)
     {

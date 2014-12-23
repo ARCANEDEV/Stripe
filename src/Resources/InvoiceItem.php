@@ -1,41 +1,59 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
+use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
 use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Plan Object
- * @link https://stripe.com/docs/api/php#plan_object
+ * InvoiceItem Object
+ * @link https://stripe.com/docs/api/php#invoice_item_object
  *
  * @property string         id
- * @property string         object // "plan"
+ * @property string         object // "invoiceitem"
  * @property bool           livemode
  * @property int            amount
- * @property int            created
- * @property int            currency
- * @property string         interval
- * @property int            interval_count
- * @property string         name
+ * @property string         currency
+ * @property string         customer
+ * @property int            date
+ * @property bool           proration
+ * @property string         description
+ * @property string         invoice
  * @property AttachedObject metadata
- * @property int            trial_period_days
- * @property string         statement_descriptor
+ * @property Plan           plan
+ * @property int            quantity
+ * @property string         subscription
  */
-class Plan extends Resource implements PlanInterface
+class InvoiceItem extends Resource implements InvoiceItemInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the endpoint URL for the given class.
+     *
+     * @param string $class
+     *
+     * @return string
+     */
+    public static function classUrl($class = '')
+    {
+        return "/v1/invoiceitems";
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Plan
-     * @link https://stripe.com/docs/api/php#retrieve_plan
+     * Retrieve an Invoice Item
+     * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
      *
      * @param string      $id
      * @param string|null $apiKey
      *
-     * @return Plan
+     * @return InvoiceItem
      */
     public static function retrieve($id, $apiKey = null)
     {
@@ -45,8 +63,8 @@ class Plan extends Resource implements PlanInterface
     }
 
     /**
-     * List all Plans
-     * @link https://stripe.com/docs/api/php#list_plans
+     * List all Invoice Items
+     * @link https://stripe.com/docs/api/php#list_invoiceitems
      *
      * @param array       $params
      * @param string|null $apiKey
@@ -61,13 +79,13 @@ class Plan extends Resource implements PlanInterface
     }
 
     /**
-     * Create a plan
-     * @link https://stripe.com/docs/api/php#create_plan
+     * Create an Invoice Item
+     * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
      * @param array       $params
      * @param string|null $apiKey
      *
-     * @return Plan
+     * @return InvoiceItem
      */
     public static function create($params = [], $apiKey = null)
     {
@@ -77,10 +95,10 @@ class Plan extends Resource implements PlanInterface
     }
 
     /**
-     * Update/Save a plan
-     * @link https://stripe.com/docs/api/php#update_plan
+     * Update/Save an Invoice Item
+     * @link https://stripe.com/docs/api/php#update_invoiceitem
      *
-     * @return Plan
+     * @return InvoiceItem
      */
     public function save()
     {
@@ -90,12 +108,12 @@ class Plan extends Resource implements PlanInterface
     }
 
     /**
-     * Delete a plan
-     * @link https://stripe.com/docs/api/php#delete_plan
+     * Delete an Invoice Item
+     * @link https://stripe.com/docs/api/php#delete_invoiceitem
      *
      * @param array $params
      *
-     * @return Plan
+     * @return InvoiceItem
      */
     public function delete($params = [])
     {

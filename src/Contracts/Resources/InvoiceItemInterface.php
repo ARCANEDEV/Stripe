@@ -1,46 +1,47 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
+
 use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
 use Arcanedev\Stripe\Contracts\ListObjectInterface;
 
 /**
- * Coupon Object Interface
- * @link https://stripe.com/docs/api/php#coupons
+ * InvoiceItem Object Interface
+ * @link https://stripe.com/docs/api/php#invoice_item_object
  *
  * @property string                  id
- * @property string                  object // "coupon"
+ * @property string                  object // "invoiceitem"
  * @property bool                    livemode
- * @property int                     created
- * @property string                  duration
- * @property int                     amount_off
+ * @property int                     amount
  * @property string                  currency
- * @property int                     duration_in_months
- * @property int                     max_redemptions
+ * @property string                  customer
+ * @property int                     date
+ * @property bool                    proration
+ * @property string                  description
+ * @property string                  invoice
  * @property AttachedObjectInterface metadata
- * @property int                     percent_off
- * @property int                     redeem_by
- * @property int                     times_redeemed
- * @property bool                    valid
+ * @property PlanInterface           plan
+ * @property int                     quantity
+ * @property string                  subscription
  */
-interface CouponInterface
+interface InvoiceItemInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Coupon
-     * @link https://stripe.com/docs/api/php#retrieve_coupon
+     * Retrieve an Invoice Item
+     * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
      *
      * @param string      $id
      * @param string|null $apiKey
      *
-     * @return CouponInterface
+     * @return InvoiceItemInterface
      */
     public static function retrieve($id, $apiKey = null);
 
     /**
-     * List all Coupons
-     * @link https://stripe.com/docs/api/php#list_coupons
+     * List all Invoice Items
+     * @link https://stripe.com/docs/api/php#list_invoiceitems
      *
      * @param array       $params
      * @param string|null $apiKey
@@ -50,31 +51,31 @@ interface CouponInterface
     public static function all($params = [], $apiKey = null);
 
     /**
-     * Create coupon
-     * @link https://stripe.com/docs/api/php#create_coupon
+     * Create an Invoice Item
+     * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
      * @param array       $params
      * @param string|null $apiKey
      *
-     * @return CouponInterface
+     * @return InvoiceItemInterface
      */
     public static function create($params = [], $apiKey = null);
 
     /**
-     * Update/Save a Coupon
-     * @link https://stripe.com/docs/api/php#update_coupon
+     * Update/Save an Invoice Item
+     * @link https://stripe.com/docs/api/php#update_invoiceitem
      *
-     * @return CouponInterface
+     * @return InvoiceItemInterface
      */
     public function save();
 
     /**
-     * Delete a coupon
-     * @link https://stripe.com/docs/api/php#delete_coupon
+     * Delete an Invoice Item
+     * @link https://stripe.com/docs/api/php#delete_invoiceitem
      *
      * @param array $params
      *
-     * @return CouponInterface
+     * @return InvoiceItemInterface
      */
     public function delete($params = []);
 }

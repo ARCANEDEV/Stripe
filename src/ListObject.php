@@ -5,7 +5,12 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * @property string|null url
+ * List Object
+ *
+ * @property string object
+ * @property int    total_count
+ * @property bool   has_more
+ * @property string url
  */
 class ListObject extends Object implements ListObjectInterface
 {
@@ -59,11 +64,11 @@ class ListObject extends Object implements ListObjectInterface
     {
         list($url, $params) = $this->extractPathAndUpdateParams($params);
 
-        $requestor = new Requestor($this->apiKey);
         $id        = Requestor::utf8($id);
         $extn      = urlencode($id);
 
-        list($response, $apiKey) = $requestor->get("$url/$extn", $params);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->get("$url/$extn", $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }

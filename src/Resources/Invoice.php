@@ -1,14 +1,45 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * @property mixed|null customer
- * @property mixed|null attempted
- * @property mixed|null lines
+ * Invoice Object
+ * @link https://stripe.com/docs/api/php#invoices
+ *
+ * @property string         id
+ * @property string         object // "invoice"
+ * @property bool           livemode
+ * @property int            amount_due
+ * @property int            attempt_count
+ * @property bool           attempted
+ * @property bool           closed
+ * @property string         currency
+ * @property string         customer
+ * @property int            date
+ * @property bool           forgiven
+ * @property ListObject     lines
+ * @property bool           paid
+ * @property int            period_end
+ * @property int            period_start
+ * @property int            starting_balance
+ * @property int            subtotal
+ * @property int            total
+ * @property int            application_fee
+ * @property string         charge
+ * @property string         description
+ * @property Object         discount             // Discount Object
+ * @property int            ending_balance
+ * @property int            next_payment_attempt
+ * @property string         receipt_number
+ * @property string         statement_descriptor
+ * @property string         subscription
+ * @property int            webhooks_delivered_at
+ * @property AttachedObject metadata
  */
 class Invoice extends Resource implements InvoiceInterface
 {
@@ -17,12 +48,15 @@ class Invoice extends Resource implements InvoiceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null  $params
+     * Create an invoice
+     * @link https://stripe.com/docs/api/php#create_invoice
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return Invoice The created invoice.
+     * @return Invoice
      */
-    public static function create($params = null, $apiKey = null)
+    public static function create($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -30,7 +64,10 @@ class Invoice extends Resource implements InvoiceInterface
     }
 
     /**
-     * @param string      $id     The ID of the invoice to retrieve.
+     * Retrieving an Invoice
+     * @link https://stripe.com/docs/api/php#retrieve_invoice
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return Invoice
@@ -43,12 +80,15 @@ class Invoice extends Resource implements InvoiceInterface
     }
 
     /**
-     * @param array|null  $params
+     * List of all Invoices
+     * @link https://stripe.com/docs/api/php#list_customer_invoices
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return array An array of Stripe_Invoices.
+     * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         $class = get_class();
 
@@ -56,23 +96,27 @@ class Invoice extends Resource implements InvoiceInterface
     }
 
     /**
-     * @param array|null  $params
+     * Retrieve  Upcoming Invoice
+     * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return Invoice The upcoming invoice.
+     * @return Invoice
      */
-    public static function upcoming($params = null, $apiKey = null)
+    public static function upcoming($params = [], $apiKey = null)
     {
-        $url        = self::classUrl(get_class()) . '/upcoming';
-
         list($response, $apiKey) = Requestor::make($apiKey)
-            ->get($url, $params);
+            ->get(self::classUrl(get_class()) . '/upcoming', $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }
 
     /**
-     * @return Invoice The saved invoice.
+     * Update/Save an invoice
+     * @link https://stripe.com/docs/api/php#update_invoice
+     *
+     * @return Invoice
      */
     public function save()
     {
@@ -82,14 +126,15 @@ class Invoice extends Resource implements InvoiceInterface
     }
 
     /**
-     * @return Invoice The paid invoice.
+     * Pay an invoice
+     * @link https://stripe.com/docs/api/php#pay_invoice
+     *
+     * @return Invoice
      */
     public function pay()
     {
-        $url        = $this->instanceUrl() . '/pay';
-
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url);
+            ->post($this->instanceUrl() . '/pay');
 
         $this->refreshFrom($response, $apiKey);
 

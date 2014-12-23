@@ -6,8 +6,31 @@ use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
+ * Card Object
+ * @link https://stripe.com/docs/api/php#card_object
+ *
  * @property string id
+ * @property string object // "card"
+ * @property string brand
+ * @property int    exp_month
+ * @property int    exp_year
+ * @property string fingerprint
+ * @property string funding
+ * @property string last4
+ * @property string address_city
+ * @property string address_country
+ * @property string address_line1
+ * @property string address_line1_check
+ * @property string address_line2
+ * @property string address_state
+ * @property string address_zip
+ * @property string address_zip_check
+ * @property string country
+ * @property string customer
+ * @property string cvc_check
+ * @property string dynamic_last4
  * @property string name
+ * @property string recipient
  */
 class Card extends Resource implements CardInterface
 {
@@ -46,20 +69,18 @@ class Card extends Resource implements CardInterface
         // TODO: Refactor this method
         $id = $this['id'];
 
-        if ( ! $id ) {
+        if (! $id) {
             $class = get_class($this);
+            $msg = "Could not determine which URL to request: $class instance " . "has invalid ID: $id";
 
-            throw new InvalidRequestException(
-                "Could not determine which URL to request: $class instance " . "has invalid ID: $id", null
-            );
+            throw new InvalidRequestException($msg, null);
         }
 
-        if ( isset($this['customer']) ) {
+        if (isset($this['customer'])) {
             $parent = $this['customer'];
             $base   = self::classUrl(self::CUSTOMER_CLASS);
         }
-        elseif ( isset($this['recipient']) ) {
-
+        elseif (isset($this['recipient'])) {
             $parent = $this['recipient'];
             $base   = self::classUrl(self::RECIPIENT_CLASS);
         }
@@ -67,11 +88,8 @@ class Card extends Resource implements CardInterface
             return null;
         }
 
-        $parent = Requestor::utf8($parent);
-        $id     = Requestor::utf8($id);
-
-        $parentExtn = urlencode($parent);
-        $extn       = urlencode($id);
+        $parentExtn = urlencode(Requestor::utf8($parent));
+        $extn       = urlencode(Requestor::utf8($id));
 
         return "$base/$parentExtn/cards/$extn";
     }
@@ -81,24 +99,30 @@ class Card extends Resource implements CardInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null $params
+     * Save/Update a card
+     * @link https://stripe.com/docs/api/php#update_card
      *
-     * @return Card The deleted card.
-     */
-    public function delete($params = null)
-    {
-        $class = get_class();
-
-        return self::scopedDelete($class, $params);
-    }
-
-    /**
-     * @return Card The saved card.
+     * @return Card
      */
     public function save()
     {
         $class = get_class();
 
         return self::scopedSave($class);
+    }
+
+    /**
+     * Delete a card
+     * @link https://stripe.com/docs/api/php#delete_card
+     *
+     * @param array $params
+     *
+     * @return Card
+     */
+    public function delete($params = [])
+    {
+        $class = get_class();
+
+        return self::scopedDelete($class, $params);
     }
 }

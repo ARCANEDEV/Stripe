@@ -21,7 +21,7 @@ abstract class Util implements UtilInterface
         'coupon'        => 'Arcanedev\\Stripe\\Resources\\Coupon',
         'customer'      => 'Arcanedev\\Stripe\\Resources\\Customer',
         'invoice'       => 'Arcanedev\\Stripe\\Resources\\Invoice',
-        'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItems',
+        'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
         'event'         => 'Arcanedev\\Stripe\\Resources\\Event',
         'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
         'plan'          => 'Arcanedev\\Stripe\\Resources\\Plan',

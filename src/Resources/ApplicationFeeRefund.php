@@ -7,8 +7,11 @@ use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
+ * Application Fee Refund Object
+ * @link https://stripe.com/docs/api/php#fee_refunds
+ *
  * @property string         id
- * @property string         object = "fee_refund"
+ * @property string         object  // "fee_refund"
  * @property int            amount
  * @property int            created
  * @property string         currency
@@ -52,7 +55,8 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Save Refund
+     * Update/Save an Application Fee Refund
+     * @link https://stripe.com/docs/api/php#update_fee_refund
      *
      * @return ApplicationFeeRefund
      */

@@ -1,5 +1,16 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
+/**
+ * File Upload Object Interface
+ * @link https://stripe.com/docs/guides/file-upload
+ *
+ * @property string id
+ * @property int    created
+ * @property int    size
+ * @property string purpose
+ * @property string url
+ * @property string mimetype [application/pdf|image/jpeg|image/png]
+ */
 interface FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -7,7 +18,9 @@ interface FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string      $id The ID of the file upload to retrieve.
+     * Retrieve a File
+     *
+     * @param string      $id
      * @param string|null $apiKey
      *
      * @return FileUploadInterface
@@ -15,10 +28,12 @@ interface FileUploadInterface
     public static function retrieve($id, $apiKey = null);
 
     /**
-     * @param array|null  $params
+     * Create/Upload a File
+     *
+     * @param array       $params
      * @param string|null $apiKey
      *
-     * @return FileUploadInterface The created file upload.
+     * @return FileUploadInterface
      */
-    public static function create($params = null, $apiKey = null);
+    public static function create($params = [], $apiKey = null);
 }

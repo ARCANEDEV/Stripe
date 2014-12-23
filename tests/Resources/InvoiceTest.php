@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Invoice;
-use Arcanedev\Stripe\Resources\InvoiceItems;
+use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Tests\StripeTest;
 
 class InvoiceTest extends StripeTest
@@ -62,7 +62,7 @@ class InvoiceTest extends StripeTest
     {
         $customer = self::createTestCustomer();
 
-        InvoiceItems::create([
+        InvoiceItem::create([
             'customer'  => $customer->id,
             'amount'    => 0,
             'currency'  => 'usd',
@@ -83,7 +83,7 @@ class InvoiceTest extends StripeTest
     {
         $customer = parent::createTestCustomer();
 
-        InvoiceItems::create([
+        InvoiceItem::create([
             'customer'  => $customer->id,
             'amount'    => 100,
             'currency'  => 'usd',
