@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Object;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
 
@@ -20,16 +21,17 @@ abstract class Util implements UtilInterface
         'charge'        => 'Arcanedev\\Stripe\\Resources\\Charge',
         'coupon'        => 'Arcanedev\\Stripe\\Resources\\Coupon',
         'customer'      => 'Arcanedev\\Stripe\\Resources\\Customer',
+        'dispute'       => 'Arcanedev\\Stripe\\Resources\\Dispute',
+        'event'         => 'Arcanedev\\Stripe\\Resources\\Event',
+        'fee_refund'    => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
+        'file'          => 'Arcanedev\\Stripe\\Resources\\FileUpload',
         'invoice'       => 'Arcanedev\\Stripe\\Resources\\Invoice',
         'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
-        'event'         => 'Arcanedev\\Stripe\\Resources\\Event',
-        'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
         'plan'          => 'Arcanedev\\Stripe\\Resources\\Plan',
         'recipient'     => 'Arcanedev\\Stripe\\Resources\\Recipient',
         'refund'        => 'Arcanedev\\Stripe\\Resources\\Refund',
         'subscription'  => 'Arcanedev\\Stripe\\Resources\\Subscription',
-        'fee_refund'    => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-        'file'          => 'Arcanedev\\Stripe\\Resources\\FileUpload',
+        'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
 
         // List Object
         'list'          => 'Arcanedev\\Stripe\\ListObject',
@@ -59,7 +61,7 @@ abstract class Util implements UtilInterface
             }
 
             if ($v instanceof Object) {
-                $results[$k] = $v->__toArray(true);
+                $results[$k] = $v->toArray(true);
             }
             elseif (is_array($v)) {
                 $results[$k] = self::convertStripeObjectToArray($v);
@@ -78,7 +80,7 @@ abstract class Util implements UtilInterface
      * @param array  $response   - The response from the Stripe API.
      * @param string $apiKey
      *
-     * @return Object|array
+     * @return Resource|ListObject|Object
      */
     public static function convertToStripeObject($response, $apiKey)
     {

@@ -23,9 +23,3 @@ if (! function_exists('mb_detect_encoding')) {
 if (! defined('CURLE_SSL_CACERT_BADFILE')) {
     define('CURLE_SSL_CACERT_BADFILE', 77);
 }
-
-/* ------------------------------------------------------------------------------------------------
- |  Init Object Class
- | ------------------------------------------------------------------------------------------------
- */
-Arcanedev\Stripe\Object::init();

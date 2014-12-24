@@ -50,7 +50,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve(get_class(), $id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -64,7 +64,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        return self::scopedAll(get_class(), $params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 
     /**
@@ -78,7 +78,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        return self::scopedCreate(get_class(), $params, $apiKey);
+        return self::scopedCreate($params, $apiKey);
     }
 
     /**
@@ -89,7 +89,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /**
@@ -102,7 +102,7 @@ class Recipient extends Resource implements RecipientInterface
      */
     public function delete($params = [])
     {
-        return self::scopedDelete(get_class(), $params);
+        return self::scopedDelete($params);
     }
 
     /* ------------------------------------------------------------------------------------------------

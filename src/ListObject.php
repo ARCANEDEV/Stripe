@@ -8,6 +8,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * List Object
  *
  * @property string object
+ * @property array  data
  * @property int    total_count
  * @property bool   has_more
  * @property string url
@@ -77,6 +78,12 @@ class ListObject extends Object implements ListObjectInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    public function count()
+    {
+        return $this->object === 'list'
+            ? count($this->data) : 0;
+    }
+
     private function extractPathAndUpdateParams($params)
     {
         $url = parse_url($this->url);

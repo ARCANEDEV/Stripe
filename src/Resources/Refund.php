@@ -64,8 +64,6 @@ class Refund extends Resource implements RefundInterface
      */
     public function save()
     {
-        $class = get_class();
-
-        return self::scopedSave($class);
+        return self::scopedSave();
     }
 }

@@ -1,6 +1,9 @@
 <?php namespace Arcanedev\Stripe;
 
 use Arcanedev\Stripe\Contracts\ObjectInterface;
+use Arcanedev\Stripe\Contracts\Utilities\Arrayable;
+use Arcanedev\Stripe\Contracts\Utilities\Jsonable;
+use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
@@ -10,7 +13,7 @@ use ArrayAccess;
  * @property string id
  * @property string object
  */
-class Object implements ObjectInterface, ArrayAccess
+class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -22,14 +25,26 @@ class Object implements ObjectInterface, ArrayAccess
     /** @var array */
     protected $values;
 
-    /** @var UtilSet */
+    /**
+     * Unsaved Values
+     *
+     * @var UtilSet
+     */
     protected $unsavedValues;
 
-    /** @var UtilSet */
+    /**
+     * Transient (Deleted) Values
+     *
+     * @var UtilSet
+     */
     protected $transientValues;
 
-    /** @var array */
-    protected $retrieveOptions;
+    /**
+     * Retrieve parameters used to query the object
+     *
+     * @var array
+     */
+    protected $retrieveParameters;
 
     /**
      * Attributes that should not be sent to the API because
@@ -54,30 +69,29 @@ class Object implements ObjectInterface, ArrayAccess
      */
     protected $checkUnsavedAttributes = false;
 
+    const ATTACHED_OBJECT_CLASS       = 'Arcanedev\\Stripe\\AttachedObject';
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Constructor
+     *
+     * @param string|array|null $id
+     * @param string|null       $apiKey
+     */
     public function __construct($id = null, $apiKey = null)
     {
-        $this->apiKey          = $apiKey;
-        $this->values          = [];
-        $this->unsavedValues   = new UtilSet;
-        $this->transientValues = new UtilSet;
-        $this->retrieveOptions = [];
+        self::init();
 
-        if (is_array($id)) {
-            foreach ($id as $key => $value) {
-                if ($key != 'id') {
-                    $this->retrieveOptions[$key] = $value;
-                }
-            }
-            $id = $id['id'];
-        }
+        $this->setApiKey($apiKey);
+        $this->values             = [];
+        $this->unsavedValues      = new UtilSet;
+        $this->transientValues    = new UtilSet;
+        $this->retrieveParameters = [];
 
-        if ($id !== null) {
-            $this->id = $id;
-        }
+        $this->setId($id);
     }
 
     /**
@@ -85,7 +99,7 @@ class Object implements ObjectInterface, ArrayAccess
      */
     public static function init()
     {
-        self::$permanentAttributes       = new UtilSet(['_apiKey', 'id']);
+        self::$permanentAttributes       = new UtilSet(['apiKey', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet(['metadata']);
     }
 
@@ -93,6 +107,53 @@ class Object implements ObjectInterface, ArrayAccess
      |  Getters & Setters (+Magics)
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @return string
+     */
+    protected function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    protected function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    private function setId($id)
+    {
+        if (is_array($id)) {
+            if (! isset($id['id'])) {
+                throw new ApiException("The attribute id must be included.", 500);
+            }
+
+            foreach ($id as $key => $value) {
+                if ($key != 'id') {
+                    $this->retrieveParameters[$key] = $value;
+                }
+            }
+
+            $id = $id['id'];
+        }
+
+        if (! is_null($id)) {
+            $this->id = $id;
+        }
+    }
+
+    /**
+     * Get Retrieve Parameters
+     *
+     * @return array
+     */
+    protected function getRetrieveParams()
+    {
+        return $this->retrieveParameters;
+    }
+
     /**
      * @param string|int $key
      *
@@ -139,12 +200,12 @@ class Object implements ObjectInterface, ArrayAccess
         $this->checkMetadataAttribute($key, $value);
 
         if (
-            self::$nestedUpdatableAttributes->includes($key)
-            and isset($this->$key) and is_array($value)
+            self::$nestedUpdatableAttributes->includes($key) and
+            isset($this->$key) and
+            is_array($value)
         ) {
             $this->$key->replaceWith($value);
-        }
-        else {
+        } else {
             // TODO: may want to clear from $_transientValues (Won't be user-visible).
             $this->values[$key] = $value;
         }
@@ -171,27 +232,44 @@ class Object implements ObjectInterface, ArrayAccess
         $this->unsavedValues->discard($k);
     }
 
-    public function __toJSON()
-    {
-        $array = $this->__toArray(true);
-
-        return defined('JSON_PRETTY_PRINT')
-            ? json_encode($array, JSON_PRETTY_PRINT)
-            : json_encode($array);
-    }
-
+    /**
+     * Convert Object to string
+     *
+     * @return string
+     */
     public function __toString()
     {
-        $class = get_class($this);
-
-        return $class . ' JSON: ' . $this->__toJSON();
+        return get_class($this) . ' JSON: ' . $this->toJson();
     }
 
-    public function __toArray($recursive = false)
+    /**
+     * Convert Object to array
+     *
+     * @param bool $recursive
+     *
+     * @return array
+     */
+    public function toArray($recursive = false)
     {
         return $recursive
             ? Util::convertStripeObjectToArray($this->values)
             : $this->values;
+    }
+
+    /**
+     * Convert Object to JSON
+     *
+     * @param int $options
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        $array = $this->toArray(true);
+
+        return defined('JSON_PRETTY_PRINT')
+            ? json_encode($array, JSON_PRETTY_PRINT)
+            : json_encode($array, $options);
     }
 
     /**
@@ -241,7 +319,9 @@ class Object implements ObjectInterface, ArrayAccess
      */
     public static function scopedConstructFrom($class, $values, $apiKey = null)
     {
-        /** @var Object $obj $obj */
+        /**
+         * @var Object $obj
+         */
         $obj = new $class(isset($values['id']) ? $values['id'] : null, $apiKey);
         $obj->refreshFrom($values, $apiKey);
 
@@ -249,11 +329,12 @@ class Object implements ObjectInterface, ArrayAccess
     }
 
     /**
+     * Construct an object of the same class as $this constructed from the given values.
+     *
      * @param array $values
      * @param string|null $apiKey
      *
-     * @return Object The object of the same class as $this constructed
-     *    from the given values.
+     * @return Object
      */
     public static function constructFrom($values, $apiKey = null)
     {
@@ -290,7 +371,7 @@ class Object implements ObjectInterface, ArrayAccess
             }
 
             $this->values[$k] = ( self::$nestedUpdatableAttributes->includes($k) and is_array($v) )
-                ? Object::scopedConstructFrom('Arcanedev\\Stripe\\AttachedObject', $v, $apiKey)
+                ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $v, $apiKey)
                 : Util::convertToStripeObject($v, $apiKey);
 
             $this->transientValues->discard($k);
@@ -365,6 +446,16 @@ class Object implements ObjectInterface, ArrayAccess
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check if object has retrieve parameters
+     *
+     * @return bool
+     */
+    public function hasRetrieveParams()
+    {
+        return $this->retrieveParamsCount() > 0;
+    }
+
+    /**
      * @param string     $key
      * @param mixed|null $value
      *
@@ -424,5 +515,19 @@ class Object implements ObjectInterface, ArrayAccess
         if (count($notFound) > 0) {
             throw new InvalidArgumentException('The attributes [' . implode(', ', $notFound) . '] are not supported.');
         }
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Retrieve Parameters count
+     *
+     * @return int
+     */
+    private function retrieveParamsCount()
+    {
+        return count($this->getRetrieveParams());
     }
 }

@@ -61,7 +61,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /* ------------------------------------------------------------------------------------------------

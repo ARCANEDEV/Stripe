@@ -41,7 +41,7 @@ class Coupon extends Resource implements CouponInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve(get_class(), $id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -55,7 +55,7 @@ class Coupon extends Resource implements CouponInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        return self::scopedAll(get_class(), $params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 
     /**
@@ -69,7 +69,7 @@ class Coupon extends Resource implements CouponInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        return self::scopedCreate(get_class(), $params, $apiKey);
+        return self::scopedCreate($params, $apiKey);
     }
 
     /**
@@ -80,7 +80,7 @@ class Coupon extends Resource implements CouponInterface
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /**
@@ -93,6 +93,6 @@ class Coupon extends Resource implements CouponInterface
      */
     public function delete($params = [])
     {
-        return self::scopedDelete(get_class(), $params);
+        return self::scopedDelete($params);
     }
 }

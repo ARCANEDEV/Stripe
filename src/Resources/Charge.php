@@ -58,7 +58,7 @@ class Charge extends Resource implements ChargeInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        return self::scopedAll(get_class(), $params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 
     /**
@@ -72,7 +72,7 @@ class Charge extends Resource implements ChargeInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve(get_class(), $id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -86,7 +86,7 @@ class Charge extends Resource implements ChargeInterface
      */
     public static function create($params = [], $apiKey = null)
     {
-        return self::scopedCreate(get_class(), $params, $apiKey);
+        return self::scopedCreate($params, $apiKey);
     }
 
     /**
@@ -97,7 +97,7 @@ class Charge extends Resource implements ChargeInterface
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /**
@@ -110,12 +110,9 @@ class Charge extends Resource implements ChargeInterface
      */
     public function refund($params = [])
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/refund', $params);
+        $url = $this->instanceUrl() . '/refund';
 
-        $this->refreshFrom($response, $apiKey);
-
-        return $this;
+        return parent::scopedPostCall($url, $params);
     }
 
     /**
@@ -128,12 +125,9 @@ class Charge extends Resource implements ChargeInterface
      */
     public function capture($params = [])
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/capture', $params);
+        $url = $this->instanceUrl() . '/capture';
 
-        $this->refreshFrom($response, $apiKey);
-
-        return $this;
+        return parent::scopedPostCall($url, $params);
     }
 
     /**
@@ -146,8 +140,9 @@ class Charge extends Resource implements ChargeInterface
      */
     public function updateDispute($params = [])
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/dispute', $params);
+        $url = $this->instanceUrl() . '/dispute';
+
+        list($response, $apiKey) = parent::postRequest($url, $params, $this->apiKey);
 
         $this->refreshFrom(['dispute' => $response], $apiKey, true);
 
@@ -162,12 +157,9 @@ class Charge extends Resource implements ChargeInterface
      */
     public function closeDispute()
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/dispute/close');
+        $url = $this->instanceUrl() . '/dispute/close';
 
-        $this->refreshFrom($response, $apiKey);
-
-        return $this;
+        return parent::scopedPostCall($url);
     }
 
     /**

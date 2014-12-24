@@ -103,7 +103,7 @@ class Card extends Resource implements CardInterface
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /**
@@ -116,6 +116,6 @@ class Card extends Resource implements CardInterface
      */
     public function delete($params = [])
     {
-        return self::scopedDelete(get_class(), $params);
+        return self::scopedDelete($params);
     }
 }

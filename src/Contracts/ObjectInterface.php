@@ -14,17 +14,6 @@ interface ObjectInterface
     public function keys();
 
     /**
-     * This unfortunately needs to be public to be used in Util.php
-     *
-     * @param string      $class
-     * @param array       $values
-     * @param string|null $apiKey
-     *
-     * @return Object The object constructed from the given values.
-     */
-    public static function scopedConstructFrom($class, $values, $apiKey = null);
-
-    /**
      * @param array $values
      * @param string|null $apiKey
      *

@@ -59,6 +59,6 @@ class UtilTest extends StripeTestCase
     public function testConvertStripeObjectToArrayIncludesId()
     {
         $customer = self::createTestCustomer();
-        $this->assertTrue(array_key_exists("id", $customer->__toArray(true)));
+        $this->assertTrue(array_key_exists("id", $customer->toArray(true)));
     }
 }

@@ -57,7 +57,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve(get_class(), $id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -71,6 +71,6 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      */
     public static function all($params = [], $apiKey = null)
     {
-        return self::scopedAll(get_class(), $params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 }

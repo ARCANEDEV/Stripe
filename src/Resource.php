@@ -14,15 +14,6 @@ abstract class Resource extends Object implements ResourceInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const METHOD_ALL    = 'all';
-    const METHOD_CREATE = 'create';
-    const METHOD_SAVE   = 'save';
-    const METHOD_DELETE = 'delete';
-
-    /** @var array */
-    private static $allowedMethods = [
-        self::METHOD_ALL, self::METHOD_CREATE, self::METHOD_SAVE, self::METHOD_DELETE
-    ];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -48,7 +39,7 @@ abstract class Resource extends Object implements ResourceInterface
         $url    = $this->instanceUrl();
 
         list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
-            ->get($url, $this->retrieveOptions);
+            ->get($url, $this->retrieveParameters);
 
         $this->refreshFrom($response, $apiKey);
 
@@ -124,15 +115,24 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Scope Functions
+     |  CRUD Scope Functions
      | ------------------------------------------------------------------------------------------------
      */
-    protected static function scopedAll($class, $params = null, $apiKey = null)
+    /**
+     * List Resources
+     *
+     * @param array|null  $params
+     * @param string|null $apiKey
+     *
+     * @return ListObject
+     */
+    protected static function scopedAll($params = [], $apiKey = null)
     {
-        self::validateCall('all', $params, $apiKey);
+        self::checkArguments($params, $apiKey);
 
-        $base = self::scopedLsb($class, 'baseUrl');
-        $url  = self::scopedLsb($class, 'classUrl', $class);
+        $class = get_called_class();
+        $base  = self::scopedLsb($class, 'baseUrl');
+        $url   = self::scopedLsb($class, 'classUrl', $class);
 
         list($response, $apiKey) = Requestor::make($apiKey, $base)
             ->get($url, $params);
@@ -141,37 +141,43 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param string $class
+     * Retrieve a Resource
+     *
      * @param string $id
      * @param string $apiKey
      *
      * @return Resource
      */
-    protected static function scopedRetrieve($class, $id, $apiKey = null)
+    protected static function scopedRetrieve($id, $apiKey = null)
     {
-        /** @var self $instance */
-        $instance = new $class($id, $apiKey);
-        $instance->refresh();
+        $class    = get_called_class();
+        $resource = new $class($id, $apiKey);
 
-        return $instance;
+        /** @var self $resource */
+        $resource->refresh();
+
+        return $resource;
     }
 
     /**
-     * @param string $class
+     * Create a Resource
+     *
      * @param array  $params
      * @param string $apiKey
      *
      * @throws ApiException
      * @throws InvalidArgumentException
      *
-     * @return Object|array
+     * @return Resource
      */
-    protected static function scopedCreate($class, $params = null, $apiKey = null)
+    protected static function scopedCreate($params = null, $apiKey = null)
     {
-        self::validateCall('create', $params, $apiKey);
+        self::checkArguments($params, $apiKey);
 
-        $url  = self::scopedLsb($class, 'classUrl', $class);
-        $base = self::scopedLsb($class, 'baseUrl');
+        $class = get_called_class();
+        $url   = self::scopedLsb($class, 'classUrl', $class);
+        $base  = self::scopedLsb($class, 'baseUrl');
+
         list($response, $apiKey) = Requestor::make($apiKey, $base)
             ->post($url, $params);
 
@@ -179,19 +185,14 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param string $class
-     *
      * @throws ApiException
      * @throws InvalidArgumentException
      * @throws InvalidRequestException
      *
      * @return Resource
      */
-    protected function scopedSave($class)
+    protected function scopedSave()
     {
-        // TODO: Remove unused $class arg from scopedSave($class)
-        self::validateCall('save');
-
         $params = $this->serializeParameters();
 
         if (count($params) > 0) {
@@ -205,7 +206,6 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param string $class
      * @param array|null $params
      *
      * @throws ApiException
@@ -214,10 +214,9 @@ abstract class Resource extends Object implements ResourceInterface
      *
      * @return Resource
      */
-    protected function scopedDelete($class, $params = null)
+    protected function scopedDelete($params = [])
     {
-        // TODO: Remove unused $class arg from scopedDelete($class)
-        self::validateCall('delete');
+        self::checkArguments($params);
 
         list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
             ->delete($this->instanceUrl(), $params);
@@ -228,45 +227,65 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
+     |  Custom Scope Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Custom Post Call
+     *
+     * @param string      $url
+     * @param array       $params
+     * @param string|null $apiKey
+     *
+     * @return Resource
+     */
+    protected function scopedPostCall($url, $params = [], $apiKey = null)
+    {
+        if (is_null($apiKey)) {
+            $apiKey = $this->apiKey;
+        }
+
+        list($response, $apiKey) = Requestor::make($apiKey)
+            ->post($url, $params);
+
+        $this->refreshFrom($response, $apiKey);
+
+        return $this;
+    }
+
+    /**
+     * Make a POST Request
+     *
+     * @param string      $url
+     * @param array       $params
+     * @param string|null $apiKey
+     *
+     * @return array
+     */
+    protected function postRequest($url, $params = [], $apiKey = null)
+    {
+        return Requestor::make($apiKey)->post($url, $params);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $method
-     * @param null $params
+     * @param array|null  $params
      * @param string|null $apiKey
      *
      * @throws ApiException
      * @throws BadMethodCallException
      * @throws InvalidArgumentException
      */
-    private static function validateCall($method, $params = null, $apiKey = null)
+    private static function checkArguments($params = [], $apiKey = null)
     {
-        self::checkMethodCall($method);
-
         self::checkParameters($params);
 
         self::checkApiKey($apiKey);
     }
 
-    /**
-     * Check Method is allowed
-     *
-     * @param string $method
-     *
-     * @throws BadMethodCallException
-     */
-    private static function checkMethodCall($method)
-    {
-        if (! in_array($method, self::$allowedMethods)) {
-            $methods = implode(', ', self::$allowedMethods);
-
-            throw new BadMethodCallException(
-                "The available methods are [$methods], $method is called !",
-                501
-            );
-        }
-    }
     /**
      * Check parameters
      *
@@ -301,7 +320,7 @@ abstract class Resource extends Object implements ResourceInterface
                 . 'optional per-request apiKey, which must be a string.  '
                 . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")';
 
-            throw new ApiException($message);
+            throw new ApiException($message, 500);
         }
     }
 }

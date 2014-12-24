@@ -72,7 +72,7 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function cancel($params = [])
     {
-        return self::scopedDelete(get_class(), $params);
+        return self::scopedDelete($params);
     }
 
     /**
@@ -83,7 +83,7 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function save()
     {
-        return self::scopedSave(get_class());
+        return self::scopedSave();
     }
 
     /**
