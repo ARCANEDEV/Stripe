@@ -2,6 +2,7 @@ Stripe PHP Library
 ==============
 [![Travis Status](http://img.shields.io/travis/ARCANEDEV/Stripe.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/Stripe)
 [![Github Release](http://img.shields.io/github/release/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/releases)
+[![Coverage Status](http://img.shields.io/coveralls/ARCANEDEV/Stripe.svg?style=flat-square)](https://coveralls.io/r/ARCANEDEV/Stripe?branch=master)
 [![Packagist License](http://img.shields.io/packagist/l/arcanedev/sanitizer.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/blob/master/LICENSE)
 [![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/issues)
 

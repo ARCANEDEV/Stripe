@@ -1,10 +1,11 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\FileUpload;
-use Arcanedev\Stripe\Tests\StripeTest;
 use CURLFile;
 
-class FileUploadTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class FileUploadTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

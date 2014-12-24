@@ -22,14 +22,52 @@ class HelpersTest extends TestCase
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
+     |  Test SYSTEM Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * @test
      */
+    public function testCanGetCACertificates()
+    {
+        $exists = file_exists(ca_certificates());
+
+        $this->assertTrue($exists);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Test STRING Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @test
+     */
+    public function testCanParseUrlWithQueries()
+    {
+        $baseUrl = 'http://www.api.com';
+
+        $this->assertEquals($baseUrl, str_parse_url($baseUrl));
+        $this->assertEquals($baseUrl, str_parse_url($baseUrl, []));
+
+        $url = str_parse_url($baseUrl, [
+            'my'    => 'value',
+            'that'  => [
+                'your' => 'example'
+            ],
+            'bar'   => 1,
+            'baz'   => null
+        ]);
+
+        $this->assertEquals($baseUrl . '?my=value&that%5Byour%5D=example&bar=1', $url);
+    }
+
+    /**
+     * @test
+     */
     public function testCanEncodeQueries()
     {
+        $this->assertEquals('?my=value', str_url_queries('?my=value'));
+
         $this->assertEquals(
             'my=value&that%5Byour%5D=example&bar=1',
             str_url_queries([
@@ -90,5 +128,98 @@ class HelpersTest extends TestCase
 
         // Not a string
         $this->assertEquals(true, str_utf8(true));
+    }
+
+    /**
+     * @test
+     */
+    public function testCanSplitCamelCase()
+    {
+        $this->assertNull(str_split_camelcase(null));
+        $this->assertEquals('Camel Case Class', str_split_camelcase('CamelCaseClass'));
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Test ARRAY Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @test
+     */
+    public function testCanIsMultidimensionalArray()
+    {
+        $this->assertFalse(is_multi_dim_array(null));
+        $this->assertTrue(is_multi_dim_array([
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'baz' => [
+                'hello' => 'world'
+            ],
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsArrayAssociative()
+    {
+        $this->assertFalse(is_assoc_array(null));
+        $this->assertTrue(is_assoc_array([
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'baz' => 'baz',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsArrayIndexed()
+    {
+        $this->assertFalse(is_assoc_array(['foo', 'bar', 'baz']));
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Test Validation Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @test
+     */
+    public function testIsValidUrl()
+    {
+        $this->assertFalse(validate_url(null));
+        $this->assertFalse(validate_url(''));
+        $this->assertFalse(validate_url('www.api.com'));
+
+        $this->assertTrue(validate_url('http://www.arcanedev.net'));
+        $this->assertTrue(validate_url('http://www.api.com/v1/object?id=1'));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsValidVersion()
+    {
+        $this->assertFalse(validate_version(null));
+        $this->assertFalse(validate_version(''));
+        $this->assertFalse(validate_version('x.x.x'));
+
+        $this->assertTrue(validate_version('1.0.0'));
+        $this->assertTrue(validate_version('2.1.123'));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsValidBoolean()
+    {
+        array_map(function($true) {
+            $this->assertTrue(validate_bool($true));
+        }, [true, 1, '1', 'on', 'On', 'ON', 'yes', 'Yes', 'YEs', 'YES']);
+
+        array_map(function($false) {
+            $this->assertFalse(validate_bool($false));
+        }, [null, false, 0, '0', 'Off', 'OFf', 'OFf', 'no', 'No', 'NO', array()]);
     }
 }

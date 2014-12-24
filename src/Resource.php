@@ -35,7 +35,7 @@ abstract class Resource extends Object implements ResourceInterface
      */
     public static function baseUrl()
     {
-        return Stripe::$apiBase;
+        return Stripe::getApiBaseUrl();
     }
 
     /**

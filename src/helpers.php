@@ -11,22 +11,6 @@ if (! function_exists('ca_certificates')) {
     }
 }
 
-if (! function_exists('validate_bool')) {
-    /**
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    function validate_bool($value)
-    {
-        if (! is_bool($value)) {
-            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
-        }
-
-        return (bool) $value;
-    }
-}
-
 /* ------------------------------------------------------------------------------------------------
  |  STRINGS
  | ------------------------------------------------------------------------------------------------
@@ -121,7 +105,7 @@ if (! function_exists('str_split_camelcase')) {
             return $string;
         }
 
-        $string = preg_split('/(?<=\\w)(?=[A-Z])/', $string);
+        $string = preg_split('/(?<=\\w)(?=[A-Z])/', trim($string));
 
         return implode($glue, $string);
     }
@@ -172,12 +156,68 @@ if (! function_exists('is_assoc_array')) {
 }
 
 /* ------------------------------------------------------------------------------------------------
+ |  Validations
+ | ------------------------------------------------------------------------------------------------
+ */
+if (! function_exists('validate_url')) {
+    /**
+     * Check if url is valid
+     * @param string $url
+     *
+     * @return bool
+     */
+    function validate_url($url)
+    {
+        return (bool) filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+    }
+}
+
+if (! function_exists('validate_version')) {
+    /**
+     * Check if version is valid
+     *
+     * @param string $version
+     *
+     * @return bool
+     */
+    function validate_version($version)
+    {
+        if (! is_string($version)) {
+            return false;
+        }
+
+        // Format [x.x.x] - no beta & no release candidate
+        preg_match("/(\d+.){2}\d+/", $version, $matches);
+
+        return isset($matches[0]);
+    }
+}
+
+if (! function_exists('validate_bool')) {
+    /**
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    function validate_bool($value)
+    {
+        if (! is_bool($value)) {
+            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return (bool) $value;
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------
  |  MISC
  | ------------------------------------------------------------------------------------------------
  */
 if (! function_exists('dd')) {
     /**
      * Dump & Die Function
+     *
+     * @codeCoverageIgnore
      */
     function dd()
     {

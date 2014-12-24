@@ -4,7 +4,7 @@ use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
 use ReflectionClass;
 
-class RequestorTest extends StripeTest
+class RequestorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

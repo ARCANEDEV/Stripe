@@ -3,9 +3,9 @@
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Stripe;
 
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class AuthenticationErrorTest extends StripeTest
+class AuthenticationErrorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

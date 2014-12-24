@@ -1,12 +1,11 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Customer;
-
 use Arcanedev\Stripe\Resources\Token;
 
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class CustomerTest extends StripeTest
+class CustomerTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

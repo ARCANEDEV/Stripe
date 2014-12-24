@@ -2,9 +2,9 @@
 
 use Arcanedev\Stripe\Resources\Charge;
 
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class ChargeTest extends StripeTest
+class ChargeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

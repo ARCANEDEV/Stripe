@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-
 use Arcanedev\Stripe\Resources\Refund;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class RefundTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class RefundTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

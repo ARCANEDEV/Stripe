@@ -23,7 +23,7 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function baseUrl()
     {
-        return Stripe::$apiUploadBase;
+        return Stripe::getUploadBaseUrl();
     }
 
     public static function className($class = '')

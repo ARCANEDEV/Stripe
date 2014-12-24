@@ -2,9 +2,9 @@
 
 use Arcanedev\Stripe\Resources\Account;
 
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class AccountTest extends StripeTest
+class AccountTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Tests\Exceptions;
 
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Tests\TestCase;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class ApiExceptionTest extends TestCase
+class ApiExceptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

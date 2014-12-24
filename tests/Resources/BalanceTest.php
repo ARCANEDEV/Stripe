@@ -1,11 +1,11 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Tests\StripeTest;
-
 use Arcanedev\Stripe\Resources\Balance;
 use Arcanedev\Stripe\Utilities\Util;
 
-class BalanceTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class BalanceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

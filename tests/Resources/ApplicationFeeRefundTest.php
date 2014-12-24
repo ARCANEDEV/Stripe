@@ -2,9 +2,9 @@
 
 use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
 
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class ApplicationFeeRefundTest extends StripeTest
+class ApplicationFeeRefundTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

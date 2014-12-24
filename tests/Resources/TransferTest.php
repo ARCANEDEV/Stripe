@@ -1,11 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-
-use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class TransferTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class TransferTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

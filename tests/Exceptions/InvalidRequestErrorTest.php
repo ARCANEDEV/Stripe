@@ -4,9 +4,9 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Customer;
-use Arcanedev\Stripe\Tests\StripeTest;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class InvalidRequestErrorTest extends StripeTest
+class InvalidRequestErrorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

@@ -2,24 +2,12 @@
 
 use Arcanedev\Stripe\Stripe;
 
-use Arcanedev\Stripe\Resources\Charge;
-use Arcanedev\Stripe\Resources\Coupon;
-use Arcanedev\Stripe\Resources\Customer;
-use Arcanedev\Stripe\Resources\Plan;
-use Arcanedev\Stripe\Resources\Recipient;
-
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-
-abstract class StripeTest extends TestCase
+class StripeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const API_KEY = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I";
-
-    /** @var mixed */
-    protected $object;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -28,138 +16,186 @@ abstract class StripeTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
-        $apiKey = getenv('STRIPE_API_KEY');
-
-        if (! $apiKey) {
-            $apiKey = self::API_KEY;
-        }
-
-        Stripe::setApiKey($apiKey);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-
-        unset($object);
-    }
-
-    protected function assertStripeInstance($expected, $actual, $message = '')
-    {
-        $expected = 'Arcanedev\\Stripe\\' . $expected;
-
-        $this->assertInstanceOf($expected, $actual, $message);
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Tests Functions
+     |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-
     /**
-     * Create a valid test charge.
-     *
-     * @param array $attributes
-     *
-     * @return Charge
+     * @test
      */
-    protected static function createTestCharge(array $attributes = [])
+    public function testCanInitStrip()
     {
-        return Charge::create($attributes + [
-            "amount"        => 2000,
-            "currency"      => "usd",
-            "description"   => "Charge for test@example.com",
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-            ],
-        ]);
+        $apiKey = 'my-secret-api-key';
+        Stripe::init($apiKey);
+
+        $this->assertEquals($apiKey, Stripe::getApiKey());
     }
 
     /**
-     * Create a valid test customer.
-     *
-     * @param array $attributes
-     *
-     * @return Customer
+     * @test
      */
-    protected static function createTestCustomer(array $attributes = [])
+    public function testCanGetAndSetApiKey()
     {
-        return Customer::create($attributes + [
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-            ],
-        ]);
+        $this->assertEquals(self::API_KEY, Stripe::getApiKey());
+
+        $apiKey = 'my-secret-api-key';
+
+        Stripe::setApiKey($apiKey);
+        $this->assertEquals($apiKey, Stripe::getApiKey());
     }
 
     /**
-     * Create a valid test recipient
+     * @test
      *
-     * @param array $attributes
-     *
-     * @return Recipient
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
      */
-    protected static function createTestRecipient(array $attributes = [])
+    public function testMustThrowApiExceptionWhenApiIsNotString()
     {
-        return Recipient::create($attributes + [
-            'name' => 'PHP Test',
-            'type' => 'individual',
-            'tax_id' => '000000000',
-            'bank_account' => [
-                'country' => 'US',
-                'routing_number' => '110000000',
-                'account_number' => '000123456789'
-            ],
-        ]);
+        Stripe::setApiKey(null);
     }
 
     /**
-     * Verify that a plan with a given ID exists, or create a new one if it does
-     * not.
+     * @test
      *
-     * @param $id
-     *
-     * @return Plan
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
+     * @expectedExceptionCode 500
      */
-    protected static function retrieveOrCreatePlan($id)
+    public function testMustThrowApiExceptionWhenApiIsEmptyString()
     {
-        try {
-            return Plan::retrieve($id);
-        }
-        catch (InvalidRequestException $exception) {
-            return Plan::create([
-                'id'        => $id,
-                'amount'    => 0,
-                'currency'  => 'usd',
-                'interval'  => 'month',
-                'name'      => 'Gold Test Plan',
-            ]);
-        }
+        Stripe::setApiKey('  ');
     }
 
     /**
-     * Verify that a coupon with a given ID exists, or create a new one if it does
-     * not.
-     *
-     * @param $id
-     *
-     * @return Coupon
+     * @test
      */
-    protected static function retrieveOrCreateCoupon($id)
+    public function testCanGetAndSetApiBaseUrl()
     {
-        try {
-            return Coupon::retrieve($id);
-        }
-        catch (InvalidRequestException $exception) {
-            return Coupon::create([
-                'id'          => $id,
-                'duration'    => 'forever',
-                'percent_off' => 25,
-            ]);
-        }
+        $baseUrl = 'https://api.stripe.com';
+        $url     = $baseUrl . '/v2';
+
+        Stripe::setApiBaseUrl($url);
+        $this->assertEquals($url, Stripe::getApiBaseUrl());
+
+        Stripe::setApiBaseUrl($baseUrl);
+        $this->assertEquals($baseUrl, Stripe::getApiBaseUrl());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenApiBaseUrlIsNotString()
+    {
+        Stripe::setApiBaseUrl(null);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenApiBaseUrlIsNotValidUrl()
+    {
+        Stripe::setApiBaseUrl('localhost.com');
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAndSetUploadBaseUrl()
+    {
+        $url = 'https://uploads.stripe.com';
+        $this->assertEquals($url, Stripe::getUploadBaseUrl());
+
+        $url .= '/v2';
+        Stripe::setUploadBaseUrl($url);
+        $this->assertEquals($url, Stripe::getUploadBaseUrl());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenUploadBaseUrlIsNotString()
+    {
+        Stripe::setUploadBaseUrl(null);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenUploadBaseUrlIsNotValidUrl()
+    {
+        Stripe::setUploadBaseUrl('storage.web.com');
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAndSetApiVersion()
+    {
+        $this->assertFalse(Stripe::hasApiVersion());
+        $this->assertNull(Stripe::getApiVersion());
+
+        $version = '2.0.0';
+        Stripe::setApiVersion($version);
+
+        $this->assertEquals($version, Stripe::getApiVersion());
+        $this->assertEquals($version, Stripe::version());
+
+        Stripe::setApiVersion(null);
+        $this->assertNull(Stripe::version());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenApiVersionIsNotNullOrString()
+    {
+        Stripe::setApiVersion(true);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode 500
+     */
+    public function testMustThrowApiExceptionWhenApiVersionIsValid()
+    {
+        Stripe::setApiVersion('alpha.version.1');
+    }
+
+    /**
+     * @test
+     */
+    public function testCanSetAndGetVerifySslCerts()
+    {
+        $this->assertTrue(Stripe::getVerifySslCerts());
+
+        Stripe::setVerifySslCerts(false);
+        $this->assertFalse(Stripe::getVerifySslCerts());
+
+        Stripe::setVerifySslCerts('on');
+        $this->assertTrue(Stripe::getVerifySslCerts());
     }
 }

@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Event;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class EventTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class EventTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

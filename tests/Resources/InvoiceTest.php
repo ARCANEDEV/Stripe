@@ -2,9 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Invoice;
 use Arcanedev\Stripe\Resources\InvoiceItem;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class InvoiceTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class InvoiceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

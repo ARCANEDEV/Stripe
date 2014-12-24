@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\ApplicationFee;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class ApplicationFeeTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class ApplicationFeeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

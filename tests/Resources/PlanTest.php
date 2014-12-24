@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Plan;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class PlanTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class PlanTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

@@ -3,9 +3,10 @@
 use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Token;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class RecipientTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class RecipientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

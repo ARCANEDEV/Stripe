@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Subscription;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class SubscriptionTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class SubscriptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

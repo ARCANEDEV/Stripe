@@ -2,9 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class CouponTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class CouponTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

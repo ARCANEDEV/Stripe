@@ -373,9 +373,11 @@ class Object implements ObjectInterface, ArrayAccess
     private function checkIfAttributeDeletion($key, $value)
     {
         if ($value === '' and ! is_null($value)) {
-            throw new InvalidArgumentException("You cannot set '$key' to an empty string. "
+            $msg = "You cannot set '$key' to an empty string. "
                 . "We interpret empty strings as 'null' in requests. "
-                . "You may set obj->$key = null to delete the property");
+                . "You may set obj->$key = null to delete the property";
+
+            throw new InvalidArgumentException($msg);
         }
     }
 

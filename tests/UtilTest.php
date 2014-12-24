@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Utilities\Util;
 
-class UtilTest extends StripeTest
+class UtilTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

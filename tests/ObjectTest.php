@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Object;
 
-class ObjectTest extends StripeTest
+class ObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

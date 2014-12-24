@@ -23,7 +23,7 @@ class Requestor implements RequestorInterface
      */
     private $apiKey;
 
-    private $apiBase;
+    private $apiBaseUrl;
 
     private static $preFlight = [];
 
@@ -71,7 +71,7 @@ class Requestor implements RequestorInterface
     public function getApiKey()
     {
         if (! $this->apiKey) {
-            $this->setApiKey(Stripe::$apiKey);
+            $this->setApiKey(Stripe::getApiKey());
         }
 
         return $this->apiKey;
@@ -90,15 +90,15 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * @param $apiBase
+     * @param $apiBaseUrl
      */
-    private function setApiBase($apiBase)
+    private function setApiBase($apiBaseUrl)
     {
-        if (! $apiBase) {
-            $apiBase = Stripe::$apiBase;
+        if (! $apiBaseUrl) {
+            $apiBaseUrl = Stripe::getApiBaseUrl();
         }
 
-        $this->apiBase = $apiBase;
+        $this->apiBaseUrl = $apiBaseUrl;
     }
 
     /**
@@ -177,16 +177,6 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Prepare parameters
-     *
-     * @param $params
-     */
-    protected function prepareParams(&$params)
-    {
-
-    }
-
-    /**
      * @param string $method
      * @param string $url
      * @param array  $params
@@ -199,15 +189,15 @@ class Requestor implements RequestorInterface
     private function requestRaw($method, $url, $params)
     {
         if (
-            ! array_key_exists($this->apiBase, self::$preFlight) or
-            ! self::$preFlight[$this->apiBase]
+            ! array_key_exists($this->apiBaseUrl, self::$preFlight) or
+            ! self::$preFlight[$this->apiBaseUrl]
         ) {
-            self::$preFlight[$this->apiBase] = $this->checkSslCert($this->apiBase);
+            self::$preFlight[$this->apiBaseUrl] = $this->checkSslCert($this->apiBaseUrl);
         }
 
         $this->checkApiKey();
 
-        $absUrl      = $this->apiBase . $url;
+        $absUrl      = $this->apiBaseUrl . $url;
         $params      = self::encodeObjects($params);
         $apiKey      = $this->getApiKey();
 
@@ -246,8 +236,8 @@ class Requestor implements RequestorInterface
             'Authorization: Bearer ' . $apiKey,
         ];
 
-        if (Stripe::$apiVersion) {
-            $headers[] = 'Stripe-Version: ' . Stripe::$apiVersion;
+        if (Stripe::hasApiVersion()) {
+            $headers[] = 'Stripe-Version: ' . Stripe::getApiVersion();
         }
 
         $headers[] = $hasFile
@@ -423,7 +413,7 @@ class Requestor implements RequestorInterface
      */
     private function handleCurlError($errorNum, $message)
     {
-        $apiBase = $this->apiBase;
+        $apiBase = $this->apiBaseUrl;
 
         switch ($errorNum) {
             case CURLE_COULDNT_CONNECT:

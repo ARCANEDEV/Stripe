@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Token;
-use Arcanedev\Stripe\Tests\StripeTest;
 
-class TokenTest extends StripeTest
+use Arcanedev\Stripe\Tests\StripeTestCase;
+
+class TokenTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
