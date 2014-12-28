@@ -380,40 +380,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * A recursive mapping of attributes to values for this object,
-     * including the proper value for deleted attributes.
-     *
-     * @return array
-     */
-    public function serializeParameters()
-    {
-        $params = [];
-
-        if ($this->unsavedValues) {
-            foreach ($this->unsavedValues->toArray() as $k) {
-                $v = $this->$k;
-
-                if (is_null($v)) {
-                    $v = '';
-                }
-
-                $params[$k] = $v;
-            }
-        }
-
-        // Get nested updates.
-        foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
-            if (
-                isset($this->$property) and $this->$property instanceof Object
-            ) {
-                $params[$property] = $this->$property->serializeParameters();
-            }
-        }
-
-        return $params;
-    }
-
-    /**
      * Pretend to have late static bindings, even in PHP 5.2
      *
      * @param string $method
@@ -529,5 +495,40 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function retrieveParamsCount()
     {
         return count($this->getRetrieveParams());
+    }
+
+    /**
+     * A recursive mapping of attributes to values for this object,
+     * including the proper value for deleted attributes.
+     *
+     * @return array
+     */
+    protected function serializeParameters()
+    {
+        $params = [];
+
+        if ($this->unsavedValues) {
+            foreach ($this->unsavedValues->toArray() as $k) {
+                $v = $this->$k;
+
+                if (is_null($v)) {
+                    $v = '';
+                }
+
+                $params[$k] = $v;
+            }
+        }
+
+        // Get nested updates.
+        foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
+            if (
+                isset($this->$property) and
+                $this->$property instanceof self
+            ) {
+                $params[$property] = $this->$property->serializeParameters();
+            }
+        }
+
+        return $params;
     }
 }

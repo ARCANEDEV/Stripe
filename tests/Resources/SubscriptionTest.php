@@ -31,6 +31,16 @@ class SubscriptionTest extends StripeTestCase
      */
     /**
      * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     */
+    public function testCanGetInstanceUrl()
+    {
+        (new Subscription)->instanceUrl();
+    }
+
+    /**
+     * @test
      */
     public function testCanCreateUpdateCancel()
     {

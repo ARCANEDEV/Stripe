@@ -30,12 +30,4 @@ interface ObjectInterface
      * @param boolean $partial Defaults to false.
      */
     public function refreshFrom($values, $apiKey, $partial = false);
-
-    /**
-     * A recursive mapping of attributes to values for this object,
-     * including the proper value for deleted attributes.
-     *
-     * @return array
-     */
-    public function serializeParameters();
 }
