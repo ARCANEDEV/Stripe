@@ -51,6 +51,35 @@ class RecipientTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanGetAll()
+    {
+        $recipients = Recipient::all();
+
+        $this->assertTrue($recipients->isList());
+        $this->assertEquals('/v1/recipients', $recipients->url);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanRetrieve()
+    {
+        $this->recipient = self::createTestRecipient();
+
+        $recipient = Recipient::retrieve($this->recipient->id);
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Recipient',
+            $recipient
+        );
+
+        $this->assertEquals($this->recipient->id, $this->recipient->id);
+        $this->assertEquals($this->recipient->name, $this->recipient->name);
+    }
+
+    /**
+     * @test
+     */
     public function testCanDelete()
     {
         $recipient = self::createTestRecipient();
@@ -206,5 +235,21 @@ class RecipientTest extends StripeTestCase
         $postDeleteRecipient    = Recipient::retrieve($recipient->id);
         $postDeleteCards        = $postDeleteRecipient->cards->all();
         $this->assertEquals(0, count($postDeleteCards["data"]));
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Transfer Tests
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * @test
+     */
+    public function testCanGetTransfers()
+    {
+        $this->recipient = self::createTestRecipient();
+        $transfers       = $this->recipient->transfers();
+
+        $this->assertTrue($transfers->isList());
+        $this->assertEquals('/v1/transfers', $transfers->url);
     }
 }
