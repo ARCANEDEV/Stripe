@@ -61,6 +61,17 @@ class PlanTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanGetAll()
+    {
+        $plans = Plan::all();
+
+        $this->assertTrue($plans->isList());
+        $this->assertEquals('/v1/plans', $plans->url);
+    }
+
+    /**
+     * @test
+     */
     public function testCanSave()
     {
         $this->plan->name = 'A new plan name';
