@@ -45,21 +45,12 @@ class Card extends Resource implements CardInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array $values
-     * @param null  $apiKey
+     * The instance URL for this resource. It needs to be special cased
+     * because it doesn't fit into the standard resource pattern.
      *
-     * @return Object
-     */
-    public static function constructFrom($values, $apiKey = null)
-    {
-        return self::scopedConstructFrom(get_class(), $values, $apiKey);
-    }
-
-    /**
      * @throws InvalidRequestException
      *
-     * @return string The instance URL for this resource. It needs to be special
-     *         cased because it doesn't fit into the standard resource pattern.
+     * @return string
      */
     public function instanceUrl()
     {
@@ -68,7 +59,7 @@ class Card extends Resource implements CardInterface
 
         if (! $id) {
             $class = get_class($this);
-            $msg = "Could not determine which URL to request: $class instance " . "has invalid ID: $id";
+            $msg   = "Could not determine which URL to request: $class instance " . "has invalid ID: $id";
 
             throw new InvalidRequestException($msg, null);
         }
@@ -90,6 +81,19 @@ class Card extends Resource implements CardInterface
 
         return "$base/$parentExtn/cards/$extn";
     }
+
+    /**
+     * Construct Card from array values
+     *
+     * @param array $values
+     * @param null  $apiKey
+     *
+     * @return Card
+     */
+    //public static function constructFrom($values, $apiKey = null)
+    //{
+    //    return self::scopedConstructFrom(get_class(), $values, $apiKey);
+    //}
 
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
