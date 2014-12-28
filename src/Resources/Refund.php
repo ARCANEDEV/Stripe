@@ -37,13 +37,14 @@ class Refund extends Resource implements RefundInterface
     {
         // TODO: Refactor this method
         $id         = $this['id'];
-        $chargeId   = $this['charge'];
 
         if (! $id) {
             $msg    = "Could not determine which URL to request: class instance has invalid ID: $id";
 
             throw new InvalidRequestException($msg, null);
         }
+
+        $chargeId   = $this['charge'];
 
         $base       = self::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
         $chargeId   = urlencode(str_utf8($chargeId));

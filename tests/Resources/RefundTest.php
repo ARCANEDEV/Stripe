@@ -15,20 +15,54 @@ class RefundTest extends StripeTestCase
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var Refund */
+    private $refund;
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->refund = new Refund;
     }
 
     public function tearDown()
     {
         parent::tearDown();
+
+        unset($this->refund);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @test
+     */
+    public function testCanGetInstanceUrl()
+    {
+        $refundId = 'refund_random_id';
+        $chargeId = 'refund_random_id';
+
+        $this->refund->id     = $refundId;
+        $this->refund->charge = $chargeId;
+
+        $this->assertEquals(
+            "/v1/charges/$chargeId/refunds/$refundId",
+            $this->refund->instanceUrl()
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     */
+    public function testMustThrowInvalidRequestExceptionWhenIdEmpty()
+    {
+        $this->refund->instanceUrl();
+    }
+
     /**
      * @test
      */
