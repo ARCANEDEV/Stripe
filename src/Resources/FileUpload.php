@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
+use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
 
@@ -17,6 +18,12 @@ use Arcanedev\Stripe\Stripe;
  */
 class FileUpload extends Resource implements FileUploadInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+    const END_POINT = "/v1/files";
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -40,7 +47,7 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function classUrl($class = '')
     {
-        return "/v1/files";
+        return self::END_POINT;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -57,7 +64,16 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        // TODO: Refactor retrieve() method
+        $file = new self($id, $apiKey);
+        $url  = self::END_POINT . '/' . $id;
+
+        list($response, $apiKey) = Requestor::make($apiKey, self::baseUrl())
+            ->get($url, $file->retrieveParameters);
+
+        $file->refreshFrom($response, $apiKey);
+
+        return $file;
     }
 
     /**

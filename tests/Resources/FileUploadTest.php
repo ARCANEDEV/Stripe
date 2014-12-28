@@ -26,7 +26,7 @@ class FileUploadTest extends StripeTestCase
         parent::setUp();
 
         $this->fileUpload = new FileUpload;
-        $this->filePath   = $this->getFilePath();
+        $this->filePath   = __DIR__ . '/../data/test.png';
     }
 
     public function tearDown()
@@ -46,7 +46,18 @@ class FileUploadTest extends StripeTestCase
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\FileUpload', $this->fileUpload);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\FileUpload',
+            $this->fileUpload
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetClassName()
+    {
+        $this->assertEquals('file', FileUpload::className());
     }
 
     /**
@@ -55,14 +66,26 @@ class FileUploadTest extends StripeTestCase
     public function testCanCreateFile()
     {
         $fp   = fopen($this->filePath, 'r');
-        $file = FileUpload::create([
-            'purpose' => 'dispute_evidence',
-            'file'    => $fp,
-        ]);
+        $file = $this->createFile($fp);
         fclose($fp);
 
         $this->assertEquals(95, $file->size);
         $this->assertEquals('image/png', $file->mimetype);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanRetrieve()
+    {
+        $fp   = fopen($this->filePath, 'r');
+        $file = $this->createFile($fp);
+        fclose($fp);
+
+        $this->fileUpload = FileUpload::retrieve($file->id);
+        $this->assertEquals($this->fileUpload->id, $file->id);
+        $this->assertEquals($this->fileUpload->purpose, $file->purpose);
+        $this->assertEquals($this->fileUpload->mimetype, $file->mimetype);
     }
 
     /**
@@ -76,21 +99,21 @@ class FileUploadTest extends StripeTestCase
         }
 
         $file = new CurlFile($this->filePath);
-        $file = FileUpload::create([
-            'purpose' => 'dispute_evidence',
-            'file'    => $file,
-        ]);
+        $file = $this->createFile($file);
 
         $this->assertEquals(95, $file->size);
         $this->assertEquals('image/png', $file->mimetype);
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
+     |  Other functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function getFilePath()
+    private function createFile($file)
     {
-        return __DIR__ . '/../data/test.png';
+        return FileUpload::create([
+            'purpose' => 'dispute_evidence',
+            'file'    => $file,
+        ]);
     }
 }
