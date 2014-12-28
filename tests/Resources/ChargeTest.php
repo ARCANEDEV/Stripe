@@ -104,10 +104,13 @@ class ChargeTest extends StripeTestCase
     public function testCanListAll()
     {
         $charges = Charge::all();
+
         $this->assertEquals('list', $charges->object);
-        $this->assertTrue($charges->count() > 0);
     }
 
+    /**
+     * @test
+     */
     public function testCanRefundTotalAmount()
     {
         $charge = Charge::create($this->chargeData);

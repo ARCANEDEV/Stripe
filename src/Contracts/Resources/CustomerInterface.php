@@ -117,22 +117,22 @@ interface CustomerInterface
     public function charges($params = []);
 
     /**
-     * Update Subscription
+     * Update a Subscription
      *
      * @param array $params
      *
-     * @returns SubscriptionInterface
+     * @return SubscriptionInterface
      */
-    public function updateSubscription($params = null);
+    public function updateSubscription($params = []);
 
     /**
      * Cancel Subscription
      *
      * @param array $params
      *
-     * @returns SubscriptionInterface
+     * @return SubscriptionInterface
      */
-    public function cancelSubscription($params = null);
+    public function cancelSubscription($params = []);
 
     /**
      * Delete Discount

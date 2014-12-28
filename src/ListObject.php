@@ -41,7 +41,7 @@ class ListObject extends Object implements ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return array|Object
+     * @return Resource|Object
      */
     public function create($params = null)
     {
@@ -78,10 +78,24 @@ class ListObject extends Object implements ListObjectInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Check if Object is list
+     *
+     * @return bool
+     */
+    public function isList()
+    {
+        return $this->object === 'list';
+    }
+
+    /**
+     * Get items Count
+     *
+     * @return int
+     */
     public function count()
     {
-        return $this->object === 'list'
-            ? count($this->data) : 0;
+        return $this->isList() ? $this->total_count : 0;
     }
 
     private function extractPathAndUpdateParams($params)

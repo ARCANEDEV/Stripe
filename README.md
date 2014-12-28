@@ -21,11 +21,13 @@ You can sign up for a Stripe account at https://stripe.com.
     
 ### Composer
 
-You can install the bindings via [Composer](http://getcomposer.org/). Add this to your +composer.json+:
+You can install the bindings via [Composer](http://getcomposer.org/). Add this to your `composer.json`:
 
     {
       "require": {
+        ...
         "arcanedev/stripe": "~2.0"
+        ...
       }
     }
     
@@ -66,9 +68,9 @@ Please see https://stripe.com/docs/api for up-to-date documentation.
 
 ### TODOS:
 
-  - Documentation
-  - Examples
-  - Extract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
-  - More tests and code coverage.
-  - Mockery for curl request.
-  - Refactoring.
+  - [ ] Documentation
+  - [ ] Examples
+  - [ ] Extract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
+  - [ ] More tests and code coverage.
+  - [ ] Mockery for curl request.
+  - [ ] Refactoring.

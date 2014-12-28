@@ -20,7 +20,7 @@ use Arcanedev\Stripe\Resource;
  * @property string             default_card
  * @property bool               delinquent
  * @property string             description
- * @property mixed|null         discount
+ * @property Discount|null      discount
  * @property string             email
  * @property AttachedObject     metadata
  * @property ListObject         subscriptions
@@ -31,12 +31,43 @@ class Customer extends Resource implements CustomerInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    const END_POINT_SUBSCRIPTION = 'subscription';
+    const END_POINT_DISCOUNT     = 'discount';
+
     /**
      * Allow to check attributes while setting
      *
      * @var bool
      */
     protected $checkUnsavedAttributes = true;
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get Subscription URL
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     *
+     * @return string
+     */
+    private function getSubscriptionUrl()
+    {
+        return $this->instanceUrl() . '/' . self::END_POINT_SUBSCRIPTION;
+    }
+
+    /**
+     * Get Discount URL
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     *
+     * @return string
+     */
+    private function getDiscountUrl()
+    {
+        return $this->instanceUrl() . '/' . self::END_POINT_DISCOUNT;
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
@@ -145,7 +176,7 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param array $params
      *
-     * @returns array
+     * @returns ListObject
      */
     public function invoiceItems($params = [])
     {
@@ -169,20 +200,19 @@ class Customer extends Resource implements CustomerInterface
     }
 
     /**
-     * Update Subscription
+     * Update a Subscription
      *
      * @param array $params
      *
-     * @returns Subscription
+     * @return Subscription
      */
     public function updateSubscription($params = [])
     {
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/subscription', $params);
+            ->post($this->getSubscriptionUrl(), $params);
 
         $this->refreshFrom(['subscription' => $response], $apiKey, true);
 
-        // TODO: Check if updateSubscription return one subscription or many
         return $this->subscription;
     }
 
@@ -191,12 +221,12 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param array $params
      *
-     * @returns Subscription
+     * @return Subscription
      */
     public function cancelSubscription($params = [])
     {
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->delete($this->instanceUrl() . '/subscription', $params);
+            ->delete($this->getSubscriptionUrl(), $params);
 
         $this->refreshFrom(['subscription' => $response], $apiKey, true);
 
@@ -211,9 +241,11 @@ class Customer extends Resource implements CustomerInterface
     public function deleteDiscount()
     {
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->delete($this->instanceUrl() . '/discount');
+            ->delete($this->getDiscountUrl());
 
         $this->refreshFrom(['discount' => null], $apiKey, true);
+
+        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------

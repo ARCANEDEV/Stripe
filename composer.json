@@ -34,5 +34,6 @@
             "src/start.php",
             "src/helpers.php"
         ]
-    }
+    },
+    "minimum-stability": "dev"
 }

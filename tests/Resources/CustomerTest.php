@@ -43,16 +43,15 @@ class CustomerTest extends StripeTestCase
     {
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Customer', $this->customer);
     }
+
     /**
      * @test
      */
-    public function testCanDelete()
+    public function testCanGetAll()
     {
-        $customer = self::createTestCustomer();
-        $customer->delete();
+        $customers = Customer::all();
 
-        $this->assertTrue($customer->deleted);
-        $this->assertNull($customer['active_card']);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $customers);
     }
 
     /**
@@ -75,6 +74,18 @@ class CustomerTest extends StripeTestCase
 
         $updatedCustomer = Customer::retrieve($customer->id);
         $this->assertEquals('gdb@stripe.com', $updatedCustomer->email);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanDelete()
+    {
+        $customer = self::createTestCustomer();
+        $customer->delete();
+
+        $this->assertTrue($customer->deleted);
+        $this->assertNull($customer['active_card']);
     }
 
     /**
@@ -195,13 +206,111 @@ class CustomerTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanCancelSubscription()
+    public function testCanGetAllInvoices()
     {
-        $planID = 'gold-' . self::randomString();
-        self::retrieveOrCreatePlan($planID);
+        $customer   = self::createTestCustomer();
+        $invoices   = $customer->invoices();
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\ListObject',
+            $invoices
+        );
+        $this->assertEquals('/v1/invoices', $invoices->url);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanAddInvoiceItem()
+    {
+        $customer    = self::createTestCustomer();
+        $invoiceItem = $customer->addInvoiceItem([
+            'amount'    => 200,
+            'currency'  => 'usd'
+        ]);
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\InvoiceItem',
+            $invoiceItem
+        );
+        $this->assertEquals(200, $invoiceItem->amount);
+        $this->assertEquals('usd', $invoiceItem->currency);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAllInvoiceItems()
+    {
+        $customer    = self::createTestCustomer();
+        $customer->addInvoiceItem([
+            'amount'    => 200,
+            'currency'  => 'usd'
+        ]);
+
+        $invoiceItems = $customer->invoiceItems();
+        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $invoiceItems);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAllCharges()
+    {
+        $customer   = self::createTestCustomer();
+
+        $charges    = $customer->charges();
+        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $charges);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanAddSubscription()
+    {
+        $plan   = self::retrieveOrCreatePlan();
 
         $customer = self::createTestCustomer([
-            'plan'  => $planID,
+            'plan'  => $plan->id,
+        ]);
+
+        $customer = Customer::retrieve($customer->id);
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\ListObject',
+            $customer->subscriptions
+        );
+        $this->assertEquals(1, $customer->subscriptions->count());
+    }
+
+    /**
+     * @test
+     */
+    public function testCanUpdateSubscription()
+    {
+        $plan = self::retrieveOrCreatePlan();
+
+        $customer = self::createTestCustomer([
+            'plan'  => $plan->id,
+        ]);
+
+        $subscription = $customer->updateSubscription([
+            'plan'      => $plan->id,
+            'quantity'  => 4,
+        ]);
+
+        $this->assertEquals(4, $subscription->quantity);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanCancelSubscription()
+    {
+        $plan = self::retrieveOrCreatePlan();
+
+        $customer = self::createTestCustomer([
+            'plan'  => $plan->id,
         ]);
 
         $customer->cancelSubscription([
@@ -213,6 +322,63 @@ class CustomerTest extends StripeTestCase
 
         $customer->cancelSubscription();
         $this->assertEquals($customer->subscription->status, 'canceled');
+    }
+
+    /**
+     * @test
+     */
+    public function testCanCreateDiscount()
+    {
+        $couponId = "25OFF";
+        parent::retrieveOrCreateCoupon($couponId);
+
+        $customer = Customer::create([
+            'card' => [
+                'number'    => '4242424242424242',
+                'exp_month' => 5,
+                'exp_year'  => 2015
+            ],
+            'coupon' => $couponId,
+        ]);
+
+        $discount = $customer->discount;
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Discount',
+            $discount
+        );
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Coupon',
+            $discount->coupon
+        );
+
+        $this->assertEquals($couponId, $discount->coupon->id);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanDeleteDiscount()
+    {
+        $couponId = "25OFF";
+        parent::retrieveOrCreateCoupon($couponId);
+
+        $customer = Customer::create([
+            'card' => [
+                'number'    => '4242424242424242',
+                'exp_month' => 5,
+                'exp_year'  => 2015
+            ],
+            'coupon' => $couponId,
+        ]);
+
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Discount',
+            $customer->discount
+        );
+
+        $customer->deleteDiscount();
+        $this->assertNull($customer->discount);
     }
 
     /**

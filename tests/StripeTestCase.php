@@ -125,15 +125,17 @@ abstract class StripeTestCase extends TestCase
      *
      * @return Plan
      */
-    protected static function retrieveOrCreatePlan($id)
+    protected static function retrieveOrCreatePlan()
     {
+        $id = 'gold-' . self::randomString();
+
         try {
             return Plan::retrieve($id);
         }
         catch (InvalidRequestException $exception) {
             return Plan::create([
                 'id'        => $id,
-                'amount'    => 0,
+                'amount'    => 100,
                 'currency'  => 'usd',
                 'interval'  => 'month',
                 'name'      => 'Gold Test Plan',

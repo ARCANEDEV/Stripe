@@ -92,12 +92,15 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
+     * Get Instance URL
+     *
      * @throws InvalidRequestException
      *
      * @return string The full API URL for this API resource.
      */
     public function instanceUrl()
     {
+        // TODO: Add end point in instanceUrl() method as arg
         $id     = $this['id'];
         $class  = get_class($this);
 

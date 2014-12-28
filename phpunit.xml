@@ -10,6 +10,9 @@
          stopOnFailure="false"
          syntaxCheck="false"
         >
+    <php>
+        <env name="STRIPE_API_KEY" value="tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"/>
+    </php>
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>./tests/</directory>
