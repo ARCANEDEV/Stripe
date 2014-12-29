@@ -11,6 +11,10 @@ class CouponTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var Coupon */
+    private $coupon;
+
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Coupon';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -19,17 +23,40 @@ class CouponTest extends StripeTestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->coupon = new Coupon;
     }
 
     public function tearDown()
     {
         parent::tearDown();
+
+        unset($this->coupon);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @test
+     */
+    public function testCanBeInstantiated()
+    {
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->coupon);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAll()
+    {
+        $coupons = Coupon::all();
+
+        $this->assertTrue($coupons->isList());
+        $this->assertEquals('/v1/coupons', $coupons->url);
+    }
+
     /**
      * @test
      */
@@ -58,8 +85,8 @@ class CouponTest extends StripeTestCase
      */
     public function testCanDelete()
     {
-        $couponId   = $this->getCouponId();
-        Coupon::create([
+        $couponId    = $this->getCouponId();
+        $this->coupon = Coupon::create([
             'id'                    => $couponId,
             'percent_off'           => 25,
             'duration'              => 'repeating',
@@ -76,8 +103,8 @@ class CouponTest extends StripeTestCase
         $customer->deleteDiscount();
         $this->assertFalse(isset($customer->discount));
 
-        $customer = Customer::retrieve($customer->id);
-        $this->assertFalse(isset($customer->discount));
+        $this->coupon->delete();
+        $this->assertTrue($this->coupon->deleted);
     }
 
     /* ------------------------------------------------------------------------------------------------
