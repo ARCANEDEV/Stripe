@@ -10,8 +10,13 @@ class ChargeTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var Charge */
+    private $charge;
+
     /** @var array */
     private $chargeData = [];
+
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Charge';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -21,6 +26,7 @@ class ChargeTest extends StripeTestCase
     {
         parent::setUp();
 
+        $this->charge = new Charge;
         $this->chargeData = [
             'amount'    => 100,
             'currency'  => 'usd',
@@ -36,6 +42,7 @@ class ChargeTest extends StripeTestCase
     {
         parent::tearDown();
 
+        unset($this->charge);
         $this->chargeData = [];
     }
 
@@ -46,13 +53,21 @@ class ChargeTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanBeInstantiated()
+    {
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+    }
+
+    /**
+     * @test
+     */
     public function testCanGetUrl()
     {
         $this->assertEquals(Charge::classUrl(), '/v1/charges');
 
-        $charge = new Charge('abcd/efgh');
+        $this->charge = new Charge('abcd/efgh');
 
-        $this->assertEquals($charge->instanceUrl(), '/v1/charges/abcd%2Fefgh');
+        $this->assertEquals($this->charge->instanceUrl(), '/v1/charges/abcd%2Fefgh');
     }
 
     /**
@@ -60,10 +75,11 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanCreate()
     {
-        $charge = Charge::create($this->chargeData);
+        $this->charge = Charge::create($this->chargeData);
 
-        $this->assertTrue($charge->paid);
-        $this->assertFalse($charge->refunded);
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+        $this->assertTrue($this->charge->paid);
+        $this->assertFalse($this->charge->refunded);
     }
 
     /**
@@ -92,16 +108,17 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanRetrieve()
     {
-        $c = Charge::create($this->chargeData);
+        $charge       = Charge::create($this->chargeData);
+        $this->charge = Charge::retrieve($charge->id);
 
-        $d = Charge::retrieve($c->id);
-        $this->assertEquals($d->id, $c->id);
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+        $this->assertEquals($charge->id, $this->charge->id);
     }
 
     /**
      * @test
      */
-    public function testCanListAll()
+    public function testCanGetAll()
     {
         $charges = Charge::all();
 
@@ -114,13 +131,13 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanRefundTotalAmount()
     {
-        $charge = Charge::create($this->chargeData);
+        $this->charge = Charge::create($this->chargeData);
 
-        $charge->refund();
-        $this->assertTrue($charge->refunded);
-        $this->assertEquals(1, count($charge->refunds->data));
+        $this->charge->refund();
+        $this->assertTrue($this->charge->refunded);
+        $this->assertEquals(1, count($this->charge->refunds->data));
 
-        $refund = $charge->refunds->data[0];
+        $refund = $this->charge->refunds->data[0];
         $this->assertEquals('refund', $refund->object);
         $this->assertEquals(100, $refund->amount);
     }
@@ -130,18 +147,47 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanRefundPartialAmount()
     {
-        $charge = Charge::create($this->chargeData);
+        $this->charge = Charge::create($this->chargeData);
 
-        $charge->refund(['amount' => 50,]);
-        $this->assertFalse($charge->refunded);
-        $this->assertEquals(1, count($charge->refunds->data));
+        $this->charge->refund(['amount' => 50,]);
+        $this->assertFalse($this->charge->refunded);
+        $this->assertEquals(1, count($this->charge->refunds->data));
 
-        $charge->refund(['amount' => 50,]);
-        $this->assertTrue($charge->refunded);
-        $this->assertEquals(2, count($charge->refunds->data));
+        $this->charge->refund(['amount' => 50,]);
+        $this->assertTrue($this->charge->refunded);
+        $this->assertEquals(2, count($this->charge->refunds->data));
     }
 
-    // TODO: Add tests for updateDispute() & closeDispute() methods
+    /**
+     * @test
+     */
+    public function testCanCapture()
+    {
+        $this->charge = Charge::create([
+            'amount'    => 100,
+            'currency'  => 'usd',
+            'card'      => [
+                'number'    => '4242424242424242',
+                'exp_month' => 5,
+                'exp_year'  => 2015
+            ],
+            'capture'  => false
+        ]);
+
+        $this->assertFalse($this->charge->captured);
+        $this->charge->capture();
+        $this->assertTrue($this->charge->captured);
+    }
+
+    public function testCanUpdateDispute()
+    {
+        // TODO: Complete testCanUpdateDispute() implementation
+    }
+
+    public function testCanCloseDispute()
+    {
+        // TODO: Complete testCanCloseDispute() implementation
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Metadata Functions
@@ -152,13 +198,13 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanUpdateOneMetadata()
     {
-        $charge = Charge::create($this->chargeData);
+        $this->charge = Charge::create($this->chargeData);
 
-        $charge->metadata['test'] = 'foo bar';
-        $charge->save();
+        $this->charge->metadata['test'] = 'foo bar';
+        $this->charge->save();
 
-        $updatedCharge = Charge::retrieve($charge->id);
-        $this->assertEquals('foo bar', $updatedCharge->metadata['test']);
+        $charge = Charge::retrieve($this->charge->id);
+        $this->assertEquals('foo bar', $charge->metadata['test']);
     }
 
     /**
@@ -166,13 +212,13 @@ class ChargeTest extends StripeTestCase
      */
     public function testCanUpdateAllMetadata()
     {
-        $charge = Charge::create($this->chargeData);
+        $this->charge = Charge::create($this->chargeData);
 
-        $charge->metadata = ['test' => 'foo bar'];
-        $charge->save();
+        $this->charge->metadata = ['test' => 'foo bar'];
+        $this->charge->save();
 
-        $updatedCharge = Charge::retrieve($charge->id);
-        $this->assertEquals('foo bar', $updatedCharge->metadata['test']);
+        $charge = Charge::retrieve($this->charge->id);
+        $this->assertEquals('foo bar', $charge->metadata['test']);
     }
 
     /**

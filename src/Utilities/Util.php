@@ -16,24 +16,25 @@ abstract class Util implements UtilInterface
      * @var array
      */
     private static $resources = [
-        // Resource Object
-        'card'          => 'Arcanedev\\Stripe\\Resources\\Card',
-        'charge'        => 'Arcanedev\\Stripe\\Resources\\Charge',
-        'coupon'        => 'Arcanedev\\Stripe\\Resources\\Coupon',
-        'customer'      => 'Arcanedev\\Stripe\\Resources\\Customer',
-        'discount'      => 'Arcanedev\\Stripe\\Resources\\Discount',
-        'dispute'       => 'Arcanedev\\Stripe\\Resources\\Dispute',
-        'event'         => 'Arcanedev\\Stripe\\Resources\\Event',
-        'fee_refund'    => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-        'file'          => 'Arcanedev\\Stripe\\Resources\\FileUpload',
-        'invoice'       => 'Arcanedev\\Stripe\\Resources\\Invoice',
-        'invoiceitem'   => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
-        'plan'          => 'Arcanedev\\Stripe\\Resources\\Plan',
-        'recipient'     => 'Arcanedev\\Stripe\\Resources\\Recipient',
-        'refund'        => 'Arcanedev\\Stripe\\Resources\\Refund',
-        'subscription'  => 'Arcanedev\\Stripe\\Resources\\Subscription',
-        'token'         => 'Arcanedev\\Stripe\\Resources\\Token',
-        'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
+        // Resource Objects
+        'balance_transaction' => 'Arcanedev\\Stripe\\Resources\\BalanceTransaction',
+        'card'                => 'Arcanedev\\Stripe\\Resources\\Card',
+        'charge'              => 'Arcanedev\\Stripe\\Resources\\Charge',
+        'coupon'              => 'Arcanedev\\Stripe\\Resources\\Coupon',
+        'customer'            => 'Arcanedev\\Stripe\\Resources\\Customer',
+        'discount'            => 'Arcanedev\\Stripe\\Resources\\Discount',
+        'dispute'             => 'Arcanedev\\Stripe\\Resources\\Dispute',
+        'event'               => 'Arcanedev\\Stripe\\Resources\\Event',
+        'fee_refund'          => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
+        'file'                => 'Arcanedev\\Stripe\\Resources\\FileUpload',
+        'invoice'             => 'Arcanedev\\Stripe\\Resources\\Invoice',
+        'invoiceitem'         => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
+        'plan'                => 'Arcanedev\\Stripe\\Resources\\Plan',
+        'recipient'           => 'Arcanedev\\Stripe\\Resources\\Recipient',
+        'refund'              => 'Arcanedev\\Stripe\\Resources\\Refund',
+        'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
+        'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
+        'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
 
         // List Object
         'list'          => 'Arcanedev\\Stripe\\ListObject',
