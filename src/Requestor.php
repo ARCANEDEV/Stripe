@@ -74,7 +74,7 @@ class Requestor implements RequestorInterface
             $this->setApiKey(Stripe::getApiKey());
         }
 
-        return $this->apiKey;
+        return trim($this->apiKey);
     }
 
     /**
@@ -592,7 +592,7 @@ class Requestor implements RequestorInterface
     private function checkApiKey()
     {
         if (! $this->isApiKeySet()) {
-            throw new ApiKeyNotSetException;
+            throw new ApiKeyNotSetException('The API Key is required !');
         }
     }
 

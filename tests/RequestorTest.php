@@ -12,6 +12,9 @@ class RequestorTest extends StripeTestCase
      */
     /** @var Requestor */
     private $requestor;
+
+    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Requestor';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -39,7 +42,7 @@ class RequestorTest extends StripeTestCase
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Requestor', $this->requestor);
+        $this->assertInstanceOf(self::REQUESTOR_CLASS, $this->requestor);
     }
 
     /**
@@ -49,10 +52,8 @@ class RequestorTest extends StripeTestCase
     {
         // We have to do some work here because this is normally private.
         // This is just for testing! Also it only works on PHP >= 5.3
-        if ( version_compare(PHP_VERSION, '5.3.2', '>=') ) {
-            $reflector = new ReflectionClass('Arcanedev\\Stripe\\Requestor');
-            $method = $reflector->getMethod('encodeObjects');
-            $method->setAccessible(true);
+        if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
+            $method = $this->getMethod('encodeObjects');
 
             $this->assertEquals(['customer' => 'abcd'], $method->invoke(null, [
                 'customer' => new Customer('abcd')
@@ -76,6 +77,30 @@ class RequestorTest extends StripeTestCase
         $cert = $this->getBlackListedCert();
 
         $this->assertTrue(Requestor::isBlackListed($cert));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
+     */
+    public function testMustThrowApiKeyNotSetExceptionOnEmptyApiKey()
+    {
+        $method = $this->getMethod('checkApiKey');
+
+        $method->invoke(new Requestor('  '));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    public function testMustThrowApiExceptionOnInvalidMethod()
+    {
+        $method = $this->getMethod('checkMethod');
+
+        $method->invoke($this->requestor, 'PUT');
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -129,5 +154,19 @@ SBs2soRGVXHr3AczRKLW3G+IbIpUc3vilOul/PXWHutfzz7/asxXSTk/siVKROQ8
 CBoD8xKYd5r7CYf1Du+nNMmDmrE=
 -----END CERTIFICATE-----';
         // }}}
+    }
+
+    /**
+     * @param string $methodName
+     *
+     * @return \ReflectionMethod
+     */
+    private function getMethod($methodName)
+    {
+        $reflector = new ReflectionClass(self::REQUESTOR_CLASS);
+        $method = $reflector->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method;
     }
 }

@@ -74,4 +74,5 @@ Please see https://stripe.com/docs/api for up-to-date documentation.
   - [ ] Extract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
   - [ ] More tests and code coverage.
   - [ ] Mockery for curl request.
+  - [ ] Stripe OAuth Class 
   - [ ] Refactoring.
