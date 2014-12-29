@@ -256,20 +256,6 @@ abstract class Resource extends Object implements ResourceInterface
         return $this;
     }
 
-    /**
-     * Make a POST Request
-     *
-     * @param string      $url
-     * @param array       $params
-     * @param string|null $apiKey
-     *
-     * @return array
-     */
-    protected function postRequest($url, $params = [], $apiKey = null)
-    {
-        return Requestor::make($apiKey)->post($url, $params);
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions
      | ------------------------------------------------------------------------------------------------

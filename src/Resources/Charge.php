@@ -142,7 +142,8 @@ class Charge extends Resource implements ChargeInterface
     {
         $url = $this->instanceUrl() . '/dispute';
 
-        list($response, $apiKey) = parent::postRequest($url, $params, $this->apiKey);
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url, $params);
 
         $this->refreshFrom(['dispute' => $response], $apiKey, true);
 

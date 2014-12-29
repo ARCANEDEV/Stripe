@@ -20,13 +20,15 @@ class ListObject extends Object implements ListObjectInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param array|null $params
+     * Get all
+     *
+     * @param array $params
      *
      * @throws ApiException
      *
      * @return array|Object
      */
-    public function all($params = null)
+    public function all($params = [])
     {
         list($url, $params)      = $this->extractPathAndUpdateParams($params);
 
@@ -37,13 +39,13 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
-     * @param array|null $params
+     * @param array $params
      *
      * @throws ApiException
      *
      * @return Resource|Object
      */
-    public function create($params = null)
+    public function create($params = [])
     {
         list($url, $params) = $this->extractPathAndUpdateParams($params);
 
@@ -54,14 +56,14 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
-     * @param string     $id
-     * @param array|null $params
+     * @param string $id
+     * @param array  $params
      *
      * @throws ApiException
      *
      * @return array|Object
      */
-    public function retrieve($id, $params = null)
+    public function retrieve($id, $params = [])
     {
         list($url, $params) = $this->extractPathAndUpdateParams($params);
 
@@ -98,12 +100,19 @@ class ListObject extends Object implements ListObjectInterface
         return $this->isList() ? $this->total_count : 0;
     }
 
+    /**
+     * @param $params
+     *
+     * @throws ApiException
+     *
+     * @return array
+     */
     private function extractPathAndUpdateParams($params)
     {
         $url = parse_url($this->url);
 
-        if (! isset($url['path'])) {
-            throw new ApiException("Could not parse list url into parts: $url");
+        if (! isset($url['path']) or empty($url['path'])) {
+            throw new ApiException("Could not parse list url into parts: " . $this->url);
         }
 
         if (isset($url['query'])) {
