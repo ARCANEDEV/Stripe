@@ -40,6 +40,8 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property string         subscription
  * @property int            webhooks_delivered_at
  * @property AttachedObject metadata
+ * @property int            tax
+ * @property float          tax_percent
  */
 class Invoice extends Resource implements InvoiceInterface
 {
@@ -90,6 +92,17 @@ class Invoice extends Resource implements InvoiceInterface
     }
 
     /**
+     * Update/Save an invoice
+     * @link https://stripe.com/docs/api/php#update_invoice
+     *
+     * @return Invoice
+     */
+    public function save()
+    {
+        return self::scopedSave();
+    }
+
+    /**
      * Retrieve  Upcoming Invoice
      * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
@@ -106,17 +119,6 @@ class Invoice extends Resource implements InvoiceInterface
             ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
-    }
-
-    /**
-     * Update/Save an invoice
-     * @link https://stripe.com/docs/api/php#update_invoice
-     *
-     * @return Invoice
-     */
-    public function save()
-    {
-        return self::scopedSave();
     }
 
     /**

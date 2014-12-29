@@ -62,33 +62,6 @@ class InvoiceTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanRetrieve()
-    {
-        $customer = parent::createTestCustomer();
-
-        InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 0,
-            'currency'  => 'usd',
-        ]);
-
-        $invoice = Invoice::create([
-            "customer" => $customer->id
-        ]);
-
-        $this->invoice = Invoice::retrieve($invoice->id);
-
-        $this->assertInstanceOf(
-            self::RESOURCE_CLASS,
-            $this->invoice
-        );
-
-        $this->assertEquals($invoice->id, $this->invoice->id);
-    }
-
-    /**
-     * @test
-     */
     public function testCanCreate()
     {
         $customer = parent::createTestCustomer();
@@ -109,6 +82,55 @@ class InvoiceTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanRetrieve()
+    {
+        $customer = parent::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer'  => $customer->id,
+            'amount'    => 0,
+            'currency'  => 'usd',
+        ]);
+
+        $invoice = Invoice::create([
+            "customer" => $customer->id
+        ]);
+
+        $this->invoice = Invoice::retrieve($invoice->id);
+
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
+        $this->assertEquals($invoice->id, $this->invoice->id);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanSave()
+    {
+        $customer = parent::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer'  => $customer->id,
+            'amount'    => 0,
+            'currency'  => 'usd',
+        ]);
+
+        $invoice = Invoice::create([
+            "customer" => $customer->id
+        ]);
+
+        $this->invoice = Invoice::retrieve($invoice->id);
+
+        $description = 'Invoice Description';
+        $this->invoice->description = $description;
+        $this->invoice->save();
+
+        $this->assertEquals($description, $this->invoice->description);
+    }
+
+    /**
+     * @test
+     */
     public function testCanUpcoming()
     {
         $customer = self::createTestCustomer();
@@ -119,12 +141,34 @@ class InvoiceTest extends StripeTestCase
             'currency'  => 'usd',
         ]);
 
-        $invoice = Invoice::upcoming([
+        $this->invoice = Invoice::upcoming([
             'customer' => $customer->id,
         ]);
 
-        $this->assertEquals($customer->id, $invoice->customer);
-        $this->assertEquals(false, $invoice->attempted);
+        $this->assertEquals($customer->id, $this->invoice->customer);
+        $this->assertEquals(false, $this->invoice->attempted);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanPay()
+    {
+        $customer = self::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer'  => $customer->id,
+            'amount'    => 1000,
+            'currency'  => 'usd',
+        ]);
+
+        $this->invoice = Invoice::create([
+            "customer" => $customer->id
+        ]);
+
+        $this->assertFalse($this->invoice->paid);
+        $this->invoice->pay();
+        $this->assertTrue($this->invoice->paid);
     }
 
     /**
