@@ -10,6 +10,7 @@ class EventTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
     /** @var Event */
     protected $object;
 
@@ -38,6 +39,36 @@ class EventTest extends StripeTestCase
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Event', $this->object);
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAll()
+    {
+        $events = Event::all();
+
+        $this->assertTrue($events->isList());
+        $this->assertEquals('/v1/events', $events->url);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanRetrieve()
+    {
+        $events = Event::all();
+
+        if (count($events->data) == 0) {
+            return ;
+        }
+
+        $eventId = $events->data[0]->id;
+
+        $this->object = Event::retrieve($eventId);
+
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
+        $this->assertEquals($eventId, $this->object->id);
     }
 }
