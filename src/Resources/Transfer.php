@@ -78,22 +78,6 @@ class Transfer extends Resource implements TransferInterface
     }
 
     /**
-     * Cancel a Transfer
-     * @link https://stripe.com/docs/api/curl#cancel_transfer
-     *
-     * @return Transfer
-     */
-    public function cancel()
-    {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/cancel');
-
-        $this->refreshFrom($response, $apiKey);
-
-        return $this;
-    }
-
-    /**
      * Update/Save a Transfer
      * @link https://stripe.com/docs/api/curl#update_transfer
      *
@@ -102,5 +86,23 @@ class Transfer extends Resource implements TransferInterface
     public function save()
     {
         return self::scopedSave();
+    }
+
+    /**
+     * Cancel a Transfer
+     * @link https://stripe.com/docs/api/curl#cancel_transfer
+     *
+     * @return Transfer
+     */
+    public function cancel()
+    {
+        $url = $this->instanceUrl() . '/cancel';
+
+        list($response, $apiKey) = Requestor::make($this->apiKey)
+            ->post($url);
+
+        $this->refreshFrom($response, $apiKey);
+
+        return $this;
     }
 }

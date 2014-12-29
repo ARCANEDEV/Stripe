@@ -10,6 +10,10 @@ class TransferTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var Transfer */
+    private $transfer;
+
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Transfer';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -18,11 +22,15 @@ class TransferTest extends StripeTestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->transfer = new Transfer;
     }
 
     public function tearDown()
     {
         parent::tearDown();
+
+        unset($this->transfer);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -32,17 +40,36 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanBeInstantiated()
+    {
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->transfer);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanGetAll()
+    {
+        $transfers = Transfer::all();
+
+        $this->assertTrue($transfers->isList());
+        $this->assertEquals('/v1/transfers', $transfers->url);
+    }
+
+    /**
+     * @test
+     */
     public function testCanCreate()
     {
         $recipient = self::createTestRecipient();
 
-        $transfer = Transfer::create([
+        $this->transfer = Transfer::create([
             'amount' => 100,
             'currency' => 'usd',
             'recipient' => $recipient->id
         ]);
 
-        $this->assertEquals('pending', $transfer->status);
+        $this->assertEquals('pending', $this->transfer->status);
     }
 
     /**
@@ -52,14 +79,15 @@ class TransferTest extends StripeTestCase
     {
         $recipient = self::createTestRecipient();
 
-        $transfer = Transfer::create([
+        $this->transfer = Transfer::create([
             'amount' => 100,
             'currency' => 'usd',
             'recipient' => $recipient->id
         ]);
 
-        $reloaded = Transfer::retrieve($transfer->id);
-        $this->assertEquals($reloaded->id, $transfer->id);
+        $transfer = Transfer::retrieve($this->transfer->id);
+
+        $this->assertEquals($transfer->id, $this->transfer->id);
     }
 
     /**
@@ -69,16 +97,16 @@ class TransferTest extends StripeTestCase
     {
         $recipient = self::createTestRecipient();
 
-        $transfer = Transfer::create([
+        $this->transfer = Transfer::create([
             'amount'    => 100,
             'currency'  => 'usd',
             'recipient' => $recipient->id
         ]);
 
-        $reloaded = Transfer::retrieve($transfer->id);
-        $this->assertEquals($reloaded->id, $transfer->id);
+        $transfer = Transfer::retrieve($this->transfer->id);
+        $this->assertEquals($transfer->id, $this->transfer->id);
 
-        $reloaded->cancel();
+        $transfer->cancel();
     }
 
     /**
@@ -88,17 +116,18 @@ class TransferTest extends StripeTestCase
     {
         $recipient = self::createTestRecipient();
 
-        $transfer = Transfer::create([
+        $this->transfer = Transfer::create([
             'amount' => 100,
             'currency' => 'usd',
             'recipient' => $recipient->id
         ]);
 
-        $transfer->metadata['test'] = 'foo bar';
-        $transfer->save();
+        $this->transfer->metadata['test'] = 'foo bar';
+        $this->transfer->save();
 
-        $updatedTransfer = Transfer::retrieve($transfer->id);
-        $this->assertEquals('foo bar', $updatedTransfer->metadata['test']);
+        $transfer = Transfer::retrieve($this->transfer->id);
+
+        $this->assertEquals('foo bar', $transfer->metadata['test']);
     }
 
     /**
@@ -108,16 +137,16 @@ class TransferTest extends StripeTestCase
     {
         $recipient = self::createTestRecipient();
 
-        $transfer = Transfer::create([
+        $this->transfer = Transfer::create([
             'amount'    => 100,
             'currency'  => 'usd',
             'recipient' => $recipient->id
         ]);
 
-        $transfer->metadata = ['test' => 'foo bar'];
-        $transfer->save();
+        $this->transfer->metadata = ['test' => 'foo bar'];
+        $this->transfer->save();
 
-        $updatedTransfer = Transfer::retrieve($transfer->id);
-        $this->assertEquals('foo bar', $updatedTransfer->metadata['test']);
+        $transfer = Transfer::retrieve($this->transfer->id);
+        $this->assertEquals('foo bar', $transfer->metadata['test']);
     }
 }
