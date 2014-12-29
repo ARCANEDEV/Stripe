@@ -32,6 +32,7 @@ abstract class Util implements UtilInterface
         'recipient'     => 'Arcanedev\\Stripe\\Resources\\Recipient',
         'refund'        => 'Arcanedev\\Stripe\\Resources\\Refund',
         'subscription'  => 'Arcanedev\\Stripe\\Resources\\Subscription',
+        'token'         => 'Arcanedev\\Stripe\\Resources\\Token',
         'transfer'      => 'Arcanedev\\Stripe\\Resources\\Transfer',
 
         // List Object
