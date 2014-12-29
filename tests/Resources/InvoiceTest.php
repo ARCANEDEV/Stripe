@@ -14,6 +14,8 @@ class InvoiceTest extends StripeTestCase
     /** @var Invoice */
     private $invoice;
 
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Invoice';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -41,7 +43,7 @@ class InvoiceTest extends StripeTestCase
      */
     public function testCanBeInstantiate()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
     }
 
     /**
@@ -53,7 +55,55 @@ class InvoiceTest extends StripeTestCase
     {
         $invoices = Invoice::all();
 
-        $this->assertTrue(count($invoices) > 0);
+        $this->assertTrue($invoices->isList());
+        $this->assertEquals('/v1/invoices', $invoices->url);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanRetrieve()
+    {
+        $customer = parent::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer'  => $customer->id,
+            'amount'    => 0,
+            'currency'  => 'usd',
+        ]);
+
+        $invoice = Invoice::create([
+            "customer" => $customer->id
+        ]);
+
+        $this->invoice = Invoice::retrieve($invoice->id);
+
+        $this->assertInstanceOf(
+            self::RESOURCE_CLASS,
+            $this->invoice
+        );
+
+        $this->assertEquals($invoice->id, $this->invoice->id);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanCreate()
+    {
+        $customer = parent::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer'  => $customer->id,
+            'amount'    => 0,
+            'currency'  => 'usd',
+        ]);
+
+        $this->invoice = Invoice::create([
+            "customer" => $customer->id
+        ]);
+
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
     }
 
     /**

@@ -100,8 +100,10 @@ class Invoice extends Resource implements InvoiceInterface
      */
     public static function upcoming($params = [], $apiKey = null)
     {
+        $url = self::classUrl(get_class()) . '/upcoming';
+
         list($response, $apiKey) = Requestor::make($apiKey)
-            ->get(self::classUrl(get_class()) . '/upcoming', $params);
+            ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);
     }
@@ -125,8 +127,10 @@ class Invoice extends Resource implements InvoiceInterface
      */
     public function pay()
     {
+        $url = $this->instanceUrl() . '/pay';
+
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/pay');
+            ->post($url);
 
         $this->refreshFrom($response, $apiKey);
 

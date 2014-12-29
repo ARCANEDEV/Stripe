@@ -105,7 +105,8 @@ class ChargeTest extends StripeTestCase
     {
         $charges = Charge::all();
 
-        $this->assertEquals('list', $charges->object);
+        $this->assertTrue($charges->isList());
+        $this->assertEquals('/v1/charges', $charges->url);
     }
 
     /**
