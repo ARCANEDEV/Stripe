@@ -3,24 +3,24 @@
 interface ObjectInterface
 {
     /**
-     * Init the object
-     */
-    public static function init();
-
-
-    /**
      * @return array
      */
     public function keys();
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * @param array $values
+     * This unfortunately needs to be public to be used in Util.php
+     *
+     * @param string      $class
+     * @param array       $values
      * @param string|null $apiKey
      *
-     * @return Object The object of the same class as $this constructed
-     *    from the given values.
+     * @return Object The object constructed from the given values.
      */
-    public static function constructFrom($values, $apiKey = null);
+    public static function scopedConstructFrom($class, $values, $apiKey = null);
 
     /**
      * Refreshes this object using the provided values.

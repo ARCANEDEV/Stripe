@@ -83,24 +83,22 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __construct($id = null, $apiKey = null)
     {
-        self::init();
-
+        $this->init();
         $this->setApiKey($apiKey);
-        $this->values             = [];
-        $this->unsavedValues      = new UtilSet;
-        $this->transientValues    = new UtilSet;
-        $this->retrieveParameters = [];
-
         $this->setId($id);
     }
 
     /**
-     * Init the object
+     * Init Object Properties
      */
-    public static function init()
+    private function init()
     {
+        $this->values                    = [];
         self::$permanentAttributes       = new UtilSet(['apiKey', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet(['metadata']);
+        $this->unsavedValues             = new UtilSet;
+        $this->transientValues           = new UtilSet;
+        $this->retrieveParameters        = [];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -239,6 +237,16 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __toString()
     {
+        return $this->toString();
+    }
+
+    /**
+     * Convert Object to string
+     *
+     * @return string
+     */
+    public function toString()
+    {
         return get_class($this) . ' JSON: ' . $this->toJson();
     }
 
@@ -329,19 +337,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Construct an object of the same class as $this constructed from the given values.
-     *
-     * @param array $values
-     * @param string|null $apiKey
-     *
-     * @return Object
-     */
-    public static function constructFrom($values, $apiKey = null)
-    {
-        return self::scopedConstructFrom(__CLASS__, $values, $apiKey);
-    }
-
-    /**
      * Refreshes this object using the provided values.
      *
      * @param array   $values
@@ -429,7 +424,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkIfAttributeDeletion($key, $value)
     {
-        if ($value === '' and ! is_null($value)) {
+        if (! is_null($value) and $value === '') {
             $msg = "You cannot set '$key' to an empty string. "
                 . "We interpret empty strings as 'null' in requests. "
                 . "You may set obj->$key = null to delete the property";
