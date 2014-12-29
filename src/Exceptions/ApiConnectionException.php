@@ -1,3 +1,5 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class ApiConnectionException extends StripeException {}
+class ApiConnectionException extends StripeException
+{
+}

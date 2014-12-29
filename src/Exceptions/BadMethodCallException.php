@@ -1,3 +1,6 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class BadMethodCallException extends StripeException {}
+class BadMethodCallException extends StripeException
+{
+
+}

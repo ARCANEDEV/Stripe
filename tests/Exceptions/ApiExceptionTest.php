@@ -37,9 +37,9 @@ class ApiExceptionTest extends StripeTestCase
                 // Status Code
                 500,
                 // Stripe error type
-                null,
+                'api_error',
                 // Stripe error code
-                null,
+                'api_error_code',
                 // Response Body json
                 "{'foo':'bar'}",
                 // Response Body array
@@ -52,6 +52,8 @@ class ApiExceptionTest extends StripeTestCase
             $this->assertEquals("Stripe error message", $e->getMessage());
             $this->assertEquals(500, $e->getCode());
             $this->assertEquals(500, $e->getHttpStatus());
+            $this->assertEquals('api_error', $e->getType());
+            $this->assertEquals('api_error_code', $e->getStripeCode());
             $this->assertEquals("{'foo':'bar'}", $e->getHttpBody());
             $this->assertEquals(['foo' => 'bar'], $e->getJsonBody());
             $this->assertEquals(['param'=> 'some-id'], $e->getParams());

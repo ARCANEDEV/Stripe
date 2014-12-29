@@ -1,3 +1,5 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class InvalidArgumentException extends StripeException {}
+class InvalidArgumentException extends StripeException
+{
+}
