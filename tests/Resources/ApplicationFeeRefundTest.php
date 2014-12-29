@@ -11,7 +11,7 @@ class ApplicationFeeRefundTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @var ApplicationFeeRefund */
-    private $refund;
+    private $appFeeRefund;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -21,14 +21,14 @@ class ApplicationFeeRefundTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->refund = new ApplicationFeeRefund;
+        $this->appFeeRefund = new ApplicationFeeRefund;
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
-        unset($this->refund);
+        unset($this->appFeeRefund);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ class ApplicationFeeRefundTest extends StripeTestCase
     {
         $this->assertInstanceOf(
             'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-            $this->refund
+            $this->appFeeRefund
         );
     }
 
@@ -51,12 +51,36 @@ class ApplicationFeeRefundTest extends StripeTestCase
      */
     public function testCanGetInstanceUrl()
     {
-        $this->refund->id = 'refund_id';
-        $this->refund->fee = 'fee_id';
+        $refundId = 'refund_id';
+        $feeId    = 'fee_id';
+
+        $this->appFeeRefund->id  = $refundId;
+        $this->appFeeRefund->fee = $feeId;
 
         $this->assertEquals(
-            '/v1/application_fees/fee_id/refunds/refund_id',
-            $this->refund->instanceUrl()
+            "/v1/application_fees/$feeId/refunds/$refundId",
+            $this->appFeeRefund->instanceUrl()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     */
+    public function testMustThrowInvalidRequestExceptionOnIdEmpty()
+    {
+        $this->appFeeRefund->instanceUrl();
+    }
+
+    /**
+     * @test
+     */
+    public function testCanSave()
+    {
+        // $fee = ApplicationFee::retrieve("FeeID");
+        // $re  = $fee->refunds->retrieve("RefundID");
+        // $re->metadata["key"] = "value";
+        // $re->save();
     }
 }
