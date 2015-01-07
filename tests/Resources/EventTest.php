@@ -10,9 +10,10 @@ class EventTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
     /** @var Event */
     protected $object;
+
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

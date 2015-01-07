@@ -35,6 +35,8 @@ abstract class Util implements UtilInterface
         'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
         'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
         'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
+        'bitcoin_receiver'    => 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
+        'bitcoin_transaction' => 'Arcanedev\\Stripe\\Resources\\BitcoinTransaction',
 
         // List Object
         'list'          => 'Arcanedev\\Stripe\\ListObject',

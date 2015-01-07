@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
+use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Stripe;
 
 use Arcanedev\Stripe\Resources\Charge;
@@ -42,7 +43,7 @@ abstract class StripeTestCase extends TestCase
     {
         parent::tearDown();
 
-        unset($object);
+        unset($this->object);
     }
 
     protected function assertStripeInstance($expected, $actual, $message = '')
@@ -114,6 +115,23 @@ abstract class StripeTestCase extends TestCase
                 'routing_number' => '110000000',
                 'account_number' => '000123456789'
             ],
+        ]);
+    }
+
+    /**
+     * Create Test Bitcoin Receiver
+     *
+     * @param string $email
+     *
+     * @return BitcoinReceiver
+     */
+    protected function createTestBitcoinReceiver($email)
+    {
+        return BitcoinReceiver::create([
+            'amount'      => 100,
+            'currency'    => 'usd',
+            'description' => 'some details',
+            'email'       => $email
         ]);
     }
 

@@ -1,6 +1,6 @@
-# Ignore the /vendor/ directory for people using composer
-vendor/
 .idea/
 _arcanedev/
 build/
+vendor/
+composer.phar
 composer.lock
