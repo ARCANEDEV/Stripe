@@ -91,6 +91,14 @@ class FileUploadTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanListAll()
+    {
+        // TODO: complete implementation of testCanListAll method after the URL (GET: /v1/files) exists
+    }
+
+    /**
+     * @test
+     */
     public function testCanCreateCurlFile()
     {
         if (! class_exists('CurlFile')) {

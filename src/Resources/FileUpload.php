@@ -1,9 +1,10 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
+use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
-use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 
 /**
  * File Upload Object
@@ -87,5 +88,18 @@ class FileUpload extends Resource implements FileUploadInterface
     public static function create($params = [], $apiKey = null)
     {
         return self::scopedCreate($params, $apiKey);
+    }
+
+    /**
+     * List all uploaded files
+     *
+     * @param array       $params
+     * @param string|null $apiKey
+     *
+     * @return ListObject
+     */
+    public static function all($params = [], $apiKey = null)
+    {
+        return self::scopedAll($params, $apiKey);
     }
 }

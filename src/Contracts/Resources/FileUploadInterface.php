@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
+use Arcanedev\Stripe\Contracts\ListObjectInterface;
+
 /**
  * File Upload Object Interface
  * @link https://stripe.com/docs/guides/file-upload
@@ -36,4 +38,14 @@ interface FileUploadInterface
      * @return FileUploadInterface
      */
     public static function create($params = [], $apiKey = null);
+
+    /**
+     * List all uploaded files
+     *
+     * @param array       $params
+     * @param string|null $apiKey
+     *
+     * @return ListObjectInterface
+     */
+    public static function all($params = [], $apiKey = null);
 }
