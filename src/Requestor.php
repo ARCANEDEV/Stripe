@@ -118,52 +118,56 @@ class Requestor implements RequestorInterface
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string $url
-     * @param array  $params
+     * @param string            $url
+     * @param array             $params
+     * @param array|string|null $headers
      *
      * @return array
      */
-    public function get($url, $params = [])
+    public function get($url, $params = [], $headers = null)
     {
-        return $this->request('get', $url, $params);
+        return $this->request('get', $url, $params, $headers);
     }
 
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string $url
-     * @param array  $params
+     * @param string            $url
+     * @param array             $params
+     * @param array|string|null $headers
      *
      * @return array
      */
-    public function post($url, $params = [])
+    public function post($url, $params = [], $headers = null)
     {
-        return $this->request('post', $url, $params);
+        return $this->request('post', $url, $params, $headers);
     }
 
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string $url
-     * @param array  $params
+     * @param string            $url
+     * @param array             $params
+     * @param array|string|null $headers
      *
      * @return array
      */
-    public function delete($url, $params = [])
+    public function delete($url, $params = [], $headers = null)
     {
-        return $this->request('delete', $url, $params);
+        return $this->request('delete', $url, $params, $headers);
     }
 
     /**
      * An array whose first element is the response and second element is the API key used to make the request.
      *
-     * @param string $method
-     * @param string $url
-     * @param array  $params
-     * @param null   $headers
+     * @param string            $method
+     * @param string            $url
+     * @param array             $params
+     * @param array|string|null $headers
+     *
+     * @throws ApiException
      *
      * @return array
-     * @throws ApiException
      */
     public function request($method, $url, $params = [], $headers = null)
     {
@@ -175,7 +179,8 @@ class Requestor implements RequestorInterface
             $headers = [];
         }
 
-        list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
+        list($respBody, $respCode, $apiKey) =
+            $this->requestRaw($method, $url, $params, $headers);
 
         $resp = $this->interpretResponse($respBody, $respCode);
 
@@ -185,8 +190,8 @@ class Requestor implements RequestorInterface
     /**
      * Interpret Response
      *
-     * @param $respBody
-     * @param $respCode
+     * @param string $respBody
+     * @param int    $respCode
      *
      * @throws ApiException
      * @throws AuthenticationException
@@ -202,9 +207,12 @@ class Requestor implements RequestorInterface
             $response = json_decode($respBody, true);
         }
         catch (\Exception $e) {
-            $message = "Invalid response body from API: $respBody (HTTP response code was $respCode)";
             throw new ApiException(
-                $message, $respCode, 'api_error', null, $respBody
+                "Invalid response body from API: $respBody (HTTP response code was $respCode)",
+                $respCode,
+                'api_error',
+                null,
+                $respBody
             );
         }
 
@@ -246,7 +254,10 @@ class Requestor implements RequestorInterface
                 $hasFile    = true;
                 $params[$key] = self::processResourceParam($value);
             }
-            elseif (class_exists('CURLFile') and $value instanceof CURLFile) {
+            elseif (
+                class_exists('CURLFile') and
+                $value instanceof CURLFile
+            ) {
                 $hasFile    = true;
             }
         }
@@ -276,7 +287,9 @@ class Requestor implements RequestorInterface
 
         $metaData = stream_get_meta_data($resource);
         if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException('Only plainfile resource streams are supported');
+            throw new ApiException(
+                'Only plainfile resource streams are supported'
+            );
         }
 
         // We don't have the filename or mimetype, but the API doesn't care
@@ -348,8 +361,8 @@ class Requestor implements RequestorInterface
         }
 
         if ($response === false) {
-            $errorNum   = curl_errno($curl);
-            $message    = curl_error($curl);
+            $errorNum = curl_errno($curl);
+            $message  = curl_error($curl);
             curl_close($curl);
             $this->handleCurlError($errorNum, $message);
         }
@@ -374,15 +387,14 @@ class Requestor implements RequestorInterface
             'X-Stripe-Client-User-Agent' => self::userAgent(),
             'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
             'Authorization'              => 'Bearer ' . $this->getApiKey(),
+            'Content-Type'               => $hasFile
+                ? 'multipart/form-data'
+                : 'application/x-www-form-urlencoded',
         ];
 
         if (Stripe::hasApiVersion()) {
             $defaults['Stripe-Version'] = Stripe::getApiVersion();
         }
-
-        $defaults['Content-Type'] = $hasFile
-            ? 'multipart/form-data'
-            : 'application/x-www-form-urlencoded';
 
         $rawHeaders      = [];
 
@@ -429,23 +441,24 @@ class Requestor implements RequestorInterface
                 $opts[CURLOPT_POST]          = true;
                 $opts[CURLOPT_CUSTOMREQUEST] = 'POST';
                 $opts[CURLOPT_POSTFIELDS]    = $params;
-                return $opts;
+                break;
 
             case 'delete':
                 $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-                return $opts;
+                break;
 
             case 'get':
             default:
                 if ($hasFile) {
-                    $message = "Issuing a GET request with a file parameter";
-
-                    throw new ApiException($message);
+                    throw new ApiException(
+                        'Issuing a GET request with a file parameter'
+                    );
                 }
                 $opts[CURLOPT_HTTPGET]       = true;
                 $opts[CURLOPT_CUSTOMREQUEST] = 'GET';
-                return $opts;
         }
+
+        return $opts;
     }
 
     /**
@@ -463,25 +476,25 @@ class Requestor implements RequestorInterface
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
                 $msg = "Could not connect to Stripe ($apiBase).  Please check your "
-                    . "internet connection and try again.  If this problem persists, "
-                    . "you should check Stripe's service status at "
-                    . "https://twitter.com/stripestatus, or";
+                    . 'internet connection and try again.  If this problem persists, '
+                    . 'you should check Stripe\'s service status at '
+                    . 'https://twitter.com/stripestatus, or';
                 break;
 
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
-                $msg = "Could not verify Stripe's SSL certificate.  Please make sure "
-                    . "that your network is not intercepting certificates.  "
+                $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure '
+                    . 'that your network is not intercepting certificates.  '
                     . "(Try going to $apiBase in your browser.)  "
-                    . "If this problem persists,";
+                    . 'If this problem persists,';
                 break;
 
             default:
-                $msg = "Unexpected error communicating with Stripe.  "
-                    . "If this problem persists,";
+                $msg = 'Unexpected error communicating with Stripe.  '
+                    . 'If this problem persists,';
         }
 
-        $msg .= " let us know at support@stripe.com.";
+        $msg .= ' let us know at support@stripe.com.';
 
         $msg .= "\n\n(Network error [errno $errorNum]: $message)";
 
@@ -520,8 +533,8 @@ class Requestor implements RequestorInterface
         }
 
         $url  = parse_url($url);
-        $port = isset($url["port"]) ? $url["port"] : 443;
-        $url  = "ssl://{$url["host"]}:{$port}";
+        $port = isset($url['port']) ? $url['port'] : 443;
+        $url  = "ssl://{$url['host']}:{$port}";
 
         $sslContext = stream_context_create([
             'ssl' => [
@@ -531,19 +544,17 @@ class Requestor implements RequestorInterface
             ]
         ]);
 
-        $result = stream_socket_client(
-            $url, $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $sslContext
-        );
+        $result = stream_socket_client($url, $errorNo, $errorStr, 30, STREAM_CLIENT_CONNECT, $sslContext);
 
         if (
-            ($errno !== 0 && $errno !== null) or
+            ($errorNo !== 0 and $errorNo !== null) or
             $result === false
         ) {
             throw new ApiConnectionException(
                 "Could not connect to Stripe ($url).  Please check your ".
-                "internet connection and try again.  If this problem persists, ".
-                "you should check Stripe's service status at ".
-                "https://twitter.com/stripestatus. Reason was: $errstr"
+                'internet connection and try again.  If this problem persists, '.
+                'you should check Stripe\'s service status at '.
+                'https://twitter.com/stripestatus. Reason was: '. $errorStr
             );
         }
 
@@ -595,7 +606,7 @@ class Requestor implements RequestorInterface
         array_shift($lines);
         array_pop($lines);
 
-        $derCert     = base64_decode(implode("", $lines));
+        $derCert     = base64_decode(implode('', $lines));
         $fingerprint = sha1($derCert);
 
         return in_array($fingerprint, self::$blacklistedCerts);
