@@ -70,7 +70,7 @@ class FileUploadTest extends StripeTestCase
         fclose($fp);
 
         $this->assertEquals(95, $file->size);
-        $this->assertEquals('image/png', $file->mimetype);
+        $this->assertEquals('png', $file->type);
     }
 
     /**
@@ -85,7 +85,7 @@ class FileUploadTest extends StripeTestCase
         $this->fileUpload = FileUpload::retrieve($file->id);
         $this->assertEquals($this->fileUpload->id, $file->id);
         $this->assertEquals($this->fileUpload->purpose, $file->purpose);
-        $this->assertEquals($this->fileUpload->mimetype, $file->mimetype);
+        $this->assertEquals($this->fileUpload->type, $file->type);
     }
 
     /**
@@ -93,7 +93,13 @@ class FileUploadTest extends StripeTestCase
      */
     public function testCanListAll()
     {
-        // TODO: complete implementation of testCanListAll method after the URL (GET: /v1/files) exists
+        $fp   = fopen($this->filePath, 'r');
+        $this->createFile($fp);
+        fclose($fp);
+
+        $files = FileUpload::all();
+
+        $this->assertTrue($files->isList());
     }
 
     /**
@@ -110,7 +116,7 @@ class FileUploadTest extends StripeTestCase
         $file = $this->createFile($file);
 
         $this->assertEquals(95, $file->size);
-        $this->assertEquals('image/png', $file->mimetype);
+        $this->assertEquals('png', $file->type);
     }
 
     /* ------------------------------------------------------------------------------------------------

@@ -11,11 +11,12 @@ use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
  * @link https://stripe.com/docs/guides/file-upload
  *
  * @property string id
+ * @property string object
  * @property int    created
  * @property int    size
  * @property string purpose
  * @property string url
- * @property string mimetype [application/pdf|image/jpeg|image/png]
+ * @property string type [pdf|jpeg|png]
  */
 class FileUpload extends Resource implements FileUploadInterface
 {

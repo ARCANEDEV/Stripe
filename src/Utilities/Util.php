@@ -26,7 +26,7 @@ abstract class Util implements UtilInterface
         'dispute'             => 'Arcanedev\\Stripe\\Resources\\Dispute',
         'event'               => 'Arcanedev\\Stripe\\Resources\\Event',
         'fee_refund'          => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-        'file'                => 'Arcanedev\\Stripe\\Resources\\FileUpload',
+        'file_upload'         => 'Arcanedev\\Stripe\\Resources\\FileUpload',
         'invoice'             => 'Arcanedev\\Stripe\\Resources\\Invoice',
         'invoiceitem'         => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
         'plan'                => 'Arcanedev\\Stripe\\Resources\\Plan',
