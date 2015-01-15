@@ -160,16 +160,22 @@ class Requestor implements RequestorInterface
      * @param string $method
      * @param string $url
      * @param array  $params
+     * @param null   $headers
      *
      * @return array
+     * @throws ApiException
      */
-    public function request($method, $url, $params = [])
+    public function request($method, $url, $params = [], $headers = null)
     {
         if (! is_array($params) or is_null($params)) {
             $params = [];
         }
 
-        list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params);
+        if (is_null($headers)) {
+            $headers = [];
+        }
+
+        list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
 
         $resp = $this->interpretResponse($respBody, $respCode);
 
@@ -219,7 +225,7 @@ class Requestor implements RequestorInterface
      *
      * @return array
      */
-    private function requestRaw($method, $url, $params)
+    private function requestRaw($method, $url, $params, $headers)
     {
         if (
             ! array_key_exists($this->apiBaseUrl, self::$preFlight) or
@@ -246,7 +252,7 @@ class Requestor implements RequestorInterface
         }
 
         list($respBody, $respCode) =
-            $this->curlRequest($method, $absUrl, $params, $hasFile);
+            $this->curlRequest($method, $absUrl, $params, $headers, $hasFile);
 
         return [$respBody, $respCode, $apiKey];
     }
@@ -282,16 +288,17 @@ class Requestor implements RequestorInterface
     /**
      * Curl the request
      *
-     * @param string $method
-     * @param string $absUrl
-     * @param array  $params
-     * @param bool   $hasFile
+     * @param string     $method
+     * @param string     $absUrl
+     * @param array      $params
+     * @param array|null $headers
+     * @param bool       $hasFile
      *
      * @return array
      * @throws ApiConnectionException
      * @throws ApiException
      */
-    private function curlRequest($method, $absUrl, $params, $hasFile)
+    private function curlRequest($method, $absUrl, $params, $headers, $hasFile)
     {
         $curl   = curl_init();
 
@@ -306,7 +313,7 @@ class Requestor implements RequestorInterface
             $params = $hasFile ? $params : str_url_queries($params);
         }
 
-        $headers = $this->prepareHeaders($hasFile);
+        $headers = $this->prepareHeaders($headers, $hasFile);
         $opts    = $this->prepareMethodOptions($method, $params, $hasFile);
 
         $opts[CURLOPT_URL]            = str_utf8($absUrl);
@@ -356,28 +363,35 @@ class Requestor implements RequestorInterface
     /**
      * Prepare request Headers
      *
-     * @param bool   $hasFile
+     * @param      $headers
+     * @param bool $hasFile
      *
      * @return array
      */
-    private function prepareHeaders($hasFile)
+    private function prepareHeaders($headers, $hasFile)
     {
-        $apiKey  = $this->getApiKey();
-        $headers = [
-            'X-Stripe-Client-User-Agent: ' . self::userAgent(),
-            'User-Agent: Stripe/v1 PhpBindings/' . Stripe::VERSION,
-            'Authorization: Bearer ' . $apiKey,
+        $apiKey         = $this->getApiKey();
+        $defaults = [
+            'X-Stripe-Client-User-Agent' => self::userAgent(),
+            'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
+            'Authorization'              => 'Bearer ' . $apiKey,
         ];
 
         if (Stripe::hasApiVersion()) {
-            $headers[] = 'Stripe-Version: ' . Stripe::getApiVersion();
+            $defaults['Stripe-Version'] = Stripe::getApiVersion();
         }
 
-        $headers[] = $hasFile
-            ? 'Content-Type: multipart/form-data'
-            : 'Content-Type: application/x-www-form-urlencoded';
+        $defaults['Content-Type'] = $hasFile
+            ? 'multipart/form-data'
+            : 'application/x-www-form-urlencoded';
 
-        return $headers;
+        $rawHeaders      = [];
+
+        foreach (array_merge($defaults, $headers) as $header => $value) {
+            $rawHeaders[] = $header . ': ' . $value;
+        }
+
+        return $rawHeaders;
     }
 
     /**

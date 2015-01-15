@@ -121,8 +121,6 @@ abstract class StripeTestCase extends TestCase
      * Verify that a plan with a given ID exists, or create a new one if it does
      * not.
      *
-     * @param $id
-     *
      * @return Plan
      */
     protected static function retrieveOrCreatePlan()
@@ -163,5 +161,29 @@ abstract class StripeTestCase extends TestCase
                 'percent_off' => 25,
             ]);
         }
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Generate a semi-random string
+     *
+     * @param int $length
+     *
+     * @return string
+     */
+    public function generateRandomString($length = 24)
+    {
+        $chars       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU';
+        $charsLength = strlen($chars);
+        $random      = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $random .= $chars[rand(0, $charsLength - 1)];
+        }
+
+        return $random;
     }
 }

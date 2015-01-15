@@ -52,13 +52,13 @@ class Charge extends Resource implements ChargeInterface
      * @link https://stripe.com/docs/api/php#list_charges
      *
      * @param array       $params
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -66,13 +66,13 @@ class Charge extends Resource implements ChargeInterface
      * @link https://stripe.com/docs/api/php#retrieve_charge
      *
      * @param string      $id     The ID of the charge to retrieve.
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return Charge
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -80,13 +80,13 @@ class Charge extends Resource implements ChargeInterface
      * @link https://stripe.com/docs/api/php#create_charge
      *
      * @param array       $params
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return Charge
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -104,15 +104,16 @@ class Charge extends Resource implements ChargeInterface
      * Creating a new refund
      * @link https://stripe.com/docs/api/php#create_refund
      *
-     * @param array $params
+     * @param array       $params
+     * @param string|null $options
      *
      * @return Charge
      */
-    public function refund($params = [])
+    public function refund($params = [], $options = null)
     {
-        $url = $this->instanceUrl() . '/refund';
+        $url  = $this->instanceUrl() . '/refund';
 
-        return parent::scopedPostCall($url, $params);
+        return parent::scopedPostCall($url, $params, $options);
     }
 
     /**

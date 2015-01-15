@@ -106,6 +106,19 @@ class ChargeTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanCreateWithIdempotent()
+    {
+        $this->charge = Charge::create($this->chargeData, [
+            'idempotency_key' => $this->generateRandomString(),
+        ]);
+
+        $this->assertTrue($this->charge->paid);
+        $this->assertFalse($this->charge->refunded);
+    }
+
+    /**
+     * @test
+     */
     public function testCanRetrieve()
     {
         $charge       = Charge::create($this->chargeData);

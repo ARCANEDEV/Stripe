@@ -43,33 +43,33 @@ interface ChargeInterface
      * @link https://stripe.com/docs/api/php#list_charges
      *
      * @param array       $params
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Retrieve a Charge
      * @link https://stripe.com/docs/api/php#retrieve_charge
      *
      * @param string      $id     The ID of the charge to retrieve.
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return ChargeInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
      * @param array       $params
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return ChargeInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Save/Update a Charge
