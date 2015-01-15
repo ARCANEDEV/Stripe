@@ -42,8 +42,8 @@ interface ChargeInterface
      * List all Charges
      * @link https://stripe.com/docs/api/php#list_charges
      *
-     * @param array       $params
-     * @param string|null $options
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
@@ -53,8 +53,8 @@ interface ChargeInterface
      * Retrieve a Charge
      * @link https://stripe.com/docs/api/php#retrieve_charge
      *
-     * @param string      $id     The ID of the charge to retrieve.
-     * @param string|null $options
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return ChargeInterface
      */
@@ -64,8 +64,8 @@ interface ChargeInterface
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
-     * @param array       $params
-     * @param string|null $options
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ChargeInterface
      */

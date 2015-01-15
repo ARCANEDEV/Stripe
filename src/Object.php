@@ -106,6 +106,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get API Key
+     *
      * @return string
      */
     protected function getApiKey()
@@ -114,19 +116,32 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
+     * Set API Key
+     *
      * @param string $apiKey
+     *
+     * @return Object
      */
     protected function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
+
+        return $this;
     }
 
+    /**
+     * Set Id
+     *
+     * @param array|string|null $id
+     *
+     * @throws ApiException
+     *
+     * @return Object
+     */
     private function setId($id)
     {
         if (is_array($id)) {
-            if (! isset($id['id'])) {
-                throw new ApiException("The attribute id must be included.", 500);
-            }
+            $this->checkId($id);
 
             foreach ($id as $key => $value) {
                 if ($key != 'id') {
@@ -140,6 +155,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         if (! is_null($id)) {
             $this->id = $id;
         }
+
+        return $this;
     }
 
     /**
@@ -153,6 +170,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
+     * Standard get accessor
+     *
      * @param string|int $key
      *
      * @return mixed|null
@@ -168,12 +187,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         $message    = "Stripe Notice: Undefined property of $class instance: $key.";
 
         if ($this->transientValues->includes($key)) {
-            $attributes = join(', ', array_keys($this->values));
             $message    .= " HINT: The $key attribute was set in the past, however. "
-                . "It was then wiped when refreshing the object "
-                . "with the result returned by Stripe's API, "
-                . "probably as a result of a save(). The attributes currently "
-                . "available on this object are: $attributes";
+                . 'It was then wiped when refreshing the object '
+                . 'with the result returned by Stripe\'s API, '
+                . 'probably as a result of a save(). The attributes currently '
+                . 'available on this object are: ' . join(', ', array_keys($this->values));
         }
 
         error_log($message);
@@ -217,17 +235,29 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         }
     }
 
-    public function __isset($k)
+    /**
+     * Check has a value by key
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function __isset($key)
     {
-        return isset($this->values[$k]);
+        return isset($this->values[$key]);
     }
 
-    public function __unset($k)
+    /**
+     * Unset element from values
+     *
+     * @param string $key
+     */
+    public function __unset($key)
     {
-        unset($this->values[$k]);
+        unset($this->values[$key]);
 
-        $this->transientValues->add($k);
-        $this->unsavedValues->discard($k);
+        $this->transientValues->add($key);
+        $this->unsavedValues->discard($key);
     }
 
     /**
@@ -309,7 +339,9 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
 
     public function offsetGet($k)
     {
-        return array_key_exists($k, $this->values) ? $this->values[$k] : null;
+        return array_key_exists($k, $this->values)
+            ? $this->values[$k]
+            : null;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -327,9 +359,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public static function scopedConstructFrom($class, $values, $apiKey = null)
     {
-        /**
-         * @var Object $obj
-         */
+        /** @var Object $obj */
         $obj = new $class(isset($values['id']) ? $values['id'] : null, $apiKey);
         $obj->refreshFrom($values, $apiKey);
 
@@ -407,6 +437,20 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check if array has id
+     *
+     * @param array $array
+     *
+     * @throws ApiException
+     */
+    private function checkId($array)
+    {
+        if (! isset($array['id'])) {
+            throw new ApiException("The attribute id must be included.", 500);
+        }
+    }
+
+    /**
      * Check if object has retrieve parameters
      *
      * @return bool
@@ -426,7 +470,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     {
         if (! is_null($value) and $value === '') {
             $msg = "You cannot set '$key' to an empty string. "
-                . "We interpret empty strings as 'null' in requests. "
+                . 'We interpret empty strings as \'null\' in requests. '
                 . "You may set obj->$key = null to delete the property";
 
             throw new InvalidArgumentException($msg);
@@ -442,11 +486,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function checkMetadataAttribute($key, $value)
     {
         if (
-            $this->isMetadataAttribute($key)
-            and ( ! is_array($value) and ! is_null($value) )
+            $this->isMetadataAttribute($key) and
+            (! is_array($value) and ! is_null($value))
         ) {
             throw new InvalidArgumentException(
-                "The metadata value must be an array or null, " . gettype($value) . " is given"
+                'The metadata value must be an array or null, ' . gettype($value) . ' is given'
             );
         }
     }
@@ -474,7 +518,9 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
 
         $notFound = array_diff($this->unsavedValues->keys(), $supported);
         if (count($notFound) > 0) {
-            throw new InvalidArgumentException('The attributes [' . implode(', ', $notFound) . '] are not supported.');
+            throw new InvalidArgumentException(
+                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
+            );
         }
     }
 

@@ -47,45 +47,45 @@ interface InvoiceInterface
      * Create an invoice
      * @link https://stripe.com/docs/api/php#create_invoice
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return InvoiceInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Retrieving an Invoice
      * @link https://stripe.com/docs/api/php#retrieve_invoice
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return InvoiceInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * List of all Invoices
      * @link https://stripe.com/docs/api/php#list_customer_invoices
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Retrieve  Upcoming Invoice
      * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return InvoiceInterface
      */
-    public static function upcoming($params = [], $apiKey = null);
+    public static function upcoming($params = [], $options = null);
 
     /**
      * Update/Save an invoice

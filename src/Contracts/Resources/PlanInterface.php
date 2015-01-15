@@ -25,34 +25,34 @@ interface PlanInterface
      * Retrieve a Plan
      * @link https://stripe.com/docs/api/php#retrieve_plan
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return PlanInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * List all Plans
      * @link https://stripe.com/docs/api/php#list_plans
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Create a plan
      * @link https://stripe.com/docs/api/php#create_plan
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return PlanInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Update/Save a plan

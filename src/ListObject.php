@@ -111,9 +111,7 @@ class ListObject extends Object implements ListObjectInterface
     {
         $url = parse_url($this->url);
 
-        if (! isset($url['path']) or empty($url['path'])) {
-            throw new ApiException("Could not parse list url into parts: " . $this->url);
-        }
+        $this->checkPath($url);
 
         if (isset($url['query'])) {
             // If the URL contains a query param, parse it out into $params so they
@@ -125,5 +123,25 @@ class ListObject extends Object implements ListObjectInterface
         }
 
         return [$url['path'], $params];
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Check if URL has path
+     *
+     * @param array $url
+     *
+     * @throws ApiException
+     */
+    private function checkPath(array $url)
+    {
+        if (! isset($url['path']) or empty($url['path'])) {
+            throw new ApiException(
+                'Could not parse list url into parts: ' . $this->url
+            );
+        }
     }
 }

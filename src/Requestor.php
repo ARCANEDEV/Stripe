@@ -363,18 +363,17 @@ class Requestor implements RequestorInterface
     /**
      * Prepare request Headers
      *
-     * @param      $headers
-     * @param bool $hasFile
+     * @param array $headers
+     * @param bool  $hasFile
      *
      * @return array
      */
-    private function prepareHeaders($headers, $hasFile)
+    private function prepareHeaders(array $headers, $hasFile)
     {
-        $apiKey         = $this->getApiKey();
         $defaults = [
             'X-Stripe-Client-User-Agent' => self::userAgent(),
             'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
-            'Authorization'              => 'Bearer ' . $apiKey,
+            'Authorization'              => 'Bearer ' . $this->getApiKey(),
         ];
 
         if (Stripe::hasApiVersion()) {

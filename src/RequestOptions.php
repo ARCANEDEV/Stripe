@@ -92,9 +92,7 @@ class RequestOptions implements RequestOptionsInterface
      */
     public static function parse($options)
     {
-        if (! is_null($options) and ! is_string($options) and ! is_array($options)) {
-            throw new ApiException("options must be a string, an array, or null");
-        }
+        self::checkOptions($options);
 
         if (is_null($options)) {
             return new self(null, []);
@@ -106,12 +104,11 @@ class RequestOptions implements RequestOptionsInterface
 
         // $options is array
         $key     = null;
-        $headers = [];
-
         if (array_key_exists('api_key', $options)) {
             $key = $options['api_key'];
         }
 
+        $headers = [];
         if (array_key_exists('idempotency_key', $options)) {
             $headers['Idempotency-Key'] = $options['idempotency_key'];
         }
@@ -131,5 +128,21 @@ class RequestOptions implements RequestOptionsInterface
     public function hasApiKey()
     {
         return ! is_null($this->apiKey);
+    }
+
+    /**
+     * Check Options
+     *
+     * @param array|string|null $options
+     *
+     * @throws ApiException
+     */
+    private static function checkOptions($options)
+    {
+        if (! is_null($options) and ! is_string($options) and ! is_array($options)) {
+            throw new ApiException(
+                'Options must be a string, an array, or null'
+            );
+        }
     }
 }

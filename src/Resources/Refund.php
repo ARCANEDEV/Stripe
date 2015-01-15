@@ -39,9 +39,10 @@ class Refund extends Resource implements RefundInterface
         $id         = $this['id'];
 
         if (! $id) {
-            $msg    = "Could not determine which URL to request: class instance has invalid ID: $id";
-
-            throw new InvalidRequestException($msg, null);
+            throw new InvalidRequestException(
+                'Could not determine which URL to request: class instance has invalid ID: '. $id,
+                null
+            );
         }
 
         $chargeId   = $this['charge'];

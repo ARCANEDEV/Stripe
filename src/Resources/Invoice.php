@@ -53,42 +53,42 @@ class Invoice extends Resource implements InvoiceInterface
      * Create an invoice
      * @link https://stripe.com/docs/api/php#create_invoice
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return Invoice
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**
      * Retrieving an Invoice
      * @link https://stripe.com/docs/api/php#retrieve_invoice
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return Invoice
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
      * List of all Invoices
      * @link https://stripe.com/docs/api/php#list_customer_invoices
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -106,16 +106,16 @@ class Invoice extends Resource implements InvoiceInterface
      * Retrieve  Upcoming Invoice
      * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return Invoice
      */
-    public static function upcoming($params = [], $apiKey = null)
+    public static function upcoming($params = [], $options = null)
     {
         $url = self::classUrl(get_class()) . '/upcoming';
 
-        list($response, $apiKey) = Requestor::make($apiKey)
+        list($response, $apiKey) = Requestor::make($options)
             ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);

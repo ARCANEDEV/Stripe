@@ -79,7 +79,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
     {
         if (! $id) {
             throw new InvalidRequestException(
-                "Could not determine which URL to request: class instance has invalid ID: $id",
+                'Could not determine which URL to request: class instance has invalid ID: ' . $id,
                 400
             );
         }

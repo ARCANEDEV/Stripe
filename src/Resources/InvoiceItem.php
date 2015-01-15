@@ -50,42 +50,42 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      * Retrieve an Invoice Item
      * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return InvoiceItem
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Invoice Items
      * @link https://stripe.com/docs/api/php#list_invoiceitems
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 
     /**
      * Create an Invoice Item
      * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return InvoiceItem
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**

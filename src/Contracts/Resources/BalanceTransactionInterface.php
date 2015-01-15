@@ -23,20 +23,22 @@ use Arcanedev\Stripe\Contracts\ListObjectInterface;
 interface BalanceTransactionInterface
 {
     /**
-     * @param string      $id     The ID of the balance transaction to retrieve.
-     * @param string|null $apiKey
+     * Retrieving a Balance Transaction
+     *
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return BalanceTransactionInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
-     * Get an array of BalanceTransactions.
+     * List balance history
      *
      * @param array|null  $params
-     * @param string|null $apiKey
+     * @param array|string|null $options
      *
-     * @return array
+     * @return ListObjectInterface
      */
-    public static function all($params = null, $apiKey = null);
+    public static function all($params = null, $options = null);
 }

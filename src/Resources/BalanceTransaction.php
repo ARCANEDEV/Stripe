@@ -50,27 +50,27 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * Retrieving a Balance Transaction
      * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
      *
-     * @param string      $id     The ID of the balance transaction to retrieve.
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return BalanceTransaction
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
      * List balance history
      * @link https://stripe.com/docs/api/php#balance_history
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 }

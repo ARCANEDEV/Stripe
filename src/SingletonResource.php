@@ -39,6 +39,6 @@ class SingletonResource extends Resource
         $class  = get_class($this);
         $base   = self::classUrl($class);
 
-        return "$base";
+        return (string) $base;
     }
 }

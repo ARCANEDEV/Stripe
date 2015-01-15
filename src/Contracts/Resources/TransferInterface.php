@@ -36,34 +36,34 @@ interface TransferInterface
      * Retrieve a Transfer
      * @link https://stripe.com/docs/api/curl#retrieve_transfer
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return TransferInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * List all Transfers
      * @link https://stripe.com/docs/api/curl#list_transfers
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Create a new transfer
      * @link https://stripe.com/docs/api/curl#create_transfer
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return TransferInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Cancel a Transfer

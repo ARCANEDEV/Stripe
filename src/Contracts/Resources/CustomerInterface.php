@@ -29,34 +29,34 @@ interface CustomerInterface
      * Retrieve a Customer
      * @link https://stripe.com/docs/api/php#retrieve_customer
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return CustomerInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * List all Customers
      * @link https://stripe.com/docs/api/php#list_customers
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Create Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
      * @param array  $params
-     * @param string|null $apiKey
+     * @param string|null $options
      *
      * @return CustomerInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Update/Save Customer

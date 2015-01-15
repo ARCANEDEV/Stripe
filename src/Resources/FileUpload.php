@@ -59,18 +59,18 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Retrieve a File
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return FileUpload
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
         // TODO: Refactor retrieve() method
-        $file = new self($id, $apiKey);
+        $file = new self($id, $options);
         $url  = self::END_POINT . '/' . $id;
 
-        list($response, $apiKey) = Requestor::make($apiKey, self::baseUrl())
+        list($response, $apiKey) = Requestor::make($options, self::baseUrl())
             ->get($url, $file->retrieveParameters);
 
         $file->refreshFrom($response, $apiKey);
@@ -81,26 +81,26 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Create/Upload a File
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return FileUpload
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**
      * List all uploaded files
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 }

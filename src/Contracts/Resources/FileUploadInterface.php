@@ -22,30 +22,30 @@ interface FileUploadInterface
     /**
      * Retrieve a File
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return FileUploadInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * Create/Upload a File
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return FileUploadInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 
     /**
      * List all uploaded files
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = [], $apiKey = null);
+    public static function all($params = [], $options = null);
 }

@@ -1,8 +1,9 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\CardInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+
 use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\Contracts\Resources\CardInterface;
 
 /**
  * Card Object

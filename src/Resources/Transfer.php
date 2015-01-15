@@ -39,42 +39,42 @@ class Transfer extends Resource implements TransferInterface
      * Retrieve a Transfer
      * @link https://stripe.com/docs/api/curl#retrieve_transfer
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return Transfer
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Transfers
      * @link https://stripe.com/docs/api/curl#list_transfers
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObject
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 
     /**
      * Create a new transfer
      * @link https://stripe.com/docs/api/curl#create_transfer
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return Transfer
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -96,10 +96,8 @@ class Transfer extends Resource implements TransferInterface
      */
     public function cancel()
     {
-        $url = $this->instanceUrl() . '/cancel';
-
         list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url);
+            ->post($this->instanceUrl() . '/cancel');
 
         $this->refreshFrom($response, $apiKey);
 

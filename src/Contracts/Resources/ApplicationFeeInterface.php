@@ -30,23 +30,23 @@ interface ApplicationFeeInterface
      * Retrieving an Application Fee
      * @link https://stripe.com/docs/api/php#retrieve_application_fee
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return ApplicationFeeInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * List all Application Fees
      * @link https://stripe.com/docs/api/php#list_application_fees
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return ListObjectInterface
      */
-    public static function all($params = null, $apiKey = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Creating an Application Fee Refund
@@ -56,5 +56,5 @@ interface ApplicationFeeInterface
      *
      * @return ApplicationFeeInterface
      */
-    public function refund($params = null);
+    public function refund($params = []);
 }

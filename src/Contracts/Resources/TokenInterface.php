@@ -23,21 +23,21 @@ interface TokenInterface
      * Retrieve a Token
      * @link https://stripe.com/docs/api/curl#retrieve_token
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param string            $id
+     * @param array|string|null $options
      *
      * @return TokenInterface
      */
-    public static function retrieve($id, $apiKey = null);
+    public static function retrieve($id, $options = null);
 
     /**
      * Create a Card Token
      * @link https://stripe.com/docs/api/curl#create_card_token
      *
-     * @param array       $params
-     * @param string|null $apiKey
+     * @param array             $params
+     * @param array|string|null $options
      *
      * @return TokenInterface
      */
-    public static function create($params = [], $apiKey = null);
+    public static function create($params = [], $options = null);
 }

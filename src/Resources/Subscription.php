@@ -46,9 +46,10 @@ class Subscription extends Resource implements SubscriptionInterface
         $customerId = $this['customer'];
 
         if (! $id) {
-            $msg = "Could not determine which URL to request: class instance has invalid ID: $id";
-
-            throw new InvalidRequestException($msg, null);
+            throw new InvalidRequestException(
+                'Could not determine which URL to request: class instance has invalid ID: '. $id,
+                null
+            );
         }
 
         $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
