@@ -20,52 +20,52 @@ You can sign up for a Stripe account at https://stripe.com.
     - ext-json: *
     - ext-mbstring: *
     
+## INSTALLATION
+
 ### Composer
 
-You can install the bindings via [Composer](http://getcomposer.org/). Add this to your `composer.json`:
+You can install the bindings via [Composer](http://getcomposer.org/). Add this to your `composer.json` :
 
-    {
-      "require": {
-        ...
+```json
+{
+    "require": {
         "arcanedev/stripe": "~2.0"
-        ...
-      }
     }
+}
+```
+
+Then install it via `composer install` or `composer update`.
+
+## USAGE
+
+Simple usage looks like :
+
+```php
+require_once('vendor/autoload.php');
+
+use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\Resources\Charge;
     
-Then install via:
-
-    composer.phar install
-
-To use the bindings, either user Composer's [autoload](https://getcomposer.org/doc/00-intro.md#autoloading):
-
-    require_once('vendor/autoload.php');
-
-### Getting Started
-
-Simple usage looks like:
-
-    use Arcanedev\Stripe\Stripe;
-    use Arcanedev\Stripe\Resources\Charge;
+Stripe::setApiKey('your-stripe-api-key');
     
-    Stripe::setApiKey('your-stripe-api-key');
+$myCard = [
+    'number'    => '4242424242424242',
+    'exp_month' => 5,
+    'exp_year'  => 2015
+];
     
-    $myCard = [
-        'number'    => '4242424242424242',
-        'exp_month' => 5,
-        'exp_year'  => 2015
-    ];
+$charge = Charge::create([
+    'card'      => $myCard,
+    'amount'    => 2000,
+    'currency'  => 'usd'
+]);
     
-    $charge = Charge::create([
-        'card'      => $myCard,
-        'amount'    => 2000,
-        'currency'  => 'usd'
-    ]);
-    
-    var_dump($charge);
+var_dump($charge);
+```
 
 ## Documentation
 
-Please see https://stripe.com/docs/api for up-to-date documentation.
+Please see [Stripe API Reference](https://stripe.com/docs/api) for up-to-date documentation.
 
 ### TODOS:
 
