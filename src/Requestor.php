@@ -8,6 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
+use Arcanedev\Stripe\Utilities\ApiErrorsHandler;
 use CURLFile;
 
 class Requestor implements RequestorInterface
@@ -211,9 +212,10 @@ class Requestor implements RequestorInterface
     {
         try {
             $response = json_decode($respBody, true);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw new ApiException(
-                "Invalid response body from API: $respBody (HTTP response code was $respCode)",
+                'Invalid response body from API: ' . $respBody . ' (HTTP response code was ' . $respCode .')',
                 $respCode,
                 'api_error',
                 null,
@@ -222,7 +224,7 @@ class Requestor implements RequestorInterface
         }
 
         if ($respCode < 200 or $respCode >= 300) {
-            $this->handleApiError($respBody, $respCode, $response);
+            (new ApiErrorsHandler)->handle($respBody, $respCode, $response);
         }
 
         return $response;
@@ -277,7 +279,8 @@ class Requestor implements RequestorInterface
 
         if ($method !== 'post') {
             $absUrl = str_parse_url($absUrl, $params);
-        } else {
+        }
+        else {
             $params = $this->hasFile ? $params : str_url_queries($params);
         }
 
@@ -367,6 +370,22 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Get User Agent (JSON format)
+     *
+     * @return string
+     */
+    private static function userAgent()
+    {
+        return json_encode([
+            'bindings_version' => Stripe::VERSION,
+            'lang'             => 'php',
+            'lang_version'     => phpversion(),
+            'publisher'        => 'stripe',
+            'uname'            => php_uname(),
+        ]);
+    }
+
+    /**
      * Prepare CURL request Headers
      *
      * @param array $headers
@@ -427,22 +446,6 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Get User Agent (JSON format)
-     *
-     * @return string
-     */
-    private static function userAgent()
-    {
-        return json_encode([
-            'bindings_version' => Stripe::VERSION,
-            'lang'             => 'php',
-            'lang_version'     => phpversion(),
-            'publisher'        => 'stripe',
-            'uname'            => php_uname(),
-        ]);
-    }
-
-    /**
      * Prepare Method Options
      *
      * @param string $method
@@ -497,23 +500,20 @@ class Requestor implements RequestorInterface
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = "Could not connect to Stripe ($apiBase).  Please check your "
-                    . 'internet connection and try again.  If this problem persists, '
-                    . 'you should check Stripe\'s service status at '
+                $msg = 'Could not connect to Stripe (' . $apiBase . '). Please check your internet connection '
+                    . 'and try again.  If this problem persists, you should check Stripe\'s service status at '
                     . 'https://twitter.com/stripestatus, or';
                 break;
 
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
-                $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure '
-                    . 'that your network is not intercepting certificates.  '
-                    . "(Try going to $apiBase in your browser.)  "
+                $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure that your network is not '
+                    . 'intercepting certificates. (Try going to ' . $apiBase . ' in your browser.) '
                     . 'If this problem persists,';
                 break;
 
             default:
-                $msg = 'Unexpected error communicating with Stripe.  '
-                    . 'If this problem persists,';
+                $msg = 'Unexpected error communicating with Stripe. If this problem persists,';
         }
 
         $msg .= ' let us know at support@stripe.com.';
@@ -690,74 +690,6 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Handle API Errors
-     *
-     * @param string $respBody
-     * @param int    $respCode
-     * @param array  $response
-     *
-     * @throws ApiException
-     * @throws RateLimitException
-     * @throws InvalidRequestException
-     * @throws AuthenticationException
-     * @throws CardException
-     */
-    private function handleApiError($respBody, $respCode, $response)
-    {
-        if (! is_array($response) or ! isset($response['error'])) {
-            $msg = "Invalid response object from API: $respBody (HTTP response code was $respCode)";
-
-            throw new ApiException($msg, $respCode, $respBody, $response);
-        }
-
-        $error      = $response['error'];
-        $type       = isset($error['type'])    ? $error['type']    : null;
-        $msg        = isset($error['message']) ? $error['message'] : null;
-        $stripeCode = isset($error['code'])    ? $error['code']    : null;
-        $params     = isset($error['param'])   ? $error['param']   : null;
-
-        if (is_null($params)) {
-            $params = array_diff_key($error, array_flip([
-                'type', 'message', 'code'
-            ]));
-        }
-
-        switch ($respCode) {
-            case 400:
-                if ($stripeCode == 'rate_limit') {
-                    throw new RateLimitException(
-                        $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
-                    );
-                }
-                break;
-
-            case 404:
-                // If the error is caused by the user.
-                throw new InvalidRequestException(
-                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
-                );
-
-            case 401:
-                // If the error is caused by a lack of permissions.
-                throw new AuthenticationException(
-                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
-                );
-
-            case 402:
-                // If the error is the error code is 402 (payment required)
-                throw new CardException(
-                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
-                );
-
-            default:
-                // Otherwise...
-                throw new ApiException(
-                    $msg, $respCode, $type, $stripeCode, $respBody, $response, $params
-                );
-        }
-    }
-
-    /**
      * Check Http Method
      *
      * @param string $method
@@ -774,6 +706,9 @@ class Requestor implements RequestorInterface
 
         $methods = implode(', ', self::$allowedMethods);
 
-        throw new ApiException("Unrecognized method $method, must be [$methods].", 500);
+        throw new ApiException(
+            "Unrecognized method $method, must be [$methods].",
+            500
+        );
     }
 }
