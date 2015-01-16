@@ -106,7 +106,9 @@ class TransferTest extends StripeTestCase
         $transfer = Transfer::retrieve($this->transfer->id);
         $this->assertEquals($transfer->id, $this->transfer->id);
 
-        $transfer->cancel();
+        if ($transfer->status !== 'paid') {
+            $transfer->cancel();
+        }
     }
 
     /**

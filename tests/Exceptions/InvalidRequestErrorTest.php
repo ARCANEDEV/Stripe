@@ -26,25 +26,26 @@ class InvalidRequestErrorTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionMessage No such customer: invalid
+     * @expectedExceptionCode 404
+     */
     public function testInvalidObject()
     {
-        try {
-            Customer::retrieve('invalid');
-        }
-        catch (InvalidRequestException $e) {
-            $this->assertEquals(404, $e->getCode());
-            $this->assertEquals(404, $e->getHttpStatus());
-        }
+        Customer::retrieve('invalid');
     }
 
+    /**
+     * @test
+     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionMessage You must supply either a card or a customer id
+     * @expectedExceptionCode 400
+     */
     public function testBadData()
     {
-        try {
-            Charge::create();
-        }
-        catch (InvalidRequestException $e) {
-            $this->assertEquals(400, $e->getCode());
-            $this->assertEquals(400, $e->getHttpStatus());
-        }
+        Charge::create();
     }
 }
