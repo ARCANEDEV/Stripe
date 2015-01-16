@@ -36,6 +36,9 @@ class Requestor implements RequestorInterface
         '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
     ];
 
+    /** @var bool */
+    private $hasFile = false;
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -171,6 +174,9 @@ class Requestor implements RequestorInterface
      */
     public function request($method, $url, $params = [], $headers = null)
     {
+        $this->checkApiKey();
+        $this->checkMethod($method);
+
         if (! is_array($params) or is_null($params)) {
             $params = [];
         }
@@ -205,8 +211,7 @@ class Requestor implements RequestorInterface
     {
         try {
             $response = json_decode($respBody, true);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new ApiException(
                 "Invalid response body from API: $respBody (HTTP response code was $respCode)",
                 $respCode,
@@ -227,7 +232,9 @@ class Requestor implements RequestorInterface
      * @param string $method
      * @param string $url
      * @param array  $params
+     * @param array  $headers
      *
+     * @throws ApiConnectionException
      * @throws ApiException
      * @throws ApiKeyNotSetException
      *
@@ -242,60 +249,14 @@ class Requestor implements RequestorInterface
             self::$preFlight[$this->apiBaseUrl] = $this->checkSslCert($this->apiBaseUrl);
         }
 
-        $this->checkApiKey();
-
-        $absUrl      = $this->apiBaseUrl . $url;
-        $params      = self::encodeObjects($params);
-        $apiKey      = $this->getApiKey();
-        $hasFile     = false;
-
-        foreach ($params as $key => $value) {
-            if (is_resource($value)) {
-                $hasFile    = true;
-                $params[$key] = self::processResourceParam($value);
-            }
-            elseif (
-                class_exists('CURLFile') and
-                $value instanceof CURLFile
-            ) {
-                $hasFile    = true;
-            }
-        }
+        $apiKey = $this->getApiKey();
+        $absUrl = $this->apiBaseUrl . $url;
+        $params = self::encodeObjects($params);
 
         list($respBody, $respCode) =
-            $this->curlRequest($method, $absUrl, $params, $headers, $hasFile);
+            $this->curlRequest($method, $absUrl, $params, $headers);
 
         return [$respBody, $respCode, $apiKey];
-    }
-
-    /**
-     * Process Resource Parameter
-     *
-     * @param resource $resource
-     *
-     * @throws ApiException
-     *
-     * @return CURLFile|string
-     */
-    private function processResourceParam($resource)
-    {
-        if (get_resource_type($resource) !== 'stream') {
-            throw new ApiException(
-                'Attempted to upload a resource that is not a stream'
-            );
-        }
-
-        $metaData = stream_get_meta_data($resource);
-        if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException(
-                'Only plainfile resource streams are supported'
-            );
-        }
-
-        // We don't have the filename or mimetype, but the API doesn't care
-        return class_exists('CURLFile')
-            ? new CURLFile($metaData['uri'])
-            : '@' . $metaData['uri'];
     }
 
     /**
@@ -305,41 +266,25 @@ class Requestor implements RequestorInterface
      * @param string     $absUrl
      * @param array      $params
      * @param array|null $headers
-     * @param bool       $hasFile
      *
      * @return array
      * @throws ApiConnectionException
      * @throws ApiException
      */
-    private function curlRequest($method, $absUrl, $params, $headers, $hasFile)
+    private function curlRequest($method, $absUrl, $params, $headers)
     {
-        $curl   = curl_init();
-
-        $method = strtolower($method);
-
-        $this->checkMethod($method);
+        self::processResourceParams($params);
 
         if ($method !== 'post') {
             $absUrl = str_parse_url($absUrl, $params);
-        }
-        else {
-            $params = $hasFile ? $params : str_url_queries($params);
-        }
-
-        $headers = $this->prepareHeaders($headers, $hasFile);
-        $opts    = $this->prepareMethodOptions($method, $params, $hasFile);
-
-        $opts[CURLOPT_URL]            = str_utf8($absUrl);
-        $opts[CURLOPT_RETURNTRANSFER] = true;
-        $opts[CURLOPT_CONNECTTIMEOUT] = 30;
-        $opts[CURLOPT_TIMEOUT]        = 80;
-        $opts[CURLOPT_RETURNTRANSFER] = true;
-        $opts[CURLOPT_HTTPHEADER]     = $headers;
-
-        if (! Stripe::$verifySslCerts) {
-            $opts[CURLOPT_SSL_VERIFYPEER] = false;
+        } else {
+            $params = $this->hasFile ? $params : str_url_queries($params);
         }
 
+        $headers  = $this->prepareCurlHeaders($headers);
+        $opts     = $this->prepareCurlOptions($method, $absUrl, $params, $headers);
+
+        $curl     = curl_init();
         curl_setopt_array($curl, $opts);
         $response = curl_exec($curl);
         $errorNum = curl_errno($curl);
@@ -374,20 +319,67 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Prepare request Headers
+     * Process Resource Parameters
+     *
+     * @param array $params
+     *
+     * @throws ApiException
+     */
+    private function processResourceParams(&$params)
+    {
+        foreach ($params as $key => $resource) {
+            $this->hasFile = self::checkHasResourceFile($resource);
+
+            if (is_resource($resource)) {
+                $params[$key] = self::processResourceParam($resource);
+            }
+        }
+    }
+
+    /**
+     * Process Resource Parameter
+     *
+     * @param resource $resource
+     *
+     * @throws ApiException
+     *
+     * @return CURLFile|string
+     */
+    private function processResourceParam($resource)
+    {
+        if (get_resource_type($resource) !== 'stream') {
+            throw new ApiException(
+                'Attempted to upload a resource that is not a stream'
+            );
+        }
+
+        $metaData = stream_get_meta_data($resource);
+        if ($metaData['wrapper_type'] !== 'plainfile') {
+            throw new ApiException(
+                'Only plainfile resource streams are supported'
+            );
+        }
+
+        // We don't have the filename or mimetype, but the API doesn't care
+        return class_exists('CURLFile')
+            ? new CURLFile($metaData['uri'])
+            : '@' . $metaData['uri'];
+    }
+
+    /**
+     * Prepare CURL request Headers
      *
      * @param array $headers
-     * @param bool  $hasFile
      *
      * @return array
      */
-    private function prepareHeaders(array $headers, $hasFile)
+    private function prepareCurlHeaders(array $headers)
     {
         $defaults = [
             'X-Stripe-Client-User-Agent' => self::userAgent(),
             'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
             'Authorization'              => 'Bearer ' . $this->getApiKey(),
-            'Content-Type'               => $hasFile
+            'Content-Type'               => $this->hasFile
                 ? 'multipart/form-data'
                 : 'application/x-www-form-urlencoded',
         ];
@@ -403,6 +395,35 @@ class Requestor implements RequestorInterface
         }
 
         return $rawHeaders;
+    }
+
+    /**
+     * Prepare CURL request Options
+     *
+     * @param string $method
+     * @param string $absUrl
+     * @param array  $params
+     * @param array  $headers
+     *
+     * @throws ApiException
+     *
+     * @return array
+     */
+    private function prepareCurlOptions($method, $absUrl, $params, $headers)
+    {
+        $opts = $this->prepareMethodOptions($method, $params);
+
+        $opts[CURLOPT_URL]            = str_utf8($absUrl);
+        $opts[CURLOPT_RETURNTRANSFER] = true;
+        $opts[CURLOPT_CONNECTTIMEOUT] = 30;
+        $opts[CURLOPT_TIMEOUT]        = 80;
+        $opts[CURLOPT_HTTPHEADER]     = $headers;
+
+        if (! Stripe::$verifySslCerts) {
+            $opts[CURLOPT_SSL_VERIFYPEER] = false;
+        }
+
+        return $opts;
     }
 
     /**
@@ -425,14 +446,13 @@ class Requestor implements RequestorInterface
      * Prepare Method Options
      *
      * @param string $method
-     * @param        $params
-     * @param bool   $hasFile
+     * @param array  $params
      *
      * @throws ApiException
      *
      * @return array
      */
-    private function prepareMethodOptions($method, $params, $hasFile)
+    private function prepareMethodOptions($method, $params)
     {
         $opts = [];
 
@@ -449,7 +469,7 @@ class Requestor implements RequestorInterface
 
             case 'get':
             default:
-                if ($hasFile) {
+                if ($this->hasFile) {
                     throw new ApiException(
                         'Issuing a GET request with a file parameter'
                     );
@@ -462,6 +482,8 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Handle CURL error
+     *
      * @param number $errorNum
      * @param string $message
      *
@@ -585,7 +607,7 @@ class Requestor implements RequestorInterface
      *
      * @return bool
      */
-    private function isApiKeySet()
+    private function isApiKeyExists()
     {
         $apiKey = $this->getApiKey();
 
@@ -612,11 +634,26 @@ class Requestor implements RequestorInterface
         return in_array($fingerprint, self::$blacklistedCerts);
     }
 
+    /**
+     * Check if param is resource File
+     *
+     * @param mixed $resource
+     *
+     * @return bool
+     */
+    private function checkHasResourceFile($resource)
+    {
+        return is_resource($resource) or
+        (class_exists('CURLFile') and $resource instanceof CURLFile);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Encode Objects
+     *
      * @param Resource|bool|array|string $obj
      *
      * @return array|string
@@ -641,12 +678,14 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Check if API Key Exists
+     *
      * @throws ApiKeyNotSetException
      */
     private function checkApiKey()
     {
-        if (! $this->isApiKeySet()) {
-            throw new ApiKeyNotSetException('The API Key is required !');
+        if (! $this->isApiKeyExists()) {
+            throw new ApiKeyNotSetException('The Stripe API Key is required !');
         }
     }
 
