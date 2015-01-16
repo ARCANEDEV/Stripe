@@ -226,7 +226,7 @@ class ApiErrorsHandler implements ApiErrorsHandlerInterface
         $error = null;
 
         if (isset($this->response['error'][$name])) {
-            return $this->response['error'][$name];
+            $error   = $this->response['error'][$name];
         }
 
         if ($name === 'param' and is_null($error)) {
