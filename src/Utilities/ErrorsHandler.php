@@ -120,9 +120,15 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      * @throws CardException
      * @throws InvalidRequestException
      * @throws RateLimitException
+     *
+     * @return void
      */
     public function handle($respBody, $respCode, $response)
     {
+        if ($respCode >= 200 or $respCode < 300) {
+            return;
+        }
+
         $this->setRespBody($respBody);
         $this->setRespCode($respCode);
         $this->setResponse($response);

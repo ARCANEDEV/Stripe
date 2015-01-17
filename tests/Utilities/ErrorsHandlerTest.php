@@ -54,6 +54,18 @@ class ErrorsHandlerTest extends StripeTestCase
 
     /**
      * @test
+     */
+    public function testMustSkipHandlingIfStatusCodeIsOk()
+    {
+        $respBody = '{"error":{"message":"Error"}}';
+        $respCode = 202;
+        $response = null;
+
+        $this->errorHandler->handle($respBody, $respCode, $response);
+    }
+
+    /**
+     * @test
      *
      * @expectedException        \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode    500

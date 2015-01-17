@@ -226,9 +226,7 @@ class Requestor implements RequestorInterface
             );
         }
 
-        if ($respCode < 200 or $respCode >= 300) {
-            $this->errorsHandler->handle($respBody, $respCode, $response);
-        }
+        $this->errorsHandler->handle($respBody, $respCode, $response);
 
         return $response;
     }
