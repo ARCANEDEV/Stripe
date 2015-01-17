@@ -221,8 +221,7 @@ abstract class Stripe implements StripeInterface
 
         if (empty($apiKey)) {
             throw new ApiKeyNotSetException(
-                'You must specify your api key to use stripe.',
-                500
+                'You must specify your api key to use stripe.'
             );
         }
     }
