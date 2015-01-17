@@ -211,11 +211,15 @@ class Requestor implements RequestorInterface
     {
         try {
             $response = json_decode($respBody, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception;
+            }
         }
         catch (\Exception $e) {
             throw new ApiException(
                 'Invalid response body from API: ' . $respBody . ' (HTTP response code was ' . $respCode .')',
-                $respCode,
+                500,
                 'api_error',
                 null,
                 $respBody

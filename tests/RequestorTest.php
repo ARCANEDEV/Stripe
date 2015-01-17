@@ -103,6 +103,20 @@ class RequestorTest extends StripeTestCase
         $method->invoke($this->requestor, 'PUT');
     }
 
+    /**
+     * @test
+     *
+     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode    500
+     * @expectedExceptionMessage Invalid response body from API: {bad: data} (HTTP response code was 200)
+     */
+    public function testMustThrowApiExceptionOnInvalidResponse()
+    {
+        $method = $this->getMethod('interpretResponse');
+
+        $method->invoke($this->requestor, '{bad: data}', 200);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
