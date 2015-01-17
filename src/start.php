@@ -20,6 +20,10 @@ if (! function_exists('mb_detect_encoding')) {
  |  Constants
  | ------------------------------------------------------------------------------------------------
  */
-if (! defined('CURLE_SSL_CACERT_BADFILE')) {
-    define('CURLE_SSL_CACERT_BADFILE', 77);
-}
+include_once __DIR__ . '/start/constants.php';
+
+/* ------------------------------------------------------------------------------------------------
+ |  Constants
+ | ------------------------------------------------------------------------------------------------
+ */
+include_once __DIR__ . '/start/helpers.php';

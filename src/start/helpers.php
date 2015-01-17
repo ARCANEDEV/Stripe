@@ -7,7 +7,7 @@
 if (! function_exists('ca_certificates')) {
     function ca_certificates()
     {
-        return __DIR__ . '/data/ca-certificates.crt';
+        return __DIR__ . '/../data/ca-certificates.crt';
     }
 }
 
