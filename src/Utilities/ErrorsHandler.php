@@ -7,7 +7,7 @@ use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 
-class ApiErrorsHandler implements ApiErrorsHandlerInterface
+class ErrorsHandler implements ApiErrorsHandlerInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -41,7 +41,7 @@ class ApiErrorsHandler implements ApiErrorsHandlerInterface
      *
      * @param string $respBody
      *
-     * @return ApiErrorsHandler
+     * @return ErrorsHandler
      */
     private function setRespBody($respBody)
     {
@@ -55,7 +55,7 @@ class ApiErrorsHandler implements ApiErrorsHandlerInterface
      *
      * @param int $respCode
      *
-     * @return ApiErrorsHandler
+     * @return ErrorsHandler
      */
     private function setRespCode($respCode)
     {

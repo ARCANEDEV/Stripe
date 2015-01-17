@@ -1,18 +1,19 @@
 <?php namespace Arcanedev\Stripe\Tests\Utilities;
 
-use Arcanedev\Stripe\Utilities\ApiErrorsHandler;
+use Arcanedev\Stripe\Utilities\ErrorsHandler;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class ApiErrorsHandlerTest extends StripeTestCase
+class ErrorsHandlerTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var ApiErrorsHandler */
+    /** @var ErrorsHandler */
     private $errorHandler;
-    const API_ERRORS_HANDLER_CLASS = 'Arcanedev\\Stripe\\Utilities\\ApiErrorsHandler';
+
+    const API_ERRORS_HANDLER_CLASS        = 'Arcanedev\\Stripe\\Utilities\\ErrorsHandler';
 
     // Exceptions classes
     const API_EXCEPTION_CLASS             = 'Arcanedev\\Stripe\\Exceptions\\ApiException';
@@ -29,7 +30,7 @@ class ApiErrorsHandlerTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->errorHandler = new ApiErrorsHandler;
+        $this->errorHandler = new ErrorsHandler;
     }
 
     public function tearDown()

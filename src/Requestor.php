@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
-use Arcanedev\Stripe\Utilities\ApiErrorsHandler;
+use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use CURLFile;
 
 class Requestor implements RequestorInterface
@@ -26,19 +26,17 @@ class Requestor implements RequestorInterface
 
     private $apiBaseUrl;
 
-    private static $preFlight = [];
+    private static $preFlight      = [];
 
     private static $allowedMethods = [
         'get', 'post', 'delete'
     ];
 
-    private static $blacklistedCerts = [
-        '05c0b3643694470a888c6e7feb5c9e24e823dc53',
-        '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
-    ];
-
     /** @var bool */
     private $hasFile = false;
+
+    /** @var ErrorsHandler */
+    private $errorsHandler;
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -46,21 +44,9 @@ class Requestor implements RequestorInterface
      */
     public function __construct($apiKey = null, $apiBase = null)
     {
+        $this->errorsHandler = new ErrorsHandler;
         $this->setApiKey($apiKey);
         $this->setApiBase($apiBase);
-    }
-
-    /**
-     * Create Requestor with static method
-     *
-     * @param string|null $apiKey
-     * @param string      $apiBase
-     *
-     * @return Requestor
-     */
-    public static function make($apiKey = null, $apiBase = '')
-    {
-        return new self($apiKey, $apiBase);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -119,6 +105,19 @@ class Requestor implements RequestorInterface
      |  Request Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Create Requestor with static method
+     *
+     * @param string|null $apiKey
+     * @param string      $apiBase
+     *
+     * @return Requestor
+     */
+    public static function make($apiKey = null, $apiBase = '')
+    {
+        return new self($apiKey, $apiBase);
+    }
+
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
@@ -189,9 +188,9 @@ class Requestor implements RequestorInterface
         list($respBody, $respCode, $apiKey) =
             $this->requestRaw($method, $url, $params, $headers);
 
-        $resp = $this->interpretResponse($respBody, $respCode);
+        $response = $this->interpretResponse($respBody, $respCode);
 
-        return [$resp, $apiKey];
+        return [$response, $apiKey];
     }
 
     /**
@@ -224,7 +223,7 @@ class Requestor implements RequestorInterface
         }
 
         if ($respCode < 200 or $respCode >= 300) {
-            (new ApiErrorsHandler)->handle($respBody, $respCode, $response);
+            $this->errorsHandler->handle($respBody, $respCode, $response);
         }
 
         return $response;
@@ -617,6 +616,8 @@ class Requestor implements RequestorInterface
     /**
      * Checks if a valid PEM encoded certificate is blacklisted
      *
+     * @param string $cert
+     *
      * @return bool
      */
     public static function isBlackListed($cert)
@@ -631,7 +632,10 @@ class Requestor implements RequestorInterface
         $derCert     = base64_decode(implode('', $lines));
         $fingerprint = sha1($derCert);
 
-        return in_array($fingerprint, self::$blacklistedCerts);
+        return in_array($fingerprint, [
+            '05c0b3643694470a888c6e7feb5c9e24e823dc53',
+            '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
+        ]);
     }
 
     /**
@@ -685,7 +689,9 @@ class Requestor implements RequestorInterface
     private function checkApiKey()
     {
         if (! $this->isApiKeyExists()) {
-            throw new ApiKeyNotSetException('The Stripe API Key is required !');
+            throw new ApiKeyNotSetException(
+                'The Stripe API Key is required !'
+            );
         }
     }
 
