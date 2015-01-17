@@ -13,6 +13,8 @@ class ApplicationFeeTest extends StripeTestCase
     /** @var ApplicationFee */
     protected $object;
 
+    const APPLICATION_FEE_CLASS = 'Arcanedev\\Stripe\\Resources\\ApplicationFee';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -38,10 +40,7 @@ class ApplicationFeeTest extends StripeTestCase
      */
     public function testCanBeInstantiable()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\ApplicationFee',
-            $this->object
-        );
+        $this->assertInstanceOf(self::APPLICATION_FEE_CLASS, $this->object);
     }
 
     /**
