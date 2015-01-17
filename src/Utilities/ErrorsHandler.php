@@ -125,7 +125,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      */
     public function handle($respBody, $respCode, $response)
     {
-        if ($respCode >= 200 or $respCode < 300) {
+        if ($respCode >= 200 and $respCode < 300) {
             return;
         }
 
