@@ -1,9 +1,9 @@
-Stripe PHP Library
+Stripe PHP Library [![Packagist License](http://img.shields.io/packagist/l/arcanedev/sanitizer.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/blob/master/LICENSE)
 ==============
 [![Travis Status](http://img.shields.io/travis/ARCANEDEV/Stripe.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/Stripe)
-[![Coverage Status](http://img.shields.io/coveralls/ARCANEDEV/Stripe.svg?style=flat-square)](https://coveralls.io/r/ARCANEDEV/Stripe?branch=master)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master)
 [![Github Release](http://img.shields.io/github/release/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/releases)
-[![Packagist License](http://img.shields.io/packagist/l/arcanedev/sanitizer.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/blob/master/LICENSE)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/arcanedev/stripe.svg?style=flat-square)](https://packagist.org/packages/arcanedev/stripe)
 [![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/issues)
 
@@ -74,5 +74,6 @@ Please see [Stripe API Reference](https://stripe.com/docs/api) for up-to-date do
   - [ ] Extract the curl function from Requestor and using a dedicated class instead (Utilities => CurlRequest Class).
   - [ ] More tests and code coverage.
   - [ ] Mockery for curl request.
-  - [ ] Stripe OAuth Class 
+  - [ ] Stripe OAuth Class
+  - [ ] Laravel support 
   - [ ] Refactoring.
