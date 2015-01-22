@@ -22,18 +22,21 @@
     "require-dev": {
         "phpunit/phpunit": "~4.4",
         "phpunit/phpcov": "~2.0",
-        "mockery/mockery": "~0.9",
-        "satooshi/php-coveralls": "dev-master"
+        "mockery/mockery": "~0.9"
     },
     "autoload": {
         "psr-4": {
-            "Arcanedev\\Stripe\\": "src/",
-            "Arcanedev\\Stripe\\Tests\\": "tests/"
+            "Arcanedev\\Stripe\\": "src/"
         },
         "files": [
             "src/start.php",
             "src/helpers.php"
         ]
     },
-    "minimum-stability": "dev"
+    "autoload-dev": {
+        "psr-4": {
+            "Arcanedev\\Stripe\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
 }
