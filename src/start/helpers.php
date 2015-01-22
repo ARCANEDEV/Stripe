@@ -208,22 +208,3 @@ if (! function_exists('validate_bool')) {
         return (bool) $value;
     }
 }
-
-/* ------------------------------------------------------------------------------------------------
- |  MISC
- | ------------------------------------------------------------------------------------------------
- */
-if (! function_exists('dd')) {
-    /**
-     * Dump & Die Function
-     *
-     * @codeCoverageIgnore
-     */
-    function dd()
-    {
-        array_map(function($x) {
-            var_dump($x);
-        }, func_get_args());
-        die;
-    }
-}
