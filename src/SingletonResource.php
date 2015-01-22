@@ -6,6 +6,14 @@ class SingletonResource extends Resource
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Retrieve a singleton resource
+     *
+     * @param  string      $class
+     * @param  string|null $apiKey
+     *
+     * @return SingletonResource
+     */
     protected static function scopedSingletonRetrieve($class, $apiKey = null)
     {
         /** @var self $instance */
@@ -16,13 +24,15 @@ class SingletonResource extends Resource
     }
 
     /**
+     * Get resource URL
+     *
      * @param string $class
      *
      * @return string The endpoint associated with this singleton class.
      */
     public static function classUrl($class = '')
     {
-        $base = self::className($class);
+        $base = parent::className($class);
 
         return "/v1/${base}";
     }
@@ -30,7 +40,7 @@ class SingletonResource extends Resource
     /**
      * The endpoint associated with this singleton API resource.
      *
-     * @param string $class
+     * @param  string $class
      *
      * @return string
      */

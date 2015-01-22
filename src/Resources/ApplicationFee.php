@@ -33,7 +33,7 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * This is a special case because the application fee endpoint has an
      *    underscore in it. The parent `className` function strips underscores.
      *
-     * @param string $class
+     * @param  string $class
      *
      * @return string The name of the class.
      */
@@ -50,14 +50,14 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * Retrieving an Application Fee
      * @link https://stripe.com/docs/api/php#retrieve_application_fee
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return ApplicationFee
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**

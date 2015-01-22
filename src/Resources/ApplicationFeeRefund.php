@@ -31,9 +31,11 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get instance URL - The API URL for this Stripe refund
+     *
      * @throws InvalidRequestException
      *
-     * @return string The API URL for this Stripe refund.
+     * @return string
      */
     public function instanceUrl()
     {
@@ -42,7 +44,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
         $id      = $this['id'];
         $fee     = $this['fee'];
 
-        $base    = self::classUrl(self::BASE_CLASS);
+        $base    = parent::classUrl(self::BASE_CLASS);
         $feeExtn = urlencode(str_utf8($fee));
         $extn    = urlencode(str_utf8($id));
 
@@ -61,7 +63,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -71,7 +73,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
     /**
      * Check if id is not empty
      *
-     * @param string $id
+     * @param  string $id
      *
      * @throws InvalidRequestException
      */

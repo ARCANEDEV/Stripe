@@ -67,11 +67,11 @@ class Card extends Resource implements CardInterface
 
         if (isset($this['customer'])) {
             $parent = $this['customer'];
-            $base   = self::classUrl(self::CUSTOMER_CLASS);
+            $base   = parent::classUrl(self::CUSTOMER_CLASS);
         }
         elseif (isset($this['recipient'])) {
             $parent = $this['recipient'];
-            $base   = self::classUrl(self::RECIPIENT_CLASS);
+            $base   = parent::classUrl(self::RECIPIENT_CLASS);
         }
         else {
             return null;
@@ -86,8 +86,8 @@ class Card extends Resource implements CardInterface
     /**
      * Construct Card from array values
      *
-     * @param array $values
-     * @param null  $apiKey
+     * @param  array $values
+     * @param  null  $apiKey
      *
      * @return Card
      */
@@ -108,19 +108,19 @@ class Card extends Resource implements CardInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**
      * Delete a card
      * @link https://stripe.com/docs/api/php#delete_card
      *
-     * @param array $params
+     * @param  array $params
      *
      * @return Card
      */
     public function delete($params = [])
     {
-        return self::scopedDelete($params);
+        return parent::scopedDelete($params);
     }
 }

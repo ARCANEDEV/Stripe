@@ -51,42 +51,42 @@ class Charge extends Resource implements ChargeInterface
      * List all Charges
      * @link https://stripe.com/docs/api/php#list_charges
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 
     /**
      * Retrieve a Charge
      * @link https://stripe.com/docs/api/php#retrieve_charge
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Charge
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
-     * @param array       $params
-     * @param array|string|null $options
+     * @param  array       $params
+     * @param  array|string|null $options
      *
      * @return Charge
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
@@ -97,14 +97,14 @@ class Charge extends Resource implements ChargeInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**
      * Creating a new refund
      * @link https://stripe.com/docs/api/php#create_refund
      *
-     * @param array       $params
+     * @param array|null  $params
      * @param string|null $options
      *
      * @return Charge
@@ -120,7 +120,7 @@ class Charge extends Resource implements ChargeInterface
      * Capture a charge
      * @link https://stripe.com/docs/api/php#capture_charge
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @return Charge
      */
@@ -135,7 +135,7 @@ class Charge extends Resource implements ChargeInterface
      * Updating a dispute
      * @link https://stripe.com/docs/api/php#update_dispute
      *
-     * @param array $params
+     * @param  array $params
      *
      * @return Object
      */

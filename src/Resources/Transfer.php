@@ -27,7 +27,7 @@ use Arcanedev\Stripe\Resource;
  * @property Object         bank_account
  * @property Card           card
  * @property string         recipient
- * @property string     statement_descriptor
+ * @property string         statement_descriptor
  */
 class Transfer extends Resource implements TransferInterface
 {
@@ -39,42 +39,42 @@ class Transfer extends Resource implements TransferInterface
      * Retrieve a Transfer
      * @link https://stripe.com/docs/api/curl#retrieve_transfer
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Transfer
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Transfers
      * @link https://stripe.com/docs/api/curl#list_transfers
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 
     /**
      * Create a new transfer
      * @link https://stripe.com/docs/api/curl#create_transfer
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return Transfer
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
@@ -85,7 +85,7 @@ class Transfer extends Resource implements TransferInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**

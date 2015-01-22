@@ -34,42 +34,42 @@ class Coupon extends Resource implements CouponInterface
      * Retrieve a Coupon
      * @link https://stripe.com/docs/api/php#retrieve_coupon
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Coupon
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Coupons
      * @link https://stripe.com/docs/api/php#list_coupons
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 
     /**
      * Create coupon
      * @link https://stripe.com/docs/api/php#create_coupon
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Coupon
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
@@ -80,19 +80,19 @@ class Coupon extends Resource implements CouponInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**
      * Delete a coupon
      * @link https://stripe.com/docs/api/php#delete_coupon
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @return Coupon
      */
     public function delete($params = [])
     {
-        return self::scopedDelete($params);
+        return parent::scopedDelete($params);
     }
 }

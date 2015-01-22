@@ -52,7 +52,7 @@ class Subscription extends Resource implements SubscriptionInterface
             );
         }
 
-        $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
+        $base           = parent::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
         $customerId     = urlencode(str_utf8($customerId));
         $subscriptionId = urlencode(str_utf8($id));
 
@@ -67,13 +67,13 @@ class Subscription extends Resource implements SubscriptionInterface
      * Cancel a Subscription
      * @link https://stripe.com/docs/api/php#cancel_subscription
      *
-     * @param array $params
+     * @param  array $params
      *
      * @return Subscription
      */
     public function cancel($params = [])
     {
-        return self::scopedDelete($params);
+        return parent::scopedDelete($params);
     }
 
     /**
@@ -84,7 +84,7 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**

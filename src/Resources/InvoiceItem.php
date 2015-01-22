@@ -50,42 +50,42 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      * Retrieve an Invoice Item
      * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return InvoiceItem
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Invoice Items
      * @link https://stripe.com/docs/api/php#list_invoiceitems
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 
     /**
      * Create an Invoice Item
      * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return InvoiceItem
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
@@ -96,19 +96,19 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**
      * Delete an Invoice Item
      * @link https://stripe.com/docs/api/php#delete_invoiceitem
      *
-     * @param array $params
+     * @param  array $params
      *
      * @return InvoiceItem
      */
     public function delete($params = [])
     {
-        return self::scopedDelete($params);
+        return parent::scopedDelete($params);
     }
 }

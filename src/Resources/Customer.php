@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
@@ -48,7 +49,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get Subscription URL
      *
-     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @throws InvalidRequestException
      *
      * @return string
      */
@@ -60,7 +61,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get Discount URL
      *
-     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @throws InvalidRequestException
      *
      * @return string
      */
@@ -77,22 +78,22 @@ class Customer extends Resource implements CustomerInterface
      * Retrieve a Customer
      * @link https://stripe.com/docs/api/php#retrieve_customer
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Customer
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Customers
      * @link https://stripe.com/docs/api/php#list_customers
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
@@ -105,38 +106,38 @@ class Customer extends Resource implements CustomerInterface
      * Create Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Customer
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
      * Update/Save Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
-     * @returns Customer
+     * @return Customer
      */
     public function save()
     {
-        return self::scopedSave();
+        return parent::scopedSave();
     }
 
     /**
      * Delete Customer
      * @link https://stripe.com/docs/api/php#delete_customer
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns Customer
+     * @return Customer
      */
     public function delete($params = [])
     {
-        return self::scopedDelete($params);
+        return parent::scopedDelete($params);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -146,9 +147,9 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Add an invoice item
      *
-     * @param array $params
+     * @param  array $params
      *
-     * @returns InvoiceItem
+     * @return InvoiceItem
      */
     public function addInvoiceItem($params = [])
     {
@@ -160,9 +161,9 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all invoices
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns ListObject
+     * @return ListObject
      */
     public function invoices($params = [])
     {
@@ -174,9 +175,9 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all invoice items
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns ListObject
+     * @return ListObject
      */
     public function invoiceItems($params = [])
     {
@@ -188,9 +189,9 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all charges
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns ListObject
+     * @return ListObject
      */
     public function charges($params = [])
     {
@@ -202,7 +203,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Update a Subscription
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @return Subscription
      */
@@ -219,7 +220,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Cancel Subscription
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @return Subscription
      */

@@ -20,7 +20,7 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * The class URL for this resource.
      * It needs to be special cased because it doesn't fit into the standard resource pattern.
      *
-     * @param string $class Ignored.
+     * @param  string $class Ignored.
      *
      * @return string
      */
@@ -32,25 +32,25 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
     /**
      * Retrieve Bitcoin Receiver
      *
-     * @param string      $id
-     * @param string|null $apiKey
+     * @param  string      $id
+     * @param  string|null $apiKey
      *
      * @return BitcoinReceiver
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return parent::scopedRetrieve($id, $apiKey);
     }
 
     /**
      * List all Bitcoin Receivers
      *
-     * @param array|null  $params
-     * @param string|null $apiKey
+     * @param  array|null  $params
+     * @param  string|null $apiKey
      *
      * @return ListObject
      */
-    public static function all($params = null, $apiKey = null)
+    public static function all($params = [], $apiKey = null)
     {
         return parent::scopedAll($params, $apiKey);
     }
@@ -58,12 +58,12 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
     /**
      * Create Bitcoin Receiver Object
      *
-     * @param array|null  $params
-     * @param string|null $apiKey
+     * @param  array|null  $params
+     * @param  string|null $apiKey
      *
      * @return BitcoinReceiver
      */
-    public static function create($params = null, $apiKey = null)
+    public static function create($params = [], $apiKey = null)
     {
         return parent::scopedCreate($params, $apiKey);
     }

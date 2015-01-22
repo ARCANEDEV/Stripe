@@ -33,7 +33,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * The class URL for this resource. It needs to be special cased because
      * it doesn't fit into the standard resource pattern.
      *
-     * @param string $class Ignored.
+     * @param  string $class Ignored.
      *
      * @return string
      */
@@ -50,27 +50,27 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * Retrieving a Balance Transaction
      * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return BalanceTransaction
      */
     public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $options);
+        return parent::scopedRetrieve($id, $options);
     }
 
     /**
      * List balance history
      * @link https://stripe.com/docs/api/php#balance_history
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 }

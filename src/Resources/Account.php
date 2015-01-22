@@ -30,12 +30,12 @@ class Account extends SingletonResource implements AccountInterface
      * Retrieve an account
      * @link https://stripe.com/docs/api/php#retrieve_account
      *
-     * @param string|null $apiKey
+     * @param  string|null $apiKey
      *
      * @return Account
      */
     public static function retrieve($apiKey = null)
     {
-        return self::scopedSingletonRetrieve(get_class(), $apiKey);
+        return parent::scopedSingletonRetrieve(get_class(), $apiKey);
     }
 }

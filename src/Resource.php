@@ -117,7 +117,7 @@ abstract class Resource extends Object implements ResourceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List Resources
+     * List scope
      *
      * @param array|null  $params
      * @param string|null $options
@@ -140,10 +140,10 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * Retrieve a Resource
+     * Retrieve scope
      *
-     * @param string $id
-     * @param string $options
+     * @param  string $id
+     * @param  string $options
      *
      * @return Resource
      */
@@ -160,23 +160,23 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * Create a Resource
+     * Create scope
      *
-     * @param array  $params
-     * @param string $options
+     * @param  array      $params
+     * @param  array|null $options
      *
      * @throws ApiException
      * @throws InvalidArgumentException
      *
      * @return Resource
      */
-    protected static function scopedCreate($params = null, $options = null)
+    protected static function scopedCreate($params = [], $options = null)
     {
         self::checkArguments($params, $options);
 
         $class = get_called_class();
-        $url   = self::scopedLsb($class, 'classUrl', $class);
-        $base  = self::scopedLsb($class, 'baseUrl');
+        $url   = parent::scopedLsb($class, 'classUrl', $class);
+        $base  = parent::scopedLsb($class, 'baseUrl');
         $opts  = RequestOptions::parse($options);
 
         list($response, $apiKey) = Requestor::make($opts->getApiKey(), $base)
@@ -186,7 +186,9 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param null $options
+     * Save scope
+     *
+     * @param  array|null $options
      *
      * @throws InvalidRequestException
      *
@@ -211,8 +213,10 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param array|null $params
-     * @param array|null $options
+     * Delete Scope
+     *
+     * @param  array|null $params
+     * @param  array|null $options
      *
      * @throws InvalidRequestException
      *

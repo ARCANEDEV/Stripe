@@ -30,11 +30,23 @@ class FileUpload extends Resource implements FileUploadInterface
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get FileUpload base URL
+     *
+     * @return string
+     */
     public static function baseUrl()
     {
         return Stripe::getUploadBaseUrl();
     }
 
+    /**
+     * Get object name
+     *
+     * @param  string $class
+     *
+     * @return string
+     */
     public static function className($class = '')
     {
         return 'file';
@@ -43,7 +55,7 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param string $class
+     * @param  string $class
      *
      * @return string
      */
@@ -59,8 +71,8 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Retrieve a File
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return FileUpload
      */
@@ -81,26 +93,26 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Create/Upload a File
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return FileUpload
      */
     public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $options);
+        return parent::scopedCreate($params, $options);
     }
 
     /**
      * List all uploaded files
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 }
