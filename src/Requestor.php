@@ -678,6 +678,8 @@ class Requestor implements RequestorInterface
      *
      * @param Resource|bool|array|string $obj
      *
+     * @throws ApiException
+     *
      * @return array|string
      */
     private static function encodeObjects($obj)
