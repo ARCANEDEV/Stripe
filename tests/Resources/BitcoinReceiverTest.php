@@ -101,7 +101,5 @@ class BitcoinReceiverTest extends StripeTestCase
 
         $transactions = $receiver->transactions->all(["limit" => 1]);
         $this->assertEquals(1, count($transactions->data));
-
-        var_dump($receiver->transactions);
     }
 }
