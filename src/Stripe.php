@@ -50,7 +50,7 @@ abstract class Stripe implements StripeInterface
      *
      * @var string|null
      */
-    const VERSION = '1.17.5';
+    const VERSION = '1.18.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
