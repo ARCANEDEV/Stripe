@@ -62,7 +62,7 @@ class Requestor implements RequestorInterface
     /**
      * Get Stripe API Key
      *
-     * @return string|null
+     * @return string
      */
     public function getApiKey()
     {
@@ -90,7 +90,7 @@ class Requestor implements RequestorInterface
     /**
      * Set API Base URL
      *
-     * @param $apiBaseUrl
+     * @param string|null $apiBaseUrl
      *
      * @return Requestor
      */
@@ -474,17 +474,17 @@ class Requestor implements RequestorInterface
      */
     private function prepareMethodOptions($method, $params)
     {
-        $opts = [];
+        $options = [];
 
         switch ($method) {
             case 'post':
-                $opts[CURLOPT_POST]          = true;
-                $opts[CURLOPT_CUSTOMREQUEST] = 'POST';
-                $opts[CURLOPT_POSTFIELDS]    = $params;
+                $options[CURLOPT_POST]          = true;
+                $options[CURLOPT_CUSTOMREQUEST] = 'POST';
+                $options[CURLOPT_POSTFIELDS]    = $params;
                 break;
 
             case 'delete':
-                $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
+                $options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
                 break;
 
             case 'get':
@@ -494,17 +494,17 @@ class Requestor implements RequestorInterface
                         'Issuing a GET request with a file parameter'
                     );
                 }
-                $opts[CURLOPT_HTTPGET]       = true;
-                $opts[CURLOPT_CUSTOMREQUEST] = 'GET';
+                $options[CURLOPT_HTTPGET]       = true;
+                $options[CURLOPT_CUSTOMREQUEST] = 'GET';
         }
 
-        return $opts;
+        return $options;
     }
 
     /**
      * Handle CURL error
      *
-     * @param number $errorNum
+     * @param int    $errorNum
      * @param string $message
      *
      * @throws ApiConnectionException
