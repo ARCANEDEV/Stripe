@@ -193,6 +193,12 @@ class ChargeTest extends StripeTestCase
         ]);
 
         $this->assertEquals($receiver->id, $charge->source->id);
+        $this->assertEquals('bitcoin_receiver', $charge->source->object);
+        $this->assertEquals('paid', $charge->status);
+        $this->assertEquals(
+            'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
+            get_class($charge->source)
+        );
     }
 
     public function testCanUpdateDispute()
