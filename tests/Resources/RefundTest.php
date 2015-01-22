@@ -122,14 +122,14 @@ class RefundTest extends StripeTestCase
         $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
 
         $charge   = Charge::create([
-            "amount" => $receiver->amount,
-            "currency" => $receiver->currency,
+            "amount"      => $receiver->amount,
+            "currency"    => $receiver->currency,
             "description" => $receiver->description,
-            'source' => $receiver->id
+            'source'      => $receiver->id
         ]);
 
-        $ref = $charge->refunds->create([
-            'amount' => $receiver->amount,
+        $ref      = $charge->refunds->create([
+            'amount'         => $receiver->amount,
             'refund_address' => 'ABCDEF'
         ]);
 
