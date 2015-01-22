@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
 use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
@@ -11,8 +12,9 @@ use Arcanedev\Stripe\Resource;
  * @property string         currency
  * @property int            amount
  * @property AttachedObject metadata
+ * @property ListObject     transactions
  */
-class BitcoinReceiver extends Resource
+class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
 {
     /**
      * The class URL for this resource.
