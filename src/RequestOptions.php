@@ -84,7 +84,7 @@ class RequestOptions implements RequestOptionsInterface
     /**
      * Unpacks an options array into an Options object
      *
-     * @param array|string $options
+     * @param array|string|null $options
      *
      * @throws ApiException
      *

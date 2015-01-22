@@ -27,7 +27,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Get the refreshed resource.
      *
-     * @returns Resource
+     * @return Resource
      */
     public function refresh()
     {
@@ -44,7 +44,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Get The name of the class, with namespacing and underscores stripped.
      *
-     * @param string $class
+     * @param  string $class
      *
      * @return string
      */
@@ -57,7 +57,9 @@ abstract class Resource extends Object implements ResourceInterface
     }
 
     /**
-     * @param string $class
+     * Get Class short name
+     *
+     * @param  string $class
      *
      * @return string
      */
@@ -75,7 +77,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param string $class
+     * @param  string $class
      *
      * @return string
      */
@@ -119,8 +121,8 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * List scope
      *
-     * @param array|null  $params
-     * @param string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
@@ -142,8 +144,8 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Retrieve scope
      *
-     * @param  string $id
-     * @param  string $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Resource
      */
@@ -162,8 +164,8 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Create scope
      *
-     * @param  array      $params
-     * @param  array|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      * @throws InvalidArgumentException
@@ -188,7 +190,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Save scope
      *
-     * @param  array|null $options
+     * @param  array|string|null $options
      *
      * @throws InvalidRequestException
      *
@@ -216,7 +218,7 @@ abstract class Resource extends Object implements ResourceInterface
      * Delete Scope
      *
      * @param  array|null $params
-     * @param  array|null $options
+     * @param  array|string|null $options
      *
      * @throws InvalidRequestException
      *
@@ -243,9 +245,9 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Custom Post Call
      *
-     * @param string      $url
-     * @param array       $params
-     * @param string|null $options
+     * @param  string            $url
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Resource
      */
@@ -268,8 +270,8 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Check Arguments
      *
-     * @param array|null  $params
-     * @param string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      * @throws BadMethodCallException
@@ -285,7 +287,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Check parameters
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @throws InvalidArgumentException
      */
@@ -305,7 +307,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Check Options
      *
-     * @param string $options
+     * @param  string $options
      *
      * @throws ApiException
      */
@@ -327,9 +329,9 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * with either passed in or saved API key
      *
-     * @param array $options
+     * @param  array|string|null $options
      *
-     * @returns RequestOptions
+     * @return RequestOptions
      */
     protected function parseOptions($options)
     {
