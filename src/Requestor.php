@@ -42,6 +42,12 @@ class Requestor implements RequestorInterface
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Constructor
+     *
+     * @param string|null $apiKey
+     * @param string|null $apiBase
+     */
     public function __construct($apiKey = null, $apiBase = null)
     {
         $this->errorsHandler = new ErrorsHandler;
@@ -68,6 +74,8 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Set API Key
+     *
      * @param string $apiKey
      *
      * @return Requestor
@@ -80,7 +88,11 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Set API Base URL
+     *
      * @param $apiBaseUrl
+     *
+     * @return Requestor
      */
     private function setApiBase($apiBaseUrl)
     {
@@ -89,6 +101,8 @@ class Requestor implements RequestorInterface
         }
 
         $this->apiBaseUrl = $apiBaseUrl;
+
+        return $this;
     }
 
     /**
@@ -122,7 +136,7 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string            $url
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $headers
      *
      * @return array
@@ -136,7 +150,7 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string            $url
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $headers
      *
      * @return array
@@ -150,7 +164,7 @@ class Requestor implements RequestorInterface
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
      * @param string            $url
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $headers
      *
      * @return array
@@ -165,7 +179,7 @@ class Requestor implements RequestorInterface
      *
      * @param string            $method
      * @param string            $url
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $headers
      *
      * @throws ApiException
@@ -232,6 +246,8 @@ class Requestor implements RequestorInterface
     }
 
     /**
+     * Raw request
+     *
      * @param string $method
      * @param string $url
      * @param array  $params
