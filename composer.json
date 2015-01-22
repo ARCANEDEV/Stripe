@@ -29,8 +29,7 @@
             "Arcanedev\\Stripe\\": "src/"
         },
         "files": [
-            "src/start.php",
-            "src/helpers.php"
+            "src/start.php"
         ]
     },
     "autoload-dev": {
