@@ -43,43 +43,13 @@ class BitcoinTransactionTest extends StripeTestCase
      */
     public function testCanGetUrls()
     {
-        $classUrl = BitcoinTransaction::classUrl();
-        $this->assertEquals($classUrl, '/v1/bitcoin/transactions');
+        $this->assertEquals(
+            '/v1/bitcoin/transactions',
+            BitcoinTransaction::classUrl()
+        );
 
         $instanceUrl = (new BitcoinTransaction('abcd/efgh'))
             ->instanceUrl();
         $this->assertEquals($instanceUrl, '/v1/bitcoin/transactions/abcd%2Fefgh');
-    }
-
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
-    {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-
-        $receiverResponse = BitcoinReceiver::retrieve($receiver->id);
-        $transactions     = $receiverResponse->transactions;
-        $this->assertEquals(1, count($transactions["data"]));
-
-        $r = BitcoinTransaction::retrieve($transactions->data[0]->id);
-        $this->assertNotNull($r->id);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanList()
-    {
-        $receiver     = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-
-        $transactions = BitcoinTransaction::all();
-        $this->assertEquals($transactions->url, '/v1/bitcoin/transactions');
-        $this->assertTrue(count($transactions->data) > 0);
-
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\BitcoinTransaction',
-            $transactions->data[0]
-        );
     }
 }
