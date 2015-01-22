@@ -1,44 +1,33 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
 
-/**
- * Balance Transaction Object Interface
- *
- * @link https://stripe.com/docs/api/php#balance_transaction_object
- *
- * @property string              id
- * @property string              object// "balance_transaction"
- * @property int                 amount
- * @property int                 available_on
- * @property int                 created
- * @property string              currency
- * @property int                 fee
- * @property ListObjectInterface fee_details
- * @property int                 net
- * @property string              status
- * @property string              type
- * @property string              description
- * @property string              source
- */
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\BalanceTransaction;
+
 interface BalanceTransactionInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Retrieving a Balance Transaction
+     * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return BalanceTransactionInterface
+     * @return BalanceTransaction
      */
     public static function retrieve($id, $options = null);
 
     /**
      * List balance history
+     * @link https://stripe.com/docs/api/php#balance_history
      *
-     * @param array|null  $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
-    public static function all($params = null, $options = null);
+    public static function all($params = [], $options = null);
 }

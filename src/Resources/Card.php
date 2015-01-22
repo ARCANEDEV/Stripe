@@ -115,7 +115,7 @@ class Card extends Resource implements CardInterface
      * Delete a card
      * @link https://stripe.com/docs/api/php#delete_card
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return Card
      */

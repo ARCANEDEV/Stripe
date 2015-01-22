@@ -1,37 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
-use Arcanedev\Stripe\Contracts\ObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Charge;
 
-/**
- * Charge Object Interface
- * @link https://stripe.com/docs/api/php#charges
- *
- * @property string                  id
- * @property string                  object  // "charge"
- * @property bool                    livemode
- * @property int                     amount
- * @property bool                    captured
- * @property int                     created
- * @property string                  currency
- * @property bool                    paid
- * @property bool                    refunded
- * @property ListObjectInterface     refunds
- * @property int                     amount_refunded
- * @property string                  balance_transaction
- * @property CardInterface           card
- * @property string                  customer
- * @property string                  description
- * @property Object                  dispute
- * @property string                  failure_code
- * @property string                  failure_message
- * @property AttachedObjectInterface metadata
- * @property string                  receipt_email
- * @property string                  receipt_number
- * @property mixed                   fraud_details
- * @property array                   shipping
- */
 interface ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -42,10 +13,10 @@ interface ChargeInterface
      * List all Charges
      * @link https://stripe.com/docs/api/php#list_charges
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -53,10 +24,10 @@ interface ChargeInterface
      * Retrieve a Charge
      * @link https://stripe.com/docs/api/php#retrieve_charge
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return ChargeInterface
+     * @return Charge
      */
     public static function retrieve($id, $options = null);
 
@@ -64,10 +35,10 @@ interface ChargeInterface
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array       $params
+     * @param  array|string|null $options
      *
-     * @return ChargeInterface
+     * @return Charge
      */
     public static function create($params = [], $options = null);
 
@@ -75,7 +46,7 @@ interface ChargeInterface
      * Save/Update a Charge
      * @link https://stripe.com/docs/api/php#update_charge
      *
-     * @return ChargeInterface
+     * @return Charge
      */
     public function save();
 
@@ -83,16 +54,20 @@ interface ChargeInterface
      * Creating a new refund
      * @link https://stripe.com/docs/api/php#create_refund
      *
-     * @param array $params
+     * @param  array|null  $params
+     * @param  string|null $options
      *
-     * @return ChargeInterface
+     * @return Charge
      */
-    public function refund($params = []);
+    public function refund($params = [], $options = null);
 
     /**
-     * @param array|null $params
+     * Capture a charge
+     * @link https://stripe.com/docs/api/php#capture_charge
      *
-     * @return ChargeInterface
+     * @param  array|null $params
+     *
+     * @return Charge
      */
     public function capture($params = []);
 
@@ -100,9 +75,9 @@ interface ChargeInterface
      * Updating a dispute
      * @link https://stripe.com/docs/api/php#update_dispute
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return ObjectInterface
+     * @return Object
      */
     public function updateDispute($params = []);
 
@@ -110,21 +85,21 @@ interface ChargeInterface
      * Closing a dispute
      * @link https://stripe.com/docs/api/php#close_dispute
      *
-     * @return ObjectInterface
+     * @return Object
      */
     public function closeDispute();
 
     /**
      * Mark charge as Fraudulent
      *
-     * @return ChargeInterface
+     * @return Charge
      */
     public function markAsFraudulent();
 
     /**
      * Mark charge as Safe
      *
-     * @return ChargeInterface
+     * @return Charge
      */
     public function markAsSafe();
 }

@@ -1,25 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Recipient;
 
-/**
- * Recipient object Interface
- * @link https://stripe.com/docs/api/php#recipient_object
- *
- * @property string                  id
- * @property string                  object      // "recipient"
- * @property bool                    livemode
- * @property int                     created
- * @property string                  type
- * @property Object                  active_account
- * @property string                  description
- * @property string                  email
- * @property AttachedObjectInterface metadata
- * @property string                  name
- * @property ListObjectInterface     cards
- * @property string                  default_card
- */
 interface RecipientInterface
 {
     /**
@@ -29,7 +12,7 @@ interface RecipientInterface
      * @param string            $id
      * @param array|string|null $options
      *
-     * @return RecipientInterface
+     * @return Recipient
      */
     public static function retrieve($id, $options = null);
 
@@ -37,10 +20,10 @@ interface RecipientInterface
      * List all Recipients
      * @link https://stripe.com/docs/api/php#list_recipients
      *
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -48,10 +31,10 @@ interface RecipientInterface
      * Create a New Recipient
      * @link https://stripe.com/docs/api/php#create_recipient
      *
-     * @param array             $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
-     * @return RecipientInterface
+     * @return Recipient
      */
     public static function create($params = [], $options = null);
 
@@ -59,7 +42,7 @@ interface RecipientInterface
      * Update/Save a recipient
      * @link https://stripe.com/docs/api/php#update_recipient
      *
-     * @return RecipientInterface
+     * @return Recipient
      */
     public function save();
 
@@ -67,9 +50,9 @@ interface RecipientInterface
      * Delete a Recipient
      * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @param array $params
+     * @param array|null $params
      *
-     * @return RecipientInterface
+     * @return Recipient
      */
     public function delete($params = []);
 
@@ -80,9 +63,9 @@ interface RecipientInterface
     /**
      * List all recipient's Transfers.
      *
-     * @param array $params
+     * @param array|null $params
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public function transfers($params = []);
 }

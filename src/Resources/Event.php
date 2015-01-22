@@ -44,7 +44,7 @@ class Event extends Resource implements EventInterface
      * List all events
      * @link https://stripe.com/docs/api/php#list_events
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject

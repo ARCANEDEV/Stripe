@@ -67,7 +67,7 @@ class Subscription extends Resource implements SubscriptionInterface
      * Cancel a Subscription
      * @link https://stripe.com/docs/api/php#cancel_subscription
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return Subscription
      */

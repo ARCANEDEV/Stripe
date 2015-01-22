@@ -40,7 +40,7 @@ class Token extends Resource implements TokenInterface
      * Create a Card Token
      * @link https://stripe.com/docs/api/curl#create_card_token
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Token

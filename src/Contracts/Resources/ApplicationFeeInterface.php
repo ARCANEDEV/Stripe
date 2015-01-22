@@ -1,25 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\ApplicationFee;
 
-/**
- * Application Fee Object Interface
- * @link https://stripe.com/docs/api/php#application_fees
- *
- * @property string              id
- * @property string              object // "application_fee"
- * @property bool                livemode
- * @property string              account
- * @property int                 amount
- * @property string              application
- * @property string              balance_transaction
- * @property string              charge
- * @property int                 created // timestamp
- * @property string              currency
- * @property bool                refunded
- * @property ListObjectInterface refunds
- * @property int                 amount_refunded
- */
 interface ApplicationFeeInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -30,10 +13,10 @@ interface ApplicationFeeInterface
      * Retrieving an Application Fee
      * @link https://stripe.com/docs/api/php#retrieve_application_fee
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return ApplicationFeeInterface
+     * @return ApplicationFee
      */
     public static function retrieve($id, $options = null);
 
@@ -41,10 +24,10 @@ interface ApplicationFeeInterface
      * List all Application Fees
      * @link https://stripe.com/docs/api/php#list_application_fees
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -52,9 +35,9 @@ interface ApplicationFeeInterface
      * Creating an Application Fee Refund
      * @link https://stripe.com/docs/api/php#create_fee_refund
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return ApplicationFeeInterface
+     * @return ApplicationFee
      */
     public function refund($params = []);
 }

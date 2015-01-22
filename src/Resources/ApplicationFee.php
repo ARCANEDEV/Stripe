@@ -64,21 +64,21 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * List all Application Fees
      * @link https://stripe.com/docs/api/php#list_application_fees
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @return ListObject
      */
     public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return parent::scopedAll($params, $options);
     }
 
     /**
      * Creating an Application Fee Refund
      * @link https://stripe.com/docs/api/php#create_fee_refund
      *
-     * @param array $params
+     * @param  array|null $params
      *
      * @return ApplicationFee
      */

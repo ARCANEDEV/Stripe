@@ -57,7 +57,7 @@ class Recipient extends Resource implements RecipientInterface
      * List all Recipients
      * @link https://stripe.com/docs/api/php#list_recipients
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject
@@ -71,7 +71,7 @@ class Recipient extends Resource implements RecipientInterface
      * Create a New Recipient
      * @link https://stripe.com/docs/api/php#create_recipient
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Recipient
@@ -96,7 +96,7 @@ class Recipient extends Resource implements RecipientInterface
      * Delete a Recipient
      * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return Recipient
      */
@@ -112,7 +112,7 @@ class Recipient extends Resource implements RecipientInterface
     /**
      * List all recipient's Transfers.
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return ListObject
      */

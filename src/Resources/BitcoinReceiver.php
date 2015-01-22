@@ -16,6 +16,10 @@ use Arcanedev\Stripe\Resource;
  */
 class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * The class URL for this resource.
      * It needs to be special cased because it doesn't fit into the standard resource pattern.
@@ -29,6 +33,10 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
         return "/v1/bitcoin/receivers";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Retrieve Bitcoin Receiver
      *

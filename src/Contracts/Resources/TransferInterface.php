@@ -1,31 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Transfer;
 
-/**
- * Transfer object Interface
- * @link https://stripe.com/docs/api/curl#transfer_object
- *
- * @property string                  id
- * @property string                  object  // "transfer"
- * @property bool                    livemode
- * @property int                     amount
- * @property int                     created
- * @property string                  currency
- * @property int                     date
- * @property string                  status
- * @property string                  type
- * @property string                  balance_transaction
- * @property string                  description
- * @property string                  failure_code
- * @property string                  failure_message
- * @property AttachedObjectInterface metadata
- * @property Object                  bank_account
- * @property CardInterface           card
- * @property string                  recipient
- * @property string                  statement_descriptor
- */
 interface TransferInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -36,10 +13,10 @@ interface TransferInterface
      * Retrieve a Transfer
      * @link https://stripe.com/docs/api/curl#retrieve_transfer
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return TransferInterface
+     * @return Transfer
      */
     public static function retrieve($id, $options = null);
 
@@ -47,10 +24,10 @@ interface TransferInterface
      * List all Transfers
      * @link https://stripe.com/docs/api/curl#list_transfers
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -61,7 +38,7 @@ interface TransferInterface
      * @param array             $params
      * @param array|string|null $options
      *
-     * @return TransferInterface
+     * @return Transfer
      */
     public static function create($params = [], $options = null);
 
@@ -69,7 +46,7 @@ interface TransferInterface
      * Cancel a Transfer
      * @link https://stripe.com/docs/api/curl#cancel_transfer
      *
-     * @return TransferInterface
+     * @return Transfer
      */
     public function cancel();
 
@@ -77,7 +54,7 @@ interface TransferInterface
      * Update/Save a Transfer
      * @link https://stripe.com/docs/api/curl#update_transfer
      *
-     * @return TransferInterface
+     * @return Transfer
      */
     public function save();
 }

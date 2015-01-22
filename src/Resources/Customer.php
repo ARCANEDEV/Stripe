@@ -147,7 +147,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Add an invoice item
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return InvoiceItem
      */
@@ -237,7 +237,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Delete Discount
      *
-     * @returns Object
+     * @return Object
      */
     public function deleteDiscount()
     {

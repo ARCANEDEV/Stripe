@@ -53,7 +53,7 @@ class Invoice extends Resource implements InvoiceInterface
      * Create an invoice
      * @link https://stripe.com/docs/api/php#create_invoice
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Invoice
@@ -81,7 +81,7 @@ class Invoice extends Resource implements InvoiceInterface
      * List of all Invoices
      * @link https://stripe.com/docs/api/php#list_customer_invoices
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject
@@ -106,7 +106,7 @@ class Invoice extends Resource implements InvoiceInterface
      * Retrieve  Upcoming Invoice
      * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Invoice

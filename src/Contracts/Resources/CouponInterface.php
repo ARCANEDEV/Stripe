@@ -1,26 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
 
-/**
- * Coupon Object Interface
- * @link https://stripe.com/docs/api/php#coupons
- *
- * @property string                  id
- * @property string                  object // "coupon"
- * @property bool                    livemode
- * @property int                     created
- * @property string                  duration
- * @property int                     amount_off
- * @property string                  currency
- * @property int                     duration_in_months
- * @property int                     max_redemptions
- * @property AttachedObjectInterface metadata
- * @property int                     percent_off
- * @property int                     redeem_by
- * @property int                     times_redeemed
- * @property bool                    valid
- */
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Coupon;
+
 interface CouponInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -31,10 +13,10 @@ interface CouponInterface
      * Retrieve a Coupon
      * @link https://stripe.com/docs/api/php#retrieve_coupon
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return CouponInterface
+     * @return Coupon
      */
     public static function retrieve($id, $options = null);
 
@@ -42,10 +24,10 @@ interface CouponInterface
      * List all Coupons
      * @link https://stripe.com/docs/api/php#list_coupons
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -53,10 +35,10 @@ interface CouponInterface
      * Create coupon
      * @link https://stripe.com/docs/api/php#create_coupon
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return CouponInterface
+     * @return Coupon
      */
     public static function create($params = [], $options = null);
 
@@ -64,7 +46,7 @@ interface CouponInterface
      * Update/Save a Coupon
      * @link https://stripe.com/docs/api/php#update_coupon
      *
-     * @return CouponInterface
+     * @return Coupon
      */
     public function save();
 
@@ -72,9 +54,9 @@ interface CouponInterface
      * Delete a coupon
      * @link https://stripe.com/docs/api/php#delete_coupon
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return CouponInterface
+     * @return Coupon
      */
     public function delete($params = []);
 }

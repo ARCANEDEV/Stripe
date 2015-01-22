@@ -53,7 +53,7 @@ class Transfer extends Resource implements TransferInterface
      * List all Transfers
      * @link https://stripe.com/docs/api/curl#list_transfers
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject
@@ -67,7 +67,7 @@ class Transfer extends Resource implements TransferInterface
      * Create a new transfer
      * @link https://stripe.com/docs/api/curl#create_transfer
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Transfer

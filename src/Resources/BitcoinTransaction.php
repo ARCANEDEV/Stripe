@@ -7,6 +7,10 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinTransactionInterface;
 
 class BitcoinTransaction extends Resource implements BitcoinTransactionInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * The class URL for this resource.
      * It needs to be special cased because it doesn't fit into the standard resource pattern.

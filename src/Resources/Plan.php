@@ -46,7 +46,7 @@ class Plan extends Resource implements PlanInterface
      * List all Plans
      * @link https://stripe.com/docs/api/php#list_plans
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject
@@ -60,7 +60,7 @@ class Plan extends Resource implements PlanInterface
      * Create a plan
      * @link https://stripe.com/docs/api/php#create_plan
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return Plan
@@ -85,7 +85,7 @@ class Plan extends Resource implements PlanInterface
      * Delete a plan
      * @link https://stripe.com/docs/api/php#delete_plan
      *
-     * @param  array $params
+     * @param  array|null $params
      *
      * @return Plan
      */

@@ -93,7 +93,7 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * Create/Upload a File
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return FileUpload
@@ -106,7 +106,7 @@ class FileUpload extends Resource implements FileUploadInterface
     /**
      * List all uploaded files
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject

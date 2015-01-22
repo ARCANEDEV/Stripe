@@ -1,38 +1,24 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
-use Arcanedev\Stripe\Contracts\ObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Customer;
+use Arcanedev\Stripe\Resources\InvoiceItem;
+use Arcanedev\Stripe\Resources\Subscription;
 
-/**
- * Customer Object Interface
- * @link https://stripe.com/docs/api/php#customers
- *
- * @property int                     id
- * @property string                  object  // "customer"
- * @property bool                    livemode
- * @property ListObjectInterface     cards
- * @property int                     created
- * @property int                     account_balance
- * @property string                  currency
- * @property string                  default_card
- * @property bool                    delinquent
- * @property string                  description
- * @property mixed|null              discount
- * @property string                  email
- * @property AttachedObjectInterface metadata
- * @property ListObjectInterface     subscriptions
- */
 interface CustomerInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Retrieve a Customer
      * @link https://stripe.com/docs/api/php#retrieve_customer
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return CustomerInterface
+     * @return Customer
      */
     public static function retrieve($id, $options = null);
 
@@ -40,10 +26,10 @@ interface CustomerInterface
      * List all Customers
      * @link https://stripe.com/docs/api/php#list_customers
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -51,10 +37,10 @@ interface CustomerInterface
      * Create Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
-     * @param array  $params
-     * @param string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return CustomerInterface
+     * @return Customer
      */
     public static function create($params = [], $options = null);
 
@@ -62,7 +48,7 @@ interface CustomerInterface
      * Update/Save Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
-     * @returns CustomerInterface
+     * @return Customer
      */
     public function save();
 
@@ -70,9 +56,9 @@ interface CustomerInterface
      * Delete Customer
      * @link https://stripe.com/docs/api/php#delete_customer
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns CustomerInterface
+     * @return Customer
      */
     public function delete($params = []);
 
@@ -83,61 +69,61 @@ interface CustomerInterface
     /**
      * Add an invoice item
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns InvoiceItemInterface
+     * @return InvoiceItem
      */
     public function addInvoiceItem($params = []);
 
     /**
      * Get all invoices
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns ListObjectInterface
+     * @return ListObject
      */
     public function invoices($params = []);
 
     /**
      * Get all invoice items
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns array
+     * @return ListObject
      */
     public function invoiceItems($params = []);
 
     /**
      * Get all charges
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @returns ListObjectInterface
+     * @return ListObject
      */
     public function charges($params = []);
 
     /**
      * Update a Subscription
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return SubscriptionInterface
+     * @return Subscription
      */
     public function updateSubscription($params = []);
 
     /**
      * Cancel Subscription
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return SubscriptionInterface
+     * @return Subscription
      */
     public function cancelSubscription($params = []);
 
     /**
      * Delete Discount
      *
-     * @returns ObjectInterface
+     * @return Object
      */
     public function deleteDiscount();
 }

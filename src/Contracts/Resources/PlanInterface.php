@@ -1,34 +1,22 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
 
-/**
- * Plan Object Interface
- * @link https://stripe.com/docs/api/php#plan_object
- *
- * @property string                  id
- * @property string                  object // "plan"
- * @property bool                    livemode
- * @property int                     amount
- * @property int                     created
- * @property int                     currency
- * @property string                  interval
- * @property int                     interval_count
- * @property string                  name
- * @property AttachedObjectInterface metadata
- * @property int                     trial_period_days
- * @property string                  statement_descriptor
- */
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Plan;
+
 interface PlanInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Retrieve a Plan
      * @link https://stripe.com/docs/api/php#retrieve_plan
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return PlanInterface
+     * @return Plan
      */
     public static function retrieve($id, $options = null);
 
@@ -36,10 +24,10 @@ interface PlanInterface
      * List all Plans
      * @link https://stripe.com/docs/api/php#list_plans
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 
@@ -47,10 +35,10 @@ interface PlanInterface
      * Create a plan
      * @link https://stripe.com/docs/api/php#create_plan
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return PlanInterface
+     * @return Plan
      */
     public static function create($params = [], $options = null);
 
@@ -58,7 +46,7 @@ interface PlanInterface
      * Update/Save a plan
      * @link https://stripe.com/docs/api/php#update_plan
      *
-     * @return PlanInterface
+     * @return Plan
      */
     public function save();
 
@@ -66,9 +54,9 @@ interface PlanInterface
      * Delete a plan
      * @link https://stripe.com/docs/api/php#delete_plan
      *
-     * @param array $params
+     * @param  array|null $params
      *
-     * @return PlanInterface
+     * @return Plan
      */
     public function delete($params = []);
 }

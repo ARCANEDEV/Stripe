@@ -1,23 +1,8 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Resources\Event;
 
-/**
- * Event Object Interface
- * @link https://stripe.com/docs/api/php#event_object
- * @link https://stripe.com/docs/api/php#event_types
- *
- * @property string id
- * @property string object // "event"
- * @property bool   livemode
- * @property int    created
- * @property array  data
- * @property int    pending_webhooks
- * @property string type
- * @property string api_version
- * @property string request
- * @property string customer_email
- */
 interface EventInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -28,10 +13,10 @@ interface EventInterface
      * Retrieve an event
      * @link https://stripe.com/docs/api/php#retrieve_event
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
-     * @return EventInterface
+     * @return Event
      */
     public static function retrieve($id, $options = null);
 
@@ -39,10 +24,10 @@ interface EventInterface
      * List all events
      * @link https://stripe.com/docs/api/php#list_events
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObjectInterface
+     * @return ListObject
      */
     public static function all($params = [], $options = null);
 }

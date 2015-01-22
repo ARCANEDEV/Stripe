@@ -33,7 +33,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * The class URL for this resource. It needs to be special cased because
      * it doesn't fit into the standard resource pattern.
      *
-     * @param  string $class Ignored.
+     * @param  string $class
      *
      * @return string
      */
@@ -64,7 +64,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * List balance history
      * @link https://stripe.com/docs/api/php#balance_history
      *
-     * @param  array             $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
      * @return ListObject
