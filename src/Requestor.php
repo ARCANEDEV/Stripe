@@ -696,7 +696,13 @@ class Requestor implements RequestorInterface
             }, $obj);
         }
 
-        return str_utf8($obj);
+        if (is_string($obj)) {
+            return str_utf8($obj);
+        }
+
+        throw new ApiException(
+            'The object must be a instance Resource, boolean, array or string, ' . gettype($obj) . ' is given.'
+        );
     }
 
     /**
