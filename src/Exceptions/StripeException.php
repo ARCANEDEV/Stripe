@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-abstract class StripeException extends \Exception
+abstract class StripeException extends Exception
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -48,13 +48,13 @@ abstract class StripeException extends \Exception
     /**
      * Stripe Error Constructor
      *
-     * @param string $message
-     * @param int    $statusCode
-     * @param null   $type
-     * @param null   $stripeCode
-     * @param null   $httpBody
-     * @param array  $jsonBody
-     * @param array  $params
+     * @param string      $message
+     * @param int         $statusCode
+     * @param string|null $type
+     * @param string|null $stripeCode
+     * @param string|null $httpBody
+     * @param array       $jsonBody
+     * @param array       $params
      */
     public function __construct(
         $message,

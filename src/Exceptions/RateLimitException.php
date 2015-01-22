@@ -1,6 +1,3 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-class RateLimitException extends StripeException
-{
-
-}
+class RateLimitException extends StripeException {}
