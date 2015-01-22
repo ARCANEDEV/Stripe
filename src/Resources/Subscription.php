@@ -98,6 +98,9 @@ class Subscription extends Resource implements SubscriptionInterface
         list($response, $apiKey) = Requestor::make($this->apiKey)
             ->delete($this->instanceUrl() . '/discount');
 
+        unset($response);
         $this->refreshFrom(['discount' => null], $apiKey, true);
+
+        return $this;
     }
 }

@@ -25,6 +25,7 @@ use Arcanedev\Stripe\Resource;
  * @property string             email
  * @property AttachedObject     metadata
  * @property ListObject         subscriptions
+ * @property Subscription       subscription    // It's for updateSubscription and cancelSubscription
  */
 class Customer extends Resource implements CustomerInterface
 {
@@ -244,6 +245,7 @@ class Customer extends Resource implements CustomerInterface
         list($response, $apiKey) = Requestor::make($this->apiKey)
             ->delete($this->getDiscountUrl());
 
+        unset($response);
         $this->refreshFrom(['discount' => null], $apiKey, true);
 
         return $this;

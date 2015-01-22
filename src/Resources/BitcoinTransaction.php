@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 use Arcanedev\Stripe\Contracts\Resources\BitcoinTransactionInterface;
