@@ -104,8 +104,8 @@ class Charge extends Resource implements ChargeInterface
      * Creating a new refund
      * @link https://stripe.com/docs/api/php#create_refund
      *
-     * @param  array|null  $params
-     * @param  string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Charge
      */

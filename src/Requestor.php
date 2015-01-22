@@ -135,9 +135,9 @@ class Requestor implements RequestorInterface
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string            $url
-     * @param array|null        $params
-     * @param array|string|null $headers
+     * @param string     $url
+     * @param array|null $params
+     * @param array|null $headers
      *
      * @return array
      */
@@ -149,9 +149,9 @@ class Requestor implements RequestorInterface
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string            $url
-     * @param array|null        $params
-     * @param array|string|null $headers
+     * @param string     $url
+     * @param array|null $params
+     * @param array|null $headers
      *
      * @return array
      */
@@ -163,9 +163,9 @@ class Requestor implements RequestorInterface
     /**
      * An array whose first element is the response and second element is the API key used to make the GET request.
      *
-     * @param string            $url
-     * @param array|null        $params
-     * @param array|string|null $headers
+     * @param string     $url
+     * @param array|null $params
+     * @param array|null $headers
      *
      * @return array
      */
@@ -177,10 +177,10 @@ class Requestor implements RequestorInterface
     /**
      * An array whose first element is the response and second element is the API key used to make the request.
      *
-     * @param string            $method
-     * @param string            $url
-     * @param array|null        $params
-     * @param array|string|null $headers
+     * @param string     $method
+     * @param string     $url
+     * @param array|null $params
+     * @param array|null $headers
      *
      * @throws ApiException
      *
@@ -281,10 +281,10 @@ class Requestor implements RequestorInterface
     /**
      * Curl the request
      *
-     * @param string     $method
-     * @param string     $absUrl
-     * @param array      $params
-     * @param array|null $headers
+     * @param string $method
+     * @param string $absUrl
+     * @param array  $params
+     * @param array  $headers
      *
      * @return array
      * @throws ApiConnectionException
