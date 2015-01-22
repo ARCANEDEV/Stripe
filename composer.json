@@ -29,7 +29,8 @@
             "Arcanedev\\Stripe\\": "src/"
         },
         "files": [
-            "src/start.php"
+            "src/start.php",
+            "src/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -37,5 +38,5 @@
             "Arcanedev\\Stripe\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

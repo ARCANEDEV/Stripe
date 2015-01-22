@@ -192,6 +192,28 @@ class ChargeTest extends StripeTestCase
         $this->assertTrue($this->charge->captured);
     }
 
+    /**
+     * @test
+     */
+    public function testCreateWithBitcoinReceiverSource()
+    {
+        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+
+        $charge = Charge::create([
+            'amount'   => 100,
+            'currency' => 'usd',
+            'source'   => $receiver->id
+        ]);
+
+        $this->assertEquals($receiver->id, $charge->source->id);
+        $this->assertEquals('bitcoin_receiver', $charge->source->object);
+        $this->assertEquals('paid', $charge->status);
+        $this->assertEquals(
+            'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
+            get_class($charge->source)
+        );
+    }
+
     public function testCanUpdateDispute()
     {
         // TODO: Complete testCanUpdateDispute() implementation

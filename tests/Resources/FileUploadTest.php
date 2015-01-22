@@ -26,7 +26,7 @@ class FileUploadTest extends StripeTestCase
         parent::setUp();
 
         $this->fileUpload = new FileUpload;
-        $this->filePath   = __DIR__ . '/../data/test.png';
+        $this->filePath   = realpath(__DIR__ . '/../data/test.png');
     }
 
     public function tearDown()
@@ -86,20 +86,6 @@ class FileUploadTest extends StripeTestCase
         $this->assertEquals($this->fileUpload->id, $file->id);
         $this->assertEquals($this->fileUpload->purpose, $file->purpose);
         $this->assertEquals($this->fileUpload->type, $file->type);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanListAll()
-    {
-        $fp   = fopen($this->filePath, 'r');
-        $this->createFile($fp);
-        fclose($fp);
-
-        $files = FileUpload::all();
-
-        $this->assertTrue($files->isList());
     }
 
     /**

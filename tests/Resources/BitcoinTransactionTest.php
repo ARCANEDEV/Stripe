@@ -1,19 +1,19 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Event;
-
+use Arcanedev\Stripe\Resources\BitcoinReceiver;
+use Arcanedev\Stripe\Resources\BitcoinTransaction;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class EventTest extends StripeTestCase
+class BitcoinTransactionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Event */
+    /** @var BitcoinTransaction */
     protected $object;
 
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinTransaction';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -23,12 +23,7 @@ class EventTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->object = new Event;
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
+        $this->object = new BitcoinTransaction;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -46,30 +41,15 @@ class EventTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanGetAll()
+    public function testCanGetUrls()
     {
-        $events = Event::all();
+        $this->assertEquals(
+            '/v1/bitcoin/transactions',
+            BitcoinTransaction::classUrl()
+        );
 
-        $this->assertTrue($events->isList());
-        $this->assertEquals('/v1/events', $events->url);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
-    {
-        $events = Event::all();
-
-        if (count($events->data) == 0) {
-            return ;
-        }
-
-        $eventId = $events->data[0]->id;
-
-        $this->object = Event::retrieve($eventId);
-
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
-        $this->assertEquals($eventId, $this->object->id);
+        $instanceUrl = (new BitcoinTransaction('abcd/efgh'))
+            ->instanceUrl();
+        $this->assertEquals($instanceUrl, '/v1/bitcoin/transactions/abcd%2Fefgh');
     }
 }

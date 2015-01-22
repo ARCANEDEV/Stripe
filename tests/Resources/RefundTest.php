@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Refund;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -10,14 +11,13 @@ class RefundTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var Refund */
+    private $refund;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Refund */
-    private $refund;
-
     public function setUp()
     {
         parent::setUp();
@@ -112,5 +112,28 @@ class RefundTest extends StripeTestCase
 
         $ref = $charge->refunds->retrieve($ref->id);
         $this->assertEquals("value", $ref->metadata["key"], "value");
+    }
+
+    /**
+     * @test
+     */
+    public function testCreateForBitcoin()
+    {
+        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+
+        $charge   = Charge::create([
+            "amount"      => $receiver->amount,
+            "currency"    => $receiver->currency,
+            "description" => $receiver->description,
+            'source'      => $receiver->id
+        ]);
+
+        $ref      = $charge->refunds->create([
+            'amount'         => $receiver->amount,
+            'refund_address' => 'ABCDEF'
+        ]);
+
+        $this->assertEquals($receiver->amount, $ref->amount);
+        $this->assertNotNull($ref->id);
     }
 }
