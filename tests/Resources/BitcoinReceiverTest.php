@@ -85,9 +85,23 @@ class BitcoinReceiverTest extends StripeTestCase
      */
     public function testCanList()
     {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+        $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
 
         $receivers = BitcoinReceiver::all();
         $this->assertTrue(count($receivers->data) > 0);
+    }
+
+    /**
+     * @test
+     */
+    public function testListTransactions()
+    {
+        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+        $this->assertEquals(0, count($receiver->transactions->data));
+
+        $transactions = $receiver->transactions->all(["limit" => 1]);
+        $this->assertEquals(1, count($transactions->data));
+
+        var_dump($receiver->transactions);
     }
 }
