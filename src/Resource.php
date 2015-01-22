@@ -33,7 +33,7 @@ abstract class Resource extends Object implements ResourceInterface
     {
         $url    = $this->instanceUrl();
 
-        list($response, $apiKey) = Requestor::make($this->apiKey, self::baseUrl())
+        list($response, $apiKey) = Requestor::make($this->getApiKey(), self::baseUrl())
             ->get($url, $this->retrieveParameters);
 
         $this->refreshFrom($response, $apiKey);
@@ -202,10 +202,9 @@ abstract class Resource extends Object implements ResourceInterface
 
         if (count($params) > 0) {
             self::checkArguments(null, $options);
-            $opts = RequestOptions::parse($options);
-            $key  = ($opts->apiKey ? $opts->apiKey : $this->apiKey);
+            $opts = $this->parseOptions($options);
 
-            list($response, $apiKey) = Requestor::make($key, self::baseUrl())
+            list($response, $apiKey) = Requestor::make($opts->getApiKey(), self::baseUrl())
                 ->post($this->instanceUrl(), $params);
 
             $this->refreshFrom($response, $apiKey);
@@ -227,10 +226,9 @@ abstract class Resource extends Object implements ResourceInterface
     protected function scopedDelete($params = [], $options = null)
     {
         self::checkArguments($params, $options);
-        $opts = RequestOptions::parse($options);
-        $key  = ($opts->hasApiKey() ? $opts->getApiKey() : $this->apiKey);
+        $opts = $this->parseOptions($options);
 
-        list($response, $apiKey) = Requestor::make($key, self::baseUrl())
+        list($response, $apiKey) = Requestor::make($opts->getApiKey(), self::baseUrl())
             ->delete($this->instanceUrl(), $params);
 
         $this->refreshFrom($response, $apiKey);
@@ -255,7 +253,7 @@ abstract class Resource extends Object implements ResourceInterface
     {
         $opts = $this->parseOptions($options);
 
-        list($response, $options) = Requestor::make($options)
+        list($response, $options) = Requestor::make($opts->getApiKey())
             ->post($url, $params);
 
         $this->refreshFrom($response, $options);
@@ -336,7 +334,7 @@ abstract class Resource extends Object implements ResourceInterface
     protected function parseOptions($options)
     {
         $opts   = RequestOptions::parse($options);
-        $apiKey = $opts->apiKey ? $opts->apiKey : $this->apiKey;
+        $apiKey = $opts->apiKey ?: $this->getApiKey();
         $opts->setApiKey($apiKey);
 
         return $opts;
