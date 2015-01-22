@@ -9,7 +9,7 @@ abstract class StripeException extends Exception
     /**
      * Stripe Error type
      *
-     * @var string
+     * @var string|null
      */
     protected $type;
 
@@ -89,14 +89,22 @@ abstract class StripeException extends Exception
     }
 
     /**
-     * @param string $type
+     * Set Type
+     *
+     * @param string|null $type
+     *
+     * @return StripeException
      */
     private function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
+     * Get Stripe code
+     *
      * @return string|null
      */
     public function getStripeCode()
@@ -105,14 +113,22 @@ abstract class StripeException extends Exception
     }
 
     /**
+     * Set Stripe code
+     *
      * @param string|null $stripeCode
+     *
+     * @return StripeException
      */
     private function setStripeCode($stripeCode)
     {
         $this->stripeCode = $stripeCode;
+
+        return $this;
     }
 
     /**
+     * Get HTTP status code
+     *
      * @return int
      */
     public function getHttpStatus()
@@ -121,6 +137,8 @@ abstract class StripeException extends Exception
     }
 
     /**
+     * Get HTTP Body
+     *
      * @return string|null
      */
     public function getHttpBody()
@@ -129,14 +147,22 @@ abstract class StripeException extends Exception
     }
 
     /**
-     * @param null $httpBody
+     * Set HTTP Body
+     *
+     * @param string|null $httpBody
+     *
+     * @return StripeException
      */
     private function setHttpBody($httpBody)
     {
         $this->httpBody = $httpBody;
+
+        return $this;
     }
 
     /**
+     * Get Json Body
+     *
      * @return array|null
      */
     public function getJsonBody()
@@ -145,14 +171,22 @@ abstract class StripeException extends Exception
     }
 
     /**
+     * Set Json Body
+     *
      * @param array|null $jsonBody
+     *
+     * @return StripeException
      */
     private function setJsonBody($jsonBody)
     {
         $this->jsonBody = $jsonBody;
+
+        return $this;
     }
 
     /**
+     * Get Parameters
+     *
      * @return array
      */
     public function getParams()
@@ -161,10 +195,16 @@ abstract class StripeException extends Exception
     }
 
     /**
+     * Set parameters
+     *
      * @param array $params
+     *
+     * @return StripeException
      */
     private function setParams($params)
     {
         $this->params = $params;
+
+        return $this;
     }
 }
