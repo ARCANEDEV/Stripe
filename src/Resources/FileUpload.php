@@ -14,7 +14,7 @@ use Arcanedev\Stripe\Stripe;
  * @property int    size
  * @property string purpose
  * @property string url
- * @property string mimetype [application/pdf|image/jpeg|image/png]
+ * @property string type [pdf|jpeg|png]
  */
 class FileUpload extends Resource implements FileUploadInterface
 {
