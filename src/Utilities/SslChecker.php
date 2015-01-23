@@ -35,7 +35,7 @@ class SslChecker implements SslCheckerInterface
      */
     public function setUrl($url)
     {
-        $this->checkUrl($url);
+        // TODO: Add check URL Method
 
         $this->url = $this->prepareUrl($url);
 
@@ -114,15 +114,6 @@ class SslChecker implements SslCheckerInterface
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Check URL
-     *
-     * @param string $url
-     */
-    private function checkUrl($url)
-    {
-    }
-
     /**
      * Check black list
      *
@@ -221,7 +212,7 @@ class SslChecker implements SslCheckerInterface
         $version = defined('HHVM_VERSION')
             ? 'The HHVM (HipHop VM)'
             : 'This version of PHP';
-        
+
         error_log(
             'Warning: ' . $version . ' does not support checking SSL ' .
             'certificates Stripe cannot guarantee that the server has a ' .
