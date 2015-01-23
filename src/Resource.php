@@ -305,7 +305,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Check Options
      *
-     * @param  string $options
+     * @param  array|string|null $options
      *
      * @throws ApiException
      */
