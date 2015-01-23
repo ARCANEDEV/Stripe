@@ -9,6 +9,7 @@ use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
+use Arcanedev\Stripe\Utilities\SslChecker;
 use CURLFile;
 
 class Requestor implements RequestorInterface
@@ -35,6 +36,9 @@ class Requestor implements RequestorInterface
     /** @var bool */
     private $hasFile = false;
 
+    /** @var SslChecker */
+    private $sslChecker;
+
     /** @var ErrorsHandler */
     private $errorsHandler;
 
@@ -50,6 +54,7 @@ class Requestor implements RequestorInterface
      */
     public function __construct($apiKey = null, $apiBase = null)
     {
+        $this->sslChecker    = new SslChecker;
         $this->errorsHandler = new ErrorsHandler;
         $this->setApiKey($apiKey);
         $this->setApiBase($apiBase);
@@ -103,16 +108,6 @@ class Requestor implements RequestorInterface
         $this->apiBaseUrl = $apiBaseUrl;
 
         return $this;
-    }
-
-    /**
-     * Get the certificates file path
-     *
-     * @return string
-     */
-    private function caBundle()
-    {
-        return ca_certificates();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -320,7 +315,7 @@ class Requestor implements RequestorInterface
             );
 
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($curl, CURLOPT_CAINFO, $this->caBundle());
+            curl_setopt($curl, CURLOPT_CAINFO, $this->sslChecker->caBundle());
 
             $response = curl_exec($curl);
         }
@@ -558,61 +553,7 @@ class Requestor implements RequestorInterface
      */
     private function checkSslCert($url)
     {
-        if (
-            ! function_exists('stream_context_get_params') or
-            ! function_exists('stream_socket_enable_crypto')
-        ) {
-            error_log(
-                'Warning: This version of PHP does not support checking SSL '.
-                'certificates Stripe cannot guarantee that the server has a '.
-                'certificate which is not blacklisted.'
-            );
-
-            return true;
-        }
-
-        $url  = parse_url($url);
-        $port = isset($url['port']) ? $url['port'] : 443;
-        $url  = "ssl://{$url['host']}:{$port}";
-
-        $sslContext = stream_context_create([
-            'ssl' => [
-                'capture_peer_cert' => true,
-                'verify_peer'       => true,
-                'cafile'            => $this->caBundle(),
-            ]
-        ]);
-
-        $result = stream_socket_client($url, $errorNo, $errorStr, 30, STREAM_CLIENT_CONNECT, $sslContext);
-
-        if (
-            ($errorNo !== 0 and $errorNo !== null) or
-            $result === false
-        ) {
-            throw new ApiConnectionException(
-                "Could not connect to Stripe ($url).  Please check your ".
-                'internet connection and try again.  If this problem persists, '.
-                'you should check Stripe\'s service status at '.
-                'https://twitter.com/stripestatus. Reason was: '. $errorStr
-            );
-        }
-
-        $params = stream_context_get_params($result);
-
-        $cert   = $params['options']['ssl']['peer_certificate'];
-
-        openssl_x509_export($cert, $pemCert);
-
-        if (self::isBlackListed($pemCert)) {
-            throw new ApiConnectionException(
-                'Invalid server certificate. You tried to connect to a server that '.
-                'has a revoked SSL certificate, which means we cannot securely send '.
-                'data to that server.  Please email support@stripe.com if you need '.
-                'help connecting to the correct API server.'
-            );
-        }
-
-        return true;
+        return $this->sslChecker->checkCert($url);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -632,31 +573,6 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Checks if a valid PEM encoded certificate is blacklisted
-     *
-     * @param string $cert
-     *
-     * @return bool
-     */
-    public static function isBlackListed($cert)
-    {
-        $cert  = trim($cert);
-        $lines = explode("\n", $cert);
-
-        // Kludgily remove the PEM padding
-        array_shift($lines);
-        array_pop($lines);
-
-        $derCert     = base64_decode(implode('', $lines));
-        $fingerprint = sha1($derCert);
-
-        return in_array($fingerprint, [
-            '05c0b3643694470a888c6e7feb5c9e24e823dc53',
-            '5b7dc7fbc98d78bf76d4d4fa6f597a0c901fad5c',
-        ]);
-    }
-
-    /**
      * Check if param is resource File
      *
      * @param mixed $resource
@@ -665,8 +581,10 @@ class Requestor implements RequestorInterface
      */
     private function checkHasResourceFile($resource)
     {
-        return is_resource($resource) or
-        (class_exists('CURLFile') and $resource instanceof CURLFile);
+        return is_resource($resource) or (
+            class_exists('CURLFile') and
+            $resource instanceof CURLFile
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------
