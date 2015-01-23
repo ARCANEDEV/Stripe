@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\ListObject;
 
 interface ListObjectInterface
 {
@@ -9,30 +10,58 @@ interface ListObjectInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string     $id
-     * @param array|null $params
+     * List Function
+     *
+     * @param  array $params
      *
      * @throws ApiException
      *
-     * @return array|ObjectInterface
+     * @return ListObject
      */
-    public function retrieve($id, $params = null);
+    public function all($params = []);
 
     /**
-     * @param array|null $params
+     * Create Function
+     *
+     * @param  array $params
      *
      * @throws ApiException
      *
-     * @return array|ObjectInterface
+     * @return \Arcanedev\Stripe\Object|Resource
      */
-    public function all($params = null);
+    public function create($params = []);
 
     /**
-     * @param array|null $params
+     * Retrieve Function
+     *
+     * @param  string $id
+     * @param  array  $params
      *
      * @throws ApiException
      *
-     * @return array|Object
+     * @return \Arcanedev\Stripe\Object|Resource
      */
-    public function create($params = null);
+    public function retrieve($id, $params = []);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Check if Object is list
+     *
+     * @return bool
+     */
+    public function isList();
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get items Count
+     *
+     * @return int
+     */
+    public function count();
 }

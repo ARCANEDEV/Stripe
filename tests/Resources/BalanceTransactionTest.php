@@ -10,13 +10,12 @@ class BalanceTransactionTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BalanceTransaction';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BalanceTransaction';
-
     public function setUp()
     {
         parent::setUp();

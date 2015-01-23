@@ -81,7 +81,7 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
+     |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -95,13 +95,35 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
+     * Check if URL has path
+     *
+     * @param  array $url
+     *
+     * @throws ApiException
+     */
+    private function checkPath(array $url)
+    {
+        if (! isset($url['path']) or empty($url['path'])) {
+            throw new ApiException(
+                'Could not parse list url into parts: ' . $this->url
+            );
+        }
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
      * Get items Count
      *
      * @return int
      */
     public function count()
     {
-        return $this->isList() ? $this->total_count : 0;
+        return ($this->isList() and isset($this->total_count))
+            ? $this->total_count
+            : 0;
     }
 
     /**
@@ -129,25 +151,5 @@ class ListObject extends Object implements ListObjectInterface
         }
 
         return [$url['path'], $params];
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Check if URL has path
-     *
-     * @param  array $url
-     *
-     * @throws ApiException
-     */
-    private function checkPath(array $url)
-    {
-        if (! isset($url['path']) or empty($url['path'])) {
-            throw new ApiException(
-                'Could not parse list url into parts: ' . $this->url
-            );
-        }
     }
 }

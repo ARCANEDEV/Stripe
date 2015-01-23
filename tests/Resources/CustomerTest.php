@@ -268,8 +268,7 @@ class CustomerTest extends StripeTestCase
      */
     public function testCanAddSubscription()
     {
-        $plan   = self::retrieveOrCreatePlan();
-
+        $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
             'plan'  => $plan->id,
         ]);
@@ -288,8 +287,7 @@ class CustomerTest extends StripeTestCase
      */
     public function testCanUpdateSubscription()
     {
-        $plan = self::retrieveOrCreatePlan();
-
+        $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
             'plan'  => $plan->id,
         ]);
@@ -307,8 +305,7 @@ class CustomerTest extends StripeTestCase
      */
     public function testCanCancelSubscription()
     {
-        $plan = self::retrieveOrCreatePlan();
-
+        $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
             'plan'  => $plan->id,
         ]);

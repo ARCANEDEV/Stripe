@@ -44,8 +44,7 @@ class SubscriptionTest extends StripeTestCase
      */
     public function testCanCreateUpdateCancel()
     {
-        $plan = self::retrieveOrCreatePlan();
-
+        $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer();
 
         /** @var Subscription $subscription */
@@ -76,8 +75,7 @@ class SubscriptionTest extends StripeTestCase
      */
     public function testCanDeleteDiscount()
     {
-        $plan = self::retrieveOrCreatePlan();
-
+        $plan     = self::retrieveOrCreatePlan();
         $couponID = '25off-' . self::randomString();
         self::retrieveOrCreateCoupon($couponID);
 

@@ -7,6 +7,12 @@ use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
 abstract class Util implements UtilInterface
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const DEFAULT_RESOURCE = 'Arcanedev\\Stripe\\Object';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -41,8 +47,6 @@ abstract class Util implements UtilInterface
         // List Object
         'list'          => 'Arcanedev\\Stripe\\ListObject',
     ];
-
-    const DEFAULT_RESOURCE = 'Arcanedev\\Stripe\\Object';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -90,11 +94,6 @@ abstract class Util implements UtilInterface
     public static function convertToStripeObject($response, $apiKey)
     {
         if (self::isList($response)) {
-            //$mapped = [];
-            //
-            //foreach ($response as $i) {
-            //    array_push($mapped, self::convertToStripeObject($i, $apiKey));
-            //}
             $mapped = array_map(function($i) use ($apiKey) {
                 return self::convertToStripeObject($i, $apiKey);
             }, $response);
