@@ -110,7 +110,7 @@ class Customer extends Resource implements CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Customer
+     * @return Customer|array
      */
     public static function create($params = [], $options = null)
     {
@@ -148,9 +148,9 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Add an invoice item
      *
-     * @param  array|null $params
+     * @param  array $params
      *
-     * @return InvoiceItem
+     * @return InvoiceItem|array
      */
     public function addInvoiceItem($params = [])
     {
@@ -162,7 +162,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all invoices
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */
@@ -176,7 +176,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all invoice items
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */
@@ -190,7 +190,7 @@ class Customer extends Resource implements CustomerInterface
     /**
      * Get all charges
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */

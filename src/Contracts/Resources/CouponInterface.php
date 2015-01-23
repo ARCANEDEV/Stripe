@@ -38,7 +38,7 @@ interface CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Coupon
+     * @return Coupon|array
      */
     public static function create($params = [], $options = null);
 

@@ -40,7 +40,7 @@ interface CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Customer
+     * @return Customer|array
      */
     public static function create($params = [], $options = null);
 
@@ -69,16 +69,16 @@ interface CustomerInterface
     /**
      * Add an invoice item
      *
-     * @param  array|null $params
+     * @param  array $params
      *
-     * @return InvoiceItem
+     * @return InvoiceItem|array
      */
     public function addInvoiceItem($params = []);
 
     /**
      * Get all invoices
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */
@@ -87,7 +87,7 @@ interface CustomerInterface
     /**
      * Get all invoice items
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */
@@ -96,7 +96,7 @@ interface CustomerInterface
     /**
      * Get all charges
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */

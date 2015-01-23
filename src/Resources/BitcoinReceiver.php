@@ -69,7 +69,7 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return BitcoinReceiver
+     * @return BitcoinReceiver|array
      */
     public static function create($params = [], $apiKey = null)
     {

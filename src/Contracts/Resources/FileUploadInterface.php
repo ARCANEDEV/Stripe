@@ -25,7 +25,7 @@ interface FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return FileUpload
+     * @return FileUpload|array
      */
     public static function create($params = [], $options = null);
 

@@ -82,7 +82,7 @@ class Charge extends Resource implements ChargeInterface
      * @param  array       $params
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return Charge|array
      */
     public static function create($params = [], $options = null)
     {

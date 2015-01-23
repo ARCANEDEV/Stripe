@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\RequestOptions;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
@@ -78,12 +79,14 @@ class FileUpload extends Resource implements FileUploadInterface
      */
     public static function retrieve($id, $options = null)
     {
-        // TODO: Refactor retrieve() method
-        $file = new self($id, $options);
-        $url  = self::END_POINT . '/' . $id;
+        $opts    = RequestOptions::parse($options);
 
-        list($response, $apiKey) = Requestor::make($options, self::baseUrl())
-            ->get($url, $file->retrieveParameters);
+        // TODO: Refactor retrieve() method
+        $apiKey  = $opts->getApiKey();
+        $file    = new self($id, $apiKey);
+
+        list($response, $apiKey) = Requestor::make($apiKey, self::baseUrl())
+            ->get(self::END_POINT . '/' . $id, $file->retrieveParameters);
 
         $file->refreshFrom($response, $apiKey);
 
@@ -96,7 +99,7 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return FileUpload
+     * @return FileUpload|array
      */
     public static function create($params = [], $options = null)
     {
