@@ -350,12 +350,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     /**
      * This unfortunately needs to be public to be used in Util.php
+     * Return The object constructed from the given values.
      *
-     * @param string      $class
-     * @param array       $values
-     * @param string|null $apiKey
+     * @param  string      $class
+     * @param  array       $values
+     * @param  string|null $apiKey
      *
-     * @return Object The object constructed from the given values.
+     * @return self
      */
     public static function scopedConstructFrom($class, $values, $apiKey = null)
     {

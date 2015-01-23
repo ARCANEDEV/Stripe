@@ -145,7 +145,7 @@ abstract class Util implements UtilInterface
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
-     * @param  array|mixed $array
+     * @param  mixed $array
      *
      * @return boolean True if the given object is a list.
      */
