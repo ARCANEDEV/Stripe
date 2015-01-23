@@ -20,13 +20,13 @@ class ListObject extends Object implements ListObjectInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get all
+     * List Function
      *
-     * @param array $params
+     * @param  array $params
      *
      * @throws ApiException
      *
-     * @return array|Object
+     * @return ListObject
      */
     public function all($params = [])
     {
@@ -39,11 +39,13 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
-     * @param array $params
+     * Create Function
+     *
+     * @param  array $params
      *
      * @throws ApiException
      *
-     * @return Resource|Object
+     * @return \Arcanedev\Stripe\Object|Resource
      */
     public function create($params = [])
     {
@@ -56,12 +58,14 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
-     * @param string $id
-     * @param array  $params
+     * Retrieve Function
+     *
+     * @param  string $id
+     * @param  array  $params
      *
      * @throws ApiException
      *
-     * @return array|Object
+     * @return \Arcanedev\Stripe\Object|Resource
      */
     public function retrieve($id, $params = [])
     {
@@ -101,7 +105,9 @@ class ListObject extends Object implements ListObjectInterface
     }
 
     /**
-     * @param $params
+     * Extract Path And Update Parameters
+     *
+     * @param  $params
      *
      * @throws ApiException
      *
@@ -132,7 +138,7 @@ class ListObject extends Object implements ListObjectInterface
     /**
      * Check if URL has path
      *
-     * @param array $url
+     * @param  array $url
      *
      * @throws ApiException
      */

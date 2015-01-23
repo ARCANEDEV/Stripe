@@ -16,21 +16,21 @@ abstract class StripeException extends Exception
     /**
      * Stripe Error code
      *
-     * @var string
+     * @var string|null
      */
     protected $stripeCode;
 
     /**
      * HTTP Response Body (json)
      *
-     * @var string
+     * @var string|null
      */
     protected $httpBody;
 
     /**
      * HTTP Response Body (array)
      *
-     * @var array
+     * @var array|null
      */
     protected $jsonBody;
 
@@ -81,6 +81,8 @@ abstract class StripeException extends Exception
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get Stripe Error type
+     *
      * @return string
      */
     public function getType()
@@ -91,7 +93,7 @@ abstract class StripeException extends Exception
     /**
      * Set Type
      *
-     * @param string|null $type
+     * @param  string|null $type
      *
      * @return StripeException
      */
@@ -115,7 +117,7 @@ abstract class StripeException extends Exception
     /**
      * Set Stripe code
      *
-     * @param string|null $stripeCode
+     * @param  string|null $stripeCode
      *
      * @return StripeException
      */
@@ -149,7 +151,7 @@ abstract class StripeException extends Exception
     /**
      * Set HTTP Body
      *
-     * @param string|null $httpBody
+     * @param  string|null $httpBody
      *
      * @return StripeException
      */
@@ -173,7 +175,7 @@ abstract class StripeException extends Exception
     /**
      * Set Json Body
      *
-     * @param array|null $jsonBody
+     * @param  array|null $jsonBody
      *
      * @return StripeException
      */
@@ -197,7 +199,7 @@ abstract class StripeException extends Exception
     /**
      * Set parameters
      *
-     * @param array $params
+     * @param  array $params
      *
      * @return StripeException
      */

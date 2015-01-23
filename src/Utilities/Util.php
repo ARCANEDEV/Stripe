@@ -51,7 +51,7 @@ abstract class Util implements UtilInterface
     /**
      * Recursively converts the PHP Stripe object to an array.
      *
-     * @param array $values The PHP Stripe object to convert.
+     * @param  array $values The PHP Stripe object to convert.
      *
      * @return array
      */
@@ -82,10 +82,10 @@ abstract class Util implements UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param array  $response   - The response from the Stripe API.
-     * @param string $apiKey
+     * @param  array  $response   - The response from the Stripe API.
+     * @param  string $apiKey
      *
-     * @return Resource|ListObject|Object
+     * @return \Arcanedev\Stripe\Object|Resource|ListObject
      */
     public static function convertToStripeObject($response, $apiKey)
     {
@@ -113,7 +113,7 @@ abstract class Util implements UtilInterface
     /**
      * Get Class Type
      *
-     * @param array $response
+     * @param  array $response
      *
      * @return string
      */
@@ -130,7 +130,7 @@ abstract class Util implements UtilInterface
     /**
      * Get Class Type from available resources
      *
-     * @param string $object
+     * @param  string $object
      *
      * @return string
      */
@@ -146,7 +146,7 @@ abstract class Util implements UtilInterface
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
-     * @param array|mixed $array
+     * @param  array|mixed $array
      *
      * @return boolean True if the given object is a list.
      */
@@ -167,7 +167,7 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * @param array $response
+     * @param  array $response
      *
      * @return bool
      */
@@ -184,7 +184,7 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * @param string $object
+     * @param  string $object
      *
      * @return bool
      */
