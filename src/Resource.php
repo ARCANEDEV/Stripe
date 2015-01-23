@@ -124,7 +124,7 @@ abstract class Resource extends Object implements ResourceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     protected static function scopedAll($params = [], $options = null)
     {

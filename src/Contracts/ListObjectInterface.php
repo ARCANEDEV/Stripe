@@ -16,7 +16,7 @@ interface ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function all($params = []);
 
@@ -27,7 +27,7 @@ interface ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource
+     * @return \Arcanedev\Stripe\Object|Resource|array
      */
     public function create($params = []);
 
@@ -39,7 +39,7 @@ interface ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource
+     * @return \Arcanedev\Stripe\Object|Resource|array
      */
     public function retrieve($id, $params = []);
 

@@ -89,7 +89,7 @@ abstract class Util implements UtilInterface
      * @param  array  $response   - The response from the Stripe API.
      * @param  string $apiKey
      *
-     * @return \Arcanedev\Stripe\Object|Resource|ListObject
+     * @return \Arcanedev\Stripe\Object|Resource|ListObject|array
      */
     public static function convertToStripeObject($response, $apiKey)
     {

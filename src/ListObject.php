@@ -26,7 +26,7 @@ class ListObject extends Object implements ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function all($params = [])
     {
@@ -45,7 +45,7 @@ class ListObject extends Object implements ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource
+     * @return \Arcanedev\Stripe\Object|Resource|array
      */
     public function create($params = [])
     {
@@ -65,7 +65,7 @@ class ListObject extends Object implements ListObjectInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource
+     * @return \Arcanedev\Stripe\Object|Resource|array
      */
     public function retrieve($id, $params = [])
     {
