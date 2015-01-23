@@ -209,7 +209,7 @@ class SslChecker implements SslCheckerInterface
      */
     private function showStreamExtensionWarning()
     {
-        $version = defined('HHVM_VERSION')
+        $version = is_hhvm()
             ? 'The HHVM (HipHop VM)'
             : 'This version of PHP';
 
