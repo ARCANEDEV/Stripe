@@ -24,15 +24,8 @@ class PlanTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->planId   = 'gold-' . parent::randomString();
-
-        $this->plan     = Plan::create([
-            'id'       => $this->planId,
-            'name'     => 'Plan',
-            'interval' => 'month',
-            'amount'   => 2000,
-            'currency' => 'usd',
-        ]);
+        $this->plan   = self::retrieveOrCreatePlan();
+        $this->planId = $this->plan->id;
     }
 
     public function tearDown()
