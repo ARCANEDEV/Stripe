@@ -56,7 +56,7 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public static function all($params = [], $apiKey = null)
     {

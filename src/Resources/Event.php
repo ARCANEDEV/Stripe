@@ -47,7 +47,7 @@ class Event extends Resource implements EventInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public static function all($params = [], $options = null)
     {

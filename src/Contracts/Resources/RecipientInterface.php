@@ -5,12 +5,16 @@ use Arcanedev\Stripe\Resources\Recipient;
 
 interface RecipientInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Retrieve a Recipient
      * @link https://stripe.com/docs/api/php#retrieve_recipient
      *
-     * @param string            $id
-     * @param array|string|null $options
+     * @param  string            $id
+     * @param  array|string|null $options
      *
      * @return Recipient
      */
@@ -20,10 +24,10 @@ interface RecipientInterface
      * List all Recipients
      * @link https://stripe.com/docs/api/php#list_recipients
      *
-     * @param array|null        $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public static function all($params = [], $options = null);
 
@@ -31,8 +35,8 @@ interface RecipientInterface
      * Create a New Recipient
      * @link https://stripe.com/docs/api/php#create_recipient
      *
-     * @param array|null        $params
-     * @param array|string|null $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Recipient
      */
@@ -50,7 +54,7 @@ interface RecipientInterface
      * Delete a Recipient
      * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @param array|null $params
+     * @param  array|null $params
      *
      * @return Recipient
      */
@@ -63,7 +67,7 @@ interface RecipientInterface
     /**
      * List all recipient's Transfers.
      *
-     * @param array|null $params
+     * @param  array|null $params
      *
      * @return ListObject
      */
