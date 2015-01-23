@@ -70,6 +70,29 @@ class SslCheckerTest extends StripeTestCase
         $this->assertTrue($this->sslChecker->isBlackListed($cert));
     }
 
+    /**
+     * @test
+     */
+    public function testCanGetCaBundle()
+    {
+        $certPath = $this->sslChecker->caBundle();
+
+        $this->assertNotEmpty($certPath);
+        $this->assertFileExists($certPath);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     */
+    public function testMustThrowApiConnectionExceptionOnBlacklistedPEMCert()
+    {
+        $cert = $this->getBlackListedCert();
+
+        $this->sslChecker->checkBlackList($cert);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
