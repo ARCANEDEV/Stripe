@@ -69,7 +69,7 @@ interface RecipientInterface
      *
      * @param  array|null $params
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function transfers($params = []);
 }

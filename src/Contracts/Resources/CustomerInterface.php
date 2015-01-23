@@ -80,7 +80,7 @@ interface CustomerInterface
      *
      * @param  array|null $params
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function invoices($params = []);
 
@@ -89,7 +89,7 @@ interface CustomerInterface
      *
      * @param  array|null $params
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function invoiceItems($params = []);
 
@@ -98,7 +98,7 @@ interface CustomerInterface
      *
      * @param  array|null $params
      *
-     * @return ListObject
+     * @return ListObject|array
      */
     public function charges($params = []);
 
