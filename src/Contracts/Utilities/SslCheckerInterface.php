@@ -52,6 +52,15 @@ interface SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check black list
+     *
+     * @param string $pemCert
+     *
+     * @throws ApiConnectionException
+     */
+    public function checkBlackList($pemCert);
+
+    /**
      * Checks if a valid PEM encoded certificate is blacklisted
      *
      * @param string $cert
