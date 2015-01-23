@@ -460,8 +460,8 @@ class Requestor implements RequestorInterface
     /**
      * Prepare Method Options
      *
-     * @param string $method
-     * @param array  $params
+     * @param  string $method
+     * @param  array  $params
      *
      * @throws ApiException
      *
