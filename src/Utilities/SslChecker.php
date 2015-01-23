@@ -218,12 +218,14 @@ class SslChecker implements SslCheckerInterface
      */
     private function showStreamExtensionWarning()
     {
-        if (! defined('HHVM_VERSION')) {
-            error_log(
-                'Warning: This version of PHP does not support checking SSL ' .
-                'certificates Stripe cannot guarantee that the server has a ' .
-                'certificate which is not blacklisted.'
-            );
-        }
+        $version = defined('HHVM_VERSION')
+            ? 'The HHVM (HipHop VM)'
+            : 'This version of PHP';
+        
+        error_log(
+            'Warning: ' . $version . ' does not support checking SSL ' .
+            'certificates Stripe cannot guarantee that the server has a ' .
+            'certificate which is not blacklisted.'
+        );
     }
 }
