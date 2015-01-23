@@ -65,11 +65,7 @@ class SslChecker implements SslCheckerInterface
     public function checkCert($url)
     {
         if ($this->checkStreamExtension()) {
-            error_log(
-                'Warning: This version of PHP does not support checking SSL '.
-                'certificates Stripe cannot guarantee that the server has a '.
-                'certificate which is not blacklisted.'
-            );
+            $this->showStreamExtensionWarning();
 
             return true;
         }
@@ -134,7 +130,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @throws ApiConnectionException
      */
-    private function checkBlackList($pemCert)
+    public function checkBlackList($pemCert)
     {
         if ($this->isBlackListed($pemCert)) {
             throw new ApiConnectionException(
@@ -213,5 +209,21 @@ class SslChecker implements SslCheckerInterface
         // TODO: Add path check method
 
         return $path;
+    }
+
+    /**
+     * Show Stream Extension Warning (stream_socket_enable_crypto is not supported in HHVM)
+     *
+     * @return string
+     */
+    private function showStreamExtensionWarning()
+    {
+        if (! defined('HHVM_VERSION')) {
+            error_log(
+                'Warning: This version of PHP does not support checking SSL ' .
+                'certificates Stripe cannot guarantee that the server has a ' .
+                'certificate which is not blacklisted.'
+            );
+        }
     }
 }
