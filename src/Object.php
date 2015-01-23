@@ -184,14 +184,17 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
             return $this->values[$key];
         }
 
-        $message    = "Stripe Notice: Undefined property of $class instance: $key.";
+        $message = "Stripe Notice: Undefined property of $class instance: $key.";
 
         if ($this->transientValues->includes($key)) {
-            $message    .= " HINT: The $key attribute was set in the past, however. "
-                . 'It was then wiped when refreshing the object '
-                . 'with the result returned by Stripe\'s API, '
-                . 'probably as a result of a save(). The attributes currently '
-                . 'available on this object are: ' . join(', ', array_keys($this->values));
+            $message .= ' HINT: The [' . $key . '] attribute was set in the past, however. '
+                . 'It was then wiped when refreshing the object with the result returned by Stripe\'s API, '
+                . 'probably as a result of a save().';
+
+            $attributes = array_keys($this->values);
+            if (count($attributes)) {
+                $message .= ' The attributes currently available on this object are: ' . join(', ', $attributes);
+            }
         }
 
         error_log($message);
@@ -518,6 +521,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         }
 
         $notFound = array_diff($this->unsavedValues->keys(), $supported);
+
         if (count($notFound) > 0) {
             throw new InvalidArgumentException(
                 'The attributes [' . implode(', ', $notFound) . '] are not supported.'
