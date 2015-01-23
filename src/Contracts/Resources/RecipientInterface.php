@@ -38,7 +38,7 @@ interface RecipientInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Recipient
+     * @return Recipient|array
      */
     public static function create($params = [], $options = null);
 

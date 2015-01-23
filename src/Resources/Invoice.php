@@ -3,6 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\RequestOptions;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Utilities\Util;
@@ -113,9 +114,11 @@ class Invoice extends Resource implements InvoiceInterface
      */
     public static function upcoming($params = [], $options = null)
     {
-        $url = parent::classUrl(get_class()) . '/upcoming';
+        $url  = parent::classUrl(get_class()) . '/upcoming';
+        // TODO: Refactor RequestOptions to Requestor::make
+        $opts = RequestOptions::parse($options);
 
-        list($response, $apiKey) = Requestor::make($options)
+        list($response, $apiKey) = Requestor::make($opts->getApiKey())
             ->get($url, $params);
 
         return Util::convertToStripeObject($response, $apiKey);

@@ -38,7 +38,7 @@ interface InvoiceItemInterface
      * @param array             $params
      * @param array|string|null $options
      *
-     * @return InvoiceItem
+     * @return InvoiceItem|array
      */
     public static function create($params = [], $options = null);
 

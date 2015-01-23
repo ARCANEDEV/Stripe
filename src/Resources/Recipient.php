@@ -112,7 +112,7 @@ class Recipient extends Resource implements RecipientInterface
     /**
      * List all recipient's Transfers.
      *
-     * @param  array|null $params
+     * @param  array $params
      *
      * @return ListObject|array
      */

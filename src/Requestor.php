@@ -276,14 +276,15 @@ class Requestor implements RequestorInterface
     /**
      * Curl the request
      *
-     * @param string $method
-     * @param string $absUrl
-     * @param array  $params
-     * @param array  $headers
+     * @param  string       $method
+     * @param  string       $absUrl
+     * @param  array|string $params
+     * @param  array        $headers
      *
-     * @return array
      * @throws ApiConnectionException
      * @throws ApiException
+     *
+     * @return array
      */
     private function curlRequest($method, $absUrl, $params, $headers)
     {
@@ -431,10 +432,10 @@ class Requestor implements RequestorInterface
     /**
      * Prepare CURL request Options
      *
-     * @param string $method
-     * @param string $absUrl
-     * @param array  $params
-     * @param array  $headers
+     * @param string       $method
+     * @param string       $absUrl
+     * @param array|string $params
+     * @param array        $headers
      *
      * @throws ApiException
      *
@@ -460,8 +461,8 @@ class Requestor implements RequestorInterface
     /**
      * Prepare Method Options
      *
-     * @param  string $method
-     * @param  array  $params
+     * @param  string       $method
+     * @param  array|string $params
      *
      * @throws ApiException
      *

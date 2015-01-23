@@ -38,7 +38,7 @@ interface TransferInterface
      * @param array             $params
      * @param array|string|null $options
      *
-     * @return Transfer
+     * @return Transfer|array
      */
     public static function create($params = [], $options = null);
 
