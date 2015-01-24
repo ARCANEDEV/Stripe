@@ -16,6 +16,12 @@ use ArrayAccess;
 class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const ATTACHED_OBJECT_CLASS       = 'Arcanedev\\Stripe\\AttachedObject';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -69,8 +75,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     protected $checkUnsavedAttributes = false;
 
-    const ATTACHED_OBJECT_CLASS       = 'Arcanedev\\Stripe\\AttachedObject';
-
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -83,22 +87,14 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __construct($id = null, $apiKey = null)
     {
-        $this->init();
-        $this->setApiKey($apiKey);
-        $this->setId($id);
-    }
-
-    /**
-     * Init Object Properties
-     */
-    private function init()
-    {
         $this->values                    = [];
         self::$permanentAttributes       = new UtilSet(['apiKey', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet(['metadata']);
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
+        $this->setApiKey($apiKey);
+        $this->setId($id);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -141,7 +137,10 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function setId($id)
     {
         if (is_array($id)) {
-            $this->setIdFromArray($id);
+            $this->checkIdIsInArray($id);
+            $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
+
+            $id = $id['id'];
         }
 
         if (! is_null($id)) {
@@ -149,20 +148,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         }
 
         return $this;
-    }
-
-    /**
-     * Set Id from array
-     *
-     * @param array $id
-     */
-    private function setIdFromArray(&$id)
-    {
-        $this->checkIdIsInArray($id);
-
-        $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
-
-        $id = $id['id'];
     }
 
     /**
@@ -184,7 +169,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __get($key)
     {
-        if (array_key_exists($key, $this->values)) {
+        if (in_array($key, $this->keys())) {
             return $this->values[$key];
         }
 
@@ -203,10 +188,9 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __set($key, $value)
     {
-        $supportedAttributes = array_keys($this->values);
+        $supportedAttributes = $this->keys();
 
         $this->setValue($key, $value);
-
         $this->checkUnsavedAttributes($supportedAttributes);
     }
 
@@ -270,16 +254,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __toString()
     {
-        return $this->toString();
-    }
-
-    /**
-     * Convert Object to string
-     *
-     * @return string
-     */
-    public function toString()
-    {
         return get_class($this) . ' JSON: ' . $this->toJson();
     }
 
@@ -320,7 +294,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function keys()
     {
-        return array_keys($this->values);
+        return count($this->values) ? array_keys($this->values) : [];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -401,21 +375,22 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * Clean refreshed Object
      *
      * @param array   $values
-     * @param boolean $partial
+     * @param boolean $partial - false by default
      */
     private function cleanObject($values, $partial)
     {
         // Wipe old state before setting new.
         // This is useful for e.g. updating a customer, where there is no persistent card parameter.
         // Mark those values which don't persist as transient
-        $removed = $partial
-            ? new UtilSet
-            : array_diff(array_keys($this->values), array_keys($values));
+        $removed = ! $partial
+            ? array_diff($this->keys(), array_keys($values))
+            : new UtilSet;
 
         foreach ($removed as $key) {
-            if (! self::$permanentAttributes->includes($key)) {
-                unset($this->$key);
+            if (self::$permanentAttributes->includes($key)) {
+                continue;
             }
+            unset($this->$key);
         }
     }
 
@@ -502,11 +477,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function checkIfAttributeDeletion($key, $value)
     {
         if (! is_null($value) and $value === '') {
-            $msg = "You cannot set '$key' to an empty string. "
+            throw new InvalidArgumentException(
+                "You cannot set '$key' to an empty string. "
                 . 'We interpret empty strings as \'null\' in requests. '
-                . "You may set obj->$key = null to delete the property";
-
-            throw new InvalidArgumentException($msg);
+                . "You may set obj->$key = null to delete the property"
+            );
         }
     }
 
@@ -519,23 +494,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function checkMetadataAttribute($key, $value)
     {
         if (
-            $this->isMetadataAttribute($key) and
+            $key === "metadata" and
             (! is_array($value) and ! is_null($value))
         ) {
             throw new InvalidArgumentException(
                 'The metadata value must be an array or null, ' . gettype($value) . ' is given'
             );
         }
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    private function isMetadataAttribute($key)
-    {
-        return $key === "metadata";
     }
 
     /**
@@ -560,12 +525,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function checkUnsavedAttributes($supported)
     {
         if (
-            ($this->checkUnsavedAttributes == false or count($supported) == 0)
+            $this->checkUnsavedAttributes == false or
+            count($supported) == 0
         ) {
             return;
         }
 
-        if (count($notFound = array_diff($this->unsavedValues->keys(), $supported))) {
+        if (count($notFound = $this->unsavedValues->diffKeys($supported))) {
             throw new InvalidArgumentException(
                 'The attributes [' . implode(', ', $notFound) . '] are not supported.'
             );
@@ -665,7 +631,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function showUndefinedPropertyMsgAttributes()
     {
-        return count($attributes = array_keys($this->values)) > 0
+        return count($attributes = $this->keys())
             ? ' The attributes currently available on this object are: ' . join(', ', $attributes)
             : '';
     }
