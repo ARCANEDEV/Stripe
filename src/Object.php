@@ -235,9 +235,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
             $this->values[$key] = $value;
         }
 
-        if (! self::$permanentAttributes->includes($key)) {
-            $this->unsavedValues->add($key);
-        }
+        $this->checkPermanentAttributes($key);
     }
 
     /**
@@ -509,6 +507,18 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function isMetadataAttribute($key)
     {
         return $key === "metadata";
+    }
+
+    /**
+     * Check permanent attributes
+     *
+     * @param string $key
+     */
+    private function checkPermanentAttributes($key)
+    {
+        if (! self::$permanentAttributes->includes($key)) {
+            $this->unsavedValues->add($key);
+        }
     }
 
     /**
