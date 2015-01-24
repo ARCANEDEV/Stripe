@@ -196,8 +196,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Standard set accessor
      *
-     * @param $key
-     * @param $value
+     * @param  string $key
+     * @param  mixed  $value
      *
      * @throws InvalidArgumentException
      */
@@ -205,8 +205,22 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     {
         $supportedAttributes = array_keys($this->values);
 
-        $this->checkIfAttributeDeletion($key, $value);
+        $this->setValue($key, $value);
 
+        $this->checkUnsavedAttributes($supportedAttributes);
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @throws InvalidArgumentException
+     */
+    private function setValue($key, $value)
+    {
+        $this->checkIfAttributeDeletion($key, $value);
         $this->checkMetadataAttribute($key, $value);
 
         if (
@@ -215,17 +229,14 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
             is_array($value)
         ) {
             $this->$key->replaceWith($value);
-        } else {
-            // TODO: may want to clear from $_transientValues (Won't be user-visible).
+        }
+        else {
+            // TODO: may want to clear from $transientValues (Won't be user-visible).
             $this->values[$key] = $value;
         }
 
         if (! self::$permanentAttributes->includes($key)) {
             $this->unsavedValues->add($key);
-        }
-
-        if ($this->checkUnsavedAttributes) {
-            $this->checkUnsavedAttributes($supportedAttributes);
         }
     }
 
@@ -501,19 +512,21 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * @param array $supported
+     * Check unsaved attributes
+     *
+     * @param  array $supported
      *
      * @throws InvalidArgumentException
      */
-    private function checkUnsavedAttributes($supported = [])
+    private function checkUnsavedAttributes($supported)
     {
-        if (count($supported) == 0) {
+        if (
+            ($this->checkUnsavedAttributes == false or count($supported) == 0)
+        ) {
             return;
         }
 
-        $notFound = array_diff($this->unsavedValues->keys(), $supported);
-
-        if (count($notFound) > 0) {
+        if (count($notFound = array_diff($this->unsavedValues->keys(), $supported))) {
             throw new InvalidArgumentException(
                 'The attributes [' . implode(', ', $notFound) . '] are not supported.'
             );
