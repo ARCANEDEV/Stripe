@@ -53,7 +53,6 @@ class ObjectTest extends StripeTestCase
             'param_two' => 'condition-2',
         ]);
 
-        $this->assertEquals(2, self::getMethod($object, 'retrieveParamsCount'));
         $this->assertTrue($object->hasRetrieveParams());
         $this->assertEquals([
             'param_one' => 'condition-1',
