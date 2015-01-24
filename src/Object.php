@@ -560,47 +560,38 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     protected function serializeParameters()
     {
-        return array_merge(
-            $this->serializeUnsavedValues(),
-            $this->serializeNestedUpdatableAttributes()
-        );
+        $params = [];
+
+        $this->serializeUnsavedValues($params);
+        $this->serializeNestedUpdatableAttributes($params);
+
+        return $params;
     }
 
     /**
      * Serialize unsaved values
      *
-     * @return array
+     * @param array $params
      */
-    private function serializeUnsavedValues()
+    private function serializeUnsavedValues(&$params)
     {
-        $params = [];
-
         foreach ($this->unsavedValues->toArray() as $key) {
             $params[$key] = ! is_null($value = $this->$key) ? $value : '';
         }
-
-        return $params;
     }
 
     /**
      * Serialize nested updatable attributes
      *
-     * @return array
+     * @param array $params
      */
-    private function serializeNestedUpdatableAttributes()
+    private function serializeNestedUpdatableAttributes(&$params)
     {
-        $params = [];
-
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
-            if (
-                isset($this->$property) and
-                $this->$property instanceof self
-            ) {
+            if (isset($this->$property) and $this->$property instanceof self) {
                 $params[$property] = $this->$property->serializeParameters();
             }
         }
-
-        return $params;
     }
 
     /**
