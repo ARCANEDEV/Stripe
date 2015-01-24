@@ -390,7 +390,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
                 continue;
             }
 
-            $this->values[$k] = ( self::$nestedUpdatableAttributes->includes($k) and is_array($v) )
+            $this->values[$k] = (self::$nestedUpdatableAttributes->includes($k) and is_array($v))
                 ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $v, $apiKey)
                 : Util::convertToStripeObject($v, $apiKey);
 
@@ -542,19 +542,40 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     protected function serializeParameters()
     {
+        return array_merge(
+            $this->serializeUnsavedValues(),
+            $this->serializeNestedUpdatableAttributes()
+        );
+    }
+
+    /**
+     * Serialize unsaved values
+     *
+     * @return array
+     */
+    private function serializeUnsavedValues()
+    {
         $params = [];
 
-        if ($this->unsavedValues) {
-            foreach ($this->unsavedValues->toArray() as $k) {
-                $v = $this->$k;
-
-                if (is_null($v)) {
-                    $v = '';
-                }
-
-                $params[$k] = $v;
-            }
+        if ($this->unsavedValues->count() == 0) {
+            return $params;
         }
+
+        foreach ($this->unsavedValues->toArray() as $key) {
+            $params[$key] = is_null($value = $this->$key) ? '' : $value;
+        }
+
+        return $params;
+    }
+
+    /**
+     * Serialize nested updatable attributes
+     *
+     * @return array
+     */
+    private function serializeNestedUpdatableAttributes()
+    {
+        $params = [];
 
         // Get nested updates.
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {

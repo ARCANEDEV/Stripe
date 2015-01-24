@@ -156,6 +156,34 @@ class ObjectTest extends StripeTestCase
         $this->assertEquals(['id' => 'foo'], $object->toArray());
     }
 
+    /**
+     * @test
+     */
+    public function testCanSerializeParameters()
+    {
+        $object = new Object('object-id', 'my-api-key');
+        $object->object        = 'type';
+        $object->name          = 'name';
+        $object['description'] = 'description';
+
+        $this->assertEquals([
+            'object'      => 'type',
+            'name'        => 'name',
+            'description' => 'description',
+        ], self::getMethod($object, 'serializeParameters'));
+
+        $object->metadata = [
+            'date-format' => 'Y-m-d',
+        ];
+
+        $this->assertEquals([
+            'object'      => 'type',
+            'name'        => 'name',
+            'description' => 'description',
+            'metadata'    => $object->metadata
+        ], self::getMethod($object, 'serializeParameters'));
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
