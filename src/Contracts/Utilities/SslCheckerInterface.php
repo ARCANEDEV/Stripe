@@ -70,6 +70,19 @@ interface SslCheckerInterface
     public function isBlackListed($cert);
 
     /**
+     * Check if has SSL Errors
+     *
+     * @param  int $errorNum
+     *
+     * @return bool
+     */
+    public function hasSslErrors($errorNum);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
      * Get the certificates file path
      *
      * @return string
