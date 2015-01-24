@@ -77,7 +77,7 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
      */
     public function toArray()
     {
-        return $this->keys();
+        return $this->count() ? $this->keys() : [];
     }
 
     /**
