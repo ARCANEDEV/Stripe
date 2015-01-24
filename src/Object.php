@@ -280,11 +280,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function toJson($options = 0)
     {
-        $array = $this->toArray(true);
+        if (defined('JSON_PRETTY_PRINT')) {
+            $options = JSON_PRETTY_PRINT;
+        }
 
-        return defined('JSON_PRETTY_PRINT')
-            ? json_encode($array, JSON_PRETTY_PRINT)
-            : json_encode($array, $options);
+        return json_encode($this->toArray(true), $options);
     }
 
     /**
@@ -335,11 +335,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * @param  array       $values
      * @param  string|null $apiKey
      *
-     * @return self
+     * @return \Arcanedev\Stripe\Object
      */
     public static function scopedConstructFrom($class, $values, $apiKey = null)
     {
-        /** @var Object $obj */
+        /** @var \Arcanedev\Stripe\Object $obj */
         $obj = new $class(isset($values['id']) ? $values['id'] : null, $apiKey);
         $obj->refreshFrom($values, $apiKey);
 
@@ -401,7 +401,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * @param  mixed  $value
      * @param  string $apiKey
      *
-     * @return Object|Resource|ListObject|array
+     * @return \Arcanedev\Stripe\Object|Resource|ListObject|array
      */
     private function constructValue($key, $value, $apiKey)
     {
@@ -447,14 +447,14 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Check if array has id
      *
-     * @param array $array
+     * @param  array $array
      *
      * @throws ApiException
      */
     private function checkIdIsInArray($array)
     {
         if (! isset($array['id'])) {
-            throw new ApiException("The attribute id must be included.", 500);
+            throw new ApiException('The attribute id must be included.');
         }
     }
 
@@ -576,7 +576,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         $params = [];
 
         foreach ($this->unsavedValues->toArray() as $key) {
-            $params[$key] = is_null($value = $this->$key) ? '' : $value;
+            $params[$key] = ! is_null($value = $this->$key) ? $value : '';
         }
 
         return $params;
@@ -591,7 +591,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     {
         $params = [];
 
-        // Get nested updates.
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
             if (
                 isset($this->$property) and
@@ -625,7 +624,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Show  available attributes for undefined property warning message
+     * Show available attributes for undefined property warning message
      *
      * @return string
      */
