@@ -465,7 +465,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function hasRetrieveParams()
     {
-        return $this->retrieveParamsCount() > 0;
+        return (bool) count($this->getRetrieveParams());
     }
 
     /**
@@ -476,7 +476,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkIfAttributeDeletion($key, $value)
     {
-        if (! is_null($value) and $value === '') {
+        if (! is_null($value) and empty($value)) {
             throw new InvalidArgumentException(
                 "You cannot set '$key' to an empty string. "
                 . 'We interpret empty strings as \'null\' in requests. '
@@ -531,27 +531,15 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
             return;
         }
 
-        if (count($notFound = $this->unsavedValues->diffKeys($supported))) {
-            throw new InvalidArgumentException(
-                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
-            );
-        }
+        $this->checkNotFoundAttributesException(
+            $this->unsavedValues->diffKeys($supported)
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Retrieve Parameters count
-     *
-     * @return int
-     */
-    private function retrieveParamsCount()
-    {
-        return count($this->getRetrieveParams());
-    }
-
     /**
      * A recursive mapping of attributes to values for this object,
      * including the proper value for deleted attributes.
@@ -624,5 +612,21 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         return count($attributes = $this->keys())
             ? ' The attributes currently available on this object are: ' . join(', ', $attributes)
             : '';
+    }
+
+    /**
+     * Check not found attributes exception
+     *
+     * @param  array $notFound
+     *
+     * @throws InvalidArgumentException
+     */
+    private function checkNotFoundAttributesException($notFound)
+    {
+        if (count($notFound)) {
+            throw new InvalidArgumentException(
+                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
+            );
+        }
     }
 }
