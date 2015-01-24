@@ -375,37 +375,62 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      *
      * @param array   $values
      * @param string  $apiKey
-     * @param boolean $partial Defaults to false.
+     * @param boolean $partial
      */
     public function refreshFrom($values, $apiKey, $partial = false)
     {
         $this->apiKey = $apiKey;
 
-        // Wipe old state before setting new.  This is useful for e.g. updating a
-        // customer, where there is no persistent card parameter.  Mark those values
-        // which don't persist as transient
+        $this->cleanObject($values, $partial);
+
+        foreach ($values as $key => $value) {
+            if (self::$permanentAttributes->includes($key) and isset($this[$key])) {
+                continue;
+            }
+
+            $this->values[$key] = $this->constructValue($key, $value, $apiKey);
+
+            $this->transientValues->discard($key);
+            $this->unsavedValues->discard($key);
+        }
+    }
+
+    /**
+     * Clean refreshed Object
+     *
+     * @param array   $values
+     * @param boolean $partial
+     */
+    private function cleanObject($values, $partial)
+    {
+        // Wipe old state before setting new.
+        // This is useful for e.g. updating a customer, where there is no persistent card parameter.
+        // Mark those values which don't persist as transient
         $removed = $partial
             ? new UtilSet
             : array_diff(array_keys($this->values), array_keys($values));
 
-        foreach ($removed as $k) {
-            if (! self::$permanentAttributes->includes($k)) {
-                unset($this->$k);
+        foreach ($removed as $key) {
+            if (! self::$permanentAttributes->includes($key)) {
+                unset($this->$key);
             }
         }
+    }
 
-        foreach ($values as $k => $v) {
-            if (self::$permanentAttributes->includes($k) and isset($this[$k])) {
-                continue;
-            }
-
-            $this->values[$k] = (self::$nestedUpdatableAttributes->includes($k) and is_array($v))
-                ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $v, $apiKey)
-                : Util::convertToStripeObject($v, $apiKey);
-
-            $this->transientValues->discard($k);
-            $this->unsavedValues->discard($k);
-        }
+    /**
+     * Construct Value
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     * @param  string $apiKey
+     *
+     * @return Object|Resource|ListObject|array
+     */
+    private function constructValue($key, $value, $apiKey)
+    {
+        return (self::$nestedUpdatableAttributes->includes($key) and is_array($value))
+            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $apiKey)
+            : Util::convertToStripeObject($value, $apiKey);
     }
 
     /**
@@ -424,8 +449,10 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * @param string $class
-     * @param string $method
+     * Scoped Late Static Bindings
+     *
+     * @param  string $class
+     * @param  string $method
      *
      * @return mixed
      */
