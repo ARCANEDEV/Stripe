@@ -128,7 +128,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Set Id
      *
-     * @param array|string|null $id
+     * @param  array|string|null $id
      *
      * @throws ApiException
      *
@@ -148,7 +148,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Set Id from Array
      *
-     * @param  array $id
+     * @param  array|string|null $id
      *
      * @throws ApiException
      */
