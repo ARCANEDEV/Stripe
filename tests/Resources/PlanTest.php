@@ -88,8 +88,8 @@ class PlanTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
-     * @expectedExceptionCode 404
+     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode    404
      * @expectedExceptionMessage No such plan: 0
      */
     public function testMustThrowInvalidRequestErrorOnFalseId()

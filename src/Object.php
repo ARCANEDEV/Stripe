@@ -136,18 +136,30 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function setId($id)
     {
-        if (is_array($id)) {
-            $this->checkIdIsInArray($id);
-            $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
-
-            $id = $id['id'];
-        }
+        $this->setIdIfArray($id);
 
         if (! is_null($id)) {
             $this->id = $id;
         }
 
         return $this;
+    }
+
+    /**
+     * Set Id from Array
+     *
+     * @param  array $id
+     *
+     * @throws ApiException
+     */
+    private function setIdIfArray(&$id)
+    {
+        if (is_array($id)) {
+            $this->checkIdIsInArray($id);
+            $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
+
+            $id = $id['id'];
+        }
     }
 
     /**
@@ -453,7 +465,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkIdIsInArray($array)
     {
-        if (! isset($array['id'])) {
+        if (! array_key_exists('id', $array)) {
             throw new ApiException('The attribute id must be included.');
         }
     }
@@ -476,7 +488,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkIfAttributeDeletion($key, $value)
     {
-        if (! is_null($value) and empty($value)) {
+        // Don't use empty($value) instead of ($value === '')
+        if (! is_null($value) and $value === '') {
             throw new InvalidArgumentException(
                 "You cannot set '$key' to an empty string. "
                 . 'We interpret empty strings as \'null\' in requests. '
