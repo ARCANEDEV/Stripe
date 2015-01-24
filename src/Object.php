@@ -300,7 +300,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Convert Object to JSON
      *
-     * @param int $options
+     * @param  int $options
      *
      * @return string
      */
@@ -314,6 +314,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
+     * Get only value keys
+     *
      * @return array
      */
     public function keys()
@@ -325,25 +327,25 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      |  ArrayAccess methods
      | ------------------------------------------------------------------------------------------------
      */
-    public function offsetSet($k, $v)
+    public function offsetSet($key, $value)
     {
-        $this->$k = $v;
+        $this->$key = $value;
     }
 
-    public function offsetExists($k)
+    public function offsetExists($key)
     {
-        return array_key_exists($k, $this->values);
+        return array_key_exists($key, $this->values);
     }
 
-    public function offsetUnset($k)
+    public function offsetUnset($key)
     {
-        unset($this->$k);
+        unset($this->$key);
     }
 
-    public function offsetGet($k)
+    public function offsetGet($key)
     {
-        return array_key_exists($k, $this->values)
-            ? $this->values[$k]
+        return array_key_exists($key, $this->values)
+            ? $this->values[$key]
             : null;
     }
 
@@ -606,10 +608,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function serializeUnsavedValues()
     {
         $params = [];
-
-        if ($this->unsavedValues->count() == 0) {
-            return $params;
-        }
 
         foreach ($this->unsavedValues->toArray() as $key) {
             $params[$key] = is_null($value = $this->$key) ? '' : $value;
