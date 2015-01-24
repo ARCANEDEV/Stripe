@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\RequestOptions;
 
 interface RequestOptionsInterface
 {
@@ -18,9 +19,9 @@ interface RequestOptionsInterface
     /**
      * Set API Key
      *
-     * @param string $apiKey
+     * @param  string $apiKey
      *
-     * @return RequestOptionsInterface
+     * @return RequestOptions
      */
     public function setApiKey($apiKey);
 
@@ -38,11 +39,11 @@ interface RequestOptionsInterface
     /**
      * Unpacks an options array into an Options object
      *
-     * @param array|string $options
+     * @param  array|string $options
      *
      * @throws ApiException
      *
-     * @return RequestOptionsInterface
+     * @return RequestOptions
      */
     public static function parse($options);
 

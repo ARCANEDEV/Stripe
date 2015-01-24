@@ -19,7 +19,11 @@ class RequestOptions implements RequestOptionsInterface
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct($apiKey, $headers)
+    /**
+     * @param string $apiKey
+     * @param array  $headers
+     */
+    public function __construct($apiKey, array $headers)
     {
         $this->setApiKey($apiKey);
         $this->setHeaders($headers);
@@ -42,13 +46,13 @@ class RequestOptions implements RequestOptionsInterface
     /**
      * Set API Key
      *
-     * @param string $apiKey
+     * @param  string $apiKey
      *
      * @return RequestOptions
      */
     public function setApiKey($apiKey)
     {
-        $this->apiKey  = $apiKey;
+        $this->apiKey  = trim($apiKey);
 
         return $this;
     }
@@ -66,9 +70,9 @@ class RequestOptions implements RequestOptionsInterface
     /**
      * Set Headers
      *
-     * @param array $headers
+     * @param  array $headers
      *
-     * @return $this
+     * @return RequestOptions
      */
     protected function setHeaders($headers)
     {
@@ -84,7 +88,7 @@ class RequestOptions implements RequestOptionsInterface
     /**
      * Unpacks an options array into an Options object
      *
-     * @param array|string|null $options
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
@@ -127,21 +131,25 @@ class RequestOptions implements RequestOptionsInterface
      */
     public function hasApiKey()
     {
-        return ! is_null($this->apiKey);
+        return ! is_null($this->apiKey) and ! empty($this->apiKey);
     }
 
     /**
      * Check Options
      *
-     * @param array|string|null $options
+     * @param  array|string|null $options
      *
      * @throws ApiException
      */
     private static function checkOptions($options)
     {
-        if (! is_null($options) and ! is_string($options) and ! is_array($options)) {
+        if (
+            ! is_null($options) and
+            ! is_string($options) and
+            ! is_array($options)
+        ) {
             throw new ApiException(
-                'Options must be a string, an array, or null'
+                'Options must be a string, an array, or null, ' . gettype($options) . ' given.'
             );
         }
     }

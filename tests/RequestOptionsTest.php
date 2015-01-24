@@ -30,10 +30,25 @@ class RequestOptionsTest extends StripeTestCase
     /**
      * @test
      */
+    public function testCanBeInstantiated()
+    {
+        $opts = new RequestOptions('', []);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\RequestOptions',
+            $opts
+        );
+        $this->assertFalse($opts->hasApiKey());
+        $this->assertEquals([], $opts->getHeaders());
+    }
+
+    /**
+     * @test
+     */
     public function testCanParseAPIKeyString()
     {
         $opts = RequestOptions::parse("foo");
 
+        $this->assertTrue($opts->hasApiKey());
         $this->assertEquals("foo", $opts->getApiKey());
         $this->assertEquals([], $opts->getHeaders());
     }
