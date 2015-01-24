@@ -139,6 +139,10 @@ class ListObject extends Object implements ListObjectInterface
     {
         $url = parse_url($this->url);
 
+        if ($url === false) {
+            $url = [];
+        }
+
         $this->checkPath($url);
 
         if (isset($url['query'])) {
