@@ -24,7 +24,7 @@ if (! function_exists('str_utf8')) {
     /**
      * Encoding string to UTF-8
      *
-     * @param string $string
+     * @param  string|mixed $string
      *
      * @return string
      */
@@ -45,8 +45,8 @@ if (! function_exists('str_parse_url')) {
     /**
      * Parse url with queries
      *
-     * @param string $baseUrl
-     * @param array  $queries
+     * @param  string $baseUrl
+     * @param  array  $queries
      *
      * @return string
      */
@@ -64,10 +64,10 @@ if (! function_exists('str_url_queries')) {
     /**
      *  A query string, essentially.
      *
-     * @param array       $queries An map of param keys to values.
-     * @param string|null $prefix  (It doesn't look like we ever use $prefix...)
+     * @param  array       $queries An map of param keys to values.
+     * @param  string|null $prefix  (It doesn't look like we ever use $prefix...)
      *
-     * @returns string
+     * @return string
      */
     function str_url_queries($queries, $prefix = null)
     {
@@ -99,8 +99,8 @@ if (! function_exists('str_split_camelcase')) {
     /**
      * Split Camel Case String
      *
-     * @param string $string
-     * @param string $glue
+     * @param  string $string
+     * @param  string $glue
      *
      * @return string
      */
@@ -124,7 +124,7 @@ if (! function_exists('is_multi_dim_array')) {
     /**
      * Check if array is a multidimensional array
      *
-     * @param array $array
+     * @param  array $array
      *
      * @return bool
      */
@@ -144,7 +144,7 @@ if (! function_exists('is_assoc_array')) {
     /**
      * Check if array is an associative array
      *
-     * @param array $array
+     * @param  array $array
      *
      * @return bool
      */
@@ -167,7 +167,7 @@ if (! function_exists('is_assoc_array')) {
 if (! function_exists('validate_url')) {
     /**
      * Check if url is valid
-     * @param string $url
+     * @param  string $url
      *
      * @return bool
      */
@@ -181,7 +181,7 @@ if (! function_exists('validate_version')) {
     /**
      * Check if version is valid
      *
-     * @param string $version
+     * @param  string $version
      *
      * @return bool
      */
@@ -200,7 +200,7 @@ if (! function_exists('validate_version')) {
 
 if (! function_exists('validate_bool')) {
     /**
-     * @param mixed $value
+     * @param  mixed $value
      *
      * @return bool
      */
