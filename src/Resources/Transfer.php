@@ -70,7 +70,7 @@ class Transfer extends Resource implements TransferInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Transfer
+     * @return Transfer|array
      */
     public static function create($params = [], $options = null)
     {

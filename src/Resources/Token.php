@@ -43,7 +43,7 @@ class Token extends Resource implements TokenInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Token
+     * @return Token|array
      */
     public static function create($params = [], $options = null)
     {

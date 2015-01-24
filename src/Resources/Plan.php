@@ -63,7 +63,7 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Plan
+     * @return Plan|array
      */
     public static function create($params = [], $options = null)
     {

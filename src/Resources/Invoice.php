@@ -57,7 +57,7 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Invoice
+     * @return Invoice|array
      */
     public static function create($params = [], $options = null)
     {
@@ -110,7 +110,7 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Invoice
+     * @return Invoice|array
      */
     public static function upcoming($params = [], $options = null)
     {
