@@ -169,6 +169,22 @@ class SslChecker implements SslCheckerInterface
                ! function_exists('stream_socket_enable_crypto');
     }
 
+    /**
+     * Check if has SSL Errors
+     *
+     * @param  int $errorNum
+     *
+     * @return bool
+     */
+    public function hasSslErrors($errorNum)
+    {
+        return in_array($errorNum, [
+            CURLE_SSL_CACERT,
+            CURLE_SSL_PEER_CERTIFICATE,
+            CURLE_SSL_CACERT_BADFILE
+        ]);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------

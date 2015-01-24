@@ -306,18 +306,16 @@ class Requestor implements RequestorInterface
         $response = curl_exec($curl);
         $errorNum = curl_errno($curl);
 
-        if (
-            $errorNum == CURLE_SSL_CACERT or
-            $errorNum == CURLE_SSL_PEER_CERTIFICATE or
-            $errorNum == CURLE_SSL_CACERT_BADFILE
-        ) {
+        if ($this->sslChecker->hasSslErrors($errorNum)) {
             array_push(
                 $headers,
                 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
             );
 
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($curl, CURLOPT_CAINFO, $this->sslChecker->caBundle());
+            curl_setopt_array($curl, [
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_CAINFO     => $this->sslChecker->caBundle()
+            ]);
 
             $response = curl_exec($curl);
         }
