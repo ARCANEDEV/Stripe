@@ -71,6 +71,18 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
     }
 
     /**
+     * Diff Keys
+     *
+     * @param array $keys
+     *
+     * @return array
+     */
+    public function diffKeys(array $keys = [])
+    {
+        return array_diff($this->keys(), $keys);
+    }
+
+    /**
      * Get all Attributes
      *
      * @return array
