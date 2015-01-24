@@ -336,12 +336,16 @@ class Requestor implements RequestorInterface
     /**
      * Process Resource Parameters
      *
-     * @param array $params
+     * @param  array|string $params
      *
      * @throws ApiException
      */
     private function processResourceParams(&$params)
     {
+        if (! is_array($params)) {
+            return;
+        }
+
         foreach ($params as $key => $resource) {
             $this->hasFile = self::checkHasResourceFile($resource);
 
