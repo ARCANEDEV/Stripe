@@ -8,6 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
+use Arcanedev\Stripe\Resource                           as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use Arcanedev\Stripe\Utilities\SslChecker;
 use CURLFile;
@@ -595,7 +596,7 @@ class Requestor implements RequestorInterface
     /**
      * Encode Objects
      *
-     * @param Resource|bool|array|string $obj
+     * @param  ResourceObject|bool|array|string $obj
      *
      * @throws ApiException
      *
@@ -603,7 +604,7 @@ class Requestor implements RequestorInterface
      */
     private static function encodeObjects($obj)
     {
-        if ($obj instanceof Resource) {
+        if ($obj instanceof ResourceObject) {
             return str_utf8($obj->id);
         }
 
