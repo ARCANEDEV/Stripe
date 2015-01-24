@@ -141,15 +141,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function setId($id)
     {
         if (is_array($id)) {
-            $this->checkId($id);
-
-            foreach ($id as $key => $value) {
-                if ($key != 'id') {
-                    $this->retrieveParameters[$key] = $value;
-                }
-            }
-
-            $id = $id['id'];
+            $this->setIdFromArray($id);
         }
 
         if (! is_null($id)) {
@@ -157,6 +149,20 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         }
 
         return $this;
+    }
+
+    /**
+     * Set Id from array
+     *
+     * @param array $id
+     */
+    private function setIdFromArray(&$id)
+    {
+        $this->checkIdIsInArray($id);
+
+        $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
+
+        $id = $id['id'];
     }
 
     /**
@@ -447,7 +453,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      *
      * @throws ApiException
      */
-    private function checkId($array)
+    private function checkIdIsInArray($array)
     {
         if (! isset($array['id'])) {
             throw new ApiException("The attribute id must be included.", 500);
