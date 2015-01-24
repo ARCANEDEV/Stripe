@@ -184,26 +184,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     public function __get($key)
     {
-        $class  = get_class($this);
-
         if (array_key_exists($key, $this->values)) {
             return $this->values[$key];
         }
 
-        $message = "Stripe Notice: Undefined property of $class instance: $key.";
-
-        if ($this->transientValues->includes($key)) {
-            $message .= ' HINT: The [' . $key . '] attribute was set in the past, however. '
-                . 'It was then wiped when refreshing the object with the result returned by Stripe\'s API, '
-                . 'probably as a result of a save().';
-
-            $attributes = array_keys($this->values);
-            if (count($attributes)) {
-                $message .= ' The attributes currently available on this object are: ' . join(', ', $attributes);
-            }
-        }
-
-        error_log($message);
+        $this->showUndefinedPropertyMsg(get_class($this), $key);
 
         return null;
     }
@@ -582,5 +567,37 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         }
 
         return $params;
+    }
+
+    /**
+     * Show undefined property warning message
+     *
+     * @param string $class
+     * @param string $key
+     */
+    private function showUndefinedPropertyMsg($class, $key)
+    {
+        $message = "Stripe Notice: Undefined property of $class instance: $key.";
+
+        if ($this->transientValues->includes($key)) {
+            $message .= ' HINT: The [' . $key . '] attribute was set in the past, however. ' .
+                'It was then wiped when refreshing the object with the result returned by Stripe\'s API, ' .
+                'probably as a result of a save().' .
+                $this->showUndefinedPropertyMsgAttributes();
+        }
+
+        error_log($message);
+    }
+
+    /**
+     * Show  available attributes for undefined property warning message
+     *
+     * @return string
+     */
+    private function showUndefinedPropertyMsgAttributes()
+    {
+        return count($attributes = array_keys($this->values)) > 0
+            ? ' The attributes currently available on this object are: ' . join(', ', $attributes)
+            : '';
     }
 }
