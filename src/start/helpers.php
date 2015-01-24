@@ -45,8 +45,8 @@ if (! function_exists('str_parse_url')) {
     /**
      * Parse url with queries
      *
-     * @param  string $baseUrl
-     * @param  array  $queries
+     * @param  string      $baseUrl
+     * @param  array|mixed $queries
      *
      * @return string
      */
@@ -64,7 +64,7 @@ if (! function_exists('str_url_queries')) {
     /**
      *  A query string, essentially.
      *
-     * @param  array       $queries An map of param keys to values.
+     * @param  array|mixed $queries An map of param keys to values.
      * @param  string|null $prefix  (It doesn't look like we ever use $prefix...)
      *
      * @return string
