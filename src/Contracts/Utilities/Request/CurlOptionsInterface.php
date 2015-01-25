@@ -30,7 +30,7 @@ interface CurlOptionsInterface
      * Make Curl Options
      *
      * @param  string $method
-     * @param  string $absUrl
+     * @param  string $url
      * @param  string $params
      * @param  array  $headers
      * @param  bool   $hasFile
@@ -39,7 +39,7 @@ interface CurlOptionsInterface
      *
      * @return CurlOptions
      */
-    public function make($method, $absUrl, $params, $headers, $hasFile = false);
+    public function make($method, $url, $params, $headers, $hasFile = false);
 
     /**
      * Get all options

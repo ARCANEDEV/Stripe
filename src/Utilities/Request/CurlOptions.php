@@ -71,7 +71,7 @@ class CurlOptions implements CurlOptionsInterface
      * Make Curl Options
      *
      * @param  string $method
-     * @param  string $absUrl
+     * @param  string $url
      * @param  string $params
      * @param  array  $headers
      * @param  bool   $hasFile
@@ -80,7 +80,7 @@ class CurlOptions implements CurlOptionsInterface
      *
      * @return CurlOptions
      */
-    public function make($method, $absUrl, $params, $headers, $hasFile = false)
+    public function make($method, $url, $params, $headers, $hasFile = false)
     {
         $this->checkMethod($method);
 
@@ -89,7 +89,7 @@ class CurlOptions implements CurlOptionsInterface
         $this->prepareMethodOptions($method, $params, $hasFile);
 
         $this->setOptions([
-            CURLOPT_URL            => str_utf8($absUrl),
+            CURLOPT_URL            => str_utf8($url),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 30,
             CURLOPT_TIMEOUT        => 80,
