@@ -14,13 +14,15 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 abstract class StripeTestCase extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const API_KEY = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I";
 
-    /** @var mixed */
-    protected $object;
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -42,22 +44,12 @@ abstract class StripeTestCase extends TestCase
     public function tearDown()
     {
         parent::tearDown();
-
-        unset($this->object);
-    }
-
-    protected function assertStripeInstance($expected, $actual, $message = '')
-    {
-        $expected = 'Arcanedev\\Stripe\\' . $expected;
-
-        $this->assertInstanceOf($expected, $actual, $message);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Tests Functions
      | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Create a valid test charge.
      *

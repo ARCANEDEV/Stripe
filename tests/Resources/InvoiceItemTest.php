@@ -1,19 +1,22 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-
 use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class InvoiceItemTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\InvoiceItem';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var InvoiceItem */
     private $invoiceItem;
-
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\InvoiceItem';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -37,18 +40,14 @@ class InvoiceItemTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoiceItem);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $invoices = InvoiceItem::all();
 
@@ -56,10 +55,8 @@ class InvoiceItemTest extends StripeTestCase
         $this->assertEquals('/v1/invoiceitems', $invoices->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreate()
+    /** @test */
+    public function it_can_create()
     {
         $customer          = parent::createTestCustomer();
         $this->invoiceItem = self::createInvoiceItem($customer->id);
@@ -68,10 +65,8 @@ class InvoiceItemTest extends StripeTestCase
         $this->assertEquals($customer->id, $this->invoiceItem->customer);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $customer          = parent::createTestCustomer();
         $invoiceItem       = self::createInvoiceItem($customer->id);
@@ -82,10 +77,8 @@ class InvoiceItemTest extends StripeTestCase
         $this->assertEquals($customer->id, $this->invoiceItem->customer);
     }
 
-    /**
-     * @test
-     */
-    public function testCanSave()
+    /** @test */
+    public function it_can_save()
     {
         $customer          = parent::createTestCustomer();
         $this->invoiceItem = self::createInvoiceItem($customer->id);
@@ -97,10 +90,8 @@ class InvoiceItemTest extends StripeTestCase
         $this->assertEquals($description, $this->invoiceItem->description);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDelete()
+    /** @test */
+    public function it_can_delete()
     {
         $customer          = parent::createTestCustomer();
         $this->invoiceItem = self::createInvoiceItem($customer->id);
@@ -120,7 +111,7 @@ class InvoiceItemTest extends StripeTestCase
      *
      * @return InvoiceItem
      */
-    public static function createInvoiceItem($customerId)
+    private static function createInvoiceItem($customerId)
     {
         return InvoiceItem::create([
             'customer'  => $customerId,

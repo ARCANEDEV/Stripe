@@ -25,10 +25,8 @@ class HelpersTest extends TestCase
      |  Test STRING Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanParseUrlWithQueries()
+    /** @test */
+    public function it_can_parse_url_with_queries()
     {
         $baseUrl = 'http://www.api.com';
 
@@ -47,10 +45,8 @@ class HelpersTest extends TestCase
         $this->assertEquals($baseUrl . '?my=value&that%5Byour%5D=example&bar=1', $url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanEncodeQueries()
+    /** @test */
+    public function it_can_encode_queries()
     {
         $this->assertEquals('?my=value', str_url_queries('?my=value'));
 
@@ -101,10 +97,8 @@ class HelpersTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function testCanConvertToUtf8()
+    /** @test */
+    public function it_can_convert_to_utf8()
     {
         // UTF-8 string
         $this->assertEquals("\xc3\xa9", str_utf8("\xc3\xa9"));
@@ -116,10 +110,8 @@ class HelpersTest extends TestCase
         $this->assertEquals(true, str_utf8(true));
     }
 
-    /**
-     * @test
-     */
-    public function testCanSplitCamelCase()
+    /** @test */
+    public function it_can_split_camel_case()
     {
         $this->assertNull(str_split_camelcase(null));
         $this->assertEquals('Camel Case Class', str_split_camelcase('CamelCaseClass'));
@@ -129,10 +121,8 @@ class HelpersTest extends TestCase
      |  Test ARRAY Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanIsMultidimensionalArray()
+    /** @test */
+    public function it_can_check_is_multi_dimensional_array()
     {
         $this->assertFalse(is_multi_dim_array(null));
         $this->assertTrue(is_multi_dim_array([
@@ -144,10 +134,8 @@ class HelpersTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
-    public function testIsArrayAssociative()
+    /** @test */
+    public function it_can_check_is_associative_array()
     {
         $this->assertFalse(is_assoc_array(null));
         $this->assertTrue(is_assoc_array([
@@ -157,10 +145,8 @@ class HelpersTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
-    public function testIsArrayIndexed()
+    /** @test */
+    public function it_can_check_is_indexed_array()
     {
         $this->assertFalse(is_assoc_array(['foo', 'bar', 'baz']));
     }
@@ -169,10 +155,8 @@ class HelpersTest extends TestCase
      |  Test Validation Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testIsValidUrl()
+    /** @test */
+    public function it_can_check_is_valid_url()
     {
         $this->assertFalse(validate_url(null));
         $this->assertFalse(validate_url(''));
@@ -182,10 +166,8 @@ class HelpersTest extends TestCase
         $this->assertTrue(validate_url('http://www.api.com/v1/object?id=1'));
     }
 
-    /**
-     * @test
-     */
-    public function testIsValidVersion()
+    /** @test */
+    public function it_can_check_is_valid_version()
     {
         $this->assertFalse(validate_version(null));
         $this->assertFalse(validate_version(''));
@@ -195,10 +177,8 @@ class HelpersTest extends TestCase
         $this->assertTrue(validate_version('2.1.123'));
     }
 
-    /**
-     * @test
-     */
-    public function testIsValidBoolean()
+    /** @test */
+    public function it_can_check_is_valid_boolean()
     {
         array_map(function($true) {
             $this->assertTrue(validate_bool($true));

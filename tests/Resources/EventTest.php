@@ -1,19 +1,22 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Event;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class EventTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const EVENT_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var Event */
-    protected $object;
-
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
+    protected $event;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -23,30 +26,28 @@ class EventTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->object = new Event;
+        $this->event = new Event;
     }
 
     public function tearDown()
     {
         parent::tearDown();
+
+        unset($this->event);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
+        $this->assertInstanceOf(self::EVENT_CLASS, $this->event);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $events = Event::all();
 
@@ -54,10 +55,8 @@ class EventTest extends StripeTestCase
         $this->assertEquals('/v1/events', $events->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $events = Event::all();
 
@@ -67,9 +66,9 @@ class EventTest extends StripeTestCase
 
         $eventId = $events->data[0]->id;
 
-        $this->object = Event::retrieve($eventId);
+        $this->event = Event::retrieve($eventId);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
-        $this->assertEquals($eventId, $this->object->id);
+        $this->assertInstanceOf(self::EVENT_CLASS, $this->event);
+        $this->assertEquals($eventId, $this->event->id);
     }
 }

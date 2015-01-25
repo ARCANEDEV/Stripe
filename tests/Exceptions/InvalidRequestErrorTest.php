@@ -29,22 +29,23 @@ class InvalidRequestErrorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode    404
      * @expectedExceptionMessage No such customer: invalid
-     * @expectedExceptionCode 404
      */
-    public function testInvalidObject()
+    public function it_must_throw_invalid_request_exception_on_invalid_params()
     {
         Customer::retrieve('invalid');
     }
 
     /**
      * @test
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     *
+     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode    400
      * @expectedExceptionMessage You must supply either a card or a customer id
-     * @expectedExceptionCode 400
      */
-    public function testBadData()
+    public function it_must_throw_invalid_request_exception_on_bad_data()
     {
         Charge::create();
     }

@@ -8,13 +8,17 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class CouponTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Coupon';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var Coupon */
     private $coupon;
-
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Coupon';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -38,18 +42,14 @@ class CouponTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiated()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->coupon);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $coupons = Coupon::all();
 
@@ -57,10 +57,8 @@ class CouponTest extends StripeTestCase
         $this->assertEquals('/v1/coupons', $coupons->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreateAndSave()
+    /** @test */
+    public function it_can_create_and_save()
     {
         $couponId   = $this->getCouponId();
         $coupon     = Coupon::create([
@@ -80,12 +78,10 @@ class CouponTest extends StripeTestCase
         $this->assertEquals($coupon->metadata, $stripeCoupon->metadata);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDelete()
+    /** @test */
+    public function it_can_delete()
     {
-        $couponId    = $this->getCouponId();
+        $couponId     = $this->getCouponId();
         $this->coupon = Coupon::create([
             'id'                    => $couponId,
             'percent_off'           => 25,

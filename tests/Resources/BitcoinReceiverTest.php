@@ -6,13 +6,17 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class BitcoinReceiverTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var BitcoinReceiver */
     protected $object;
-
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -25,22 +29,25 @@ class BitcoinReceiverTest extends StripeTestCase
         $this->object = new BitcoinReceiver;
     }
 
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        unset($this->object);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->object);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetUrls()
+    /** @test */
+    public function it_can_get_urls()
     {
         $classUrl    = BitcoinReceiver::classUrl();
         $this->assertEquals($classUrl, '/v1/bitcoin/receivers');
@@ -50,40 +57,8 @@ class BitcoinReceiverTest extends StripeTestCase
         $this->assertEquals($instanceUrl, '/v1/bitcoin/receivers/abcd%2Fefgh');
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreate()
-    {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-
-        $this->assertEquals(100, $receiver->amount);
-        $this->assertNotNull($receiver->id);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanSave()
-    {
-        // TODO: Check if save method is supported - [POST] /v1/bitcoin/receivers/btcrcv_{id}
-    }
-
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
-    {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-
-        $r = BitcoinReceiver::retrieve($receiver->id);
-        $this->assertEquals($receiver->id, $r->id);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanList()
+    /** @test */
+    public function it_can_list_all()
     {
         $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
 
@@ -91,10 +66,32 @@ class BitcoinReceiverTest extends StripeTestCase
         $this->assertTrue(count($receivers->data) > 0);
     }
 
-    /**
-     * @test
-     */
-    public function testListTransactions()
+    /** @test */
+    public function it_can_create()
+    {
+        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+
+        $this->assertEquals(100, $receiver->amount);
+        $this->assertNotNull($receiver->id);
+    }
+
+    /** @test */
+    public function it_can_save()
+    {
+        // TODO: Check if save method is supported - [POST] /v1/bitcoin/receivers/btcrcv_{id}
+    }
+
+    /** @test */
+    public function it_can_retrieve()
+    {
+        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+
+        $r = BitcoinReceiver::retrieve($receiver->id);
+        $this->assertEquals($receiver->id, $r->id);
+    }
+
+    /** @test */
+    public function it_can_list_all_transactions()
     {
         $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
         $this->assertEquals(0, count($receiver->transactions->data));

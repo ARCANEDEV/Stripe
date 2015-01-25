@@ -1,19 +1,22 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Transfer;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class TransferTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const TRANSFER_CLASS = 'Arcanedev\\Stripe\\Resources\\Transfer';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var Transfer */
     private $transfer;
-
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Transfer';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -40,15 +43,15 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanBeInstantiated()
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->transfer);
+        $this->assertInstanceOf(self::TRANSFER_CLASS, $this->transfer);
     }
 
     /**
      * @test
      */
-    public function testCanGetAll()
+    public function it_can_list_all()
     {
         $transfers = Transfer::all();
 
@@ -59,7 +62,7 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanCreate()
+    public function it_can_create()
     {
         $recipient = self::createTestRecipient();
 
@@ -75,7 +78,7 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanRetrieve()
+    public function it_can_retrieve()
     {
         $recipient = self::createTestRecipient();
 
@@ -93,7 +96,7 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanCancel()
+    public function it_can_cancel()
     {
         $recipient = self::createTestRecipient();
 
@@ -114,7 +117,7 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanUpdateOneMetadata()
+    public function it_can_update_one_metadata()
     {
         $recipient = self::createTestRecipient();
 
@@ -135,7 +138,7 @@ class TransferTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanUpdateAllMetadata()
+    public function it_can_update_all_metadata()
     {
         $recipient = self::createTestRecipient();
 

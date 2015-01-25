@@ -6,6 +6,12 @@ use ReflectionClass;
 class ObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const OBJECT_CLASS = 'Arcanedev\\Stripe\\Object';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -30,22 +36,18 @@ class ObjectTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiate()
     {
         $object = new Object('object-id', 'my-api-key');
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Object', $object);
+        $this->assertInstanceOf(self::OBJECT_CLASS, $object);
 
         $this->assertEquals('object-id', $object->id);
         $this->assertEquals('my-api-key', self::getMethod($object, 'getApiKey'));
     }
 
-    /**
-     * @test
-     */
-    public function testCanPopulateFromArray()
+    /** @test */
+    public function it_can_populate_object_from_array()
     {
         $object = new Object([
             'id'        => 'object-id',
@@ -65,15 +67,13 @@ class ObjectTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function testMustThrowApiExceptionIfIdNotFoundInArray()
+    public function it_must_throw_api_exception_if_id_not_found_in_array()
     {
         new Object([]);
     }
 
-    /**
-     * @test
-     */
-    public function testArrayAccessorsSemantics()
+    /** @test */
+    public function it_can_access_object_like_array()
     {
         $s          = new Object;
         $s['foo']   = 'a';
@@ -84,10 +84,8 @@ class ObjectTest extends StripeTestCase
         $this->assertFalse(isset($s['foo']));
     }
 
-    /**
-     * @test
-     */
-    public function testNormalAccessorsSemantics()
+    /** @test */
+    public function it_can_access_with_normal_accessors()
     {
         $s      = new Object;
         $s->foo = 'a';
@@ -97,36 +95,18 @@ class ObjectTest extends StripeTestCase
         $this->assertFalse(isset($s->foo));
     }
 
-    /**
-     * @test
-     */
-    public function testArrayAccessorsMatchNormalAccessors()
-    {
-        $s        = new Object;
-        $s->foo   = 'a';
-        $this->assertEquals('a', $s['foo']);
-
-        $s['bar'] = 'b';
-        $this->assertEquals('b', $s->bar);
-    }
-
-    /**
-     * @test
-     */
-    public function testKeys()
+    /** @test */
+    public function it_can_get_values_keys()
     {
         $s      = new Object;
         $s->foo = 'a';
         $this->assertEquals(['foo'], $s->keys());
     }
 
-    /**
-     * @test
-     */
-    public function testMustReturnNullAccessingUndefinedProperty()
+    /** @test */
+    public function it_must_return_null_by_accessing_undefined_property()
     {
         $object = new Object;
-        $this->assertNull($object->foo);
 
         $object->foo = 'bar';
         unset($object->foo);
@@ -134,10 +114,8 @@ class ObjectTest extends StripeTestCase
         $this->assertNull($object->foo);
     }
 
-    /**
-     * @test
-     */
-    public function testCanConvertObjectToString()
+    /** @test */
+    public function it_can_convert_object_to_string()
     {
         $object = new Object('foo');
         $this->assertEquals(
@@ -146,19 +124,15 @@ class ObjectTest extends StripeTestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function testCanConvertObjectToArray()
+    /** @test */
+    public function it_can_convert_object_to_array()
     {
         $object = new Object('foo');
         $this->assertEquals(['id' => 'foo'], $object->toArray());
     }
 
-    /**
-     * @test
-     */
-    public function testCanSerializeParameters()
+    /** @test */
+    public function it_can_serialize_parameters()
     {
         $object = new Object('object-id', 'my-api-key');
         $object->object        = 'type';
@@ -196,7 +170,6 @@ class ObjectTest extends StripeTestCase
      */
     protected static function getMethod($object, $name, $params = [])
     {
-        // 'Arcanedev\\Stripe\\Object'
         $class = new ReflectionClass(new Object);
         $method = $class->getMethod($name);
         $method->setAccessible(true);

@@ -37,7 +37,7 @@ class AuthenticationErrorTest extends StripeTestCase
      * @expectedExceptionCode    401
      * @expectedExceptionMessage Invalid API Key provided: *******-***-key
      */
-    public function testInvalidCredentials()
+    public function it_must_throw_authentication_exception_on_invalid_credentials()
     {
         Stripe::setApiKey('invalid-api-key');
 

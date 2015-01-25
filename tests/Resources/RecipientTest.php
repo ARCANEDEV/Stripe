@@ -12,6 +12,7 @@ class RecipientTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    const RECIPIENT_CLASS = 'Arcanedev\\Stripe\\Resources\\Recipient';
     /** @var Recipient */
     private $recipient;
 
@@ -37,21 +38,14 @@ class RecipientTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Recipient',
-            $this->recipient
-        );
+        $this->assertInstanceOf(self::RECIPIENT_CLASS, $this->recipient);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $recipients = Recipient::all();
 
@@ -59,39 +53,21 @@ class RecipientTest extends StripeTestCase
         $this->assertEquals('/v1/recipients', $recipients->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $this->recipient = self::createTestRecipient();
 
         $recipient = Recipient::retrieve($this->recipient->id);
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Recipient',
-            $recipient
-        );
+        $this->assertInstanceOf(self::RECIPIENT_CLASS, $recipient);
 
         $this->assertEquals($this->recipient->id, $this->recipient->id);
         $this->assertEquals($this->recipient->name, $this->recipient->name);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDelete()
-    {
-        $recipient = self::createTestRecipient();
-        $recipient->delete();
-
-        $this->assertTrue($recipient->deleted);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanSave()
+    /** @test */
+    public function it_can_save()
     {
         $recipient = self::createTestRecipient();
 
@@ -104,21 +80,28 @@ class RecipientTest extends StripeTestCase
         $this->assertEquals($recipient->email, $stripeRecipient->email);
     }
 
+    /** @test */
+    public function it_can_delete()
+    {
+        $recipient = self::createTestRecipient();
+        $recipient->delete();
+
+        $this->assertTrue($recipient->deleted);
+    }
+
     /**
      * @test
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    public function testBogusAttribute()
+    public function it_must_throw_invalid_argument_exception_on_bogus_attribute()
     {
-        $recipient = self::createTestRecipient();
+        $recipient        = self::createTestRecipient();
         $recipient->bogus = 'bogus';
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateRecipientAllMetadata()
+    /** @test */
+    public function it_can_update_all_metadata_recipient()
     {
         $recipient = self::createTestRecipient();
 
@@ -129,10 +112,8 @@ class RecipientTest extends StripeTestCase
         $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateRecipientOneMetadata()
+    /** @test */
+    public function it_can_update_one_metadata_recipient()
     {
         $recipient = self::createTestRecipient();
 
@@ -147,10 +128,8 @@ class RecipientTest extends StripeTestCase
      |  Cards Tests
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanAddCard()
+    /** @test */
+    public function it_can_add_card_to_recipient()
     {
         $token = Token::create([
             "card" => [
@@ -173,10 +152,8 @@ class RecipientTest extends StripeTestCase
 
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateCard()
+    /** @test */
+    public function it_can_update_recipient_card()
     {
         $token = Token::create([
             "card" => [
@@ -206,10 +183,8 @@ class RecipientTest extends StripeTestCase
         $this->assertEquals("Jane Austen", $updatedCards["data"][0]->name);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDeleteCard()
+    /** @test */
+    public function it_can_delete_recipient_card()
     {
         $token = Token::create([
             "card" => [
@@ -241,10 +216,8 @@ class RecipientTest extends StripeTestCase
      |  Transfer Tests
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanGetTransfers()
+    /** @test */
+    public function it_can_list_all_recipient_transfers()
     {
         $this->recipient = self::createTestRecipient();
         $transfers       = $this->recipient->transfers();

@@ -2,11 +2,16 @@
 
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Refund;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class RefundTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const REFUND_CLASS = 'Arcanedev\\Stripe\\Resources\\Refund';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -36,10 +41,14 @@ class RefundTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanGetInstanceUrl()
+    /** @test */
+    public function it_can_be_instantiated()
+    {
+        $this->assertInstanceOf(self::REFUND_CLASS, $this->refund);
+    }
+
+    /** @test */
+    public function it_can_get_instance_url()
     {
         $refundId = 'refund_random_id';
         $chargeId = 'refund_random_id';
@@ -58,15 +67,13 @@ class RefundTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
      */
-    public function testMustThrowInvalidRequestExceptionWhenIdEmpty()
+    public function it_must_throw_invalid_request_exception_when_id_is_empty()
     {
         $this->refund->instanceUrl();
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $charge = self::createTestCharge();
         $refA = $charge->refunds->create([
@@ -83,10 +90,8 @@ class RefundTest extends StripeTestCase
         $this->assertEquals($refA->id, $all->data[1]->id);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreate()
+    /** @test */
+    public function it_can_create()
     {
         $charge = self::createTestCharge();
 
@@ -96,10 +101,8 @@ class RefundTest extends StripeTestCase
         $this->assertEquals($charge->id, $ref->charge);
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateAndRetrieve()
+    /** @test */
+    public function it_can_update_and_retrieve()
     {
         $charge = self::createTestCharge();
         /** @var Refund $ref */
@@ -114,10 +117,8 @@ class RefundTest extends StripeTestCase
         $this->assertEquals("value", $ref->metadata["key"], "value");
     }
 
-    /**
-     * @test
-     */
-    public function testCreateForBitcoin()
+    /** @test */
+    public function it_can_create_refund_for_bitcoin()
     {
         $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
 
@@ -128,12 +129,12 @@ class RefundTest extends StripeTestCase
             'source'      => $receiver->id
         ]);
 
-        $ref      = $charge->refunds->create([
+        $refund   = $charge->refunds->create([
             'amount'         => $receiver->amount,
             'refund_address' => 'ABCDEF'
         ]);
 
-        $this->assertEquals($receiver->amount, $ref->amount);
-        $this->assertNotNull($ref->id);
+        $this->assertEquals($receiver->amount, $refund->amount);
+        $this->assertNotNull($refund->id);
     }
 }

@@ -28,7 +28,8 @@ class ApiExceptionTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function testCreation()
+    /** @test */
+    public function it_can_be_thrown()
     {
         try {
             throw new ApiException(

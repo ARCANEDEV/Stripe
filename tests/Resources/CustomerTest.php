@@ -2,11 +2,17 @@
 
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\Token;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class CustomerTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
+    const LIST_OBJECT_CLASS = 'Arcanedev\\Stripe\\ListObject';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -36,28 +42,22 @@ class CustomerTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Customer', $this->customer);
+        $this->assertInstanceOf(self::CUSTOMER_CLASS, $this->customer);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $customers = Customer::all();
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $customers);
+        $this->assertInstanceOf(self::LIST_OBJECT_CLASS, $customers);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreateAndSave()
+    /** @test */
+    public function it_can_create_and_save()
     {
         $customer = self::createTestCustomer();
 
@@ -76,10 +76,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals('gdb@stripe.com', $updatedCustomer->email);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDelete()
+    /** @test */
+    public function it_can_delete()
     {
         $customer = self::createTestCustomer();
         $customer->delete();
@@ -93,10 +91,10 @@ class CustomerTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    public function testMustThrowInvalidRequestErrorOnBogusAttribute()
+    public function it_must_throw_invalid_request_error_on_bogus_attribute()
     {
-        $customer           = self::createTestCustomer();
-        $customer->bogus    = 'bogus';
+        $customer        = self::createTestCustomer();
+        $customer->bogus = 'bogus';
     }
 
     /**
@@ -104,16 +102,14 @@ class CustomerTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    public function testMustThrowInvalidArgumentExceptionOnUpdateDescription()
+    public function it_must_throw_invalid_argument_exception_on_update_description()
     {
         $customer = self::createTestCustomer();
         $customer->description = '';
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateDescription()
+    /** @test */
+    public function it_can_update_description()
     {
         $customer = self::createTestCustomer(['description' => 'foo bar']);
         $customer->description = null;
@@ -126,10 +122,8 @@ class CustomerTest extends StripeTestCase
 
     // TODO: Add Test MustBeNull Exception on description update
 
-    /**
-     * @test
-     */
-    public function testCanUpdateMetadata()
+    /** @test */
+    public function it_can_update_metadata()
     {
         $customer = self::createTestCustomer();
 
@@ -140,10 +134,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals('foo bar', $updatedCustomer->metadata['test']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDeleteMetadata()
+    /** @test */
+    public function it_can_delete_metadata()
     {
         $customer = self::createTestCustomer();
 
@@ -154,10 +146,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals(0, count($updatedCustomer->metadata->keys()));
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateSomeMetadata()
+    /** @test */
+    public function it_can_update_some_metadata()
     {
         $customer = self::createTestCustomer();
         $customer->metadata['shoe size'] = '7';
@@ -172,13 +162,11 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals('XS', $updatedCustomer->metadata['shirt size']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateAllMetadata()
+    /** @test */
+    public function it_can_update_all_metadatas()
     {
         $customer = self::createTestCustomer();
-        $customer->metadata['shoe size'] = '7';
+        $customer->metadata['shoe size']  = '7';
         $customer->metadata['shirt size'] = 'XS';
         $customer->save();
 
@@ -195,7 +183,7 @@ class CustomerTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    public function testMustThrowInvalidRequestErrorOnUpdateWithInvalidMetadata()
+    public function it_must_throw_invalid_request_error_on_update_with_invalid_metadata()
     {
         $customer = self::createTestCustomer();
 
@@ -203,25 +191,21 @@ class CustomerTest extends StripeTestCase
         $customer->save();
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAllInvoices()
+    /** @test */
+    public function it_can_get_all_invoices()
     {
         $customer   = self::createTestCustomer();
         $invoices   = $customer->invoices();
 
         $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\ListObject',
+            self::LIST_OBJECT_CLASS,
             $invoices
         );
         $this->assertEquals('/v1/invoices', $invoices->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanAddInvoiceItem()
+    /** @test */
+    public function it_can_add_invoice_item()
     {
         $customer    = self::createTestCustomer();
         $invoiceItem = $customer->addInvoiceItem([
@@ -237,10 +221,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals('usd', $invoiceItem->currency);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAllInvoiceItems()
+    /** @test */
+    public function it_can_list_all_invoice_items()
     {
         $customer    = self::createTestCustomer();
         $customer->addInvoiceItem([
@@ -249,24 +231,20 @@ class CustomerTest extends StripeTestCase
         ]);
 
         $invoiceItems = $customer->invoiceItems();
-        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $invoiceItems);
+        $this->assertInstanceOf(self::LIST_OBJECT_CLASS, $invoiceItems);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAllCharges()
+    /** @test */
+    public function it_can_list_all_charges()
     {
         $customer   = self::createTestCustomer();
 
         $charges    = $customer->charges();
-        $this->assertInstanceOf('Arcanedev\\Stripe\\ListObject', $charges);
+        $this->assertInstanceOf(self::LIST_OBJECT_CLASS, $charges);
     }
 
-    /**
-     * @test
-     */
-    public function testCanAddSubscription()
+    /** @test */
+    public function it_can_add_subscription()
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
@@ -276,16 +254,14 @@ class CustomerTest extends StripeTestCase
         $customer = Customer::retrieve($customer->id);
 
         $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\ListObject',
+            self::LIST_OBJECT_CLASS,
             $customer->subscriptions
         );
         $this->assertEquals(1, $customer->subscriptions->count());
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateSubscription()
+    /** @test */
+    public function it_can_update_subscription()
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
@@ -300,10 +276,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals(4, $subscription->quantity);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCancelSubscription()
+    /** @test */
+    public function it_can_cancel_subscription()
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
@@ -321,10 +295,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals($customer->subscription->status, 'canceled');
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreateDiscount()
+    /** @test */
+    public function it_can_create_discount()
     {
         $couponId = "25OFF";
         parent::retrieveOrCreateCoupon($couponId);
@@ -352,10 +324,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals($couponId, $discount->coupon->id);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDeleteDiscount()
+    /** @test */
+    public function it_can_delete_discount()
     {
         $couponId = "25OFF";
         parent::retrieveOrCreateCoupon($couponId);
@@ -378,10 +348,8 @@ class CustomerTest extends StripeTestCase
         $this->assertNull($customer->discount);
     }
 
-    /**
-     * @test
-     */
-    public function testCanAddCard()
+    /** @test */
+    public function it_can_add_card()
     {
         $token      = $this->createToken();
         $customer   = $this->createTestCustomer();
@@ -397,10 +365,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals(count($updatedCards["data"]), 2);
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateCard()
+    /** @test */
+    public function it_can_update_card()
     {
         $customer = $this->createTestCustomer();
         $customer->save();
@@ -418,10 +384,8 @@ class CustomerTest extends StripeTestCase
         $this->assertEquals("Jane Austen", $updatedCards["data"][0]->name);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDeleteCard()
+    /** @test */
+    public function it_can_delete_card()
     {
         $token          = $this->createToken();
         $customer       = $this->createTestCustomer();
@@ -430,11 +394,11 @@ class CustomerTest extends StripeTestCase
         ]);
         $customer->save();
 
-        $updatedCustomer    = Customer::retrieve($customer->id);
-        $updatedCards       = $updatedCustomer->cards->all();
+        $updatedCustomer = Customer::retrieve($customer->id);
+        $updatedCards    = $updatedCustomer->cards->all();
         $this->assertEquals(count($updatedCards["data"]), 2);
 
-        $deleteStatus = $updatedCustomer->cards->retrieve($createdCard->id)->delete();
+        $deleteStatus    = $updatedCustomer->cards->retrieve($createdCard->id)->delete();
 
         $this->assertEquals(true, $deleteStatus->deleted);
         $updatedCustomer->save();

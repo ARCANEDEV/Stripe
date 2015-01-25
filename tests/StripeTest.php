@@ -27,10 +27,8 @@ class StripeTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanInitStrip()
+    /** @test */
+    public function it_can_init_stripe()
     {
         $apiKey = 'my-secret-api-key';
         Stripe::init($apiKey);
@@ -38,10 +36,8 @@ class StripeTest extends StripeTestCase
         $this->assertEquals($apiKey, Stripe::getApiKey());
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAndSetApiKey()
+    /** @test */
+    public function it_can_get_and_set_api_key()
     {
         $this->assertEquals(self::API_KEY, Stripe::getApiKey());
 
@@ -54,10 +50,10 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiIsNotString()
+    public function it_must_throw_api_exception_when_api_is_not_string()
     {
         Stripe::setApiKey(null);
     }
@@ -65,18 +61,16 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiIsEmptyString()
+    public function it_must_throw_api_exception_when_api_is_empty_string()
     {
         Stripe::setApiKey('  ');
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAndSetApiBaseUrl()
+    /** @test */
+    public function it_can_get_and_set_api_base_url()
     {
         $baseUrl = 'https://api.stripe.com';
         $url     = $baseUrl . '/v2';
@@ -91,10 +85,10 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiBaseUrlIsNotString()
+    public function it_must_throw_api_exception_when_api_base_url_is_not_string()
     {
         Stripe::setApiBaseUrl(null);
     }
@@ -102,18 +96,16 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiBaseUrlIsNotValidUrl()
+    public function it_must_throw_api_exception_when_api_base_url_is_not_valid_url()
     {
         Stripe::setApiBaseUrl('localhost.com');
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAndSetUploadBaseUrl()
+    /** @test */
+    public function it_can_get_and_set_upload_base_url()
     {
         $url = 'https://uploads.stripe.com';
         $this->assertEquals($url, Stripe::getUploadBaseUrl());
@@ -126,10 +118,10 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenUploadBaseUrlIsNotString()
+    public function it_must_throw_api_exception_when_upload_base_url_is_not_string()
     {
         Stripe::setUploadBaseUrl(null);
     }
@@ -137,18 +129,16 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenUploadBaseUrlIsNotValidUrl()
+    public function it_must_throw_api_exception_when_upload_base_url_is_not_valid_url()
     {
         Stripe::setUploadBaseUrl('storage.web.com');
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAndSetApiVersion()
+    /** @test */
+    public function it_can_get_and_set_api_version()
     {
         $this->assertFalse(Stripe::hasApiVersion());
         $this->assertNull(Stripe::getApiVersion());
@@ -166,10 +156,10 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiVersionIsNotNullOrString()
+    public function it_must_throw_api_exception_when_api_version_is_not_null_or_string()
     {
         Stripe::setApiVersion(true);
     }
@@ -177,18 +167,16 @@ class StripeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode 500
      */
-    public function testMustThrowApiExceptionWhenApiVersionIsValid()
+    public function it_must_throw_api_exception_when_api_version_is_valid()
     {
         Stripe::setApiVersion('alpha.version.1');
     }
 
-    /**
-     * @test
-     */
-    public function testCanSetAndGetVerifySslCerts()
+    /** @test */
+    public function it_can_set_and_get_verify_ssl_certs()
     {
         $this->assertTrue(Stripe::getVerifySslCerts());
 

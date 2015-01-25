@@ -5,10 +5,15 @@ use Arcanedev\Stripe\ListObject;
 class ListObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const RESOURCE_CLASS = 'Arcanedev\\Stripe\\ListObject';
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
     /** @var ListObject */
     private $listObject;
 
@@ -34,10 +39,8 @@ class ListObjectTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiated()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->listObject);
     }
@@ -47,7 +50,7 @@ class ListObjectTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function testMustThrowApiExceptionWhenUrlIsEmpty()
+    public function it_must_throw_api_exception_when_url_is_empty()
     {
         $this->listObject->all();
     }

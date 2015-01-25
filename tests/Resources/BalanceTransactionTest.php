@@ -1,16 +1,20 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\BalanceTransaction;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class BalanceTransactionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BalanceTransaction';
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -30,10 +34,8 @@ class BalanceTransactionTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $balanceTransactions  = BalanceTransaction::all();
 
@@ -41,7 +43,8 @@ class BalanceTransactionTest extends StripeTestCase
         $this->assertEquals($balanceTransactions->url, '/v1/balance/history');
     }
 
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $bts  = BalanceTransaction::all();
 

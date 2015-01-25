@@ -1,12 +1,17 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Balance;
-use Arcanedev\Stripe\Utilities\Util;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
+use Arcanedev\Stripe\Utilities\Util;
 
 class BalanceTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const BALANCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Balance';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -18,7 +23,6 @@ class BalanceTest extends StripeTestCase
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-
     public function setUp()
     {
         parent::setUp();
@@ -35,12 +39,14 @@ class BalanceTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertStripeInstance('Resources\\Balance', $this->object);
+        $this->assertInstanceOf(self::BALANCE_CLASS, $this->object);
     }
 
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $this->assertEquals("balance", $this->object->object);
         $this->assertTrue(Util::isList($this->object->available));

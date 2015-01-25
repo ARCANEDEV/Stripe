@@ -1,11 +1,17 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Charge;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class ChargeTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Charge';
+    const BITCOIN_RECEIVER_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -16,8 +22,6 @@ class ChargeTest extends StripeTestCase
     /** @var array */
     private $chargeData = [];
 
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Charge';
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -26,7 +30,7 @@ class ChargeTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->charge = new Charge;
+        $this->charge     = new Charge;
         $this->chargeData = [
             'amount'    => 100,
             'currency'  => 'usd',
@@ -50,18 +54,14 @@ class ChargeTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiated()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetUrl()
+    /** @test */
+    public function it_can_get_url()
     {
         $this->assertEquals(Charge::classUrl(), '/v1/charges');
 
@@ -70,10 +70,17 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals($this->charge->instanceUrl(), '/v1/charges/abcd%2Fefgh');
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreate()
+    /** @test */
+    public function it_can_list_all()
+    {
+        $charges = Charge::all();
+
+        $this->assertTrue($charges->isList());
+        $this->assertEquals('/v1/charges', $charges->url);
+    }
+
+    /** @test */
+    public function it_can_create()
     {
         $this->charge = Charge::create($this->chargeData);
 
@@ -85,10 +92,10 @@ class ChargeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\CardException
+     * @expectedException     \Arcanedev\Stripe\Exceptions\CardException
      * @expectedExceptionCode 402
      */
-    public function testMustThrowCardErrorOnDeclinedCard()
+    public function it_must_throw_card_error_on_declined_card()
     {
         $declinedCard = [
             'number'    => '4000000000000002',
@@ -103,10 +110,8 @@ class ChargeTest extends StripeTestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreateWithIdempotent()
+    /** @test */
+    public function it_can_create_with_idempotent_key()
     {
         $this->charge = Charge::create($this->chargeData, [
             'idempotency_key' => $this->generateRandomString(),
@@ -116,10 +121,8 @@ class ChargeTest extends StripeTestCase
         $this->assertFalse($this->charge->refunded);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $charge       = Charge::create($this->chargeData);
         $this->charge = Charge::retrieve($charge->id);
@@ -128,21 +131,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals($charge->id, $this->charge->id);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
-    {
-        $charges = Charge::all();
-
-        $this->assertTrue($charges->isList());
-        $this->assertEquals('/v1/charges', $charges->url);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanRefundTotalAmount()
+    /** @test */
+    public function it_can_refund_with_total_amount()
     {
         $this->charge = Charge::create($this->chargeData);
 
@@ -155,10 +145,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals(100, $refund->amount);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRefundPartialAmount()
+    /** @test */
+    public function it_can_refund_with_partial_amounts()
     {
         $this->charge = Charge::create($this->chargeData);
 
@@ -171,10 +159,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals(2, count($this->charge->refunds->data));
     }
 
-    /**
-     * @test
-     */
-    public function testCanCapture()
+    /** @test */
+    public function it_can_capture()
     {
         $this->charge = Charge::create([
             'amount'    => 100,
@@ -192,10 +178,8 @@ class ChargeTest extends StripeTestCase
         $this->assertTrue($this->charge->captured);
     }
 
-    /**
-     * @test
-     */
-    public function testCreateWithBitcoinReceiverSource()
+    /** @test */
+    public function it_can_create_with_bitcoin_receiver_source()
     {
         $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
 
@@ -208,17 +192,16 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals($receiver->id, $charge->source->id);
         $this->assertEquals('bitcoin_receiver', $charge->source->object);
         $this->assertEquals('paid', $charge->status);
-        $this->assertEquals(
-            'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
-            get_class($charge->source)
-        );
+        $this->assertEquals(self::BITCOIN_RECEIVER_CLASS, get_class($charge->source));
     }
 
+    /** @test */
     public function testCanUpdateDispute()
     {
         // TODO: Complete testCanUpdateDispute() implementation
     }
 
+    /** @test */
     public function testCanCloseDispute()
     {
         // TODO: Complete testCanCloseDispute() implementation
@@ -228,10 +211,8 @@ class ChargeTest extends StripeTestCase
      |  Test Metadata Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanUpdateOneMetadata()
+    /** @test */
+    public function it_can_update_one_metadata()
     {
         $this->charge = Charge::create($this->chargeData);
 
@@ -242,10 +223,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals('foo bar', $charge->metadata['test']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanUpdateAllMetadata()
+    /** @test */
+    public function it_can_update_all_metadata()
     {
         $this->charge = Charge::create($this->chargeData);
 
@@ -256,10 +235,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals('foo bar', $charge->metadata['test']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanMarkAsFraudulent()
+    /** @test */
+    public function it_can_mark_as_fraudulent()
     {
         $charge = Charge::create($this->chargeData);
 
@@ -270,10 +247,8 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals('fraudulent', $updatedCharge['fraud_details']['user_report']);
     }
 
-    /**
-     * @test
-     */
-    public function testCanMarkAsSafe()
+    /** @test */
+    public function it_can_mark_as_safe()
     {
         $charge = Charge::create($this->chargeData);
 

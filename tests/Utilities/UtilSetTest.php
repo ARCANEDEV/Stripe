@@ -3,7 +3,14 @@
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\UtilSet;
 
-class UtilSetTest extends StripeTestCase {
+class UtilSetTest extends StripeTestCase
+{
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const UTILSET_CLASS = 'Arcanedev\\Stripe\\Utilities\\UtilSet';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -33,10 +40,14 @@ class UtilSetTest extends StripeTestCase {
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanCount()
+    /** @test */
+    public function it_can_be_instantiated()
+    {
+        $this->assertInstanceOf(self::UTILSET_CLASS, $this->utilSet);
+    }
+
+    /** @test */
+    public function it_can_get_count()
     {
         $this->assertEquals(0, $this->utilSet->count());
 

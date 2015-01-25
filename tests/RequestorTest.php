@@ -7,13 +7,17 @@ use ReflectionClass;
 class RequestorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Requestor';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var Requestor */
     private $requestor;
-
-    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Requestor';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -37,21 +41,17 @@ class RequestorTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(self::REQUESTOR_CLASS, $this->requestor);
     }
 
-    /**
-     * @test
-     */
-    public function testCanEncodeObjects()
+    /** @test */
+    public function it_can_encode_objects()
     {
         // We have to do some work here because this is normally private.
-        // This is just for testing! Also it only works on PHP >= 5.3
+        // This is just for testing! Also it only works on PHP >= 5.3.2
         if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
             $method = $this->getMethod('encodeObjects');
 
@@ -74,7 +74,7 @@ class RequestorTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
      */
-    public function testMustThrowApiKeyNotSetExceptionOnEmptyApiKey()
+    public function it_must_throw_api_key_not_set_exception_on_empty_api_key()
     {
         $method = $this->getMethod('checkApiKey');
 
@@ -86,7 +86,7 @@ class RequestorTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function testMustThrowApiExceptionOnInvalidMethod()
+    public function it_must_throw_api_exception_on_invalid_method()
     {
         $method = $this->getMethod('checkMethod');
 
@@ -100,7 +100,7 @@ class RequestorTest extends StripeTestCase
      * @expectedExceptionCode    500
      * @expectedExceptionMessage Invalid response body from API: {bad: data} (HTTP response code was 200)
      */
-    public function testMustThrowApiExceptionOnInvalidResponse()
+    public function it_must_throw_api_exception_on_invalid_response()
     {
         $method = $this->getMethod('interpretResponse');
 
@@ -112,7 +112,9 @@ class RequestorTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $methodName
+     * Get Private/Protected method for test
+     *
+     * @param  string $methodName
      *
      * @return \ReflectionMethod
      */

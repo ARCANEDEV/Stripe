@@ -1,16 +1,20 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Token;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class TokenTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const TOKEN_CLASS = 'Arcanedev\\Stripe\\Resources\\Token';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Token';
     /** @var Token */
     private $token;
 
@@ -36,32 +40,26 @@ class TokenTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->token);
+        $this->assertInstanceOf(self::TOKEN_CLASS, $this->token);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetUrls()
+    /** @test */
+    public function it_can_get_urls()
     {
         $this->assertEquals('/v1/tokens', Token::classUrl());
 
         $this->assertEquals('/v1/tokens/abcd%2Fefgh', $this->token->instanceUrl());
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreate()
+    /** @test */
+    public function it_can_create()
     {
         $this->token = self::createToken();
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->token);
+        $this->assertInstanceOf(self::TOKEN_CLASS, $this->token);
         $this->assertEquals('card', $this->token->type);
         $this->assertInstanceOf(
             'Arcanedev\Stripe\Resources\Card',
@@ -70,10 +68,8 @@ class TokenTest extends StripeTestCase
         $this->assertEquals('Visa', $this->token->card->brand);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
+    /** @test */
+    public function it_can_retrieve()
     {
         $token       = self::createToken();
         $this->token = Token::retrieve($token->id);
@@ -93,15 +89,13 @@ class TokenTest extends StripeTestCase
      */
     private function createToken()
     {
-        $card = [
+        return Token::create([
             "card" => [
                 "number"    => "4242424242424242",
                 "exp_month" => 12,
                 "exp_year"  => 2015,
                 "cvc"       => "314"
             ]
-        ];
-
-        return Token::create($card);
+        ]);
     }
 }

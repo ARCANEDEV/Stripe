@@ -29,19 +29,15 @@ class UtilTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanConvertStripeObjectToArray()
+    /** @test */
+    public function it_can_convert_stripe_object_to_array()
     {
-        $arrayToConvert = [
+        $array = Util::convertStripeObjectToArray([
             '_'         => 'Hello',
             'customer'  => new Customer([
                 "id"    => 'cust_kjfhdflsdhfdsjl',
             ])
-        ];
-
-        $array = Util::convertStripeObjectToArray($arrayToConvert);
+        ]);
 
         $this->assertEquals([
             'customer' => [

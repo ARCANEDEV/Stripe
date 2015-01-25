@@ -27,10 +27,8 @@ class UtilTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testIsList()
+    /** @test */
+    public function it_can_check_is_list()
     {
         $this->assertTrue(Util::isList([
             5, 'nstaoush', []
@@ -41,10 +39,8 @@ class UtilTest extends StripeTestCase
         ]));
     }
 
-    /**
-     * @test
-     */
-    public function testThatPHPHasValueSemanticsForArrays()
+    /** @test */
+    public function can_check_that_php_has_value_semantics_for_arrays()
     {
         $original   = ['php-arrays' => 'value-semantics'];
         $derived    = $original;
@@ -53,12 +49,10 @@ class UtilTest extends StripeTestCase
         $this->assertEquals('value-semantics', $original['php-arrays']);
     }
 
-    /**
-     * @test
-     */
-    public function testConvertStripeObjectToArrayIncludesId()
+    /** @test */
+    public function it_convert_stripe_object_to_array_that_includes_id()
     {
         $customer = self::createTestCustomer();
-        $this->assertTrue(array_key_exists("id", $customer->toArray(true)));
+        $this->assertArrayHasKey('id', $customer->toArray(true));
     }
 }

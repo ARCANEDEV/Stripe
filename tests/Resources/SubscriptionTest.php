@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Subscription;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class SubscriptionTest extends StripeTestCase
@@ -34,7 +33,7 @@ class SubscriptionTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
      */
-    public function testCanGetInstanceUrl()
+    public function it_must_throw_invalid_request_exception_on_instance_url()
     {
         (new Subscription)->instanceUrl();
     }
@@ -42,7 +41,7 @@ class SubscriptionTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanCreateUpdateCancel()
+    public function it_can_create_update_cancel()
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer();
@@ -73,7 +72,7 @@ class SubscriptionTest extends StripeTestCase
     /**
      * @test
      */
-    public function testCanDeleteDiscount()
+    public function it_can_delete_discount()
     {
         $plan     = self::retrieveOrCreatePlan();
         $couponID = '25off-' . self::randomString();

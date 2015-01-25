@@ -5,6 +5,12 @@ use Arcanedev\Stripe\RequestOptions;
 class RequestOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const REQUESTOPTIONS_CLASS = 'Arcanedev\\Stripe\\RequestOptions';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -27,24 +33,18 @@ class RequestOptionsTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiated()
+    /** @test */
+    public function it_can_be_instantiated()
     {
         $opts = new RequestOptions('', []);
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\RequestOptions',
-            $opts
-        );
+
+        $this->assertInstanceOf(self::REQUESTOPTIONS_CLASS, $opts);
         $this->assertFalse($opts->hasApiKey());
         $this->assertEquals([], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseAPIKeyString()
+    /** @test */
+    public function it_can_parse_api_key_string()
     {
         $opts = RequestOptions::parse("foo");
 
@@ -53,10 +53,8 @@ class RequestOptionsTest extends StripeTestCase
         $this->assertEquals([], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseAPIKeyArray()
+    /** @test */
+    public function it_can_parse_api_key_array()
     {
         $opts = RequestOptions::parse([
             'api_key' => 'foo',
@@ -66,10 +64,8 @@ class RequestOptionsTest extends StripeTestCase
         $this->assertEquals([], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseNull()
+    /** @test */
+    public function it_can_parse_null()
     {
         $opts = RequestOptions::parse(null);
 
@@ -77,20 +73,16 @@ class RequestOptionsTest extends StripeTestCase
         $this->assertEquals([], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseEmptyArray()
+    /** @test */
+    public function it_can_parse_empty_array()
     {
         $opts = RequestOptions::parse([]);
         $this->assertEquals(null, $opts->getApiKey());
         $this->assertEquals([], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseIdempotentKeyArray()
+    /** @test */
+    public function it_can_parse_idempotent_key_array()
     {
         $opts = RequestOptions::parse([
             'idempotency_key' => 'foo',
@@ -100,10 +92,8 @@ class RequestOptionsTest extends StripeTestCase
         $this->assertEquals(['Idempotency-Key' => 'foo'], $opts->getHeaders());
     }
 
-    /**
-     * @test
-     */
-    public function testCanParseKeyArray()
+    /** @test */
+    public function it_can_parse_key_array()
     {
         $opts = RequestOptions::parse([
             'idempotency_key' => 'foo',
@@ -119,7 +109,7 @@ class RequestOptionsTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function testMustThrowApiExceptionOnWrongType()
+    public function it_must_throw_api_exception_on_wrong_type()
     {
         RequestOptions::parse(5);
     }

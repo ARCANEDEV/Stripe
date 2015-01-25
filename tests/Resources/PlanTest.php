@@ -1,11 +1,16 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Plan;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class PlanTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const PLAN_CLASS = 'Arcanedev\\Stripe\\Resources\\Plan';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -40,21 +45,14 @@ class PlanTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Plan',
-            $this->plan
-        );
+        $this->assertInstanceOf(self::PLAN_CLASS, $this->plan);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetAll()
+    /** @test */
+    public function it_can_list_all()
     {
         $plans = Plan::all();
 
@@ -62,10 +60,8 @@ class PlanTest extends StripeTestCase
         $this->assertEquals('/v1/plans', $plans->url);
     }
 
-    /**
-     * @test
-     */
-    public function testCanSave()
+    /** @test */
+    public function it_can_save()
     {
         $this->plan->name = 'A new plan name';
         $this->plan->save();
@@ -75,10 +71,8 @@ class PlanTest extends StripeTestCase
         $this->assertEquals($this->plan->name, $stripePlan->name);
     }
 
-    /**
-     * @test
-     */
-    public function testCanDelete()
+    /** @test */
+    public function it_can_delete()
     {
         $this->plan->delete();
 
@@ -92,7 +86,7 @@ class PlanTest extends StripeTestCase
      * @expectedExceptionCode    404
      * @expectedExceptionMessage No such plan: 0
      */
-    public function testMustThrowInvalidRequestErrorOnFalseId()
+    public function it_must_throw_invalid_request_exception_on_false_id()
     {
         Plan::retrieve('0');
     }

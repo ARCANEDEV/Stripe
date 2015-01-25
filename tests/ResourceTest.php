@@ -7,7 +7,6 @@ class ResourceTest extends StripeTestCase
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
-     */
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -32,7 +31,7 @@ class ResourceTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    public function testMustThrowInvalidArgumentExceptionOnParams()
+    public function it_must_throw_invalid_argument_exception_on_parameters()
     {
         ResourceObject::all('parameters');
     }
@@ -42,7 +41,7 @@ class ResourceTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function testMustThrowApiExceptionOnApiKey()
+    public function it_must_throw_api_exception_on_api_key()
     {
         ResourceObject::all(['param' => 'value'], true);
     }

@@ -1,12 +1,17 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\FileUpload;
-use CURLFile;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
+use CURLFile;
 
 class FileUploadTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const FILEUPLOAD_CLASS = 'Arcanedev\\Stripe\\Resources\\FileUpload';
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -41,29 +46,20 @@ class FileUploadTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiate()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\FileUpload',
-            $this->fileUpload
-        );
+        $this->assertInstanceOf(self::FILEUPLOAD_CLASS, $this->fileUpload);
     }
 
-    /**
-     * @test
-     */
-    public function testCanGetClassName()
+    /** @test */
+    public function it_can_get_class_name()
     {
         $this->assertEquals('file', FileUpload::className());
     }
 
-    /**
-     * @test
-     */
-    public function testCanCreateFile()
+    /** @test */
+    public function it_can_create()
     {
         $fp   = fopen($this->filePath, 'r');
         $file = $this->createFile($fp);
@@ -73,25 +69,8 @@ class FileUploadTest extends StripeTestCase
         $this->assertEquals('png', $file->type);
     }
 
-    /**
-     * @test
-     */
-    public function testCanRetrieve()
-    {
-        $fp   = fopen($this->filePath, 'r');
-        $file = $this->createFile($fp);
-        fclose($fp);
-
-        $this->fileUpload = FileUpload::retrieve($file->id);
-        $this->assertEquals($this->fileUpload->id, $file->id);
-        $this->assertEquals($this->fileUpload->purpose, $file->purpose);
-        $this->assertEquals($this->fileUpload->type, $file->type);
-    }
-
-    /**
-     * @test
-     */
-    public function testCanCreateCurlFile()
+    /** @test */
+    public function it_can_create_curl_file()
     {
         if (! class_exists('CurlFile')) {
             // Older PHP versions don't support this
@@ -105,9 +84,29 @@ class FileUploadTest extends StripeTestCase
         $this->assertEquals('png', $file->type);
     }
 
+    /** @test */
+    public function it_can_retrieve()
+    {
+        $fp   = fopen($this->filePath, 'r');
+        $file = $this->createFile($fp);
+        fclose($fp);
+
+        $this->fileUpload = FileUpload::retrieve($file->id);
+        $this->assertEquals($this->fileUpload->id, $file->id);
+        $this->assertEquals($this->fileUpload->purpose, $file->purpose);
+        $this->assertEquals($this->fileUpload->type, $file->type);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other functions
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Create file
+     *
+     * @param mixed $file
+     *
+     * @return FileUpload|array
      */
     private function createFile($file)
     {
