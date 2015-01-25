@@ -100,7 +100,7 @@ class SslCheckerTest extends StripeTestCase
     private function getBlackListedCert()
     {
         // {{{ Revoked certificate from api.stripe.com }}}
-        $path = realpath(__DIR__ . '/../data/bad-ca-cert.crt');
+        $path = realpath(__DIR__ . '/../../data/bad-ca-cert.crt');
 
         return file_get_contents($path);
     }
