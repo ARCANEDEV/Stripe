@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
-use Arcanedev\Stripe\Resource                           as ResourceObject;
+use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use Arcanedev\Stripe\Utilities\SslChecker;
 use CURLFile;
