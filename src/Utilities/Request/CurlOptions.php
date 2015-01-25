@@ -114,31 +114,28 @@ class CurlOptions implements CurlOptionsInterface
      */
     private function prepareMethodOptions($method, $params, $hasFile)
     {
-        switch ($method) {
-            case 'POST':
-                $this->setOptions([
-                    CURLOPT_POST          => true,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS    => $params
-                ]);
-                break;
-
-            case 'DELETE':
-                $this->setOption(CURLOPT_CUSTOMREQUEST, 'DELETE');
-                break;
-
-            case 'GET':
-            default:
-                if ($hasFile) {
-                    throw new ApiException(
-                        'Issuing a GET request with a file parameter'
-                    );
-                }
-                $this->setOptions([
-                    CURLOPT_HTTPGET       => true,
-                    CURLOPT_CUSTOMREQUEST => 'GET'
-                ]);
+        if ($method === 'GET' and $hasFile) {
+            throw new ApiException(
+                'Issuing a GET request with a file parameter'
+            );
         }
+
+        $options = [
+            'GET'  => [
+                CURLOPT_HTTPGET       => true,
+                CURLOPT_CUSTOMREQUEST => 'GET'
+            ],
+            'POST' => [
+                CURLOPT_POST          => true,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS    => $params
+            ],
+            'DELETE' => [
+                CURLOPT_CUSTOMREQUEST => 'DELETE'
+            ]
+        ];
+
+        $this->setOptions($options[$method]);
     }
 
     /**
@@ -151,6 +148,10 @@ class CurlOptions implements CurlOptionsInterface
         return $this->options;
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Check Method
      *
