@@ -30,10 +30,9 @@ class StripeTest extends StripeTestCase
     /** @test */
     public function it_can_init_stripe()
     {
-        $apiKey = 'my-secret-api-key';
-        Stripe::init($apiKey);
+        Stripe::init($this->myApiKey);
 
-        $this->assertEquals($apiKey, Stripe::getApiKey());
+        $this->assertEquals($this->myApiKey, Stripe::getApiKey());
     }
 
     /** @test */
@@ -41,10 +40,8 @@ class StripeTest extends StripeTestCase
     {
         $this->assertEquals(self::API_KEY, Stripe::getApiKey());
 
-        $apiKey = 'my-secret-api-key';
-
-        Stripe::setApiKey($apiKey);
-        $this->assertEquals($apiKey, Stripe::getApiKey());
+        Stripe::setApiKey($this->myApiKey);
+        $this->assertEquals($this->myApiKey, Stripe::getApiKey());
     }
 
     /**
@@ -143,11 +140,10 @@ class StripeTest extends StripeTestCase
         $this->assertFalse(Stripe::hasApiVersion());
         $this->assertNull(Stripe::getApiVersion());
 
-        $version = '2.0.0';
-        Stripe::setApiVersion($version);
+        Stripe::setApiVersion($this->myApiVersion);
 
-        $this->assertEquals($version, Stripe::getApiVersion());
-        $this->assertEquals($version, Stripe::version());
+        $this->assertEquals($this->myApiVersion, Stripe::getApiVersion());
+        $this->assertEquals($this->myApiVersion, Stripe::version());
 
         Stripe::setApiVersion(null);
         $this->assertNull(Stripe::version());
