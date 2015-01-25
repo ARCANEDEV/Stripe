@@ -10,6 +10,7 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
+use Arcanedev\Stripe\Utilities\Request\CurlOptions;
 use Arcanedev\Stripe\Utilities\Request\HeaderBag;
 use Arcanedev\Stripe\Utilities\Request\SslChecker;
 use CURLFile;
@@ -302,7 +303,9 @@ class Requestor implements RequestorInterface
         }
 
         $headers  = (new HeaderBag())->make($this->getApiKey(), $headers, $this->hasFile);
-        $opts     = $this->prepareCurlOptions($method, $absUrl, $params, $headers);
+        $opts     = (new CurlOptions())
+            ->make($method, $absUrl, $params, $headers, $this->hasFile)
+            ->get();
 
         $curl     = curl_init();
         curl_setopt_array($curl, $opts);
@@ -386,74 +389,6 @@ class Requestor implements RequestorInterface
         return class_exists('CURLFile')
             ? new CURLFile($metaData['uri'])
             : '@' . $metaData['uri'];
-    }
-
-    /**
-     * Prepare CURL request Options
-     *
-     * @param string       $method
-     * @param string       $absUrl
-     * @param array|string $params
-     * @param array        $headers
-     *
-     * @throws ApiException
-     *
-     * @return array
-     */
-    private function prepareCurlOptions($method, $absUrl, $params, $headers)
-    {
-        $opts = $this->prepareMethodOptions($method, $params);
-
-        $opts[CURLOPT_URL]            = str_utf8($absUrl);
-        $opts[CURLOPT_RETURNTRANSFER] = true;
-        $opts[CURLOPT_CONNECTTIMEOUT] = 30;
-        $opts[CURLOPT_TIMEOUT]        = 80;
-        $opts[CURLOPT_HTTPHEADER]     = $headers;
-
-        if (! Stripe::$verifySslCerts) {
-            $opts[CURLOPT_SSL_VERIFYPEER] = false;
-        }
-
-        return $opts;
-    }
-
-    /**
-     * Prepare Method Options
-     *
-     * @param  string       $method
-     * @param  array|string $params
-     *
-     * @throws ApiException
-     *
-     * @return array
-     */
-    private function prepareMethodOptions($method, $params)
-    {
-        $options = [];
-
-        switch ($method) {
-            case 'post':
-                $options[CURLOPT_POST]          = true;
-                $options[CURLOPT_CUSTOMREQUEST] = 'POST';
-                $options[CURLOPT_POSTFIELDS]    = $params;
-                break;
-
-            case 'delete':
-                $options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-                break;
-
-            case 'get':
-            default:
-                if ($this->hasFile) {
-                    throw new ApiException(
-                        'Issuing a GET request with a file parameter'
-                    );
-                }
-                $options[CURLOPT_HTTPGET]       = true;
-                $options[CURLOPT_CUSTOMREQUEST] = 'GET';
-        }
-
-        return $options;
     }
 
     /**
