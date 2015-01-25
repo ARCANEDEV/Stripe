@@ -10,7 +10,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
-use Arcanedev\Stripe\Utilities\SslChecker;
+use Arcanedev\Stripe\Utilities\Request\HeaderBag;
+use Arcanedev\Stripe\Utilities\Request\SslChecker;
 use CURLFile;
 
 class Requestor implements RequestorInterface
@@ -300,7 +301,7 @@ class Requestor implements RequestorInterface
             $params = $this->hasFile ? $params : str_url_queries($params);
         }
 
-        $headers  = $this->prepareCurlHeaders($headers);
+        $headers  = (new HeaderBag())->make($this->getApiKey(), $headers, $this->hasFile);
         $opts     = $this->prepareCurlOptions($method, $absUrl, $params, $headers);
 
         $curl     = curl_init();
@@ -385,53 +386,6 @@ class Requestor implements RequestorInterface
         return class_exists('CURLFile')
             ? new CURLFile($metaData['uri'])
             : '@' . $metaData['uri'];
-    }
-
-    /**
-     * Get User Agent (JSON format)
-     *
-     * @return string
-     */
-    private static function userAgent()
-    {
-        return json_encode([
-            'bindings_version' => Stripe::VERSION,
-            'lang'             => 'php',
-            'lang_version'     => phpversion(),
-            'publisher'        => 'stripe',
-            'uname'            => php_uname(),
-        ]);
-    }
-
-    /**
-     * Prepare CURL request Headers
-     *
-     * @param array $headers
-     *
-     * @return array
-     */
-    private function prepareCurlHeaders(array $headers)
-    {
-        $defaults = [
-            'X-Stripe-Client-User-Agent' => self::userAgent(),
-            'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
-            'Authorization'              => 'Bearer ' . $this->getApiKey(),
-            'Content-Type'               => $this->hasFile
-                ? 'multipart/form-data'
-                : 'application/x-www-form-urlencoded',
-        ];
-
-        if (Stripe::hasApiVersion()) {
-            $defaults['Stripe-Version'] = Stripe::getApiVersion();
-        }
-
-        $rawHeaders      = [];
-
-        foreach (array_merge($defaults, $headers) as $header => $value) {
-            $rawHeaders[] = $header . ': ' . $value;
-        }
-
-        return $rawHeaders;
     }
 
     /**

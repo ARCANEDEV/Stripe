@@ -1,7 +1,7 @@
-<?php namespace Arcanedev\Stripe\Contracts\Utilities;
+<?php namespace Arcanedev\Stripe\Contracts\Utilities\Request;
 
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
-use Arcanedev\Stripe\Utilities\SslChecker;
+use Arcanedev\Stripe\Utilities\Request\SslChecker;
 
 interface SslCheckerInterface
 {
