@@ -26,10 +26,13 @@ class Requestor implements RequestorInterface
      */
     private $apiKey;
 
+    /** @var string */
     private $apiBaseUrl;
 
+    /** @var array */
     private static $preFlight      = [];
 
+    /** @var array */
     private static $allowedMethods = [
         'get', 'post', 'delete'
     ];
@@ -264,14 +267,13 @@ class Requestor implements RequestorInterface
             self::$preFlight[$this->apiBaseUrl] = $this->checkSslCert($this->apiBaseUrl);
         }
 
-        $apiKey = $this->getApiKey();
         $absUrl = $this->apiBaseUrl . $url;
         $params = self::encodeObjects($params);
 
         list($respBody, $respCode) =
             $this->curlRequest($method, $absUrl, $params, $headers);
 
-        return [$respBody, $respCode, $apiKey];
+        return [$respBody, $respCode, $this->getApiKey()];
     }
 
     /**

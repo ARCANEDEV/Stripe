@@ -45,12 +45,12 @@ if (! function_exists('str_parse_url')) {
     /**
      * Parse url with queries
      *
-     * @param  string       $baseUrl
-     * @param  array|string $queries
+     * @param  string      $baseUrl
+     * @param  array|mixed $queries
      *
      * @return string
      */
-    function str_parse_url($baseUrl, array $queries = [])
+    function str_parse_url($baseUrl, $queries = [])
     {
         if (! is_string($baseUrl) or empty($queries)) {
             return $baseUrl;
@@ -64,8 +64,8 @@ if (! function_exists('str_url_queries')) {
     /**
      *  A query string, essentially.
      *
-     * @param  array|string $queries An map of param keys to values.
-     * @param  string|null  $prefix  (It doesn't look like we ever use $prefix...)
+     * @param  array|mixed $queries An map of param keys to values.
+     * @param  string|null $prefix  (It doesn't look like we ever use $prefix...)
      *
      * @return string
      */
@@ -75,23 +75,23 @@ if (! function_exists('str_url_queries')) {
             return $queries;
         }
 
-        $r = [];
+        $output = [];
 
-        foreach ($queries as $k => $v) {
-            if (is_null($v)) {
+        foreach ($queries as $key => $value) {
+            if (is_null($value)) {
                 continue;
             }
 
             if ($prefix) {
-                $k = $prefix . (($k and ! is_int($k)) ? "[$k]" : "[]");
+                $key = $prefix . (($key and ! is_int($key)) ? "[$key]" : "[]");
             }
 
-            $r[] = is_array($v)
-                ? str_url_queries($v, $k)
-                : urlencode($k) . "=" . urlencode($v);
+            $output[] = is_array($value)
+                ? str_url_queries($value, $key)
+                : urlencode($key) . "=" . urlencode($value);
         }
 
-        return implode("&", $r);
+        return implode("&", $output);
     }
 }
 
