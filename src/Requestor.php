@@ -10,10 +10,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
-use Arcanedev\Stripe\Utilities\Request\CurlOptions;
-use Arcanedev\Stripe\Utilities\Request\HeaderBag;
+use Arcanedev\Stripe\Utilities\Request\CurlClient;
 use Arcanedev\Stripe\Utilities\Request\SslChecker;
-use CURLFile;
 
 class Requestor implements RequestorInterface
 {
@@ -39,9 +37,6 @@ class Requestor implements RequestorInterface
         'get', 'post', 'delete'
     ];
 
-    /** @var bool */
-    private $hasFile = false;
-
     /** @var SslChecker */
     private $sslChecker;
 
@@ -60,6 +55,7 @@ class Requestor implements RequestorInterface
      */
     public function __construct($apiKey = null, $apiBase = null)
     {
+        $this->curlClient    = new CurlClient($apiKey, $apiBase);
         $this->sslChecker    = new SslChecker;
         $this->errorsHandler = new ErrorsHandler;
         $this->setApiKey($apiKey);
@@ -272,162 +268,10 @@ class Requestor implements RequestorInterface
         $absUrl = $this->apiBaseUrl . $url;
         $params = self::encodeObjects($params);
 
-        list($respBody, $respCode) =
-            $this->curlRequest($method, $absUrl, $params, $headers);
+        list($respBody, $respCode) = $this->curlClient->setApiKey($this->getApiKey())
+            ->request($method, $absUrl, $params, $headers);
 
         return [$respBody, $respCode, $this->getApiKey()];
-    }
-
-    /**
-     * Curl the request
-     *
-     * @param  string       $method
-     * @param  string       $absUrl
-     * @param  array|string $params
-     * @param  array        $headers
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
-     *
-     * @return array
-     */
-    private function curlRequest($method, $absUrl, $params, $headers)
-    {
-        self::processResourceParams($params);
-
-        if ($method !== 'post') {
-            $absUrl = str_parse_url($absUrl, $params);
-        }
-        else {
-            $params = $this->hasFile ? $params : str_url_queries($params);
-        }
-
-        $headers  = (new HeaderBag())->make($this->getApiKey(), $headers, $this->hasFile);
-        $opts     = (new CurlOptions())
-            ->make($method, $absUrl, $params, $headers, $this->hasFile)
-            ->get();
-
-        $curl     = curl_init();
-        curl_setopt_array($curl, $opts);
-        $response = curl_exec($curl);
-        $errorNum = curl_errno($curl);
-
-        if ($this->sslChecker->hasSslErrors($errorNum)) {
-            array_push(
-                $headers,
-                'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
-            );
-
-            curl_setopt_array($curl, [
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_CAINFO     => $this->sslChecker->caBundle()
-            ]);
-
-            $response = curl_exec($curl);
-        }
-
-        if ($response === false) {
-            $errorNum = curl_errno($curl);
-            $message  = curl_error($curl);
-            curl_close($curl);
-            $this->handleCurlError($errorNum, $message);
-        }
-
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
-
-        return [$response, $statusCode];
-    }
-
-    /**
-     * Process Resource Parameters
-     *
-     * @param  array|string $params
-     *
-     * @throws ApiException
-     */
-    private function processResourceParams(&$params)
-    {
-        if (! is_array($params)) {
-            return;
-        }
-
-        foreach ($params as $key => $resource) {
-            $this->hasFile = self::checkHasResourceFile($resource);
-
-            if (is_resource($resource)) {
-                $params[$key] = self::processResourceParam($resource);
-            }
-        }
-    }
-
-    /**
-     * Process Resource Parameter
-     *
-     * @param resource $resource
-     *
-     * @throws ApiException
-     *
-     * @return CURLFile|string
-     */
-    private function processResourceParam($resource)
-    {
-        if (get_resource_type($resource) !== 'stream') {
-            throw new ApiException(
-                'Attempted to upload a resource that is not a stream'
-            );
-        }
-
-        $metaData = stream_get_meta_data($resource);
-        if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException(
-                'Only plainfile resource streams are supported'
-            );
-        }
-
-        // We don't have the filename or mimetype, but the API doesn't care
-        return class_exists('CURLFile')
-            ? new CURLFile($metaData['uri'])
-            : '@' . $metaData['uri'];
-    }
-
-    /**
-     * Handle CURL error
-     *
-     * @param int    $errorNum
-     * @param string $message
-     *
-     * @throws ApiConnectionException
-     */
-    private function handleCurlError($errorNum, $message)
-    {
-        $apiBase = $this->apiBaseUrl;
-
-        switch ($errorNum) {
-            case CURLE_COULDNT_CONNECT:
-            case CURLE_COULDNT_RESOLVE_HOST:
-            case CURLE_OPERATION_TIMEOUTED:
-                $msg = 'Could not connect to Stripe (' . $apiBase . '). Please check your internet connection '
-                    . 'and try again.  If this problem persists, you should check Stripe\'s service status at '
-                    . 'https://twitter.com/stripestatus, or';
-                break;
-
-            case CURLE_SSL_CACERT:
-            case CURLE_SSL_PEER_CERTIFICATE:
-                $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure that your network is not '
-                    . 'intercepting certificates. (Try going to ' . $apiBase . ' in your browser.) '
-                    . 'If this problem persists,';
-                break;
-
-            default:
-                $msg = 'Unexpected error communicating with Stripe. If this problem persists,';
-        }
-
-        $msg .= ' let us know at support@stripe.com.';
-
-        $msg .= "\n\n(Network error [errno $errorNum]: $message)";
-
-        throw new ApiConnectionException($msg);
     }
 
     /**
@@ -465,21 +309,6 @@ class Requestor implements RequestorInterface
         $apiKey = $this->getApiKey();
 
         return ! empty($apiKey);
-    }
-
-    /**
-     * Check if param is resource File
-     *
-     * @param mixed $resource
-     *
-     * @return bool
-     */
-    private function checkHasResourceFile($resource)
-    {
-        return is_resource($resource) or (
-            class_exists('CURLFile') and
-            $resource instanceof CURLFile
-        );
     }
 
     /* ------------------------------------------------------------------------------------------------
