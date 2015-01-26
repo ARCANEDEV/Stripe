@@ -88,6 +88,28 @@ class SslCheckerTest extends StripeTestCase
         $this->sslChecker->checkBlackList($cert);
     }
 
+    /** @test */
+    public function it_can_check_if_has_cert_errors()
+    {
+        array_map(function($errorNo) {
+            $this->assertFalse(SslChecker::hasCertErrors($errorNo));
+        }, [
+            35, // CURLE_SSL_CONNECT_ERROR
+            53, // CURLE_SSL_ENGINE_NOTFOUND
+            54, // CURLE_SSL_ENGINE_SETFAILED
+            58, // CURLE_SSL_CERTPROBLEM
+            59, // CURLE_SSL_CIPHER
+        ]);
+
+        array_map(function($errorNo) {
+            $this->assertTrue(SslChecker::hasCertErrors($errorNo));
+        }, [
+            60, // CURLE_SSL_CACERT
+            51, // CURLE_SSL_PEER_CERTIFICATE
+            77, // CURLE_SSL_CACERT_BADFILE
+        ]);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------

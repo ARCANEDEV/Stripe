@@ -87,17 +87,7 @@ class SslChecker implements SslCheckerInterface
             ])
         );
 
-        if (
-            ($errorNo !== 0 and $errorNo !== null) or
-            $result === false
-        ) {
-            throw new ApiConnectionException(
-                'Could not connect to Stripe (' . $url . ').  Please check your '.
-                'internet connection and try again.  If this problem persists, '.
-                'you should check Stripe\'s service status at '.
-                'https://twitter.com/stripestatus. Reason was: '. $errorStr
-            );
-        }
+        $this->checkResult($url, $errorNo, $result, $errorStr);
 
         $params = stream_context_get_params($result);
 
@@ -170,6 +160,31 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
+     * Check if has errors or empty result
+     *
+     * @param  string   $url
+     * @param  int|null $errorNo
+     * @param  mixed    $result
+     * @param  string   $errorStr
+     *
+     * @throws ApiConnectionException
+     */
+    private function checkResult($url, $errorNo, $result, $errorStr)
+    {
+        if (
+            ($errorNo !== 0 and $errorNo !== null) or
+            $result === false
+        ) {
+            throw new ApiConnectionException(
+                'Could not connect to Stripe (' . $url . ').  Please check your ' .
+                'internet connection and try again.  If this problem persists, ' .
+                'you should check Stripe\'s service status at ' .
+                'https://twitter.com/stripestatus. Reason was: ' . $errorStr
+            );
+        }
+    }
+
+    /**
      * Check if has SSL Errors
      *
      * @param  int $errorNum
@@ -225,9 +240,7 @@ class SslChecker implements SslCheckerInterface
      */
     private function showStreamExtensionWarning()
     {
-        $version = is_hhvm()
-            ? 'The HHVM (HipHop VM)'
-            : 'This version of PHP';
+        $version = is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP';
 
         error_log(
             'Warning: ' . $version . ' does not support checking SSL ' .
