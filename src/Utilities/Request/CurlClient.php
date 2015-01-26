@@ -196,7 +196,6 @@ class CurlClient implements CurlClientInterface
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Check Resource type is stream
      *
