@@ -1,7 +1,7 @@
 {
     "name": "arcanedev/stripe",
     "description": "Stripe PHP Library",
-    "keywords": ["stripe", "payment processing", "api", "library"],
+    "keywords": ["stripe", "payment", "pay", "api", "library", "arcanedev"],
     "license": "MIT",
     "authors": [
         {
