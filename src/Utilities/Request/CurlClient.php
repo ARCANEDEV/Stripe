@@ -200,6 +200,14 @@ class CurlClient implements CurlClientInterface
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
+
+    /**
+     * Check Resource type is stream
+     *
+     * @param resource $resource
+     *
+     * @throws ApiException
+     */
     private static function checkResourceType($resource)
     {
         if (get_resource_type($resource) !== 'stream') {
@@ -209,6 +217,13 @@ class CurlClient implements CurlClientInterface
         }
     }
 
+    /**
+     * Check resource MetaData
+     *
+     * @param  array $metaData
+     *
+     * @throws ApiException
+     */
     private static function checkResourceMetaData($metaData)
     {
         if ($metaData['wrapper_type'] !== 'plainfile') {

@@ -37,6 +37,9 @@ class Requestor implements RequestorInterface
         'get', 'post', 'delete'
     ];
 
+    /** @var CurlClient */
+    private $curlClient;
+
     /** @var SslChecker */
     private $sslChecker;
 
