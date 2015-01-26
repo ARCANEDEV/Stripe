@@ -612,7 +612,9 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
                 $this->showUndefinedPropertyMsgAttributes();
         }
 
-        error_log($message);
+        if (! is_testing()) {
+            error_log($message);
+        }
     }
 
     /**

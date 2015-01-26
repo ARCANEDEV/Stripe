@@ -4,6 +4,18 @@
  |  SYSTEM
  | ------------------------------------------------------------------------------------------------
  */
+if (! function_exists('is_testing')) {
+    /**
+     * Check if testing environment
+     *
+     * @return bool
+     */
+    function is_testing()
+    {
+        return getenv('APP_ENV') === 'testing';
+    }
+}
+
 if (! function_exists('is_hhvm')) {
     /**
      * Check if running on HHVM env
