@@ -72,9 +72,25 @@ class HeaderBagTest extends StripeTestCase
     /** @test */
     public function it_can_count_headers()
     {
-        $count  = $this->headerBag->prepare($this->myApiKey)->count();
+        $this->headerBag->prepare($this->myApiKey);
 
-        $this->assertEquals(4, $count);
+        $this->assertEquals(4, $this->headerBag->count());
+    }
+
+    /** @test */
+    public function it_can_add_header_to_headers_collection()
+    {
+        $this->headerBag->prepare($this->myApiKey);
+
+        $this->assertEquals(4, $this->headerBag->count());
+
+        $key   = 'X-Stripe-Client-Info';
+        $value = '{"ca":"using Stripe-supplied CA bundle"}';
+        $this->headerBag->set($key, $value);
+
+        $this->assertEquals(5, $this->headerBag->count());
+        $this->assertArrayHasKey($key, $this->headerBag->toArray());
+        $this->assertEquals($key . ': ' . $value, $this->headerBag->all()[4]);
     }
 
     /** @test */
