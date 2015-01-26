@@ -11,6 +11,7 @@
          syntaxCheck="false"
         >
     <php>
+        <env name="APP_ENV" value="testing"/>
         <env name="STRIPE_API_KEY" value="tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"/>
     </php>
     <testsuites>
