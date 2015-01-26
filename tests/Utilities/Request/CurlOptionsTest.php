@@ -7,11 +7,15 @@ use Arcanedev\Stripe\Utilities\Request\CurlOptions;
 class CurlOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const CURL_OPTIONS_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\CurlOptions';
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
     /** @var CurlOptions */
     private $curlOptions;
 

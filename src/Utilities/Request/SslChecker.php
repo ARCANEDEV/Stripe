@@ -65,9 +65,7 @@ class SslChecker implements SslCheckerInterface
     public function checkCert($url)
     {
         if (! $this->hasStreamExtensions()) {
-            $this->showStreamExtensionWarning();
-
-            return true;
+            return $this->showStreamExtensionWarning();
         }
 
         $this->setUrl($url);
@@ -175,11 +173,12 @@ class SslChecker implements SslCheckerInterface
             ($errorNo !== 0 and $errorNo !== null) or
             $result === false
         ) {
+            $stripeStatus = 'https://twitter.com/stripestatus';
+
             throw new ApiConnectionException(
-                'Could not connect to Stripe (' . $url . ').  Please check your ' .
-                'internet connection and try again.  If this problem persists, ' .
-                'you should check Stripe\'s service status at ' .
-                'https://twitter.com/stripestatus. Reason was: ' . $errorStr
+                'Could not connect to Stripe (' . $url . ').  Please check your internet connection and try again.  '.
+                'If this problem persists, you should check Stripe\'s service status at ' . $stripeStatus . '.  '.
+                'Reason was: ' . $errorStr
             );
         }
     }
@@ -236,16 +235,20 @@ class SslChecker implements SslCheckerInterface
     /**
      * Show Stream Extension Warning (stream_socket_enable_crypto is not supported in HHVM)
      *
-     * @return string
+     * @return true
      */
     private function showStreamExtensionWarning()
     {
         $version = is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP';
 
-        error_log(
-            'Warning: ' . $version . ' does not support checking SSL ' .
-            'certificates Stripe cannot guarantee that the server has a ' .
-            'certificate which is not blacklisted.'
-        );
+        if (getenv('APP_ENV') !== 'testing') {
+            error_log(
+                'Warning: ' . $version . ' does not support checking SSL ' .
+                'certificates Stripe cannot guarantee that the server has a ' .
+                'certificate which is not blacklisted.'
+            );
+        }
+
+        return true;
     }
 }

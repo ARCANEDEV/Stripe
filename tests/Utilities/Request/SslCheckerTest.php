@@ -110,10 +110,55 @@ class SslCheckerTest extends StripeTestCase
         ]);
     }
 
+    /**
+     * @test
+     *
+     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     */
+    public function it_must_throw_api_exception_on_empty_result()
+    {
+        $method = self::getSslCheckerMethod('checkResult');
+
+        $method->invoke(new SslChecker(), 'https://www.stripe.com', 0, false, 'Unknown');
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     */
+    public function it_must_throw_api_exception_on_error_number()
+    {
+        $method = self::getSslCheckerMethod('checkResult');
+
+        $method->invoke($this->sslChecker, 'https://www.stripe.com', 1, '{result:success}', 'Unknown');
+    }
+
+    /**
+     * @test
+     *
+     *
+     */
+    public function it_must_show_warning_if_stream_extension_not_available()
+    {
+        $method = self::getSslCheckerMethod('showStreamExtensionWarning');
+
+        $this->assertTrue($method->invoke($this->sslChecker));
+    }
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @param string $method
+     *
+     * @return \ReflectionMethod
+     */
+    private function getSslCheckerMethod($method)
+    {
+        return parent::getMethod(self::SSL_CHECKER_CLASS, $method);
+    }
+
     /**
      * Get a black listed Cert by Stripe
      *
