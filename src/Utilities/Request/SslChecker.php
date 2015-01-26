@@ -10,7 +10,7 @@ class SslChecker implements SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /** @var string */
-    protected $url;
+    protected $url = '';
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -70,25 +70,11 @@ class SslChecker implements SslCheckerInterface
 
         $this->setUrl($url);
 
-        $result = stream_socket_client(
-            $this->getUrl(),
-            $errorNo,
-            $errorStr,
-            30,
-            STREAM_CLIENT_CONNECT,
-            stream_context_create([
-                'ssl' => [
-                    'capture_peer_cert' => true,
-                    'verify_peer'       => true,
-                    'cafile'            => $this->caBundle(),
-                ]
-            ])
-        );
+        list($result, $errorNo, $errorStr) = $this->streamSocketClient();
 
-        $this->checkResult($url, $errorNo, $result, $errorStr);
+        $this->checkResult($result, $errorNo, $errorStr);
 
         $params = stream_context_get_params($result);
-
         $cert   = $params['options']['ssl']['peer_certificate'];
 
         openssl_x509_export($cert, $pemCert);
@@ -160,14 +146,13 @@ class SslChecker implements SslCheckerInterface
     /**
      * Check if has errors or empty result
      *
-     * @param  string   $url
-     * @param  int|null $errorNo
      * @param  mixed    $result
+     * @param  int|null $errorNo
      * @param  string   $errorStr
      *
      * @throws ApiConnectionException
      */
-    private function checkResult($url, $errorNo, $result, $errorStr)
+    private function checkResult($result, $errorNo, $errorStr)
     {
         if (
             ($errorNo !== 0 and $errorNo !== null) or
@@ -176,7 +161,7 @@ class SslChecker implements SslCheckerInterface
             $stripeStatus = 'https://twitter.com/stripestatus';
 
             throw new ApiConnectionException(
-                'Could not connect to Stripe (' . $url . ').  Please check your internet connection and try again.  '.
+                'Could not connect to Stripe (' . $this->getUrl() . ').  Please check your internet connection and try again.  '.
                 'If this problem persists, you should check Stripe\'s service status at ' . $stripeStatus . '.  '.
                 'Reason was: ' . $errorStr
             );
@@ -216,6 +201,31 @@ class SslChecker implements SslCheckerInterface
         $port = isset($url['port']) ? $url['port'] : 443;
 
         return "ssl://{$url['host']}:{$port}";
+    }
+
+    /**
+     * Open a socket connection
+     *
+     * @return array
+     */
+    private function streamSocketClient()
+    {
+        $result = stream_socket_client(
+            $this->getUrl(),
+            $errorNo,
+            $errorStr,
+            30,
+            STREAM_CLIENT_CONNECT,
+            stream_context_create([
+                'ssl' => [
+                    'capture_peer_cert' => true,
+                    'verify_peer'       => true,
+                    'cafile'            => self::caBundle(),
+                ]
+            ])
+        );
+
+        return [$result, $errorNo, $errorStr];
     }
 
     /**

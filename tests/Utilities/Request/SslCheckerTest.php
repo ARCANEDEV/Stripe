@@ -113,25 +113,25 @@ class SslCheckerTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     public function it_must_throw_api_exception_on_empty_result()
     {
         $method = self::getSslCheckerMethod('checkResult');
 
-        $method->invoke(new SslChecker(), 'https://www.stripe.com', 0, false, 'Unknown');
+        $method->invoke(new SslChecker(), false, 0, 'Unknown');
     }
 
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     public function it_must_throw_api_exception_on_error_number()
     {
         $method = self::getSslCheckerMethod('checkResult');
 
-        $method->invoke($this->sslChecker, 'https://www.stripe.com', 1, '{result:success}', 'Unknown');
+        $method->invoke($this->sslChecker, '{result:success}', 1, 'Unknown');
     }
 
     /**
@@ -145,6 +145,7 @@ class SslCheckerTest extends StripeTestCase
 
         $this->assertTrue($method->invoke($this->sslChecker));
     }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
