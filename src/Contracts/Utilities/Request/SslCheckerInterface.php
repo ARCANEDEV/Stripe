@@ -76,7 +76,7 @@ interface SslCheckerInterface
      *
      * @return bool
      */
-    public static function hasSslErrors($errorNum);
+    public static function hasCertErrors($errorNum);
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions

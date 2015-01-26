@@ -109,7 +109,7 @@ class CurlClient implements CurlClientInterface
         $response = curl_exec($curl);
         $errorNum = curl_errno($curl);
 
-        if (SslChecker::hasSslErrors($errorNum)) {
+        if (SslChecker::hasCertErrors($errorNum)) {
             array_push(
                 $headers,
                 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'

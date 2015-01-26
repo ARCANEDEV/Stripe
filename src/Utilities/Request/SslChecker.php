@@ -176,7 +176,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @return bool
      */
-    public static function hasSslErrors($errorNum)
+    public static function hasCertErrors($errorNum)
     {
         return in_array($errorNum, [
             CURLE_SSL_CACERT,
