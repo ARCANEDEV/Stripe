@@ -112,6 +112,6 @@ class CouponTest extends StripeTestCase
      */
     private function getCouponId()
     {
-        return 'test_coupon-' . self::randomString();
+        return 'test_coupon-' . self::generateRandomString(8);
     }
 }

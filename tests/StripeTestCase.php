@@ -137,7 +137,7 @@ abstract class StripeTestCase extends TestCase
      */
     protected static function retrieveOrCreatePlan()
     {
-        $id = 'gold-' . self::randomString();
+        $id = 'gold-' . self::generateRandomString(8);
 
         try {
             return Plan::retrieve($id);
@@ -173,29 +173,5 @@ abstract class StripeTestCase extends TestCase
                 'percent_off' => 25,
             ]);
         }
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Generate a semi-random string
-     *
-     * @param int $length
-     *
-     * @return string
-     */
-    public function generateRandomString($length = 24)
-    {
-        $chars       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU';
-        $charsLength = strlen($chars);
-        $random      = '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $random .= $chars[rand(0, $charsLength - 1)];
-        }
-
-        return $random;
     }
 }

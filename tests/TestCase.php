@@ -21,17 +21,22 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Generate a random 8-character string. Useful for ensuring
-     * multiple test suite runs don't conflict
+     * Generate a semi-random string
+     *
+     * @param int $length
+     *
+     * @return string
      */
-    protected static function randomString()
+    protected static function generateRandomString($length = 24)
     {
-        $chars = "abcdefghijklmnopqrstuvwxyz";
-        $str = "";
-        for ($i = 0; $i < 10; $i++) {
-            $str .= $chars[ rand(0, strlen($chars) - 1) ];
+        $chars       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU';
+        $charsLength = strlen($chars);
+        $random      = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $random .= $chars[rand(0, $charsLength - 1)];
         }
 
-        return $str;
+        return $random;
     }
 }
