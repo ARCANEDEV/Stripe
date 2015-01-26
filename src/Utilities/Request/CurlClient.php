@@ -23,8 +23,20 @@ class CurlClient implements CurlClientInterface
     /** @var CurlOptions */
     private $options;
 
+    /** @var resource */
+    private $curl;
+
+    /** @var mixed */
+    private $response;
+
+    /** @var int */
+    private $errorCode;
+
+    /** @var string */
+    private $errorMessage;
+
     /* ------------------------------------------------------------------------------------------------
-     |  Constructor
+     |  Constructor & Destructor
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -36,10 +48,15 @@ class CurlClient implements CurlClientInterface
         $this->setApiKey($apiKey);
         $this->setApiBaseUrl($baseUrl);
 
-        $this->headers    = new HeaderBag;
-        $this->options    = new CurlOptions;
+        $this->headers  = new HeaderBag;
+        $this->options  = new CurlOptions;
+        $this->response = null;
     }
 
+    public function __destruct()
+    {
+        $this->close();
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -73,6 +90,42 @@ class CurlClient implements CurlClientInterface
         return $this;
     }
 
+    /**
+     * Set array options
+     *
+     * @param  array $options
+     *
+     * @return CurlClient
+     */
+    public function setOptionArray(array $options)
+    {
+        curl_setopt_array($this->curl, $options);
+
+        return $this;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Curl Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Init curl
+     */
+    private function init()
+    {
+        $this->curl = curl_init();
+    }
+
+    /**
+     * Close curl
+     */
+    private function close()
+    {
+        if (is_resource($this->curl)) {
+            curl_close($this->curl);
+        }
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -102,14 +155,14 @@ class CurlClient implements CurlClientInterface
         }
 
         $headers  = $this->headers->make($this->apiKey, $headers, $hasFile);
-        $opts     = $this->options->make($method, $url, $params, $headers, $hasFile)->get();
+        $options  = $this->options->make($method, $url, $params, $headers, $hasFile);
 
-        $curl     = curl_init();
-        curl_setopt_array($curl, $opts);
-        $response = curl_exec($curl);
-        $errorNum = curl_errno($curl);
+        $this->init();
+        $this->setOptionArray($options->get());
+        $this->response  = curl_exec($this->curl);
+        $this->errorCode = curl_errno($this->curl);
 
-        if (SslChecker::hasCertErrors($errorNum)) {
+        if (SslChecker::hasCertErrors($this->errorCode)) {
             array_push(
                 $headers,
                 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
@@ -120,25 +173,20 @@ class CurlClient implements CurlClientInterface
             //    '{"ca":"using Stripe-supplied CA bundle"}'
             //);
 
-            curl_setopt_array($curl, [
+            $this->setOptionArray([
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_CAINFO     => SslChecker::caBundle()
             ]);
 
-            $response = curl_exec($curl);
+            $this->response = curl_exec($this->curl);
         }
 
-        if ($response === false) {
-            $errorNum = curl_errno($curl);
-            $message  = curl_error($curl);
-            curl_close($curl);
-            $this->handleCurlError($errorNum, $message);
-        }
+        $this->checkResponse($this->response);
 
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
+        $statusCode = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
+        $this->close();
 
-        return [$response, $statusCode];
+        return [$this->response, $statusCode];
     }
 
     /**
@@ -248,16 +296,31 @@ class CurlClient implements CurlClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Handle CURL error
-     *
-     * @param int    $errorNum
-     * @param string $message
+     * Check Response
      *
      * @throws ApiConnectionException
      */
-    private function handleCurlError($errorNum, $message)
+    private function checkResponse()
     {
-        switch ($errorNum) {
+        if ($this->response !== false) {
+            return;
+        }
+
+        $this->errorCode    = curl_errno($this->curl);
+        $this->errorMessage = curl_error($this->curl);
+        $this->close();
+
+        $this->handleCurlError();
+    }
+
+    /**
+     * Handle CURL error
+     *
+     * @throws ApiConnectionException
+     */
+    private function handleCurlError()
+    {
+        switch ($this->errorCode) {
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
@@ -279,7 +342,7 @@ class CurlClient implements CurlClientInterface
 
         $msg .= ' let us know at support@stripe.com.';
 
-        $msg .= "\n\n(Network error [errno $errorNum]: $message)";
+        $msg .= "\n\n(Network error [errno {$this->errorCode}]: {$this->errorMessage})";
 
         throw new ApiConnectionException($msg);
     }
