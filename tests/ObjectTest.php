@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
 use Arcanedev\Stripe\Object;
-use ReflectionClass;
 
 class ObjectTest extends StripeTestCase
 {
@@ -40,10 +39,11 @@ class ObjectTest extends StripeTestCase
     public function it_can_be_instantiate()
     {
         $object = new Object('object-id', 'my-api-key');
-        $this->assertInstanceOf(self::OBJECT_CLASS, $object);
+        $method = self::getObjectMethod('getApiKey');
 
+        $this->assertInstanceOf(self::OBJECT_CLASS, $object);
         $this->assertEquals('object-id', $object->id);
-        $this->assertEquals('my-api-key', self::getMethod($object, 'getApiKey'));
+        $this->assertEquals('my-api-key', $method->invoke($object));
     }
 
     /** @test */
@@ -55,11 +55,13 @@ class ObjectTest extends StripeTestCase
             'param_two' => 'condition-2',
         ]);
 
+        $method = self::getObjectMethod('getRetrieveParams');
+
         $this->assertTrue($object->hasRetrieveParams());
         $this->assertEquals([
             'param_one' => 'condition-1',
             'param_two' => 'condition-2'
-        ], self::getMethod($object, 'getRetrieveParams'));
+        ], $method->invoke($object));
     }
 
     /**
@@ -138,12 +140,13 @@ class ObjectTest extends StripeTestCase
         $object->object        = 'type';
         $object->name          = 'name';
         $object['description'] = 'description';
+        $method = self::getObjectMethod('serializeParameters');
 
         $this->assertEquals([
             'object'      => 'type',
             'name'        => 'name',
             'description' => 'description',
-        ], self::getMethod($object, 'serializeParameters'));
+        ], $method->invoke($object));
 
         $object->metadata = [
             'date-format' => 'Y-m-d',
@@ -154,7 +157,7 @@ class ObjectTest extends StripeTestCase
             'name'        => 'name',
             'description' => 'description',
             'metadata'    => $object->metadata
-        ], self::getMethod($object, 'serializeParameters'));
+        ], $method->invoke($object));
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -162,18 +165,14 @@ class ObjectTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param mixed  $object
-     * @param string $name
-     * @param array  $params
+     * Get Object Method
+     *
+     * @param string $method
      *
      * @return \ReflectionMethod
      */
-    protected static function getMethod($object, $name, $params = [])
+    protected static function getObjectMethod($method)
     {
-        $class = new ReflectionClass(new Object);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method->invoke($object, $params);
+        return parent::getMethod(self::OBJECT_CLASS, $method);
     }
 }

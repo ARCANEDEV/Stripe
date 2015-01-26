@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
+use ReflectionClass;
+
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -20,6 +22,23 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      |  Common Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get private or protected method of a given class
+     *
+     * @param        $class
+     * @param string $methodName
+     *
+     * @return \ReflectionMethod
+     */
+    protected static function getMethod($class, $methodName)
+    {
+        $methodName = (new ReflectionClass($class))
+            ->getMethod($methodName);
+        $methodName->setAccessible(true);
+
+        return $methodName;
+    }
+
     /**
      * Generate a semi-random string
      *

@@ -2,7 +2,6 @@
 
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
-use ReflectionClass;
 
 class RequestorTest extends StripeTestCase
 {
@@ -53,7 +52,7 @@ class RequestorTest extends StripeTestCase
         // We have to do some work here because this is normally private.
         // This is just for testing! Also it only works on PHP >= 5.3.2
         if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
-            $method = $this->getMethod('encodeObjects');
+            $method = self::getRequestMethod('encodeObjects');
 
             $this->assertEquals(['customer' => 'abcd'], $method->invoke(null, [
                 'customer' => new Customer('abcd')
@@ -76,7 +75,7 @@ class RequestorTest extends StripeTestCase
      */
     public function it_must_throw_api_key_not_set_exception_on_empty_api_key()
     {
-        $method = $this->getMethod('checkApiKey');
+        $method = self::getRequestMethod('checkApiKey');
 
         $method->invoke(new Requestor('  '));
     }
@@ -88,7 +87,7 @@ class RequestorTest extends StripeTestCase
      */
     public function it_must_throw_api_exception_on_invalid_method()
     {
-        $method = $this->getMethod('checkMethod');
+        $method = self::getRequestMethod('checkMethod');
 
         $method->invoke($this->requestor, 'PUT');
     }
@@ -102,7 +101,7 @@ class RequestorTest extends StripeTestCase
      */
     public function it_must_throw_api_exception_on_invalid_response()
     {
-        $method = $this->getMethod('interpretResponse');
+        $method = self::getRequestMethod('interpretResponse');
 
         $method->invoke($this->requestor, '{bad: data}', 200);
     }
@@ -112,18 +111,12 @@ class RequestorTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Private/Protected method for test
-     *
-     * @param  string $methodName
+     * @param  string $method
      *
      * @return \ReflectionMethod
      */
-    private function getMethod($methodName)
+    private function getRequestMethod($method)
     {
-        $reflector = new ReflectionClass(self::REQUESTOR_CLASS);
-        $method = $reflector->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method;
+        return parent::getMethod(self::REQUESTOR_CLASS, $method);
     }
 }
