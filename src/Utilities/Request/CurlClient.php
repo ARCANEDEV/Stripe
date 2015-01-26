@@ -117,6 +117,16 @@ class CurlClient implements CurlClientInterface
     }
 
     /**
+     * Execute curl
+     */
+    private function execute()
+    {
+        $this->response     = curl_exec($this->curl);
+        $this->errorCode    = curl_errno($this->curl);
+        $this->errorMessage = curl_error($this->curl);
+    }
+
+    /**
      * Close curl
      */
     private function close()
@@ -159,8 +169,7 @@ class CurlClient implements CurlClientInterface
 
         $this->init();
         $this->setOptionArray($options->get());
-        $this->response  = curl_exec($this->curl);
-        $this->errorCode = curl_errno($this->curl);
+        $this->execute();
 
         if (SslChecker::hasCertErrors($this->errorCode)) {
             array_push(
@@ -178,10 +187,10 @@ class CurlClient implements CurlClientInterface
                 CURLOPT_CAINFO     => SslChecker::caBundle()
             ]);
 
-            $this->response = curl_exec($this->curl);
+            $this->execute();
         }
 
-        $this->checkResponse($this->response);
+        $this->checkResponse();
 
         $statusCode = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         $this->close();
@@ -306,8 +315,6 @@ class CurlClient implements CurlClientInterface
             return;
         }
 
-        $this->errorCode    = curl_errno($this->curl);
-        $this->errorMessage = curl_error($this->curl);
         $this->close();
 
         $this->handleCurlError();
