@@ -35,7 +35,7 @@ interface HeaderBagInterface
      *
      * @return array
      */
-    public function all();
+    public function get();
 
     /**
      * Get all headers

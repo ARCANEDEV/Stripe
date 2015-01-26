@@ -164,31 +164,14 @@ class CurlClient implements CurlClientInterface
             $params = $hasFile ? $params : str_url_queries($params);
         }
 
-        $headers  = $this->headers->make($this->apiKey, $headers, $hasFile);
-        $options  = $this->options->make($method, $url, $params, $headers, $hasFile);
+        $this->headers->prepare($this->apiKey, $headers, $hasFile);
+        $this->options->make($method, $url, $params, $this->headers->get(), $hasFile);
 
         $this->init();
-        $this->setOptionArray($options->get());
+        $this->setOptionArray($this->options->get());
         $this->execute();
 
-        if (SslChecker::hasCertErrors($this->errorCode)) {
-            array_push(
-                $headers,
-                'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
-            );
-            // TODO: Try this instead
-            //$this->headers->set(
-            //    'X-Stripe-Client-Info',
-            //    '{"ca":"using Stripe-supplied CA bundle"}'
-            //);
-
-            $this->setOptionArray([
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_CAINFO     => SslChecker::caBundle()
-            ]);
-
-            $this->execute();
-        }
+        $this->checkCertErrors();
 
         $this->checkResponse();
 
@@ -196,6 +179,23 @@ class CurlClient implements CurlClientInterface
         $this->close();
 
         return [$this->response, $statusCode];
+    }
+
+    private function checkCertErrors()
+    {
+        if (SslChecker::hasCertErrors($this->errorCode)) {
+            $this->headers->set(
+                'X-Stripe-Client-Info',
+                '{"ca":"using Stripe-supplied CA bundle"}'
+            );
+
+            $this->setOptionArray([
+                CURLOPT_HTTPHEADER => $this->headers->get(),
+                CURLOPT_CAINFO     => SslChecker::caBundle()
+            ]);
+
+            $this->execute();
+        }
     }
 
     /**

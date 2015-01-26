@@ -87,7 +87,7 @@ class HeaderBag implements HeaderBagInterface
      */
     public function make($apiKey, array $headers = [], $hasFile = false)
     {
-        return $this->prepare($apiKey, $headers, $hasFile)->all();
+        return $this->prepare($apiKey, $headers, $hasFile)->get();
     }
 
     /**
@@ -116,7 +116,7 @@ class HeaderBag implements HeaderBagInterface
      *
      * @return array
      */
-    public function all()
+    public function get()
     {
         $headers = $this->headers;
 

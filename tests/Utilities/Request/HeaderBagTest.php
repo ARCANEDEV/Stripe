@@ -90,7 +90,7 @@ class HeaderBagTest extends StripeTestCase
 
         $this->assertEquals(5, $this->headerBag->count());
         $this->assertArrayHasKey($key, $this->headerBag->toArray());
-        $this->assertEquals($key . ': ' . $value, $this->headerBag->all()[4]);
+        $this->assertEquals($key . ': ' . $value, $this->headerBag->get()[4]);
     }
 
     /** @test */
