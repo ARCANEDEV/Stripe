@@ -64,7 +64,7 @@ class SslChecker implements SslCheckerInterface
      */
     public function checkCert($url)
     {
-        if ($this->checkStreamExtension()) {
+        if (! $this->hasStreamExtensions()) {
             $this->showStreamExtensionWarning();
 
             return true;
@@ -92,7 +92,7 @@ class SslChecker implements SslCheckerInterface
             $result === false
         ) {
             throw new ApiConnectionException(
-                "Could not connect to Stripe ($url).  Please check your ".
+                'Could not connect to Stripe (' . $url . ').  Please check your '.
                 'internet connection and try again.  If this problem persists, '.
                 'you should check Stripe\'s service status at '.
                 'https://twitter.com/stripestatus. Reason was: '. $errorStr
@@ -163,10 +163,10 @@ class SslChecker implements SslCheckerInterface
      *
      * @return bool
      */
-    private function checkStreamExtension()
+    private function hasStreamExtensions()
     {
-        return ! function_exists('stream_context_get_params') or
-               ! function_exists('stream_socket_enable_crypto');
+        return function_exists('stream_context_get_params') and
+               function_exists('stream_socket_enable_crypto');
     }
 
     /**
