@@ -76,7 +76,7 @@ interface SslCheckerInterface
      *
      * @return bool
      */
-    public function hasSslErrors($errorNum);
+    public static function hasSslErrors($errorNum);
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
@@ -87,5 +87,5 @@ interface SslCheckerInterface
      *
      * @return string
      */
-    public function caBundle();
+    public static function caBundle();
 }

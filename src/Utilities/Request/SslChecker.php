@@ -176,7 +176,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @return bool
      */
-    public function hasSslErrors($errorNum)
+    public static function hasSslErrors($errorNum)
     {
         return in_array($errorNum, [
             CURLE_SSL_CACERT,
@@ -209,7 +209,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @return string
      */
-    public function caBundle()
+    public static function caBundle()
     {
         $path = realpath(__DIR__ . '/../../data/ca-certificates.crt');
 

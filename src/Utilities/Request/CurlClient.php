@@ -17,9 +17,6 @@ class CurlClient implements CurlClientInterface
     /** @var string */
     private $apiBaseUrl;
 
-    /** @var SslChecker */
-    private $sslChecker;
-
     /** @var HeaderBag */
     private $headers;
 
@@ -39,7 +36,6 @@ class CurlClient implements CurlClientInterface
         $this->setApiKey($apiKey);
         $this->setApiBaseUrl($baseUrl);
 
-        $this->sslChecker = new SslChecker;
         $this->headers    = new HeaderBag;
         $this->options    = new CurlOptions;
     }
@@ -113,7 +109,7 @@ class CurlClient implements CurlClientInterface
         $response = curl_exec($curl);
         $errorNum = curl_errno($curl);
 
-        if ($this->sslChecker->hasSslErrors($errorNum)) {
+        if (SslChecker::hasSslErrors($errorNum)) {
             array_push(
                 $headers,
                 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}'
@@ -126,7 +122,7 @@ class CurlClient implements CurlClientInterface
 
             curl_setopt_array($curl, [
                 CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_CAINFO     => $this->sslChecker->caBundle()
+                CURLOPT_CAINFO     => SslChecker::caBundle()
             ]);
 
             $response = curl_exec($curl);

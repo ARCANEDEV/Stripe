@@ -70,7 +70,7 @@ class SslCheckerTest extends StripeTestCase
     /** @test */
     public function it_can_get_ca_bundle_path()
     {
-        $certPath = $this->sslChecker->caBundle();
+        $certPath = SslChecker::caBundle();
 
         $this->assertNotEmpty($certPath);
         $this->assertFileExists($certPath);
