@@ -128,6 +128,21 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
+     * Add a Header to collection
+     *
+     * @param  string $name
+     * @param  string $value
+     *
+     * @return HeaderBag
+     */
+    public function set($name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get all headers
      *
      * @return array
