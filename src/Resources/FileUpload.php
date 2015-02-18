@@ -2,10 +2,10 @@
 
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 
 /**
  * File Upload Object

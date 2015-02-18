@@ -3,9 +3,9 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
