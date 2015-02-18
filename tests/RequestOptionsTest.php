@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
-use Arcanedev\Stripe\RequestOptions;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 
 class RequestOptionsTest extends StripeTestCase
 {

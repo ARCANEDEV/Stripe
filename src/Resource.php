@@ -5,6 +5,7 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 

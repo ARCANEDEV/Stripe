@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe;
+<?php namespace Arcanedev\Stripe\Utilities;
 
 use Arcanedev\Stripe\Contracts\RequestOptionsInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
