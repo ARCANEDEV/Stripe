@@ -1,9 +1,8 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Requestor;
+use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
 use Arcanedev\Stripe\Resource;
 
 /**

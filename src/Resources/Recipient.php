@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\Resource;
 
 /**

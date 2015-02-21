@@ -1,8 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Resource;
-
 use Arcanedev\Stripe\Contracts\Resources\BitcoinTransactionInterface;
+use Arcanedev\Stripe\Resource;
 
 class BitcoinTransaction extends Resource implements BitcoinTransactionInterface
 {

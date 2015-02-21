@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\Resource;
 
 /**

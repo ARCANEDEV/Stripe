@@ -1,11 +1,9 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Requestor;
+use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\Resource;
-use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
