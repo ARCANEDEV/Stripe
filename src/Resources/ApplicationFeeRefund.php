@@ -59,11 +59,13 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      * Update/Save an Application Fee Refund
      * @link https://stripe.com/docs/api/php#update_fee_refund
      *
+     * @param  array|string|null $options
+     *
      * @return ApplicationFeeRefund
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /* ------------------------------------------------------------------------------------------------

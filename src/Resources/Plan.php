@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -49,7 +49,7 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -74,23 +74,26 @@ class Plan extends Resource implements PlanInterface
      * Update/Save a plan
      * @link https://stripe.com/docs/api/php#update_plan
      *
+     * @param  array|string|null $options
+     *
      * @return Plan
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
      * Delete a plan
      * @link https://stripe.com/docs/api/php#delete_plan
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Plan
      */
-    public function delete($params = [])
+    public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params);
+        return parent::scopedDelete($params, $options);
     }
 }

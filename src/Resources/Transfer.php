@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
@@ -56,7 +56,7 @@ class Transfer extends Resource implements TransferInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -78,17 +78,6 @@ class Transfer extends Resource implements TransferInterface
     }
 
     /**
-     * Update/Save a Transfer
-     * @link https://stripe.com/docs/api/curl#update_transfer
-     *
-     * @return Transfer
-     */
-    public function save()
-    {
-        return parent::scopedSave();
-    }
-
-    /**
      * Cancel a Transfer
      * @link https://stripe.com/docs/api/curl#cancel_transfer
      *
@@ -96,11 +85,22 @@ class Transfer extends Resource implements TransferInterface
      */
     public function cancel()
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/cancel');
-
-        $this->refreshFrom($response, $apiKey);
+        list($response, $opts) = $this->request('post', $this->instanceUrl() . '/cancel');
+        $this->refreshFrom($response, $opts);
 
         return $this;
+    }
+
+    /**
+     * Update/Save a Transfer
+     * @link https://stripe.com/docs/api/curl#update_transfer
+     *
+     * @param  array|string|null $options
+     *
+     * @return Transfer
+     */
+    public function save($options = null)
+    {
+        return parent::scopedSave($options);
     }
 }

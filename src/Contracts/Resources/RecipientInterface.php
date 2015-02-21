@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Recipient;
 
 interface RecipientInterface
@@ -27,7 +27,7 @@ interface RecipientInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -46,19 +46,22 @@ interface RecipientInterface
      * Update/Save a recipient
      * @link https://stripe.com/docs/api/php#update_recipient
      *
+     * @param  array|string|null $options
+     *
      * @return Recipient
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Delete a Recipient
      * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Recipient
      */
-    public function delete($params = []);
+    public function delete($params = [], $options = null);
 
     /* ------------------------------------------------------------------------------------------------
      |  Relationships Functions
@@ -69,7 +72,7 @@ interface RecipientInterface
      *
      * @param  array|null $params
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public function transfers($params = []);
 }

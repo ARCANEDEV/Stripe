@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Coupon;
 
 interface CouponInterface
@@ -27,7 +27,7 @@ interface CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -46,17 +46,20 @@ interface CouponInterface
      * Update/Save a Coupon
      * @link https://stripe.com/docs/api/php#update_coupon
      *
+     * @param  array|string|null $options
+     *
      * @return Coupon
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Delete a coupon
      * @link https://stripe.com/docs/api/php#delete_coupon
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Coupon
      */
-    public function delete($params = []);
+    public function delete($params = [], $options);
 }

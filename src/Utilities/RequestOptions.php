@@ -20,10 +20,10 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $apiKey
-     * @param array  $headers
+     * @param string|null $apiKey
+     * @param array       $headers
      */
-    public function __construct($apiKey, array $headers)
+    public function __construct($apiKey = null, array $headers = [])
     {
         $this->setApiKey($apiKey);
         $this->setHeaders($headers);
@@ -86,6 +86,26 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Unpacks an options array and merges it into the existing RequestOptions
+     * object.
+     * @param array|string|null $options a key => value array
+     *
+     * @return RequestOptions
+     */
+    public function merge($options)
+    {
+        $otherOptions = self::parse($options);
+
+        if ($otherOptions->apiKey === null) {
+            $otherOptions->apiKey = $this->apiKey;
+        }
+
+        $otherOptions->headers = array_merge($this->headers, $otherOptions->headers);
+
+        return $otherOptions;
+    }
+
+    /**
      * Unpacks an options array into an Options object
      *
      * @param  array|string|null $options
@@ -97,6 +117,10 @@ class RequestOptions implements RequestOptionsInterface
     public static function parse($options)
     {
         self::checkOptions($options);
+
+        if ($options instanceof self) {
+            return $options;
+        }
 
         if (is_null($options)) {
             return new self(null, []);
@@ -112,12 +136,28 @@ class RequestOptions implements RequestOptionsInterface
             $key = $options['api_key'];
         }
 
+        $headers = self::prepareHeaders($options);
+
+        return new self($key, $headers);
+    }
+
+    private function prepareHeaders($options = [])
+    {
         $headers = [];
+
         if (array_key_exists('idempotency_key', $options)) {
             $headers['Idempotency-Key'] = $options['idempotency_key'];
         }
 
-        return new self($key, $headers);
+        if (array_key_exists('stripe_account', $options)) {
+            $headers['Stripe-Account'] = $options['stripe_account'];
+        }
+
+        if (array_key_exists('stripe_version', $options)) {
+            $headers['Stripe-Version'] = $options['stripe_version'];
+        }
+
+        return $headers;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -144,6 +184,7 @@ class RequestOptions implements RequestOptionsInterface
     private static function checkOptions($options)
     {
         if (
+            ! ($options instanceof self) and
             ! is_null($options) and
             ! is_string($options) and
             ! is_array($options)

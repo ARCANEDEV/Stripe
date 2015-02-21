@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\BalanceTransaction;
 
 interface BalanceTransactionInterface
@@ -27,7 +27,7 @@ interface BalanceTransactionInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 }

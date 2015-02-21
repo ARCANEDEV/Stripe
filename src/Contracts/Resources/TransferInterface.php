@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Transfer;
 
 interface TransferInterface
@@ -27,7 +27,7 @@ interface TransferInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -54,7 +54,9 @@ interface TransferInterface
      * Update/Save a Transfer
      * @link https://stripe.com/docs/api/curl#update_transfer
      *
+     * @param  array|string|null $options
+     *
      * @return Transfer
      */
-    public function save();
+    public function save($options = null);
 }

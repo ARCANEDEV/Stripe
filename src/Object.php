@@ -5,6 +5,7 @@ use Arcanedev\Stripe\Contracts\Utilities\Arrayable;
 use Arcanedev\Stripe\Contracts\Utilities\Jsonable;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;
@@ -25,8 +26,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var string */
-    protected $apiKey;
+    /** @var RequestOptions */
+    protected $opts;
 
     /** @var array */
     protected $values;
@@ -83,17 +84,17 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * Constructor
      *
      * @param string|array|null $id
-     * @param string|null       $apiKey
+     * @param string|null       $opts
      */
-    public function __construct($id = null, $apiKey = null)
+    public function __construct($id = null, $opts = null)
     {
         $this->values                    = [];
-        self::$permanentAttributes       = new UtilSet(['apiKey', 'id']);
+        self::$permanentAttributes       = new UtilSet(['opts', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet(['metadata']);
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
-        $this->setApiKey($apiKey);
+        $this->opts                      = $opts ? $opts : new RequestOptions();
         $this->setId($id);
     }
 
@@ -101,30 +102,6 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      |  Getters & Setters (+Magics)
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Get API Key
-     *
-     * @return string
-     */
-    protected function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * Set API Key
-     *
-     * @param string $apiKey
-     *
-     * @return Object
-     */
-    protected function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
-
     /**
      * Set Id
      *
@@ -343,17 +320,17 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
      *
-     * @param  string      $class
-     * @param  array       $values
-     * @param  string|null $apiKey
+     * @param  string $class
+     * @param  array  $values
+     * @param  string $options
      *
      * @return \Arcanedev\Stripe\Object
      */
-    public static function scopedConstructFrom($class, $values, $apiKey = null)
+    public static function scopedConstructFrom($class, $values, $options)
     {
         /** @var \Arcanedev\Stripe\Object $obj */
-        $obj = new $class(isset($values['id']) ? $values['id'] : null, $apiKey);
-        $obj->refreshFrom($values, $apiKey);
+        $obj = new $class(isset($values['id']) ? $values['id'] : null);
+        $obj->refreshFrom($values, $options);
 
         return $obj;
     }
@@ -361,13 +338,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Refreshes this object using the provided values.
      *
-     * @param array   $values
-     * @param string  $apiKey
-     * @param boolean $partial
+     * @param array          $values
+     * @param RequestOptions $opts
+     * @param boolean        $partial
      */
-    public function refreshFrom($values, $apiKey, $partial = false)
+    public function refreshFrom($values, $opts, $partial = false)
     {
-        $this->apiKey = $apiKey;
+        $this->opts = $opts;
 
         $this->cleanObject($values, $partial);
 
@@ -376,7 +353,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
                 continue;
             }
 
-            $this->values[$key] = $this->constructValue($key, $value, $apiKey);
+            $this->values[$key] = $this->constructValue($key, $value, $opts);
 
             $this->transientValues->discard($key);
             $this->unsavedValues->discard($key);
@@ -411,15 +388,15 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      *
      * @param  string $key
      * @param  mixed  $value
-     * @param  string $apiKey
+     * @param  array  $opts
      *
-     * @return \Arcanedev\Stripe\Object|Resource|ListObject|array
+     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
      */
-    private function constructValue($key, $value, $apiKey)
+    private function constructValue($key, $value, $opts)
     {
         return (self::$nestedUpdatableAttributes->includes($key) and is_array($value))
-            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $apiKey)
-            : Util::convertToStripeObject($value, $apiKey);
+            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $opts)
+            : Util::convertToStripeObject($value, $opts);
     }
 
     /**

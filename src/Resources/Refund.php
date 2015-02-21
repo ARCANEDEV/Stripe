@@ -35,20 +35,20 @@ class Refund extends Resource implements RefundInterface
     public function instanceUrl()
     {
         // TODO: Refactor this method
-        $id         = $this['id'];
+        $id       = $this['id'];
 
-        if (! $id) {
+        if ( ! $id) {
             throw new InvalidRequestException(
                 'Could not determine which URL to request: class instance has invalid ID: '. $id,
                 null
             );
         }
 
-        $chargeId   = $this['charge'];
+        $chargeId = $this['charge'];
 
-        $base       = parent::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
-        $chargeId   = urlencode(str_utf8($chargeId));
-        $refundId   = urlencode(str_utf8($id));
+        $base     = parent::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
+        $chargeId = urlencode(str_utf8($chargeId));
+        $refundId = urlencode(str_utf8($id));
 
         return "$base/$chargeId/refunds/$refundId";
     }
@@ -61,10 +61,12 @@ class Refund extends Resource implements RefundInterface
      * Update/Save a Refund
      * @link https://stripe.com/docs/api/php#update_refund
      *
+     * @param  array|string|null $options
+     *
      * @return Refund
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 }

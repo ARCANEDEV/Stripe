@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Object;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
 
@@ -23,6 +23,7 @@ abstract class Util implements UtilInterface
      */
     private static $resources = [
         // Resource Objects
+        'account'             => 'Arcanedev\\Stripe\\Resources\\Account',
         'balance_transaction' => 'Arcanedev\\Stripe\\Resources\\BalanceTransaction',
         'card'                => 'Arcanedev\\Stripe\\Resources\\Card',
         'charge'              => 'Arcanedev\\Stripe\\Resources\\Charge',
@@ -45,7 +46,7 @@ abstract class Util implements UtilInterface
         'bitcoin_transaction' => 'Arcanedev\\Stripe\\Resources\\BitcoinTransaction',
 
         // List Object
-        'list'          => 'Arcanedev\\Stripe\\ListObject',
+        'list'          => 'Arcanedev\\Stripe\\Collection',
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -86,16 +87,16 @@ abstract class Util implements UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param  array  $response   - The response from the Stripe API.
-     * @param  string $apiKey
+     * @param  array $response   - The response from the Stripe API.
+     * @param  array $options
      *
-     * @return \Arcanedev\Stripe\Object|Resource|ListObject|array
+     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
      */
-    public static function convertToStripeObject($response, $apiKey)
+    public static function convertToStripeObject($response, $options)
     {
         if (self::isList($response)) {
-            $mapped = array_map(function($i) use ($apiKey) {
-                return self::convertToStripeObject($i, $apiKey);
+            $mapped = array_map(function($i) use ($options) {
+                return self::convertToStripeObject($i, $options);
             }, $response);
 
             return $mapped;
@@ -103,7 +104,7 @@ abstract class Util implements UtilInterface
         elseif (is_array($response)) {
             $class = self::getClassTypeObject($response);
 
-            return Object::scopedConstructFrom($class, $response, $apiKey);
+            return Object::scopedConstructFrom($class, $response, $options);
         }
 
         return $response;

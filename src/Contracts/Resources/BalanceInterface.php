@@ -12,9 +12,9 @@ interface BalanceInterface
      * Retrieve a balance
      * @link https://stripe.com/docs/api/php#retrieve_balance
      *
-     * @param  string|null $apiKey
+     * @param  array|string|null $options
      *
      * @return Balance
      */
-    public static function retrieve($apiKey = null);
+    public static function retrieve($options = null);
 }

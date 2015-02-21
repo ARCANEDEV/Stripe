@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\ListObjectInterface;
+use Arcanedev\Stripe\Contracts\CollectionInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Util;
 
@@ -13,7 +13,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property bool   has_more
  * @property string url
  */
-class ListObject extends Object implements ListObjectInterface
+class Collection extends Resource implements CollectionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
@@ -22,62 +22,57 @@ class ListObject extends Object implements ListObjectInterface
     /**
      * List Function
      *
-     * @param  array $params
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
-    public function all($params = [])
+    public function all($params = [], $options = null)
     {
-        list($url, $params)      = $this->extractPathAndUpdateParams($params);
+        list($url, $params)    = $this->extractPathAndUpdateParams($params);
+        list($response, $opts) = $this->request('get', $url, $params, $options);
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->get($url, $params);
-
-        return Util::convertToStripeObject($response, $apiKey);
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /**
      * Create Function
      *
      * @param  array $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
      * @return \Arcanedev\Stripe\Object|Resource|array
      */
-    public function create($params = [])
+    public function create($params = [], $options = null)
     {
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        list($url, $params)    = $this->extractPathAndUpdateParams($params);
+        list($response, $opts) = $this->request('post', $url, $params);
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url, $params);
-
-        return Util::convertToStripeObject($response, $apiKey);
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /**
      * Retrieve Function
      *
-     * @param  string $id
-     * @param  array  $params
+     * @param  string            $id
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
      * @return \Arcanedev\Stripe\Object|Resource|array
      */
-    public function retrieve($id, $params = [])
+    public function retrieve($id, $params = [], $options = null)
     {
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        list($url, $params)    = $this->extractPathAndUpdateParams($params);
+        $extn                  = urlencode(str_utf8($id));
+        list($response, $opts) = $this->request('get', "$url/$extn", $params);
 
-        $id        = str_utf8($id);
-        $extn      = urlencode($id);
-
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->get("$url/$extn", $params);
-
-        return Util::convertToStripeObject($response, $apiKey);
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /* ------------------------------------------------------------------------------------------------

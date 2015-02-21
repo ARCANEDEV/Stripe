@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Plan;
 
 interface PlanInterface
@@ -27,7 +27,7 @@ interface PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -46,17 +46,20 @@ interface PlanInterface
      * Update/Save a plan
      * @link https://stripe.com/docs/api/php#update_plan
      *
+     * @param  array|string|null $options
+     *
      * @return Plan
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Delete a plan
      * @link https://stripe.com/docs/api/php#delete_plan
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Plan
      */
-    public function delete($params = []);
+    public function delete($params = [], $options = null);
 }

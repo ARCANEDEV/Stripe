@@ -23,12 +23,12 @@ class Balance extends SingletonResource implements BalanceInterface
      * Retrieve a balance
      * @link https://stripe.com/docs/api/php#retrieve_balance
      *
-     * @param  string|null $apiKey
+     * @param  array|string|null $options
      *
      * @return Balance
      */
-    public static function retrieve($apiKey = null)
+    public static function retrieve($options = null)
     {
-        return parent::scopedSingletonRetrieve(get_class(), $apiKey);
+        return parent::scopedSingletonRetrieve(get_class(), $options);
     }
 }

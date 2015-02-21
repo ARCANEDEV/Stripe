@@ -12,7 +12,9 @@ interface RefundInterface
      * Update/Save a Refund
      * @link https://stripe.com/docs/api/php#update_refund
      *
+     * @param  array|string|null $options
+     *
      * @return Refund
      */
-    public function save();
+    public function save($options = null);
 }

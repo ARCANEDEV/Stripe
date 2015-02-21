@@ -13,14 +13,15 @@ interface ObjectInterface
      */
     /**
      * This unfortunately needs to be public to be used in Util.php
+     * Return The object constructed from the given values.
      *
-     * @param string      $class
-     * @param array       $values
-     * @param string|null $apiKey
+     * @param  string $class
+     * @param  array  $values
+     * @param  string $options
      *
-     * @return Object The object constructed from the given values.
+     * @return \Arcanedev\Stripe\Object
      */
-    public static function scopedConstructFrom($class, $values, $apiKey = null);
+    public static function scopedConstructFrom($class, $values, $options);
 
     /**
      * Refreshes this object using the provided values.

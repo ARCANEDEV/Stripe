@@ -12,6 +12,15 @@ use ReflectionClass;
 abstract class Resource extends Object implements ResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+    private static $persistedHeaders = [
+        'Stripe-Account' => true,
+        'Stripe-Version' => true
+    ];
+
+    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -34,10 +43,10 @@ abstract class Resource extends Object implements ResourceInterface
     {
         $url    = $this->instanceUrl();
 
-        list($response, $apiKey) = Requestor::make($this->getApiKey(), self::baseUrl())
+        list($response, $this->opts->apiKey) = Requestor::make($this->opts->apiKey, self::baseUrl())
             ->get($url, $this->retrieveParameters);
 
-        $this->refreshFrom($response, $apiKey);
+        $this->refreshFrom($response, $this->opts);
 
         return $this;
     }
@@ -115,33 +124,32 @@ abstract class Resource extends Object implements ResourceInterface
         return "$base/$extn";
     }
 
+    protected function request($method, $url, $params = [], $options = null)
+    {
+        $opts = $this->opts->merge($options);
+
+        return static::staticRequest($method, $url, $params, $opts);
+    }
+
+    protected static function staticRequest($method, $url, $params, $options)
+    {
+        $opts      = RequestOptions::parse($options);
+
+        list($response, $opts->apiKey) = Requestor::make($opts->apiKey, static::baseUrl())
+            ->request($method, $url, $params, $opts->headers);
+
+        foreach ($opts->headers as $k => $v) {
+            if (! array_key_exists($k, self::$persistedHeaders)) {
+                unset($opts->headers[$k]);
+            }
+        }
+        return [$response, $opts];
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Scope Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * List scope
-     *
-     * @param  array|null        $params
-     * @param  array|string|null $options
-     *
-     * @return ListObject|array
-     */
-    protected static function scopedAll($params = [], $options = null)
-    {
-        self::checkArguments($params, $options);
-
-        $class = get_called_class();
-        $base  = self::scopedLsb($class, 'baseUrl');
-        $url   = self::scopedLsb($class, 'classUrl', $class);
-        $opts  = RequestOptions::parse($options);
-
-        list($response, $apiKey) = Requestor::make($opts->getApiKey(), $base)
-            ->get($url, $params, $opts->getHeaders());
-
-        return Util::convertToStripeObject($response, $apiKey);
-    }
-
     /**
      * Retrieve scope
      *
@@ -154,12 +162,30 @@ abstract class Resource extends Object implements ResourceInterface
     {
         $opts     = RequestOptions::parse($options);
         $class    = get_called_class();
-        $resource = new $class($id, $opts->getApiKey());
 
         /** @var self $resource */
+        $resource = new $class($id, $opts);
         $resource->refresh();
 
         return $resource;
+    }
+
+    /**
+     * List scope
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return Collection|array
+     */
+    protected static function scopedAll($params = [], $options = null)
+    {
+        self::checkArguments($params, $options);
+        $url = static::classUrl();
+
+        list($response, $opts) = self::staticRequest('get', $url, $params, $options);
+
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -177,15 +203,11 @@ abstract class Resource extends Object implements ResourceInterface
     {
         self::checkArguments($params, $options);
 
-        $class = get_called_class();
-        $url   = parent::scopedLsb($class, 'classUrl', $class);
-        $base  = parent::scopedLsb($class, 'baseUrl');
-        $opts  = RequestOptions::parse($options);
+        $url   = static::classUrl();
 
-        list($response, $apiKey) = Requestor::make($opts->getApiKey(), $base)
-            ->post($url, $params, $opts->getHeaders());
+        list($response, $opts) = self::staticRequest('post', $url, $params, $options);
 
-        return Util::convertToStripeObject($response, $apiKey);
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -203,12 +225,8 @@ abstract class Resource extends Object implements ResourceInterface
 
         if (count($params) > 0) {
             self::checkArguments(null, $options);
-            $opts = $this->parseOptions($options);
-
-            list($response, $apiKey) = Requestor::make($opts->getApiKey(), self::baseUrl())
-                ->post($this->instanceUrl(), $params);
-
-            $this->refreshFrom($response, $apiKey);
+            list($response, $opts) = self::request('post', $this->instanceUrl(), $params, $options);
+            $this->refreshFrom($response, $opts);
         }
 
         return $this;
@@ -227,12 +245,9 @@ abstract class Resource extends Object implements ResourceInterface
     protected function scopedDelete($params = [], $options = null)
     {
         self::checkArguments($params, $options);
-        $opts = $this->parseOptions($options);
 
-        list($response, $apiKey) = Requestor::make($opts->getApiKey(), self::baseUrl())
-            ->delete($this->instanceUrl(), $params);
-
-        $this->refreshFrom($response, $apiKey);
+        list($response, $opts) = $this->request('delete', $this->instanceUrl(), $params, $options);
+        $this->refreshFrom($response, $opts);
 
         return $this;
     }
@@ -252,7 +267,7 @@ abstract class Resource extends Object implements ResourceInterface
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {
-        $opts = $this->parseOptions($options);
+        $opts = RequestOptions::parse($options);
 
         list($response, $options) = Requestor::make($opts->getApiKey())
             ->post($url, $params);
@@ -293,11 +308,11 @@ abstract class Resource extends Object implements ResourceInterface
     private static function checkParameters($params)
     {
         if ($params and ! is_array($params)) {
-            $message = "You must pass an array as the first argument to Stripe API "
-                . "method calls.  (HINT: an example call to create a charge "
-                . "would be: \"StripeCharge::create(array('amount' => 100, "
-                . "'currency' => 'usd', 'card' => array('number' => "
-                . "4242424242424242, 'exp_month' => 5, 'exp_year' => 2015)))\")";
+            $message = 'You must pass an array as the first argument to Stripe API method calls.  '
+                . '(HINT: an example call to create a charge would be: '
+                . 'StripeCharge::create([\'amount\' => 100, \'currency\' => \'usd\', '
+                . '\'card\' => [\'number\' => 4242424242424242, \'exp_month\' => 5, '
+                . '\'exp_year\' => 2015]]))';
 
             throw new InvalidArgumentException($message);
         }
@@ -312,7 +327,12 @@ abstract class Resource extends Object implements ResourceInterface
      */
     private static function checkOptions($options)
     {
-        if ($options and (! is_string($options) and ! is_array($options))) {
+        if ($options and (
+                ! $options instanceof RequestOptions and
+                ! is_string($options) and
+                ! is_array($options)
+            )
+        ) {
             $message = 'The second argument to Stripe API method calls is an '
                 . 'optional per-request apiKey, which must be a string.  '
                 . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")';
@@ -325,19 +345,4 @@ abstract class Resource extends Object implements ResourceInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * with either passed in or saved API key
-     *
-     * @param  array|string|null $options
-     *
-     * @return RequestOptions
-     */
-    protected function parseOptions($options)
-    {
-        $opts   = RequestOptions::parse($options);
-        $apiKey = $opts->apiKey ?: $this->getApiKey();
-        $opts->setApiKey($apiKey);
-
-        return $opts;
-    }
 }

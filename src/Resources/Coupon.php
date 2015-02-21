@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resource;
 
 /**
@@ -51,7 +51,7 @@ class Coupon extends Resource implements CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -76,23 +76,26 @@ class Coupon extends Resource implements CouponInterface
      * Update/Save a Coupon
      * @link https://stripe.com/docs/api/php#update_coupon
      *
+     * @param  array|string|null $options
+     *
      * @return Coupon
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
      * Delete a coupon
      * @link https://stripe.com/docs/api/php#delete_coupon
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Coupon
      */
-    public function delete($params = [])
+    public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params);
+        return parent::scopedDelete($params, $options);
     }
 }

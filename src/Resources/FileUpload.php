@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
@@ -112,7 +112,7 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {

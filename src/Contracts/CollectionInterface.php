@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 
-interface ListObjectInterface
+interface CollectionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
@@ -12,36 +12,39 @@ interface ListObjectInterface
     /**
      * List Function
      *
-     * @param  array $params
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
-    public function all($params = []);
+    public function all($params = [], $options = null);
 
     /**
      * Create Function
      *
-     * @param  array $params
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
      * @return \Arcanedev\Stripe\Object|Resource|array
      */
-    public function create($params = []);
+    public function create($params = [], $options = null);
 
     /**
      * Retrieve Function
      *
-     * @param  string $id
-     * @param  array  $params
+     * @param  string            $id
+     * @param  array             $params
+     * @param  array|string|null $options
      *
      * @throws ApiException
      *
      * @return \Arcanedev\Stripe\Object|Resource|array
      */
-    public function retrieve($id, $params = []);
+    public function retrieve($id, $params = [], $options = null);
 
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions
