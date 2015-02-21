@@ -141,7 +141,7 @@ class RequestOptions implements RequestOptionsInterface
         return new self($key, $headers);
     }
 
-    private function prepareHeaders($options = [])
+    private static function prepareHeaders($options = [])
     {
         $headers = [];
 
