@@ -83,10 +83,10 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Constructor
      *
-     * @param string|array|null $id
-     * @param string|null       $opts
+     * @param string|null       $id
+     * @param string|array|null $options
      */
-    public function __construct($id = null, $opts = null)
+    public function __construct($id = null, $options = null)
     {
         $this->values                    = [];
         self::$permanentAttributes       = new UtilSet(['opts', 'id']);
@@ -94,7 +94,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
-        $this->opts                      = $opts ? $opts : new RequestOptions();
+        $this->opts                      = $options ? $options : new RequestOptions();
         $this->setId($id);
     }
 
@@ -390,7 +390,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * @param  mixed  $value
      * @param  array  $opts
      *
-     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
+     * @return self|Resource|Collection|array
      */
     private function constructValue($key, $value, $opts)
     {
