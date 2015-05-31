@@ -4,6 +4,6 @@
  |  Constants
  | ------------------------------------------------------------------------------------------------
  */
-if (! defined('CURLE_SSL_CACERT_BADFILE')) {
+if ( ! defined('CURLE_SSL_CACERT_BADFILE')) {
     define('CURLE_SSL_CACERT_BADFILE', 77);
 }

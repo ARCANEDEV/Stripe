@@ -1,12 +1,13 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * The recipient object
+ * Class Recipient
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#recipient_object
  *
  * @property string         id
@@ -19,7 +20,7 @@ use Arcanedev\Stripe\Resource;
  * @property string         email
  * @property AttachedObject metadata
  * @property string         name
- * @property ListObject     cards
+ * @property Collection     cards
  * @property string         default_card
  */
 class Recipient extends Resource implements RecipientInterface
@@ -60,7 +61,7 @@ class Recipient extends Resource implements RecipientInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -85,24 +86,27 @@ class Recipient extends Resource implements RecipientInterface
      * Update/Save a recipient
      * @link https://stripe.com/docs/api/php#update_recipient
      *
+     * @param  array|string|null $options
+     *
      * @return Recipient
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
      * Delete a Recipient
      * @link https://stripe.com/docs/api/php#delete_recipient
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Recipient
      */
-    public function delete($params = [])
+    public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params);
+        return parent::scopedDelete($params, $options);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -114,13 +118,13 @@ class Recipient extends Resource implements RecipientInterface
      *
      * @param  array $params
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public function transfers($params = [])
     {
         $this->addRecipientParam($params);
 
-        return Transfer::all($params, $this->apiKey);
+        return Transfer::all($params, $this->opts);
     }
 
     /* ------------------------------------------------------------------------------------------------

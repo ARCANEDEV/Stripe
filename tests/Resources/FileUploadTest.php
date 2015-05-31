@@ -10,7 +10,7 @@ class FileUploadTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const FILEUPLOAD_CLASS = 'Arcanedev\\Stripe\\Resources\\FileUpload';
+    const FILE_UPLOAD_CLASS = 'Arcanedev\\Stripe\\Resources\\FileUpload';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -49,7 +49,7 @@ class FileUploadTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::FILEUPLOAD_CLASS, $this->fileUpload);
+        $this->assertInstanceOf(self::FILE_UPLOAD_CLASS, $this->fileUpload);
     }
 
     /** @test */

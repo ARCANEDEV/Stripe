@@ -1,6 +1,7 @@
-<?php namespace Arcanedev\Stripe\Tests;
+<?php namespace Arcanedev\Stripe\Tests\Utilities;
 
-use Arcanedev\Stripe\RequestOptions;
+use Arcanedev\Stripe\Tests\StripeTestCase;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 
 class RequestOptionsTest extends StripeTestCase
 {
@@ -8,12 +9,7 @@ class RequestOptionsTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const REQUESTOPTIONS_CLASS = 'Arcanedev\\Stripe\\RequestOptions';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
+    const REQUESTOPTIONS_CLASS = 'Arcanedev\\Stripe\\Utilities\\RequestOptions';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

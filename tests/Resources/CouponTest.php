@@ -1,8 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Coupon;
-use Arcanedev\Stripe\Resources\Customer;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class CouponTest extends StripeTestCase

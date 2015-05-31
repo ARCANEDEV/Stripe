@@ -1,56 +1,90 @@
 <?php namespace Arcanedev\Stripe\Utilities\Request;
 
-use Arcanedev\Stripe\Contracts\Utilities\Request\CurlClientInterface;
+use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use CURLFile;
 
-class CurlClient implements CurlClientInterface
+/**
+ * Class HttpClient
+ * @package Arcanedev\Stripe\Utilities\Request
+ */
+class HttpClient implements HttpClientInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var string */
+    /**
+     * The HTTP Client instance
+     *
+     * @var HttpClient
+     */
+    private static $instance;
+
+    /**
+     * @var string
+     */
     private $apiKey;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $apiBaseUrl;
 
-    /** @var HeaderBag */
+    /**
+     * @var HeaderBag
+     */
     private $headers;
 
-    /** @var CurlOptions */
+    /**
+     * @var CurlOptions
+     */
     private $options;
 
-    /** @var resource */
+    /**
+     * @var resource
+     */
     private $curl;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     private $response;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     private $errorCode;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $errorMessage;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor & Destructor
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @param string $apiKey
-     * @param string $baseUrl
-     */
-    public function __construct($apiKey, $baseUrl)
+    private function __construct()
     {
-        $this->setApiKey($apiKey);
-        $this->setApiBaseUrl($baseUrl);
-
         $this->headers  = new HeaderBag;
         $this->options  = new CurlOptions;
         $this->response = null;
+    }
+
+    /**
+     * Get the HTTP
+     *
+     * @return HttpClient
+     */
+    public static function instance()
+    {
+        if ( ! self::$instance) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
     }
 
     public function __destruct()
@@ -67,7 +101,7 @@ class CurlClient implements CurlClientInterface
      *
      * @param  string $apiKey
      *
-     * @return CurlClient
+     * @return HttpClient
      */
     public function setApiKey($apiKey)
     {
@@ -81,7 +115,7 @@ class CurlClient implements CurlClientInterface
      *
      * @param  string $apiBaseUrl
      *
-     * @return CurlClient
+     * @return HttpClient
      */
     public function setApiBaseUrl($apiBaseUrl)
     {
@@ -95,7 +129,7 @@ class CurlClient implements CurlClientInterface
      *
      * @param  array $options
      *
-     * @return CurlClient
+     * @return HttpClient
      */
     public function setOptionArray(array $options)
     {
@@ -172,7 +206,6 @@ class CurlClient implements CurlClientInterface
         $this->execute();
 
         $this->checkCertErrors();
-
         $this->checkResponse();
 
         $statusCode = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
@@ -209,7 +242,7 @@ class CurlClient implements CurlClientInterface
      */
     private static function processResourceParams(&$params)
     {
-        if (! is_array($params)) {
+        if ( ! is_array($params)) {
             return false;
         }
 
@@ -247,6 +280,47 @@ class CurlClient implements CurlClientInterface
         return class_exists('CURLFile')
             ? new CURLFile($metaData['uri'])
             : '@' . $metaData['uri'];
+    }
+
+    /**
+     * Encode array to query string
+     *
+     * @param array       $array
+     * @param string|null $prefix
+     *
+     * @return string
+     */
+    protected static function encode($array, $prefix = null)
+    {
+        if ( ! is_array($array)) {
+            return $array;
+        }
+
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            if (is_null($value)) {
+                continue;
+            }
+
+            if ($prefix && $key && ! is_int($key)) {
+                $key = $prefix .'[' . $key . ']';
+            }
+            elseif ($prefix) {
+                $key = $prefix . '[]';
+            }
+
+            if (is_array($value)) {
+                if ($enc = self::encode($value, $key)) {
+                    $result[] = $enc;
+                }
+            }
+            else {
+                $result[] = urlencode($key) . '=' . urlencode($value);
+            }
+        }
+
+        return implode('&', $result);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -294,8 +368,8 @@ class CurlClient implements CurlClientInterface
      */
     private static function checkHasResourceFile($resource)
     {
-        return is_resource($resource) or (
-            class_exists('CURLFile') and
+        return is_resource($resource) || (
+            class_exists('CURLFile') &&
             $resource instanceof CURLFile
         );
     }
@@ -345,6 +419,7 @@ class CurlClient implements CurlClientInterface
 
             default:
                 $msg = 'Unexpected error communicating with Stripe. If this problem persists,';
+                // no break
         }
 
         $msg .= ' let us know at support@stripe.com.';

@@ -3,7 +3,8 @@
 use Arcanedev\Stripe\Resource;
 
 /**
- * Discount Object
+ * Class Discount
+ * @package Arcanedev\Stripe\Resources
  *
  * @property string            object
  * @property string            customer

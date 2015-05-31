@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Resources\Subscription;
@@ -29,7 +29,7 @@ interface CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -48,9 +48,11 @@ interface CustomerInterface
      * Update/Save Customer
      * @link https://stripe.com/docs/api/php#create_customer
      *
+     * @param  array|string|null $options
+     *
      * @return Customer
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Delete Customer
@@ -80,7 +82,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public function invoices($params = []);
 
@@ -89,7 +91,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public function invoiceItems($params = []);
 
@@ -98,7 +100,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public function charges($params = []);
 

@@ -1,15 +1,14 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
-use Arcanedev\Stripe\Stripe;
-
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Resources\Recipient;
-
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Resources\Transfer;
+use Arcanedev\Stripe\Stripe;
 
 abstract class StripeTestCase extends TestCase
 {
@@ -17,7 +16,7 @@ abstract class StripeTestCase extends TestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const API_KEY = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I";
+    const API_KEY = 'tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -25,6 +24,7 @@ abstract class StripeTestCase extends TestCase
      */
     protected $myApiKey     = 'my-secret-api-key';
     protected $myApiVersion = '2.0.0';
+    private $mock;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -36,7 +36,7 @@ abstract class StripeTestCase extends TestCase
 
         $apiKey = getenv('STRIPE_API_KEY');
 
-        if (! $apiKey) {
+        if ( ! $apiKey) {
             $apiKey = self::API_KEY;
         }
 
@@ -62,9 +62,9 @@ abstract class StripeTestCase extends TestCase
     protected static function createTestCharge(array $attributes = [])
     {
         return Charge::create($attributes + [
-            "amount"        => 2000,
-            "currency"      => "usd",
-            "description"   => "Charge for test@example.com",
+            'amount'        => 2000,
+            'currency'      => 'usd',
+            'description'   => 'Charge for test@example.com',
             'card' => [
                 'number'    => '4242424242424242',
                 'exp_month' => 5,
@@ -101,13 +101,13 @@ abstract class StripeTestCase extends TestCase
     protected static function createTestRecipient(array $attributes = [])
     {
         return Recipient::create($attributes + [
-            'name' => 'PHP Test',
-            'type' => 'individual',
-            'tax_id' => '000000000',
-            'bank_account' => [
-                'country' => 'US',
-                'routing_number' => '110000000',
-                'account_number' => '000123456789'
+            'name'          => 'PHP Test',
+            'type'          => 'individual',
+            'tax_id'        => '000000000',
+            'bank_account'  => [
+                'country'           => 'US',
+                'routing_number'    => '110000000',
+                'account_number'    => '000123456789'
             ],
         ]);
     }
@@ -173,5 +173,26 @@ abstract class StripeTestCase extends TestCase
                 'percent_off' => 25,
             ]);
         }
+    }
+
+    /**
+     * Create transfer for tests
+     *
+     * @param  array $attributes
+     *
+     * @return Transfer|array
+     */
+    protected static function createTestTransfer(array $attributes = [])
+    {
+        $recipient = self::createTestRecipient();
+
+        return Transfer::create(
+            $attributes + [
+                'amount' => 2000,
+                'currency' => 'usd',
+                'description' => 'Transfer to test@example.com',
+                'recipient' => $recipient->id
+            ]
+        );
     }
 }

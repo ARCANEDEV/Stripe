@@ -1,11 +1,14 @@
-<?php namespace Arcanedev\Stripe\Tests\Exceptions;
+<?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Customer;
-use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
-class AuthenticationErrorTest extends StripeTestCase
+class TransferReversalTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -24,17 +27,11 @@ class AuthenticationErrorTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\AuthenticationException
-     * @expectedExceptionCode    401
-     * @expectedExceptionMessage Invalid API Key provided: *******-***-key
-     */
-    public function it_must_throw_authentication_exception_on_invalid_credentials()
+    public function testList()
     {
-        Stripe::setApiKey('invalid-api-key');
-
-        Customer::create();
+        $transfer = self::createTestTransfer();
+        $all      = $transfer->reversals->all();
+        $this->assertSame(false, $all['has_more']);
+        $this->assertSame(0, count($all->data));
     }
 }

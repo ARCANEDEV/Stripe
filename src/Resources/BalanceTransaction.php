@@ -1,22 +1,22 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Balance Transaction Object
- *
+ * Class BalanceTransaction
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#balance_transaction_object
  *
  * @property string     id
- * @property string     object// "balance_transaction"
+ * @property string     object       // "balance_transaction"
  * @property int        amount
  * @property int        available_on
  * @property int        created
  * @property string     currency
  * @property int        fee
- * @property ListObject fee_details
+ * @property Collection fee_details
  * @property int        net
  * @property string     status
  * @property string     type
@@ -39,7 +39,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      */
     public static function classUrl($class = '')
     {
-        return "/v1/balance/history";
+        return '/v1/balance/history';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class BalanceTransaction extends Resource implements BalanceTransactionInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {

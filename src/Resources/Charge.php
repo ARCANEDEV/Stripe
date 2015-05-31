@@ -1,13 +1,13 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
-use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Charge Object
+ * Class Charge
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#charges
  *
  * @property string         id
@@ -19,7 +19,7 @@ use Arcanedev\Stripe\Resource;
  * @property string         currency
  * @property bool           paid
  * @property bool           refunded
- * @property ListObject     refunds
+ * @property Collection     refunds
  * @property int            amount_refunded
  * @property string         balance_transaction
  * @property Card           card
@@ -37,7 +37,7 @@ use Arcanedev\Stripe\Resource;
 class Charge extends Resource implements ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const SAFE       = 'safe';
@@ -54,7 +54,7 @@ class Charge extends Resource implements ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -79,7 +79,7 @@ class Charge extends Resource implements ChargeInterface
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
-     * @param  array       $params
+     * @param  array             $params
      * @param  array|string|null $options
      *
      * @return Charge|array
@@ -93,11 +93,13 @@ class Charge extends Resource implements ChargeInterface
      * Save/Update a Charge
      * @link https://stripe.com/docs/api/php#update_charge
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
@@ -111,7 +113,7 @@ class Charge extends Resource implements ChargeInterface
      */
     public function refund($params = [], $options = null)
     {
-        $url  = $this->instanceUrl() . '/refund';
+        $url = $this->instanceUrl() . '/refund';
 
         return parent::scopedPostCall($url, $params, $options);
     }
@@ -120,33 +122,34 @@ class Charge extends Resource implements ChargeInterface
      * Capture a charge
      * @link https://stripe.com/docs/api/php#capture_charge
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Charge
      */
-    public function capture($params = [])
+    public function capture($params = [], $options = null)
     {
         $url = $this->instanceUrl() . '/capture';
 
-        return parent::scopedPostCall($url, $params);
+        return parent::scopedPostCall($url, $params, $options);
     }
 
     /**
      * Updating a dispute
      * @link https://stripe.com/docs/api/php#update_dispute
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Object
      */
-    public function updateDispute($params = [])
+    public function updateDispute($params = [], $options = null)
     {
         $url = $this->instanceUrl() . '/dispute';
+        // TODO: Refactor to Requestor::make()
+        list($response, $opts) = $this->request('post', $url, $params, $options);
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url, $params);
-
-        $this->refreshFrom(['dispute' => $response], $apiKey, true);
+        $this->refreshFrom(['dispute' => $response], $opts, true);
 
         return $this->dispute;
     }
@@ -155,21 +158,25 @@ class Charge extends Resource implements ChargeInterface
      * Closing a dispute
      * @link https://stripe.com/docs/api/php#close_dispute
      *
+     * @param  array|string|null $options
+     *
      * @return Object
      */
-    public function closeDispute()
+    public function closeDispute($options = null)
     {
         $url = $this->instanceUrl() . '/dispute/close';
 
-        return parent::scopedPostCall($url);
+        return parent::scopedPostCall($url, [], $options);
     }
 
     /**
      * Mark charge as Fraudulent
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function markAsFraudulent()
+    public function markAsFraudulent($options = null)
     {
         return $this->updateFraudDetails(false);
     }
@@ -177,9 +184,11 @@ class Charge extends Resource implements ChargeInterface
     /**
      * Mark charge as Safe
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function markAsSafe()
+    public function markAsSafe($options = null)
     {
         return $this->updateFraudDetails(true);
     }
@@ -191,11 +200,12 @@ class Charge extends Resource implements ChargeInterface
     /**
      * Update charge's fraud details
      *
-     * @param bool $safe
+     * @param  bool $safe
+     * @param  array|string|null $options
      *
      * @return $this
      */
-    private function updateFraudDetails($safe = false)
+    private function updateFraudDetails($safe = false, $options = null)
     {
         $fraud_details = [
             'fraud_details' => [
@@ -203,10 +213,10 @@ class Charge extends Resource implements ChargeInterface
             ],
         ];
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl(), $fraud_details);
+        // TODO: Refactor to Requestor::make()
+        list($response, $opts) = $this->request('post', $this->instanceUrl(), $fraud_details, $options);
 
-        $this->refreshFrom($response, $apiKey);
+        $this->refreshFrom($response, $opts);
 
         return $this;
     }

@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\RequestOptions;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 
 interface RequestOptionsInterface
 {

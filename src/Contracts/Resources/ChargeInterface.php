@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Charge;
 
 interface ChargeInterface
@@ -16,7 +16,7 @@ interface ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -35,7 +35,7 @@ interface ChargeInterface
      * Create a new charge (charging a credit card)
      * @link https://stripe.com/docs/api/php#create_charge
      *
-     * @param  array       $params
+     * @param  array             $params
      * @param  array|string|null $options
      *
      * @return Charge|array
@@ -46,9 +46,11 @@ interface ChargeInterface
      * Save/Update a Charge
      * @link https://stripe.com/docs/api/php#update_charge
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Creating a new refund
@@ -65,41 +67,49 @@ interface ChargeInterface
      * Capture a charge
      * @link https://stripe.com/docs/api/php#capture_charge
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Charge
      */
-    public function capture($params = []);
+    public function capture($params = [], $options = null);
 
     /**
      * Updating a dispute
      * @link https://stripe.com/docs/api/php#update_dispute
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Object
      */
-    public function updateDispute($params = []);
+    public function updateDispute($params = [], $options = null);
 
     /**
      * Closing a dispute
      * @link https://stripe.com/docs/api/php#close_dispute
      *
+     * @param  array|string|null $options
+     *
      * @return Object
      */
-    public function closeDispute();
+    public function closeDispute($options = null);
 
     /**
      * Mark charge as Fraudulent
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function markAsFraudulent();
+    public function markAsFraudulent($options = null);
 
     /**
      * Mark charge as Safe
      *
+     * @param  array|string|null $options
+     *
      * @return Charge
      */
-    public function markAsSafe();
+    public function markAsSafe($options = null);
 }

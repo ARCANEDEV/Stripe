@@ -3,11 +3,11 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Subscription Object
+ * Class Subscription
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#subscription_object
  *
  * @property string         id
@@ -67,24 +67,27 @@ class Subscription extends Resource implements SubscriptionInterface
      * Cancel a Subscription
      * @link https://stripe.com/docs/api/php#cancel_subscription
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Subscription
      */
-    public function cancel($params = [])
+    public function cancel($params = [], $options = null)
     {
-        return parent::scopedDelete($params);
+        return parent::scopedDelete($params, $options);
     }
 
     /**
      * Update/Save a Subscription
      * @link https://stripe.com/docs/api/php#update_subscription
      *
+     * @param  array|string|null $options
+     *
      * @return Subscription
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
@@ -95,11 +98,10 @@ class Subscription extends Resource implements SubscriptionInterface
      */
     public function deleteDiscount()
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->delete($this->instanceUrl() . '/discount');
-
+        $url = $this->instanceUrl() . '/discount';
+        list($response, $opts) = $this->request('delete', $url);
         unset($response);
-        $this->refreshFrom(['discount' => null], $apiKey, true);
+        $this->refreshFrom(['discount' => null], $opts, true);
 
         return $this;
     }

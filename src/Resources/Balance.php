@@ -4,8 +4,8 @@ use Arcanedev\Stripe\Contracts\Resources\BalanceInterface;
 use Arcanedev\Stripe\SingletonResource;
 
 /**
- * Balance Object
- *
+ * Class Balance
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#balance_object
  *
  * @property string object   // "balance"
@@ -23,12 +23,12 @@ class Balance extends SingletonResource implements BalanceInterface
      * Retrieve a balance
      * @link https://stripe.com/docs/api/php#retrieve_balance
      *
-     * @param  string|null $apiKey
+     * @param  array|string|null $options
      *
      * @return Balance
      */
-    public static function retrieve($apiKey = null)
+    public static function retrieve($options = null)
     {
-        return parent::scopedSingletonRetrieve(get_class(), $apiKey);
+        return parent::scopedSingletonRetrieve(get_class(), $options);
     }
 }
