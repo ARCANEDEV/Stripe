@@ -80,16 +80,31 @@ class RequestorTest extends StripeTestCase
         $method->invokeArgs(new Requestor('  '), []);
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
-     */
+    /** @test */
     public function it_must_throw_api_exception_on_invalid_method()
     {
-        $method = self::getRequestMethod('checkMethod');
+        if (version_compare(PHP_VERSION, '7.0', '>=')) {
+            $this->markTestSkipped(
+                'Skipped because it throws ReflectionException on PHP 7.'
+            );
+        }
+        else {
+            $method = self::getRequestMethod('checkMethod');
 
-        $method->invokeArgs(new Requestor, ['PUT']);
+            $thrown = false;
+            try {
+                $method->invokeArgs(new Requestor, ['PUT']);
+            }
+            catch(\Arcanedev\Stripe\Exceptions\ApiException $e) {
+                $thrown = true;
+                $this->assertEquals(
+                    'Unrecognized method put, must be [get, post, delete].',
+                    $e->getMessage()
+                );
+            }
+
+            $this->assertTrue($thrown);
+        }
     }
 
     /**
