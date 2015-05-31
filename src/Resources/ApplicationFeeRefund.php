@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Application Fee Refund Object
+ * Class ApplicationFeeRefund
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#fee_refunds
  *
  * @property string         id
@@ -21,7 +22,7 @@ use Arcanedev\Stripe\Resource;
 class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const BASE_CLASS = 'Arcanedev\\Stripe\\Resources\\ApplicationFee';

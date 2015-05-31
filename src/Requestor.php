@@ -12,8 +12,11 @@ use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use Arcanedev\Stripe\Utilities\Request\CurlClient;
 use Arcanedev\Stripe\Utilities\Request\SslChecker;
-use Arcanedev\Stripe\Utilities\RequestOptions;
 
+/**
+ * Class Requestor
+ * @package Arcanedev\Stripe
+ */
 class Requestor implements RequestorInterface
 {
     /* ------------------------------------------------------------------------------------------------

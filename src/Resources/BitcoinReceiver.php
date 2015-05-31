@@ -6,6 +6,9 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
+ * Class BitcoinReceiver
+ * @package Arcanedev\Stripe\Resources
+ *
  * @property string         id
  * @property string         object
  * @property string         description

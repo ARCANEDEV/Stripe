@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Contracts\StripeInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
 
+/**
+ * Class Stripe
+ * @package Arcanedev\Stripe
+ */
 abstract class Stripe implements StripeInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -50,7 +54,7 @@ abstract class Stripe implements StripeInterface
      *
      * @var string|null
      */
-    const VERSION = '2.0.0';
+    const VERSION = '2.1.4';
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

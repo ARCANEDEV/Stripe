@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Plan Object
+ * Class Plan
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#plan_object
  *
  * @property string         id
@@ -49,7 +50,7 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Plan[]
      */
     public static function all($params = [], $options = null)
     {

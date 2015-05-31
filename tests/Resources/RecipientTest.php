@@ -3,16 +3,20 @@
 use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Token;
-
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 class RecipientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const RECIPIENT_CLASS = 'Arcanedev\\Stripe\\Resources\\Recipient';
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
     /** @var Recipient */
     private $recipient;
 

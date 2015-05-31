@@ -5,7 +5,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Card Object
+ * Class Card
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#card_object
  *
  * @property string id
@@ -34,7 +35,7 @@ use Arcanedev\Stripe\Resource;
 class Card extends Resource implements CardInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';

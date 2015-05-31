@@ -5,6 +5,10 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use CURLFile;
 
+/**
+ * Class CurlClient
+ * @package Arcanedev\Stripe\Utilities\Request
+ */
 class CurlClient implements CurlClientInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -247,6 +251,47 @@ class CurlClient implements CurlClientInterface
         return class_exists('CURLFile')
             ? new CURLFile($metaData['uri'])
             : '@' . $metaData['uri'];
+    }
+
+    /**
+     * Encode array to query string
+     *
+     * @param array       $array
+     * @param string|null $prefix
+     *
+     * @return string
+     */
+    protected static function encode($array, $prefix = null)
+    {
+        if ( ! is_array($array)) {
+            return $array;
+        }
+
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            if (is_null($value)) {
+                continue;
+            }
+
+            if ($prefix and $key and !is_int($key)) {
+                $key = $prefix .'[' . $key . ']';
+            }
+            elseif ($prefix) {
+                $key = $prefix . '[]';
+            }
+
+            if (is_array($value)) {
+                if ($enc = self::encode($value, $key)) {
+                    $result[] = $enc;
+                }
+            }
+            else {
+                $result[] = urlencode($key) . '=' . urlencode($value);
+            }
+        }
+
+        return implode('&', $result);
     }
 
     /* ------------------------------------------------------------------------------------------------

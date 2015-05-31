@@ -8,7 +8,8 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Utilities\RequestOptions;
 
 /**
- * File Upload Object
+ * Class FileUpload
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/guides/file-upload
  *
  * @property string id

@@ -59,12 +59,12 @@ class RequestorTest extends StripeTestCase
             ]));
 
             // Preserves UTF-8
-            $v      = ['customer' => "☃"];
-            $this->assertEquals($v, $method->invoke(null, $v));
+            $value  = ['customer' => "☃"];
+            $this->assertEquals($value, $method->invoke(null, $value));
 
             // Encodes latin-1 -> UTF-8
-            $v      = ['customer' => "\xe9"];
-            $this->assertEquals(['customer' => "\xc3\xa9"], $method->invoke(null, $v));
+            $value  = ['customer' => "\xe9"];
+            $this->assertEquals(['customer' => "\xc3\xa9"], $method->invoke(null, $value));
         }
     }
 

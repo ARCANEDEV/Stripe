@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * The recipient object
+ * Class Recipient
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#recipient_object
  *
  * @property string         id

@@ -11,6 +11,9 @@ use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;
 
 /**
+ * Class Object
+ * @package Arcanedev\Stripe
+ *
  * @property string id
  * @property string object
  */

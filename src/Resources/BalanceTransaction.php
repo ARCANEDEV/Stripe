@@ -5,12 +5,12 @@ use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Balance Transaction Object
- *
+ * Class BalanceTransaction
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#balance_transaction_object
  *
  * @property string     id
- * @property string     object// "balance_transaction"
+ * @property string     object       // "balance_transaction"
  * @property int        amount
  * @property int        available_on
  * @property int        created

@@ -10,7 +10,7 @@ class HeaderBagTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const HEADERBAG_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\HeaderBag';
+    const HEADER_BAG_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\HeaderBag';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -46,7 +46,7 @@ class HeaderBagTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::HEADERBAG_CLASS, $this->headerBag);
+        $this->assertInstanceOf(self::HEADER_BAG_CLASS, $this->headerBag);
     }
 
     /** @test */
@@ -55,7 +55,7 @@ class HeaderBagTest extends StripeTestCase
         $headers = $this->headerBag->make($this->myApiKey);
 
         $this->assertEquals(4, count($headers));
-        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/2.0.0', $headers[1]);
+        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/2.1.4', $headers[1]);
         $this->assertEquals('Authorization: Bearer ' . $this->myApiKey, $headers[2]);
         $this->assertEquals('Content-Type: application/x-www-form-urlencoded', $headers[3]);
 
@@ -63,7 +63,7 @@ class HeaderBagTest extends StripeTestCase
         $headers = $this->headerBag->make($this->myApiKey, [], true);
 
         $this->assertEquals(5, count($headers));
-        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/2.0.0', $headers[1]);
+        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/2.1.4', $headers[1]);
         $this->assertEquals('Authorization: Bearer ' . $this->myApiKey, $headers[2]);
         $this->assertEquals('Content-Type: multipart/form-data', $headers[3]);
         $this->assertEquals('Stripe-Version: ' . $this->myApiVersion, $headers[4]);

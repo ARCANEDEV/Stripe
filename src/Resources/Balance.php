@@ -4,8 +4,8 @@ use Arcanedev\Stripe\Contracts\Resources\BalanceInterface;
 use Arcanedev\Stripe\SingletonResource;
 
 /**
- * Balance Object
- *
+ * Class Balance
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#balance_object
  *
  * @property string object   // "balance"

@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Charge Object
+ * Class Charge
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#charges
  *
  * @property string         id
@@ -36,7 +37,7 @@ use Arcanedev\Stripe\Resource;
 class Charge extends Resource implements ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const SAFE       = 'safe';

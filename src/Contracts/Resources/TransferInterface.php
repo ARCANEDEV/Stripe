@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Transfer;
+use Arcanedev\Stripe\Resources\TransferReversal;
 
 interface TransferInterface
 {
@@ -49,6 +50,16 @@ interface TransferInterface
      * @return Transfer
      */
     public function cancel();
+
+    /**
+     * Created transfer reversal
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return TransferReversal
+     */
+    public function reverse($params = null, $options = null);
 
     /**
      * Update/Save a Transfer

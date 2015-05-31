@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Coupon Object
+ * Class Coupon
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#coupons
  *
  * @property string         id

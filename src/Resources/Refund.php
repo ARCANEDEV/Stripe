@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Refund Object
+ * Class Refund
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#refund_object
  *
  * @property string         id

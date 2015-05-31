@@ -4,8 +4,9 @@ use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Dispute object
- * @see https://stripe.com/docs/api/php#dispute_object
+ * Class Dispute
+ * @package Arcanedev\Stripe\Resources
+ * @link https://stripe.com/docs/api/php#dispute_object
  *
  * @property string          object  // "dispute"
  * @property bool            livemode

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Contracts\RequestOptionsInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 
+/**
+ * Class RequestOptions
+ * @package Arcanedev\Stripe\Utilities
+ */
 class RequestOptions implements RequestOptionsInterface
 {
     /* ------------------------------------------------------------------------------------------------

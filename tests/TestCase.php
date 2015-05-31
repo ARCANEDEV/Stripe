@@ -1,8 +1,9 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
+use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends PHPUnit_Framework_TestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

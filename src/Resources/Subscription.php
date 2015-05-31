@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Subscription Object
+ * Class Subscription
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#subscription_object
  *
  * @property string         id

@@ -5,7 +5,8 @@ use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Account Object
+ * Class Account
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#account_object
  *
  * @property null   id

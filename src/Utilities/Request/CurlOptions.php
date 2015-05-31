@@ -6,6 +6,10 @@ use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class CurlOptions
+ * @package Arcanedev\Stripe\Utilities\Request
+ */
 class CurlOptions implements CurlOptionsInterface
 {
     /* ------------------------------------------------------------------------------------------------

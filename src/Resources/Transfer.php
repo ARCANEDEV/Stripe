@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Transfer object
+ * Class Transfer
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/curl#transfer_object
  *
  * @property string         id
@@ -55,7 +56,7 @@ class Transfer extends Resource implements TransferInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Transfer[]
      */
     public static function all($params = [], $options = null)
     {
@@ -85,6 +86,24 @@ class Transfer extends Resource implements TransferInterface
     public function cancel()
     {
         list($response, $opts) = $this->request('post', $this->instanceUrl() . '/cancel');
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
+
+    /**
+     * Created transfer reversal
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return TransferReversal
+     */
+    public function reverse($params = null, $options = null)
+    {
+        list($response, $opts) = $this->request(
+            'post', $this->instanceUrl() . '/reversals', $params, $options
+        );
         $this->refreshFrom($response, $opts);
 
         return $this;

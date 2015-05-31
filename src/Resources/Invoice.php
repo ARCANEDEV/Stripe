@@ -7,7 +7,8 @@ use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Invoice Object
+ * Class Invoice
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#invoices
  *
  * @property string         id

@@ -5,7 +5,8 @@ use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Application Fee Object
+ * Class ApplicationFee
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#application_fees
  *
  * @property string     id

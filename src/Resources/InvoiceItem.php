@@ -6,7 +6,8 @@ use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * InvoiceItem Object
+ * Class InvoiceItem
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#invoice_item_object
  *
  * @property string         id

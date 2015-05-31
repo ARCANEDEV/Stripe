@@ -5,7 +5,8 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * List Object
+ * Class Collection
+ * @package Arcanedev\Stripe
  *
  * @property string object
  * @property array  data

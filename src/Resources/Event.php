@@ -5,7 +5,8 @@ use Arcanedev\Stripe\Contracts\Resources\EventInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Event Object
+ * Class Event
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#event_object
  * @link https://stripe.com/docs/api/php#event_types
  *

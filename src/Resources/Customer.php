@@ -7,7 +7,8 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Customer Object
+ * Class Customer
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#customers
  *
  * @property int            id
@@ -29,12 +30,16 @@ use Arcanedev\Stripe\Resource;
 class Customer extends Resource implements CustomerInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const END_POINT_SUBSCRIPTION = 'subscription';
     const END_POINT_DISCOUNT     = 'discount';
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Allow to check attributes while setting
      *

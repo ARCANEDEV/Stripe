@@ -9,6 +9,10 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 
+/**
+ * Class Resource
+ * @package Arcanedev\Stripe
+ */
 abstract class Resource extends Object implements ResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -124,6 +128,20 @@ abstract class Resource extends Object implements ResourceInterface
         return "$base/$extn";
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Request Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Make a request
+     *
+     * @param string              $method
+     * @param string              $url
+     * @param array|null          $params
+     * @param array|string|null   $options
+     *
+     * @return array
+     */
     protected function request($method, $url, $params = [], $options = null)
     {
         $opts = $this->opts->merge($options);
@@ -131,9 +149,19 @@ abstract class Resource extends Object implements ResourceInterface
         return static::staticRequest($method, $url, $params, $opts);
     }
 
+    /**
+     * Make a request
+     *
+     * @param string              $method
+     * @param string              $url
+     * @param array|null          $params
+     * @param array|string|null   $options
+     *
+     * @return array
+     */
     protected static function staticRequest($method, $url, $params, $options)
     {
-        $opts      = RequestOptions::parse($options);
+        $opts = RequestOptions::parse($options);
 
         list($response, $opts->apiKey) = Requestor::make($opts->apiKey, static::baseUrl())
             ->request($method, $url, $params, $opts->headers);
@@ -143,6 +171,7 @@ abstract class Resource extends Object implements ResourceInterface
                 unset($opts->headers[$k]);
             }
         }
+
         return [$response, $opts];
     }
 
@@ -203,7 +232,7 @@ abstract class Resource extends Object implements ResourceInterface
     {
         self::checkArguments($params, $options);
 
-        $url   = static::classUrl();
+        $url = static::classUrl();
 
         list($response, $opts) = self::staticRequest('post', $url, $params, $options);
 
@@ -225,7 +254,7 @@ abstract class Resource extends Object implements ResourceInterface
 
         if (count($params) > 0) {
             self::checkArguments(null, $options);
-            list($response, $opts) = self::request('post', $this->instanceUrl(), $params, $options);
+            list($response, $opts) = $this->request('post', $this->instanceUrl(), $params, $options);
             $this->refreshFrom($response, $opts);
         }
 

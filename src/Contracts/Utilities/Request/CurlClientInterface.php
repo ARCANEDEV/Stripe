@@ -6,6 +6,10 @@ use Arcanedev\Stripe\Utilities\Request\CurlClient;
 
 interface CurlClientInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters and Setters
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Set API Key
      *
@@ -24,6 +28,10 @@ interface CurlClientInterface
      */
     public function setApiBaseUrl($apiBaseUrl);
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Curl the request
      *
@@ -38,4 +46,5 @@ interface CurlClientInterface
      * @return array
      */
     public function request($method, $url, $params, $headers);
+    
 }

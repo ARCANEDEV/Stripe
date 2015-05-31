@@ -9,7 +9,7 @@ class ChargeTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Charge';
+    const RESOURCE_CLASS         = 'Arcanedev\\Stripe\\Resources\\Charge';
     const BITCOIN_RECEIVER_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
 
     /* ------------------------------------------------------------------------------------------------
