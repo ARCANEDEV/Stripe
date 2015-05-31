@@ -29,7 +29,9 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var RequestOptions */
+    /**
+     * @var RequestOptions|string|array|null
+     */
     protected $opts;
 
     /** @var array */
@@ -86,8 +88,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Constructor
      *
-     * @param string|null       $id
-     * @param string|array|null $options
+     * @param string|null                      $id
+     * @param RequestOptions|string|array|null $options
      */
     public function __construct($id = null, $options = null)
     {
@@ -97,7 +99,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
-        $this->opts                      = $options ? $options : new RequestOptions();
+        $this->setOptions($options);
         $this->setId($id);
     }
 
@@ -105,6 +107,20 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      |  Getters & Setters (+Magics)
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Set options
+     *
+     * @param  RequestOptions|string|array|null $options
+     *
+     * @return $this
+     */
+    private function setOptions($options)
+    {
+        $this->opts = $options ?: new RequestOptions;
+
+        return $this;
+    }
+
     /**
      * Set Id
      *
@@ -118,7 +134,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     {
         $this->setIdIfArray($id);
 
-        if (! is_null($id)) {
+        if ( ! is_null($id)) {
             $this->id = $id;
         }
 
@@ -155,7 +171,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Standard get accessor
      *
-     * @param string|int $key
+     * @param  string|int $key
      *
      * @return mixed|null
      */
@@ -189,8 +205,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Set value
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param  string $key
+     * @param  mixed  $value
      *
      * @throws InvalidArgumentException
      */
@@ -200,8 +216,8 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
         $this->checkMetadataAttribute($key, $value);
 
         if (
-            self::$nestedUpdatableAttributes->includes($key) and
-            isset($this->$key) and
+            self::$nestedUpdatableAttributes->includes($key) &&
+            isset($this->$key) &&
             is_array($value)
         ) {
             $this->$key->replaceWith($value);
@@ -217,7 +233,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Check has a value by key
      *
-     * @param string $key
+     * @param  string $key
      *
      * @return bool
      */
@@ -252,7 +268,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Convert Object to array
      *
-     * @param bool $recursive
+     * @param  bool $recursive
      *
      * @return array
      */
@@ -341,13 +357,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Refreshes this object using the provided values.
      *
-     * @param array          $values
-     * @param RequestOptions $opts
-     * @param boolean        $partial
+     * @param array                       $values
+     * @param RequestOptions|string|array $opts
+     * @param boolean                     $partial
      */
     public function refreshFrom($values, $opts, $partial = false)
     {
-        $this->opts = $opts;
+        $this->setOptions($opts);
 
         $this->cleanObject($values, $partial);
 
@@ -397,7 +413,10 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function constructValue($key, $value, $opts)
     {
-        return (self::$nestedUpdatableAttributes->includes($key) and is_array($value))
+        return (
+            self::$nestedUpdatableAttributes->includes($key) &&
+            is_array($value)
+        )
             ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $opts)
             : Util::convertToStripeObject($value, $opts);
     }
@@ -405,7 +424,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     /**
      * Pretend to have late static bindings, even in PHP 5.2
      *
-     * @param string $method
+     * @param  string $method
      *
      * @return mixed
      */
@@ -445,7 +464,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkIdIsInArray($array)
     {
-        if (! array_key_exists('id', $array)) {
+        if ( ! array_key_exists('id', $array)) {
             throw new ApiException('The attribute id must be included.');
         }
     }
@@ -461,15 +480,15 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * @param string     $key
-     * @param mixed|null $value
+     * @param  string     $key
+     * @param  mixed|null $value
      *
      * @throws InvalidArgumentException
      */
     private function checkIfAttributeDeletion($key, $value)
     {
         // Don't use empty($value) instead of ($value === '')
-        if (! is_null($value) and $value === '') {
+        if ( ! is_null($value) && $value === '') {
             throw new InvalidArgumentException(
                 "You cannot set '$key' to an empty string. "
                 . 'We interpret empty strings as \'null\' in requests. '
@@ -479,16 +498,16 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * @param string     $key
-     * @param mixed|null $value
+     * @param  string     $key
+     * @param  mixed|null $value
      *
      * @throws InvalidArgumentException
      */
     private function checkMetadataAttribute($key, $value)
     {
         if (
-            $key === "metadata" and
-            (! is_array($value) and ! is_null($value))
+            $key === "metadata" &&
+            ( ! is_array($value) && ! is_null($value))
         ) {
             throw new InvalidArgumentException(
                 'The metadata value must be an array or null, ' . gettype($value) . ' is given'
@@ -503,7 +522,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkPermanentAttributes($key)
     {
-        if (! self::$permanentAttributes->includes($key)) {
+        if ( ! self::$permanentAttributes->includes($key)) {
             $this->unsavedValues->add($key);
         }
     }
@@ -517,10 +536,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      */
     private function checkUnsavedAttributes($supported)
     {
-        if (
-            $this->checkUnsavedAttributes == false or
-            count($supported) == 0
-        ) {
+        if ($this->checkUnsavedAttributes == false || count($supported) == 0) {
             return;
         }
 
@@ -569,7 +585,10 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function serializeNestedUpdatableAttributes(&$params)
     {
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
-            if (isset($this->$property) and $this->$property instanceof self) {
+            if (
+                isset($this->$property) &&
+                $this->$property instanceof self
+            ) {
                 $params[$property] = $this->$property->serializeParameters();
             }
         }
@@ -592,7 +611,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
                 $this->showUndefinedPropertyMsgAttributes();
         }
 
-        if (! is_testing()) {
+        if ( ! is_testing()) {
             error_log($message);
         }
     }
