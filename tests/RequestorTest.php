@@ -77,7 +77,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('checkApiKey');
 
-        $method->invoke(new Requestor('  '));
+        $method->invokeArgs(new Requestor('  '), []);
     }
 
     /**
@@ -89,7 +89,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('checkMethod');
 
-        $method->invoke($this->requestor, 'PUT');
+        $method->invokeArgs($this->requestor, ['PUT']);
     }
 
     /**
@@ -103,7 +103,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('interpretResponse');
 
-        $method->invoke($this->requestor, '{bad: data}', 200);
+        $method->invokeArgs($this->requestor, ['{bad: data}', 200]);
     }
 
     /* ------------------------------------------------------------------------------------------------
