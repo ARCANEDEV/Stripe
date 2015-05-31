@@ -4,7 +4,8 @@ use Arcanedev\Stripe\Contracts\Resources\TokenInterface;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Token Object
+ * Class Token
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/curl#token_object
  *
  * @property string id

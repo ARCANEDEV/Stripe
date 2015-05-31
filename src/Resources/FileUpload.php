@@ -1,14 +1,15 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
-use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\RequestOptions;
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\Utilities\RequestOptions;
 
 /**
- * File Upload Object
+ * Class FileUpload
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/guides/file-upload
  *
  * @property string id
@@ -112,7 +113,7 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 
 interface UtilInterface
 {
@@ -21,11 +21,11 @@ interface UtilInterface
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
      * @param  array  $response   - The response from the Stripe API.
-     * @param  string $apiKey
+     * @param  string $options
      *
-     * @return \Arcanedev\Stripe\Object|Resource|ListObject|array
+     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
      */
-    public static function convertToStripeObject($response, $apiKey);
+    public static function convertToStripeObject($response, $options);
 
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions

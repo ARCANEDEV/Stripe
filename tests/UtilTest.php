@@ -5,11 +5,6 @@ use Arcanedev\Stripe\Utilities\Util;
 class UtilTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-
-    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -42,8 +37,7 @@ class UtilTest extends StripeTestCase
     /** @test */
     public function can_check_that_php_has_value_semantics_for_arrays()
     {
-        $original   = ['php-arrays' => 'value-semantics'];
-        $derived    = $original;
+        $original = $derived = ['php-arrays' => 'value-semantics'];
         $derived['php-arrays'] = 'reference-semantics';
 
         $this->assertEquals('value-semantics', $original['php-arrays']);

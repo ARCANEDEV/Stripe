@@ -6,12 +6,17 @@ use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class CurlOptions
+ * @package Arcanedev\Stripe\Utilities\Request
+ */
 class CurlOptions implements CurlOptionsInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var array */
     protected $options = [];
 
     /* ------------------------------------------------------------------------------------------------
@@ -96,7 +101,7 @@ class CurlOptions implements CurlOptionsInterface
             CURLOPT_HTTPHEADER     => $headers,
         ]);
 
-        if (! Stripe::$verifySslCerts) {
+        if ( ! Stripe::$verifySslCerts) {
             $this->setOption(CURLOPT_SSL_VERIFYPEER, false);
         }
 

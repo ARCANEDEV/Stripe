@@ -7,6 +7,10 @@ use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 
+/**
+ * Class ErrorsHandler
+ * @package Arcanedev\Stripe\Utilities
+ */
 class ErrorsHandler implements ApiErrorsHandlerInterface
 {
     /* ------------------------------------------------------------------------------------------------

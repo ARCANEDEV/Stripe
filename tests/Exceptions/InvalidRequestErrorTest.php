@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests\Exceptions;
 
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -43,7 +41,7 @@ class InvalidRequestErrorTest extends StripeTestCase
      *
      * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
      * @expectedExceptionCode    400
-     * @expectedExceptionMessage You must supply either a card or a customer id
+     * @expectedExceptionMessage Must provide source or customer.
      */
     public function it_must_throw_invalid_request_exception_on_bad_data()
     {

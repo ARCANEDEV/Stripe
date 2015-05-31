@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\InvoiceItem;
 
 interface InvoiceItemInterface
@@ -27,7 +27,7 @@ interface InvoiceItemInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -46,17 +46,20 @@ interface InvoiceItemInterface
      * Update/Save an Invoice Item
      * @link https://stripe.com/docs/api/php#update_invoiceitem
      *
+     * @param  array|string|null $options
+     *
      * @return InvoiceItem
      */
-    public function save();
+    public function save($options = null);
 
     /**
      * Delete an Invoice Item
      * @link https://stripe.com/docs/api/php#delete_invoiceitem
      *
-     * @param array $params
+     * @param  array $params
+     * @param  array|string|null $options
      *
      * @return InvoiceItem
      */
-    public function delete($params = []);
+    public function delete($params = [], $options = null);
 }

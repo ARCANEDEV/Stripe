@@ -1,12 +1,13 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * InvoiceItem Object
+ * Class InvoiceItem
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#invoice_item_object
  *
  * @property string         id
@@ -39,7 +40,7 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      */
     public static function classUrl($class = '')
     {
-        return "/v1/invoiceitems";
+        return '/v1/invoiceitems';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -92,11 +93,13 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      * Update/Save an Invoice Item
      * @link https://stripe.com/docs/api/php#update_invoiceitem
      *
+     * @param  array|string|null $options
+     *
      * @return InvoiceItem
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
@@ -104,11 +107,12 @@ class InvoiceItem extends Resource implements InvoiceItemInterface
      * @link https://stripe.com/docs/api/php#delete_invoiceitem
      *
      * @param  array $params
+     * @param  array|string|null $options
      *
      * @return InvoiceItem
      */
-    public function delete($params = [])
+    public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params);
+        return parent::scopedDelete($params, $options);
     }
 }

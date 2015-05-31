@@ -20,7 +20,7 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.4",
+        "phpunit/phpunit": "~4.6",
         "phpunit/phpcov": "~2.0",
         "mockery/mockery": "~0.9"
     },
@@ -28,9 +28,7 @@
         "psr-4": {
             "Arcanedev\\Stripe\\": "src/"
         },
-        "files": [
-            "src/start.php"
-        ]
+        "files": ["src/start.php"]
     },
     "autoload-dev": {
         "psr-4": {

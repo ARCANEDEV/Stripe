@@ -1,15 +1,14 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
-use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\RequestOptions;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Invoice Object
+ * Class Invoice
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#invoices
  *
  * @property string         id
@@ -23,7 +22,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property string         customer
  * @property int            date
  * @property bool           forgiven
- * @property ListObject     lines
+ * @property Collection     lines
  * @property bool           paid
  * @property int            period_end
  * @property int            period_start
@@ -85,7 +84,7 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -96,11 +95,13 @@ class Invoice extends Resource implements InvoiceInterface
      * Update/Save an invoice
      * @link https://stripe.com/docs/api/php#update_invoice
      *
+     * @param  array|string|null $options
+     *
      * @return Invoice
      */
-    public function save()
+    public function save($options = null)
     {
-        return parent::scopedSave();
+        return parent::scopedSave($options);
     }
 
     /**
@@ -115,29 +116,27 @@ class Invoice extends Resource implements InvoiceInterface
     public static function upcoming($params = [], $options = null)
     {
         $url  = parent::classUrl(get_class()) . '/upcoming';
-        // TODO: Refactor RequestOptions to Requestor::make
-        $opts = RequestOptions::parse($options);
 
-        list($response, $apiKey) = Requestor::make($opts->getApiKey())
-            ->get($url, $params);
+        list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
-        return Util::convertToStripeObject($response, $apiKey);
+        return Util::convertToStripeObject($response, $opts);
     }
 
     /**
      * Pay an invoice
      * @link https://stripe.com/docs/api/php#pay_invoice
      *
+     * @param  array|string|null $options
+     *
      * @return Invoice
      */
-    public function pay()
+    public function pay($options = null)
     {
         $url = $this->instanceUrl() . '/pay';
 
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($url);
+        list($response, $opts) = $this->request('post', $url, [], $options);
 
-        $this->refreshFrom($response, $apiKey);
+        $this->refreshFrom($response, $opts);
 
         return $this;
     }

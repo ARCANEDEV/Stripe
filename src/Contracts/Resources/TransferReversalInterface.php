@@ -1,20 +1,19 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
+use Arcanedev\Stripe\Resources\TransferReversal;
 
-interface ApplicationFeeRefundInterface
+interface TransferReversalInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Update/Save an Application Fee Refund
-     * @link https://stripe.com/docs/api/php#update_fee_refund
+     * Saved the transfer reversal
      *
      * @param  array|string|null $options
      *
-     * @return ApplicationFeeRefund
+     * @return TransferReversal
      */
     public function save($options = null);
 }

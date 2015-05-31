@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Contracts\Utilities\Request\HeaderBagInterface;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class HeaderBag
+ * @package Arcanedev\Stripe\Utilities\Request
+ */
 class HeaderBag implements HeaderBagInterface
 {
     /* ------------------------------------------------------------------------------------------------

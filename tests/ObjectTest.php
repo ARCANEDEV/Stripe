@@ -39,11 +39,9 @@ class ObjectTest extends StripeTestCase
     public function it_can_be_instantiate()
     {
         $object = new Object('object-id', 'my-api-key');
-        $method = self::getObjectMethod('getApiKey');
 
         $this->assertInstanceOf(self::OBJECT_CLASS, $object);
         $this->assertEquals('object-id', $object->id);
-        $this->assertEquals('my-api-key', $method->invoke($object));
     }
 
     /** @test */

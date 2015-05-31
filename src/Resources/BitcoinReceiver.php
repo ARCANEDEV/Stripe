@@ -1,18 +1,21 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
+ * Class BitcoinReceiver
+ * @package Arcanedev\Stripe\Resources
+ *
  * @property string         id
  * @property string         object
  * @property string         description
  * @property string         currency
  * @property int            amount
  * @property AttachedObject metadata
- * @property ListObject     transactions
+ * @property Collection     transactions
  */
 class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
 {
@@ -56,7 +59,7 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $apiKey = null)
     {

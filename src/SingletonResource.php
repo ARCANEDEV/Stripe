@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe;
 
+/**
+ * Class SingletonResource
+ * @package Arcanedev\Stripe
+ */
 class SingletonResource extends Resource
 {
     /* ------------------------------------------------------------------------------------------------

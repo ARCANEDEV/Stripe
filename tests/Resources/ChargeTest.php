@@ -9,7 +9,7 @@ class ChargeTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Charge';
+    const RESOURCE_CLASS         = 'Arcanedev\\Stripe\\Resources\\Charge';
     const BITCOIN_RECEIVER_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
 
     /* ------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ class ChargeTest extends StripeTestCase
 
         $this->assertEquals($receiver->id, $charge->source->id);
         $this->assertEquals('bitcoin_receiver', $charge->source->object);
-        $this->assertEquals('paid', $charge->status);
+        $this->assertEquals('succeeded', $charge->status);
         $this->assertEquals(self::BITCOIN_RECEIVER_CLASS, get_class($charge->source));
     }
 

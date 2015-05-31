@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\EventInterface;
-use Arcanedev\Stripe\ListObject;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Event Object
+ * Class Event
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#event_object
  * @link https://stripe.com/docs/api/php#event_types
  *
@@ -47,7 +48,7 @@ class Event extends Resource implements EventInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {

@@ -1,12 +1,12 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
-use Arcanedev\Stripe\ListObject;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resource;
 
 /**
- * Application Fee Object
+ * Class ApplicationFee
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#application_fees
  *
  * @property string     id
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\Resource;
  * @property int        created // timestamp
  * @property string     currency
  * @property bool       refunded
- * @property ListObject refunds
+ * @property Collection refunds
  * @property int        amount_refunded
  */
 class ApplicationFee extends Resource implements ApplicationFeeInterface
@@ -67,7 +67,7 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -79,15 +79,16 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * @link https://stripe.com/docs/api/php#create_fee_refund
      *
      * @param  array|null $params
+     * @param  array|string|null $options
      *
      * @return ApplicationFee
      */
-    public function refund($params = [])
+    public function refund($params = [], $options = null)
     {
-        list($response, $apiKey) = Requestor::make($this->apiKey)
-            ->post($this->instanceUrl() . '/refund', $params);
+        // TODO: Refactor to Requestor::make()
+        list($response, $options) = $this->request('post', $this->instanceUrl() . '/refund', $params, $options);
 
-        $this->refreshFrom($response, $apiKey);
+        $this->refreshFrom($response, $options);
 
         return $this;
     }

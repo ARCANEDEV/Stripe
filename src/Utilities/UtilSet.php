@@ -1,10 +1,14 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
+use Arcanedev\Stripe\Contracts\Utilities\UtilSetInterface;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use Arcanedev\Stripe\Contracts\Utilities\UtilSetInterface;
 
+/**
+ * Class UtilSet
+ * @package Arcanedev\Stripe\Utilities
+ */
 class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
 {
     /* ------------------------------------------------------------------------------------------------
@@ -17,9 +21,6 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * @param array $attributes
      */
     public function __construct($attributes = [])
     {
@@ -45,6 +46,8 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
     }
 
     /**
+     * Add attribute
+     *
      * @param $attribute
      */
     public function add($attribute)

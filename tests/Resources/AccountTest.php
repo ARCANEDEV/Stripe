@@ -25,8 +25,6 @@ class AccountTest extends StripeTestCase
     public function setUp()
     {
         parent::setUp();
-
-        $this->account = Account::retrieve();
     }
 
     public function tearDown()
@@ -43,10 +41,18 @@ class AccountTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
+        $this->account = Account::retrieve();
         $this->assertInstanceOf(self::ACCOUNT_CLASS, $this->account);
-        $this->assertEquals("cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7", $this->account->id);
-        $this->assertEquals("test+bindings@stripe.com", $this->account->email);
+        $this->assertEquals('cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7', $this->account->id);
+        $this->assertEquals('test+bindings@stripe.com', $this->account->email);
         $this->assertFalse($this->account->charges_enabled);
         $this->assertFalse($this->account->details_submitted);
+    }
+
+    public function it_can_retrieve_by_Id()
+    {
+        $this->account = Account::retrieve('cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7');
+        $this->assertSame($this->account->id, "cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7");
+        $this->assertSame($this->account->email, "test+bindings@stripe.com");
     }
 }

@@ -14,7 +14,7 @@ class ResourceObject extends Resource
      * @param array $params
      * @param null  $apiKey
      *
-     * @return \Arcanedev\Stripe\ListObject
+     * @return \Arcanedev\Stripe\Collection
      */
     public static function all($params = [], $apiKey = null)
     {

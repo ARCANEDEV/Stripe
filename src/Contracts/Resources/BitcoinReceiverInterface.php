@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
 
 interface BitcoinReceiverInterface
@@ -39,7 +39,7 @@ interface BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $apiKey = null);
 

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 
 class ListObjectTest extends StripeTestCase
 {
@@ -8,14 +8,14 @@ class ListObjectTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\ListObject';
+    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Collection';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var ListObject */
-    private $listObject;
+    /** @var Collection */
+    private $collection;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -25,14 +25,14 @@ class ListObjectTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->listObject = new ListObject;
+        $this->collection = new Collection;
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
-        unset($this->listObject);
+        unset($this->collection);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ class ListObjectTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->listObject);
+        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->collection);
     }
 
     /**
@@ -52,6 +52,6 @@ class ListObjectTest extends StripeTestCase
      */
     public function it_must_throw_api_exception_when_url_is_empty()
     {
-        $this->listObject->all();
+        $this->collection->all();
     }
 }

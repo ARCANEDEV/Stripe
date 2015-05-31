@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\ListObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\ApplicationFee;
 
 interface ApplicationFeeInterface
@@ -27,7 +27,7 @@ interface ApplicationFeeInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return ListObject|array
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
@@ -36,8 +36,9 @@ interface ApplicationFeeInterface
      * @link https://stripe.com/docs/api/php#create_fee_refund
      *
      * @param  array|null $params
+     * @param  array|string|null $options
      *
      * @return ApplicationFee
      */
-    public function refund($params = []);
+    public function refund($params = [], $options = null);
 }

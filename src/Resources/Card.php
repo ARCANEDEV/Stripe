@@ -1,12 +1,12 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-
-use Arcanedev\Stripe\Resource;
 use Arcanedev\Stripe\Contracts\Resources\CardInterface;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Resource;
 
 /**
- * Card Object
+ * Class Card
+ * @package Arcanedev\Stripe\Resources
  * @link https://stripe.com/docs/api/php#card_object
  *
  * @property string id
@@ -35,7 +35,7 @@ use Arcanedev\Stripe\Contracts\Resources\CardInterface;
 class Card extends Resource implements CardInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
@@ -104,9 +104,11 @@ class Card extends Resource implements CardInterface
      * Save/Update a card
      * @link https://stripe.com/docs/api/php#update_card
      *
+     * @param  array|string|null $options
+     *
      * @return Card
      */
-    public function save()
+    public function save($options = null)
     {
         return parent::scopedSave();
     }
@@ -115,11 +117,12 @@ class Card extends Resource implements CardInterface
      * Delete a card
      * @link https://stripe.com/docs/api/php#delete_card
      *
-     * @param  array|null $params
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
      * @return Card
      */
-    public function delete($params = [])
+    public function delete($params = [], $options = null)
     {
         return parent::scopedDelete($params);
     }
