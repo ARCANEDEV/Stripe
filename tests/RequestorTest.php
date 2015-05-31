@@ -89,7 +89,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('checkMethod');
 
-        $method->invokeArgs($this->requestor, ['PUT']);
+        $method->invokeArgs(new Requestor, ['PUT']);
     }
 
     /**
@@ -103,7 +103,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('interpretResponse');
 
-        $method->invokeArgs($this->requestor, ['{bad: data}', 200]);
+        $method->invokeArgs(new Requestor, ['{bad: data}', 200]);
     }
 
     /* ------------------------------------------------------------------------------------------------
