@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Utilities\Request;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\Request\CurlClient;
+use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
 class CurlClientTest extends StripeTestCase
 {
@@ -9,14 +9,14 @@ class CurlClientTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const CURL_CLIENT_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\CurlClient';
+    const HTTP_CLIENT_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\HttpClient';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var CurlClient */
-    private $curlClient;
+    /** @var HttpClient */
+    private $httpClient;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -26,14 +26,14 @@ class CurlClientTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->curlClient = new CurlClient($this->myApiKey, 'https://www.stripe.com');
+        $this->httpClient = HttpClient::instance();
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
-        unset($this->curlClient);
+        unset($this->httpClient);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ class CurlClientTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::CURL_CLIENT_CLASS, $this->curlClient);
+        $this->assertInstanceOf(self::HTTP_CLIENT_CLASS, $this->httpClient);
     }
 
     /** @test */
@@ -53,7 +53,7 @@ class CurlClientTest extends StripeTestCase
 
         $this->assertEquals(
             'my=value&that%5Byour%5D=example&bar=1',
-            $method->invoke($this->curlClient, [
+            $method->invoke($this->httpClient, [
                 'my'    => 'value',
                 'that'  => [
                     'your' => 'example'
@@ -65,7 +65,7 @@ class CurlClientTest extends StripeTestCase
 
         $this->assertEquals(
             'that%5Byour%5D=example',
-            $method->invoke($this->curlClient, [
+            $method->invoke($this->httpClient, [
                 'that' => [
                     'your'  => 'example',
                     'foo'   => null
@@ -75,7 +75,7 @@ class CurlClientTest extends StripeTestCase
 
         $this->assertEquals(
             'that=example&foo%5B%5D=bar&foo%5B%5D=baz',
-            $method->invoke($this->curlClient, [
+            $method->invoke($this->httpClient, [
                 'that'  => 'example',
                 'foo'   => ['bar', 'baz']
             ])
@@ -83,7 +83,7 @@ class CurlClientTest extends StripeTestCase
 
         $this->assertEquals(
             'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1',
-            $method->invoke($this->curlClient, [
+            $method->invoke($this->httpClient, [
                 'my'    => 'value',
                 'that'  => [
                     'your' => ['cheese', 'whiz', null]
@@ -96,7 +96,7 @@ class CurlClientTest extends StripeTestCase
         // Ignores an empty array
         $this->assertEquals(
             'bar=baz',
-            $method->invoke($this->curlClient, [
+            $method->invoke($this->httpClient, [
                 'foo' => [],
                 'bar' => 'baz'
             ])
@@ -116,6 +116,6 @@ class CurlClientTest extends StripeTestCase
      */
     private function getCurlClientMethod($method)
     {
-        return parent::getMethod(self::CURL_CLIENT_CLASS, $method);
+        return parent::getMethod(self::HTTP_CLIENT_CLASS, $method);
     }
 }

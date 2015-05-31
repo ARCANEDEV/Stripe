@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe;
 
 use Arcanedev\Stripe\Contracts\RequestorInterface;
+use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
@@ -10,8 +11,7 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
-use Arcanedev\Stripe\Utilities\Request\CurlClient;
-use Arcanedev\Stripe\Utilities\Request\SslChecker;
+use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
 /**
  * Class Requestor
@@ -30,24 +30,26 @@ class Requestor implements RequestorInterface
      */
     private $apiKey;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $apiBaseUrl;
 
-    /** @var array */
-    private static $preFlight      = [];
+    /**
+     * @var HttpClientInterface
+     */
+    private static $httpClient;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private static $allowedMethods = [
         'get', 'post', 'delete'
     ];
 
-    /** @var CurlClient */
-    private $curlClient;
-
-    /** @var SslChecker */
-    private $sslChecker;
-
-    /** @var ErrorsHandler */
+    /**
+     * @var ErrorsHandler
+     */
     private $errorsHandler;
 
     /* ------------------------------------------------------------------------------------------------
@@ -62,11 +64,9 @@ class Requestor implements RequestorInterface
      */
     public function __construct($apiKey = null, $apiBase = null)
     {
-        $this->curlClient    = new CurlClient($apiKey, $apiBase);
-        $this->sslChecker    = new SslChecker;
-        $this->errorsHandler = new ErrorsHandler;
         $this->setApiKey($apiKey);
         $this->setApiBase($apiBase);
+        $this->errorsHandler = new ErrorsHandler;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ class Requestor implements RequestorInterface
     /**
      * Set API Key
      *
-     * @param string $apiKey
+     * @param  string $apiKey
      *
      * @return Requestor
      */
@@ -104,7 +104,7 @@ class Requestor implements RequestorInterface
     /**
      * Set API Base URL
      *
-     * @param string|null $apiBaseUrl
+     * @param  string|null $apiBaseUrl
      *
      * @return Requestor
      */
@@ -117,6 +117,28 @@ class Requestor implements RequestorInterface
         $this->apiBaseUrl = $apiBaseUrl;
 
         return $this;
+    }
+
+    /**
+     * Get the HTTP client
+     *
+     * @return HttpClientInterface
+     */
+    private function httpClient()
+    {
+        if ( ! self::$httpClient) {
+            self::$httpClient = HttpClient::instance();
+        }
+
+        return self::$httpClient;
+    }
+
+    /**
+     * Set the HTTP client
+     */
+    public static function setHttpClient(HttpClientInterface $client)
+    {
+        self::$httpClient = $client;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -190,12 +212,12 @@ class Requestor implements RequestorInterface
      *
      * @return array
      */
-    public function request($method, $url, $params = [], $headers = null)
+    public function request($method, $url, $params = null, $headers = null)
     {
         $this->checkApiKey();
         $this->checkMethod($method);
 
-        if ( ! is_array($params) || is_null($params)) {
+        if (is_null($params)) {
             $params = [];
         }
 
@@ -264,41 +286,14 @@ class Requestor implements RequestorInterface
      */
     private function requestRaw($method, $url, $params, $headers)
     {
-        if (
-            ! array_key_exists($this->apiBaseUrl, self::$preFlight) ||
-            ! self::$preFlight[$this->apiBaseUrl]
-        ) {
-            self::$preFlight[$this->apiBaseUrl] = $this->checkSslCert($this->apiBaseUrl);
-        }
-
         $absUrl = $this->apiBaseUrl . $url;
         $params = self::encodeObjects($params);
 
-        list($respBody, $respCode) = $this->curlClient->setApiKey($this->getApiKey())
+        list($respBody, $respCode) = $this->httpClient()
+            ->setApiKey($this->getApiKey())
             ->request($method, $absUrl, $params, $headers);
 
         return [$respBody, $respCode, $this->getApiKey()];
-    }
-
-    /**
-     * Preflight the SSL certificate presented by the backend. This isn't 100%
-     * bulletproof, in that we're not actually validating the transport used to
-     * communicate with Stripe, merely that the first attempt to does not use a
-     * revoked certificate.
-     *
-     * Unfortunately the interface to OpenSSL doesn't make it easy to check the
-     * certificate before sending potentially sensitive data on the wire. This
-     * approach raises the bar for an attacker significantly.
-     *
-     * @param  string $url
-     *
-     * @throws ApiConnectionException
-     *
-     * @return bool
-     */
-    private function checkSslCert($url)
-    {
-        return $this->sslChecker->checkCert($url);
     }
 
     /* ------------------------------------------------------------------------------------------------
