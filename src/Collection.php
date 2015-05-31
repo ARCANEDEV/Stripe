@@ -32,16 +32,13 @@ class Collection extends Resource implements CollectionInterface
      */
     public function all($params = [], $options = null)
     {
-        list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        list($response, $opts) = $this->request('get', $url, $params, $options);
-
-        return Util::convertToStripeObject($response, $opts);
+        return $this->requestAndConvertToStripeObject('get', $params, $options);
     }
 
     /**
      * Create Function
      *
-     * @param  array $params
+     * @param  array             $params
      * @param  array|string|null $options
      *
      * @throws ApiException
@@ -50,10 +47,7 @@ class Collection extends Resource implements CollectionInterface
      */
     public function create($params = [], $options = null)
     {
-        list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        list($response, $opts) = $this->request('post', $url, $params);
-
-        return Util::convertToStripeObject($response, $opts);
+        return $this->requestAndConvertToStripeObject('post', $params, $options);
     }
 
     /**
@@ -69,11 +63,30 @@ class Collection extends Resource implements CollectionInterface
      */
     public function retrieve($id, $params = [], $options = null)
     {
-        list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        $extn                  = urlencode(str_utf8($id));
-        list($response, $opts) = $this->request('get', "$url/$extn", $params);
+        return $this->requestAndConvertToStripeObject('get', $params, $options, $id);
+    }
 
-        return Util::convertToStripeObject($response, $opts);
+    /**
+     * Perform a request and convert the response to a stripe object
+     *
+     * @param  string             $method
+     * @param  array              $params
+     * @param  array|string|null  $options
+     * @param  string|null        $id
+     *
+     * @return self|\Arcanedev\Stripe\Resource|\Arcanedev\Stripe\Object|array
+     */
+    private function requestAndConvertToStripeObject($method, $params, $options, $id = null)
+    {
+        list($url, $params) = $this->extractPathAndUpdateParams($params);
+
+        if ( ! is_null($id)) {
+            $url            = $url . '/' . urlencode(str_utf8($id));
+        }
+
+        list($resp, $opts)  = $this->request($method, $url, $params, $options);
+
+        return Util::convertToStripeObject($resp, $opts);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -99,7 +112,7 @@ class Collection extends Resource implements CollectionInterface
      */
     private function checkPath(array $url)
     {
-        if (! isset($url['path']) or empty($url['path'])) {
+        if ( ! isset($url['path']) || empty($url['path'])) {
             throw new ApiException(
                 'Could not parse list url into parts: ' . $this->url
             );
@@ -117,7 +130,7 @@ class Collection extends Resource implements CollectionInterface
      */
     public function count()
     {
-        return ($this->isList() and isset($this->total_count))
+        return ($this->isList() && isset($this->total_count))
             ? $this->total_count
             : 0;
     }
