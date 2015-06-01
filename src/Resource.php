@@ -121,9 +121,8 @@ abstract class Resource extends Object implements ResourceInterface
             throw new InvalidRequestException($message, null);
         }
 
-        $id     = str_utf8($id);
         $base   = $this->lsb('classUrl', $class);
-        $extn   = urlencode($id);
+        $extn   = urlencode(str_utf8($id));
 
         return "$base/$extn";
     }
