@@ -34,11 +34,7 @@ class ChargeTest extends StripeTestCase
         $this->chargeData = [
             'amount'    => 100,
             'currency'  => 'usd',
-            'card'      => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => 2015
-            ],
+            'card'      => static::getValidCardData(),
         ];
     }
 
@@ -165,12 +161,8 @@ class ChargeTest extends StripeTestCase
         $this->charge = Charge::create([
             'amount'    => 100,
             'currency'  => 'usd',
-            'card'      => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => 2015
-            ],
-            'capture'  => false
+            'card'      => self::getValidCardData(),
+            'capture'   => false
         ]);
 
         $this->assertFalse($this->charge->captured);
