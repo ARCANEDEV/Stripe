@@ -202,7 +202,7 @@ abstract class StripeTestCase extends TestCase
         $card = [
             'number'    => '4242424242424242',
             'exp_month' => date('n'),
-            'exp_year'  => date('Y') + 3,
+            'exp_year'  => date('Y') + 1,
         ];
 
         if ($cvc !== null) {
