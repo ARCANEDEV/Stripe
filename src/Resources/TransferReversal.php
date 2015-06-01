@@ -45,7 +45,7 @@ class TransferReversal extends Resource implements TransferReversalInterface
      *
      * @param  array|string|null $options
      *
-     * @return TransferReversal
+     * @return self
      */
     public function save($options = null)
     {

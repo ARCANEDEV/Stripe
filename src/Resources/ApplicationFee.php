@@ -53,11 +53,11 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return ApplicationFee
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -67,21 +67,21 @@ class ApplicationFee extends Resource implements ApplicationFeeInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|ApplicationFee[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
      * Creating an Application Fee Refund
      * @link https://stripe.com/docs/api/php#create_fee_refund
      *
-     * @param  array|null $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return ApplicationFee
+     * @return self
      */
     public function refund($params = [], $options = null)
     {

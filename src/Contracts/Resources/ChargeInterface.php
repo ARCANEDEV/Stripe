@@ -16,7 +16,7 @@ interface ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Charge[]
      */
     public static function all($params = [], $options = null);
 

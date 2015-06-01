@@ -36,7 +36,7 @@ class SingletonResource extends Resource
      */
     public static function classUrl($class = '')
     {
-        $base = parent::className($class);
+        $base = self::className($class);
 
         return "/v1/${base}";
     }

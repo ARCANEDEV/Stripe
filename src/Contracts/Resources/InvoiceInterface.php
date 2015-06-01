@@ -38,7 +38,7 @@ interface InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Invoice[]
      */
     public static function all($params = [], $options = null);
 

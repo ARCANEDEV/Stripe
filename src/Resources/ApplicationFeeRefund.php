@@ -45,7 +45,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
         $id      = $this['id'];
         $fee     = $this['fee'];
 
-        $base    = parent::classUrl(self::BASE_CLASS);
+        $base    = self::classUrl(self::BASE_CLASS);
         $feeExtn = urlencode(str_utf8($fee));
         $extn    = urlencode(str_utf8($id));
 
@@ -62,11 +62,11 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      *
      * @param  array|string|null $options
      *
-     * @return ApplicationFeeRefund
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInter
      */
     protected function checkId($id)
     {
-        if (! $id) {
+        if ( ! $id) {
             throw new InvalidRequestException(
                 'Could not determine which URL to request: class instance has invalid ID: ' . $id,
                 400

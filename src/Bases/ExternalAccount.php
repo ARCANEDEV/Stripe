@@ -10,16 +10,6 @@ use Arcanedev\Stripe\Resource;
 abstract class ExternalAccount extends Resource
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const ACCOUNT_CLASS     = 'Arcanedev\\Stripe\\Resources\\Account';
-
-    const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
-
-    const RECIPIENT_CLASS   = 'Arcanedev\\Stripe\\Resources\\Recipient';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -44,23 +34,24 @@ abstract class ExternalAccount extends Resource
 
         if ($this['account']) {
             $parent = $this['account'];
-            $base   = parent::classUrl(self::ACCOUNT_CLASS);
+            $class  = 'Arcanedev\\Stripe\\Resources\\Account';
             $path   = 'external_accounts';
         }
         elseif ($this['customer']) {
             $parent = $this['customer'];
-            $base   = parent::classUrl(self::CUSTOMER_CLASS);
+            $class  = 'Arcanedev\\Stripe\\Resources\\Customer';
             $path   = 'sources';
         }
         elseif ($this['recipient']) {
             $parent = $this['recipient'];
-            $base   = parent::classUrl(self::RECIPIENT_CLASS);
+            $class  = 'Arcanedev\\Stripe\\Resources\\Recipient';
             $path   = 'cards';
         }
         else {
             return null;
         }
 
+        $base       = self::classUrl($class);
         $parentExtn = urlencode(str_utf8($parent));
         $extn       = str_utf8($id);
 

@@ -31,31 +31,4 @@ use Arcanedev\Stripe\Contracts\Resources\CardInterface;
  * @property string name
  * @property string recipient
  */
-class Card extends ExternalAccount implements CardInterface
-{
-    /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
-
-    const RECIPIENT_CLASS   = 'Arcanedev\\Stripe\\Resources\\Recipient';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Construct Card from array values
-     * @todo: clean this
-     *
-     * @param  array $values
-     * @param  null  $apiKey
-     *
-     * @return Card
-     */
-    //public static function constructFrom($values, $apiKey = null)
-    //{
-    //    return self::scopedConstructFrom(get_class(), $values, $apiKey);
-    //}
-}
+class Card extends ExternalAccount implements CardInterface {}

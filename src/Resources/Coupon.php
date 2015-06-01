@@ -38,11 +38,11 @@ class Coupon extends Resource implements CouponInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Coupon
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -52,11 +52,11 @@ class Coupon extends Resource implements CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -66,11 +66,11 @@ class Coupon extends Resource implements CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Coupon|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -79,11 +79,11 @@ class Coupon extends Resource implements CouponInterface
      *
      * @param  array|string|null $options
      *
-     * @return Coupon
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
@@ -93,10 +93,10 @@ class Coupon extends Resource implements CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Coupon
+     * @return self
      */
     public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params, $options);
+        return self::scopedDelete($params, $options);
     }
 }

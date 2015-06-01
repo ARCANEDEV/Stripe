@@ -39,7 +39,7 @@ interface BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return Collection|array
+     * @return Collection|BitcoinReceiver[]
      */
     public static function all($params = [], $apiKey = null);
 

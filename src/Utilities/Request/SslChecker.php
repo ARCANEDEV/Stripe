@@ -35,7 +35,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @param string $url
      *
-     * @return SslChecker
+     * @return self
      */
     public function setUrl($url)
     {
@@ -60,7 +60,7 @@ class SslChecker implements SslCheckerInterface
      * certificate before sending potentially sensitive data on the wire. This
      * approach raises the bar for an attacker significantly.
      *
-     * @param string $url
+     * @param  string $url
      *
      * @throws ApiConnectionException
      *
@@ -68,7 +68,7 @@ class SslChecker implements SslCheckerInterface
      */
     public function checkCert($url)
     {
-        if (! $this->hasStreamExtensions()) {
+        if ( ! $this->hasStreamExtensions()) {
             return $this->showStreamExtensionWarning();
         }
 
@@ -143,7 +143,7 @@ class SslChecker implements SslCheckerInterface
      */
     private function hasStreamExtensions()
     {
-        return function_exists('stream_context_get_params') and
+        return function_exists('stream_context_get_params') &&
                function_exists('stream_socket_enable_crypto');
     }
 
@@ -159,7 +159,7 @@ class SslChecker implements SslCheckerInterface
     private function checkResult($result, $errorNo, $errorStr)
     {
         if (
-            ($errorNo !== 0 and $errorNo !== null) or
+            ($errorNo !== 0 && $errorNo !== null) ||
             $result === false
         ) {
             $stripeStatus = 'https://twitter.com/stripestatus';
@@ -195,7 +195,7 @@ class SslChecker implements SslCheckerInterface
     /**
      * Prepare SSL URL
      *
-     * @param string $url
+     * @param  string $url
      *
      * @return string
      */
@@ -239,7 +239,7 @@ class SslChecker implements SslCheckerInterface
      */
     public static function caBundle()
     {
-        $path = realpath(__DIR__ . '/../../data/ca-certificates.crt');
+        $path = realpath(__DIR__ . '/../../../data/ca-certificates.crt');
 
         // TODO: Add checkPathExists method
 
@@ -257,7 +257,7 @@ class SslChecker implements SslCheckerInterface
             ' does not support checking SSL certificates Stripe cannot guarantee that the server has a ' .
             'certificate which is not blacklisted.';
 
-        if (! is_testing()) {
+        if ( ! is_testing()) {
             error_log($message);
         }
 

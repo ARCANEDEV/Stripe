@@ -56,11 +56,11 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Invoice|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -70,11 +70,11 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Invoice
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -84,11 +84,11 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -97,11 +97,11 @@ class Invoice extends Resource implements InvoiceInterface
      *
      * @param  array|string|null $options
      *
-     * @return Invoice
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
@@ -111,11 +111,11 @@ class Invoice extends Resource implements InvoiceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Invoice|array
+     * @return self|array
      */
     public static function upcoming($params = [], $options = null)
     {
-        $url  = parent::classUrl(get_class()) . '/upcoming';
+        $url  = self::classUrl(get_class()) . '/upcoming';
 
         list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
@@ -128,7 +128,7 @@ class Invoice extends Resource implements InvoiceInterface
      *
      * @param  array|string|null $options
      *
-     * @return Invoice
+     * @return self
      */
     public function pay($options = null)
     {

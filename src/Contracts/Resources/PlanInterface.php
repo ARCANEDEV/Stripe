@@ -27,7 +27,7 @@ interface PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Plan[]
      */
     public static function all($params = [], $options = null);
 

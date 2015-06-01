@@ -28,12 +28,12 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
     /** @var array */
     private static $exceptions = [
-        400 => '\\Arcanedev\\Stripe\\Exceptions\\InvalidRequestException',
-        401 => '\\Arcanedev\\Stripe\\Exceptions\\AuthenticationException',
-        402 => '\\Arcanedev\\Stripe\\Exceptions\\CardException',
-        404 => '\\Arcanedev\\Stripe\\Exceptions\\InvalidRequestException',
-        429 => '\\Arcanedev\\Stripe\\Exceptions\\RateLimitException',
-        500 => '\\Arcanedev\\Stripe\\Exceptions\\ApiException',
+        400 => 'InvalidRequestException',
+        401 => 'AuthenticationException',
+        402 => 'CardException',
+        404 => 'InvalidRequestException',
+        429 => 'RateLimitException',
+        500 => 'ApiException',
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -43,9 +43,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Set Response body (JSON)
      *
-     * @param string $respBody
+     * @param  string $respBody
      *
-     * @return ErrorsHandler
+     * @return self
      */
     private function setRespBody($respBody)
     {
@@ -57,9 +57,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Set Response Code
      *
-     * @param int $respCode
+     * @param  int $respCode
      *
-     * @return ErrorsHandler
+     * @return self
      */
     private function setRespCode($respCode)
     {
@@ -71,9 +71,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Set Response
      *
-     * @param array $response
+     * @param  array $response
      *
-     * @return $this
+     * @return self
      */
     private function setResponse($response)
     {
@@ -91,21 +91,21 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      */
     private function getException()
     {
-        return $this->hasException()
-            ? $this->getExceptionByCode($this->respCode)
-            : $this->getExceptionByCode(500);
+        return $this->getExceptionByCode(
+            $this->hasException() ? $this->respCode : 500
+        );
     }
 
     /**
      * Get Exception class by status code
      *
-     * @param int $code
+     * @param  int $code
      *
      * @return string
      */
     private function getExceptionByCode($code)
     {
-        return self::$exceptions[$code];
+        return '\\Arcanedev\\Stripe\\Exceptions\\' . self::$exceptions[$code];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -115,21 +115,19 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Handle API Errors
      *
-     * @param string $respBody
-     * @param int    $respCode
-     * @param array  $response
+     * @param  string $respBody
+     * @param  int    $respCode
+     * @param  array  $response
      *
      * @throws ApiException
      * @throws AuthenticationException
      * @throws CardException
      * @throws InvalidRequestException
      * @throws RateLimitException
-     *
-     * @return void
      */
     public function handle($respBody, $respCode, $response)
     {
-        if ($respCode >= 200 and $respCode < 300) {
+        if ($respCode >= 200 && $respCode < 300) {
             return;
         }
 
@@ -141,7 +139,10 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
         $exception = $this->getException();
 
-        if ($this->respCode === 400 and $stripeCode === 'rate_limit') {
+        if (
+            $this->respCode === 400 &&
+            $stripeCode === 'rate_limit'
+        ) {
             $this->setRespCode(429);
             $exception = $this->getExceptionByCode(429);
         }
@@ -162,27 +163,15 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if has Response
-     *
-     * @param $response
-     *
-     * @return bool
-     */
-    private function hasErrorResponse($response)
-    {
-        return is_array($response) and isset($response['error']);
-    }
-
-    /**
      * Check Response
      *
-     * @param mixed $response
+     * @param  mixed $response
      *
      * @throws ApiException
      */
     private function checkResponse($response)
     {
-        if (! $this->hasErrorResponse($response)) {
+        if ( ! $this->hasErrorResponse($response)) {
             $msg = str_replace([
                 '{resp-body}',
                 '{resp-code}'
@@ -193,6 +182,18 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
             throw new ApiException($msg, $this->respCode, $this->respBody, $response);
         }
+    }
+
+    /**
+     * Check if has Response
+     *
+     * @param  mixed $response
+     *
+     * @return bool
+     */
+    private function hasErrorResponse($response)
+    {
+        return is_array($response) && isset($response['error']);
     }
 
     /**
@@ -227,7 +228,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Get Error attribute
      *
-     * @param string $name
+     * @param  string $name
      *
      * @return mixed
      */
@@ -239,7 +240,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
             $error   = $this->response['error'][$name];
         }
 
-        if ($name === 'param' and is_null($error)) {
+        if ($name === 'param' && is_null($error)) {
             $ignored = ['type', 'message', 'code'];
             $error   = array_diff_key($this->response['error'], array_flip($ignored));
         }

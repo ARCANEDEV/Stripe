@@ -45,14 +45,18 @@ class Account extends Resource implements AccountInterface
      * Retrieve an account
      * @link https://stripe.com/docs/api/php#retrieve_account
      *
-     * @param  string|null $id
+     * @param  string|null       $id
      * @param  array|string|null $options
      *
-     * @return Account
+     * @return self
      */
     public static function retrieve($id = null, $options = null)
     {
-        if ( ! $options and is_string($id) and substr($id, 0, 3) === 'sk_') {
+        if (
+            ! $options &&
+            is_string($id) &&
+            substr($id, 0, 3) === 'sk_'
+        ) {
             $options = $id;
             $id      = null;
         }
@@ -66,7 +70,7 @@ class Account extends Resource implements AccountInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Account
+     * @return self
      */
     public static function create($params = null, $options = null)
     {
@@ -78,7 +82,7 @@ class Account extends Resource implements AccountInterface
      *
      * @param  array|string|null $options
      *
-     * @return Account
+     * @return self
      */
     public function save($options = null)
     {
@@ -91,7 +95,7 @@ class Account extends Resource implements AccountInterface
      * @param  array|null $params
      * @param  array|string|null $options
      *
-     * @return Collection
+     * @return Collection|self[]
      */
     public static function all($params = null, $options = null)
     {

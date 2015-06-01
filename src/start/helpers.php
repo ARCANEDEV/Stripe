@@ -4,7 +4,7 @@
  |  SYSTEM
  | ------------------------------------------------------------------------------------------------
  */
-if (! function_exists('is_testing')) {
+if ( ! function_exists('is_testing')) {
     /**
      * Check if testing environment
      *
@@ -16,7 +16,7 @@ if (! function_exists('is_testing')) {
     }
 }
 
-if (! function_exists('is_hhvm')) {
+if ( ! function_exists('is_hhvm')) {
     /**
      * Check if running on HHVM env
      *
@@ -32,7 +32,7 @@ if (! function_exists('is_hhvm')) {
  |  STRINGS
  | ------------------------------------------------------------------------------------------------
  */
-if (! function_exists('str_utf8')) {
+if ( ! function_exists('str_utf8')) {
     /**
      * Encoding string to UTF-8
      *
@@ -43,8 +43,8 @@ if (! function_exists('str_utf8')) {
     function str_utf8($string)
     {
         if (
-            is_string($string)
-            and mb_detect_encoding($string, "UTF-8", true) != "UTF-8"
+            is_string($string) &&
+            mb_detect_encoding($string, 'UTF-8', true) != 'UTF-8'
         ) {
             $string = utf8_encode($string);
         }
@@ -53,7 +53,7 @@ if (! function_exists('str_utf8')) {
     }
 }
 
-if (! function_exists('str_parse_url')) {
+if ( ! function_exists('str_parse_url')) {
     /**
      * Parse url with queries
      *
@@ -64,15 +64,15 @@ if (! function_exists('str_parse_url')) {
      */
     function str_parse_url($baseUrl, $queries = [])
     {
-        if (! is_string($baseUrl) or empty($queries)) {
+        if (! is_string($baseUrl) || empty($queries)) {
             return $baseUrl;
         }
 
-        return $baseUrl . "?". str_url_queries($queries);
+        return $baseUrl . '?'. str_url_queries($queries);
     }
 }
 
-if (! function_exists('str_url_queries')) {
+if ( ! function_exists('str_url_queries')) {
     /**
      *  A query string, essentially.
      *
@@ -83,7 +83,7 @@ if (! function_exists('str_url_queries')) {
      */
     function str_url_queries($queries, $prefix = null)
     {
-        if (! is_array($queries)) {
+        if ( ! is_array($queries)) {
             return $queries;
         }
 
@@ -95,19 +95,19 @@ if (! function_exists('str_url_queries')) {
             }
 
             if ($prefix) {
-                $key = $prefix . (($key and ! is_int($key)) ? "[$key]" : "[]");
+                $key = $prefix . (($key && ! is_int($key)) ? "[$key]" : '[]');
             }
 
             $output[] = is_array($value)
                 ? str_url_queries($value, $key)
-                : urlencode($key) . "=" . urlencode($value);
+                : urlencode($key) . '=' . urlencode($value);
         }
 
-        return implode("&", $output);
+        return implode('&', $output);
     }
 }
 
-if (! function_exists('str_split_camelcase')) {
+if ( ! function_exists('str_split_camelcase')) {
     /**
      * Split Camel Case String
      *
@@ -118,7 +118,7 @@ if (! function_exists('str_split_camelcase')) {
      */
     function str_split_camelcase($string, $glue = ' ')
     {
-        if (! is_string($string)) {
+        if ( ! is_string($string)) {
             return $string;
         }
 

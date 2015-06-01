@@ -64,11 +64,11 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      * @param  string      $id
      * @param  string|null $apiKey
      *
-     * @return BitcoinReceiver
+     * @return self
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return parent::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -77,11 +77,11 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $apiKey = null)
     {
-        return parent::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 
     /**
@@ -90,10 +90,10 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return BitcoinReceiver|array
+     * @return self|array
      */
     public static function create($params = [], $apiKey = null)
     {
-        return parent::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $apiKey);
     }
 }

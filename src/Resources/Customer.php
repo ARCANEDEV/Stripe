@@ -34,6 +34,7 @@ class Customer extends Resource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     const END_POINT_SUBSCRIPTION = 'subscription';
+
     const END_POINT_DISCOUNT     = 'discount';
 
     /* ------------------------------------------------------------------------------------------------
@@ -86,11 +87,11 @@ class Customer extends Resource implements CustomerInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Customer
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -100,7 +101,7 @@ class Customer extends Resource implements CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
@@ -114,11 +115,11 @@ class Customer extends Resource implements CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Customer|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -127,11 +128,11 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param  array|string|null $options
      *
-     * @return Customer
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
@@ -141,11 +142,11 @@ class Customer extends Resource implements CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Customer
+     * @return self
      */
     public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params, $options);
+        return self::scopedDelete($params, $options);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -171,7 +172,7 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|Invoice[]
      */
     public function invoices($params = [])
     {
@@ -185,7 +186,7 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|InvoiceItem[]
      */
     public function invoiceItems($params = [])
     {
@@ -199,7 +200,7 @@ class Customer extends Resource implements CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|Charge[]
      */
     public function charges($params = [])
     {
@@ -246,8 +247,9 @@ class Customer extends Resource implements CustomerInterface
     public function deleteDiscount()
     {
         list($response, $opts) = $this->request('delete', $this->getDiscountUrl());
-        unset($response);
+
         $this->refreshFrom(['discount' => null], $opts, true);
+        unset($response);
 
         return $this;
     }
@@ -263,7 +265,7 @@ class Customer extends Resource implements CustomerInterface
      */
     private function appCustomerParam(&$params)
     {
-        if (! $params) {
+        if (empty($params)) {
             $params = [];
         }
         $params['customer'] = $this->id;

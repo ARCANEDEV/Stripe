@@ -27,7 +27,7 @@ interface EventInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Event[]
      */
     public static function all($params = [], $options = null);
 }

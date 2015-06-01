@@ -96,7 +96,7 @@ abstract class Util implements UtilInterface
      * @param  array $response   - The response from the Stripe API.
      * @param  array $options
      *
-     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
+     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|Collection|array
      */
     public static function convertToStripeObject($response, $options)
     {
@@ -158,13 +158,13 @@ abstract class Util implements UtilInterface
      */
     public static function isList($array)
     {
-        if (! is_array($array)) {
+        if ( ! is_array($array)) {
             return false;
         }
 
         // TODO: generally incorrect, but it's correct given Stripe's response
         foreach (array_keys($array) as $k) {
-            if (! is_numeric($k)) {
+            if ( ! is_numeric($k)) {
                 return false;
             }
         }
@@ -180,8 +180,8 @@ abstract class Util implements UtilInterface
     private static function isClassTypeObjectExist($response)
     {
         if (
-            isset($response['object'])
-            and is_string($response['object'])
+            isset($response['object']) &&
+            is_string($response['object'])
         ) {
             return self::isInAvailableResources($response['object']);
         }
@@ -190,6 +190,8 @@ abstract class Util implements UtilInterface
     }
 
     /**
+     * Check is an available resource
+     *
      * @param  string $object
      *
      * @return bool
