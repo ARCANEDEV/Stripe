@@ -1,7 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Customer;
+use Arcanedev\Stripe\Resources\Invoice;
 use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Resources\Subscription;
 
@@ -29,7 +31,7 @@ interface CustomerInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Customer[]
      */
     public static function all($params = [], $options = null);
 
@@ -82,7 +84,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|Invoice[]
      */
     public function invoices($params = []);
 
@@ -91,7 +93,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|InvoiceItem[]
      */
     public function invoiceItems($params = []);
 
@@ -100,7 +102,7 @@ interface CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return Collection|Charge[]
      */
     public function charges($params = []);
 

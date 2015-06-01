@@ -23,6 +23,6 @@ class BitcoinTransaction extends Resource implements BitcoinTransactionInterface
      */
     public static function classUrl($class = '')
     {
-        return "/v1/bitcoin/transactions";
+        return '/v1/bitcoin/transactions';
     }
 }

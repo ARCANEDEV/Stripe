@@ -121,9 +121,8 @@ abstract class Resource extends Object implements ResourceInterface
             throw new InvalidRequestException($message, null);
         }
 
-        $id     = str_utf8($id);
         $base   = $this->lsb('classUrl', $class);
-        $extn   = urlencode($id);
+        $extn   = urlencode(str_utf8($id));
 
         return "$base/$extn";
     }
@@ -336,7 +335,7 @@ abstract class Resource extends Object implements ResourceInterface
      */
     private static function checkParameters($params)
     {
-        if ($params and ! is_array($params)) {
+        if ($params && ! is_array($params)) {
             $message = 'You must pass an array as the first argument to Stripe API method calls.  '
                 . '(HINT: an example call to create a charge would be: '
                 . 'StripeCharge::create([\'amount\' => 100, \'currency\' => \'usd\', '
@@ -356,9 +355,9 @@ abstract class Resource extends Object implements ResourceInterface
      */
     private static function checkOptions($options)
     {
-        if ($options and (
-                ! $options instanceof RequestOptions and
-                ! is_string($options) and
+        if ($options && (
+                ! $options instanceof RequestOptions &&
+                ! is_string($options) &&
                 ! is_array($options)
             )
         ) {
@@ -369,9 +368,4 @@ abstract class Resource extends Object implements ResourceInterface
             throw new ApiException($message, 500);
         }
     }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
 }

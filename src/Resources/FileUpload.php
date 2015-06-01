@@ -26,7 +26,7 @@ class FileUpload extends Resource implements FileUploadInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const END_POINT = "/v1/files";
+    const END_POINT = '/v1/files';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -76,7 +76,7 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return FileUpload
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
@@ -100,11 +100,11 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return FileUpload|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -113,10 +113,10 @@ class FileUpload extends Resource implements FileUploadInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 }

@@ -27,7 +27,7 @@ interface ApplicationFeeInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|ApplicationFee[]
      */
     public static function all($params = [], $options = null);
 

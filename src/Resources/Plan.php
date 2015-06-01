@@ -36,11 +36,11 @@ class Plan extends Resource implements PlanInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Plan
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -50,11 +50,11 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|Plan[]
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -64,11 +64,11 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Plan|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -77,11 +77,11 @@ class Plan extends Resource implements PlanInterface
      *
      * @param  array|string|null $options
      *
-     * @return Plan
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
@@ -91,10 +91,10 @@ class Plan extends Resource implements PlanInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Plan
+     * @return self
      */
     public function delete($params = [], $options = null)
     {
-        return parent::scopedDelete($params, $options);
+        return self::scopedDelete($params, $options);
     }
 }

@@ -41,10 +41,10 @@ interface AccountInterface
     /**
      * Get all accounts
      *
-     * @param  array|null $params
+     * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection
+     * @return Collection|Account[]
      */
     public static function all($params = null, $options = null);
 }

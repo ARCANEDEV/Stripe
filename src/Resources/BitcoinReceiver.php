@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Bases\ExternalAccount;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
-use Arcanedev\Stripe\Resource;
 
 /**
  * Class BitcoinReceiver
@@ -17,12 +17,30 @@ use Arcanedev\Stripe\Resource;
  * @property AttachedObject metadata
  * @property Collection     transactions
  */
-class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
+class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @return string The instance URL for this resource. It needs to be special
+     *    cased because it doesn't fit into the standard resource pattern.
+     */
+    public function instanceUrl()
+    {
+        $result = parent::instanceUrl();
+
+        if ($result === null) {
+            $extn   = urlencode(str_utf8($this['id']));
+            $base   = self::classUrl();
+
+            $result = "$base/$extn";
+        }
+
+        return $result;
+    }
+
     /**
      * The class URL for this resource.
      * It needs to be special cased because it doesn't fit into the standard resource pattern.
@@ -33,7 +51,7 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      */
     public static function classUrl($class = '')
     {
-        return "/v1/bitcoin/receivers";
+        return '/v1/bitcoin/receivers';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -46,11 +64,11 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  string      $id
      * @param  string|null $apiKey
      *
-     * @return BitcoinReceiver
+     * @return self
      */
     public static function retrieve($id, $apiKey = null)
     {
-        return parent::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $apiKey);
     }
 
     /**
@@ -59,11 +77,11 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $apiKey = null)
     {
-        return parent::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $apiKey);
     }
 
     /**
@@ -72,20 +90,10 @@ class BitcoinReceiver extends Resource implements BitcoinReceiverInterface
      * @param  array|null  $params
      * @param  string|null $apiKey
      *
-     * @return BitcoinReceiver|array
+     * @return self|array
      */
     public static function create($params = [], $apiKey = null)
     {
-        return parent::scopedCreate($params, $apiKey);
-    }
-
-    /**
-     * Save Bitcoin Receiver Object
-     *
-     * @return BitcoinReceiver
-     */
-    public function save()
-    {
-        return parent::scopedSave();
+        return self::scopedCreate($params, $apiKey);
     }
 }

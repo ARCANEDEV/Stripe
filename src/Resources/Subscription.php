@@ -35,25 +35,25 @@ class Subscription extends Resource implements SubscriptionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get the instance URL
+     *
      * @throws InvalidRequestException
      *
      * @return string The API URL for this Stripe subscription.
      */
     public function instanceUrl()
     {
-        // TODO: Refactor this method
         $id         = $this['id'];
-        $customerId = $this['customer'];
 
-        if (! $id) {
+        if ( ! $id) {
             throw new InvalidRequestException(
                 'Could not determine which URL to request: class instance has invalid ID: '. $id,
                 null
             );
         }
 
-        $base           = parent::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
-        $customerId     = urlencode(str_utf8($customerId));
+        $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
+        $customerId     = urlencode(str_utf8($this['customer']));
         $subscriptionId = urlencode(str_utf8($id));
 
         return "$base/$customerId/subscriptions/$subscriptionId";
@@ -70,11 +70,11 @@ class Subscription extends Resource implements SubscriptionInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Subscription
+     * @return self
      */
     public function cancel($params = [], $options = null)
     {
-        return parent::scopedDelete($params, $options);
+        return self::scopedDelete($params, $options);
     }
 
     /**
@@ -83,25 +83,26 @@ class Subscription extends Resource implements SubscriptionInterface
      *
      * @param  array|string|null $options
      *
-     * @return Subscription
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
      * Delete a Subscription Discount
      * @link https://stripe.com/docs/api/curl#delete_subscription_discount
      *
-     * @return Subscription
+     * @return self
      */
     public function deleteDiscount()
     {
         $url = $this->instanceUrl() . '/discount';
         list($response, $opts) = $this->request('delete', $url);
-        unset($response);
+
         $this->refreshFrom(['discount' => null], $opts, true);
+        unset($response);
 
         return $this;
     }

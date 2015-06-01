@@ -34,11 +34,11 @@ class Event extends Resource implements EventInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Event
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -48,10 +48,10 @@ class Event extends Resource implements EventInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 }

@@ -22,9 +22,11 @@ abstract class StripeTestCase extends TestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var string */
     protected $myApiKey     = 'my-secret-api-key';
+
+    /** @var string */
     protected $myApiVersion = '2.0.0';
-    private $mock;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -65,11 +67,7 @@ abstract class StripeTestCase extends TestCase
             'amount'        => 2000,
             'currency'      => 'usd',
             'description'   => 'Charge for test@example.com',
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-            ],
+            'card'          => static::getValidCardData(),
         ]);
     }
 
@@ -83,11 +81,7 @@ abstract class StripeTestCase extends TestCase
     protected static function createTestCustomer(array $attributes = [])
     {
         return Customer::create($attributes + [
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-            ],
+            'card' => static::getValidCardData(),
         ]);
     }
 
@@ -194,5 +188,27 @@ abstract class StripeTestCase extends TestCase
                 'recipient' => $recipient->id
             ]
         );
+    }
+
+    /**
+     * Get a valid card data
+     *
+     * @param  null $cvc
+     *
+     * @return array
+     */
+    protected static function getValidCardData($cvc = null)
+    {
+        $card = [
+            'number'    => '4242424242424242',
+            'exp_month' => date('n'),
+            'exp_year'  => date('Y') + 1,
+        ];
+
+        if ($cvc !== null) {
+            $card['cvc'] = $cvc;
+        }
+
+        return $card;
     }
 }

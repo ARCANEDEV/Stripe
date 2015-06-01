@@ -304,12 +304,8 @@ class CustomerTest extends StripeTestCase
         parent::retrieveOrCreateCoupon($couponId);
 
         $customer = Customer::create([
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => 2015
-            ],
-            'coupon' => $couponId,
+            'card'      => self::getValidCardData(),
+            'coupon'    => $couponId,
         ]);
 
         $discount = $customer->discount;
@@ -333,12 +329,8 @@ class CustomerTest extends StripeTestCase
         parent::retrieveOrCreateCoupon($couponId);
 
         $customer = Customer::create([
-            'card' => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => 2015
-            ],
-            'coupon' => $couponId,
+            'card'      => self::getValidCardData(),
+            'coupon'    => $couponId,
         ]);
 
         $this->assertInstanceOf(
@@ -425,12 +417,7 @@ class CustomerTest extends StripeTestCase
     private function createToken()
     {
         return Token::create([
-            'card'  => [
-                'number'    => '4242424242424242',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-                'cvc'       => '314'
-            ]
+            'card'  => self::getValidCardData('314'),
         ]);
     }
 }

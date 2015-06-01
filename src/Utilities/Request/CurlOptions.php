@@ -28,6 +28,9 @@ class CurlOptions implements CurlOptionsInterface
         $this->init();
     }
 
+    /**
+     * Init options
+     */
     private function init()
     {
         $this->options = [];
@@ -40,9 +43,9 @@ class CurlOptions implements CurlOptionsInterface
     /**
      * Set Options
      *
-     * @param array $options
+     * @param  array $options
      *
-     * @return CurlOptions
+     * @return self
      */
     public function setOptions(array $options)
     {
@@ -59,7 +62,7 @@ class CurlOptions implements CurlOptionsInterface
      * @param  int   $option
      * @param  mixed $value
      *
-     * @return CurlOptions
+     * @return self
      */
     public function setOption($option, $value)
     {
@@ -119,7 +122,7 @@ class CurlOptions implements CurlOptionsInterface
      */
     private function prepareMethodOptions($method, $params, $hasFile)
     {
-        if ($method === 'GET' and $hasFile) {
+        if ($method === 'GET' && $hasFile) {
             throw new ApiException(
                 'Issuing a GET request with a file parameter'
             );

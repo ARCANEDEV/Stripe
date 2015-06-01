@@ -42,11 +42,11 @@ class Transfer extends Resource implements TransferInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Transfer
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -56,11 +56,11 @@ class Transfer extends Resource implements TransferInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|Transfer[]
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -74,14 +74,14 @@ class Transfer extends Resource implements TransferInterface
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
      * Cancel a Transfer
      * @link https://stripe.com/docs/api/curl#cancel_transfer
      *
-     * @return Transfer
+     * @return self
      */
     public function cancel()
     {
@@ -115,10 +115,10 @@ class Transfer extends Resource implements TransferInterface
      *
      * @param  array|string|null $options
      *
-     * @return Transfer
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 }

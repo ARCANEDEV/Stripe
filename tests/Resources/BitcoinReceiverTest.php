@@ -49,12 +49,13 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_get_urls()
     {
-        $classUrl    = BitcoinReceiver::classUrl();
-        $this->assertEquals($classUrl, '/v1/bitcoin/receivers');
+        $this->assertEquals('/v1/bitcoin/receivers', BitcoinReceiver::classUrl());
 
         $receiver    = new BitcoinReceiver('abcd/efgh');
-        $instanceUrl = $receiver->instanceUrl();
-        $this->assertEquals($instanceUrl, '/v1/bitcoin/receivers/abcd%2Fefgh');
+        $this->assertEquals(
+            '/v1/bitcoin/receivers/abcd%2Fefgh',
+            $receiver->instanceUrl()
+        );
     }
 
     /** @test */
@@ -96,7 +97,7 @@ class BitcoinReceiverTest extends StripeTestCase
         $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
         $this->assertEquals(0, count($receiver->transactions->data));
 
-        $transactions = $receiver->transactions->all(["limit" => 1]);
+        $transactions = $receiver->transactions->all(['limit' => 1]);
         $this->assertEquals(1, count($transactions->data));
     }
 }

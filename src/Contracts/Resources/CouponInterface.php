@@ -27,7 +27,7 @@ interface CouponInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Coupon[]
      */
     public static function all($params = [], $options = null);
 

@@ -25,10 +25,10 @@ class Balance extends SingletonResource implements BalanceInterface
      *
      * @param  array|string|null $options
      *
-     * @return Balance
+     * @return self
      */
     public static function retrieve($options = null)
     {
-        return parent::scopedSingletonRetrieve(get_class(), $options);
+        return self::scopedSingletonRetrieve(get_class(), $options);
     }
 }

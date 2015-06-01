@@ -45,10 +45,8 @@ class Refund extends Resource implements RefundInterface
             );
         }
 
-        $chargeId = $this['charge'];
-
-        $base     = parent::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
-        $chargeId = urlencode(str_utf8($chargeId));
+        $base     = self::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
+        $chargeId = urlencode(str_utf8($this['charge']));
         $refundId = urlencode(str_utf8($id));
 
         return "$base/$chargeId/refunds/$refundId";
@@ -64,10 +62,10 @@ class Refund extends Resource implements RefundInterface
      *
      * @param  array|string|null $options
      *
-     * @return Refund
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 }

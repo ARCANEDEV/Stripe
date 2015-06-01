@@ -92,7 +92,8 @@ class RequestOptions implements RequestOptionsInterface
     /**
      * Unpacks an options array and merges it into the existing RequestOptions
      * object.
-     * @param array|string|null $options a key => value array
+     *
+     * @param  array|string|null $options a key => value array
      *
      * @return RequestOptions
      */
@@ -145,6 +146,13 @@ class RequestOptions implements RequestOptionsInterface
         return new self($key, $headers);
     }
 
+    /**
+     * Prepare headers
+     *
+     * @param  array $options
+     *
+     * @return array
+     */
     private static function prepareHeaders($options = [])
     {
         $headers = [];
@@ -175,7 +183,7 @@ class RequestOptions implements RequestOptionsInterface
      */
     public function hasApiKey()
     {
-        return ! is_null($this->apiKey) and ! empty($this->apiKey);
+        return ! is_null($this->apiKey) && ! empty($this->apiKey);
     }
 
     /**
@@ -188,9 +196,9 @@ class RequestOptions implements RequestOptionsInterface
     private static function checkOptions($options)
     {
         if (
-            ! ($options instanceof self) and
-            ! is_null($options) and
-            ! is_string($options) and
+            ! ($options instanceof self) &&
+            ! is_null($options) &&
+            ! is_string($options) &&
             ! is_array($options)
         ) {
             throw new ApiException(

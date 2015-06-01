@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Recipient;
+use Arcanedev\Stripe\Resources\Transfer;
 
 interface RecipientInterface
 {
@@ -27,7 +28,7 @@ interface RecipientInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|Recipient[]
      */
     public static function all($params = [], $options = null);
 
@@ -72,7 +73,7 @@ interface RecipientInterface
      *
      * @param  array|null $params
      *
-     * @return Collection|array
+     * @return Collection|Transfer[]
      */
     public function transfers($params = []);
 }

@@ -30,11 +30,11 @@ class Token extends Resource implements TokenInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Token
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -44,10 +44,10 @@ class Token extends Resource implements TokenInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Token|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 }

@@ -73,7 +73,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Sets the API key to be used for requests.
      *
-     * @param string $apiKey
+     * @param  string $apiKey
      *
      * @throws ApiException
      * @throws ApiKeyNotSetException
@@ -98,7 +98,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Set API Base URL
      *
-     * @param string $apiBaseUrl
+     * @param  string $apiBaseUrl
      *
      * @throws ApiException
      */
@@ -123,7 +123,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Set Upload Base URL
      *
-     * @param string $uploadBaseUrl
+     * @param  string $uploadBaseUrl
      *
      * @throws ApiException
      */
@@ -207,14 +207,14 @@ abstract class Stripe implements StripeInterface
     /**
      * Check API Key
      *
-     * @param string $apiKey
+     * @param  string $apiKey
      *
      * @throws ApiException
      * @throws ApiKeyNotSetException
      */
     private static function checkApiKey(&$apiKey)
     {
-        if (! is_string($apiKey)) {
+        if ( ! is_string($apiKey)) {
             throw new ApiException(
                 'The API KEY must be a string value.',
                 500
@@ -233,20 +233,20 @@ abstract class Stripe implements StripeInterface
     /**
      * Check API Base URL
      *
-     * @param string $apiBaseUrl
+     * @param  string $apiBaseUrl
      *
      * @throws ApiException
      */
     private static function checkApiBaseUrl($apiBaseUrl)
     {
-        if (! is_string($apiBaseUrl)) {
+        if ( ! is_string($apiBaseUrl)) {
             throw new ApiException(
                 'The API base URL be string value. ' . gettype($apiBaseUrl) . ' is given.',
                 500
             );
         }
 
-        if (! validate_url($apiBaseUrl)) {
+        if ( ! validate_url($apiBaseUrl)) {
             throw new ApiException(
                 'The API base URL is not a valid URL. ',
                 500
@@ -257,20 +257,20 @@ abstract class Stripe implements StripeInterface
     /**
      * Check Upload Base URL
      *
-     * @param string $uploadBaseUrl
+     * @param  string $uploadBaseUrl
      *
      * @throws ApiException
      */
     private static function checkUploadBaseUrl($uploadBaseUrl)
     {
-        if (! is_string($uploadBaseUrl)) {
+        if ( ! is_string($uploadBaseUrl)) {
             throw new ApiException(
                 'The Upload base URL be string value. ' . gettype($uploadBaseUrl) . ' is given.',
                 500
             );
         }
 
-        if (! validate_url($uploadBaseUrl)) {
+        if ( ! validate_url($uploadBaseUrl)) {
             throw new ApiException(
                 'The Upload base URL is not a valid URL. ',
                 500
@@ -281,13 +281,16 @@ abstract class Stripe implements StripeInterface
     /**
      * Check API Version
      *
-     * @param string|null $apiVersion
+     * @param  string|null $apiVersion
      *
      * @throws ApiException
      */
     private static function checkApiVersion(&$apiVersion)
     {
-        if (! is_null($apiVersion) and ! is_string($apiVersion)) {
+        if (
+            ! is_null($apiVersion) &&
+            ! is_string($apiVersion)
+        ) {
             throw new ApiException(
                 'The API version must be a null or string value. ' . gettype($apiVersion) . ' is given.',
                 500
@@ -300,7 +303,7 @@ abstract class Stripe implements StripeInterface
 
         $apiVersion = trim($apiVersion);
 
-        if (! validate_version($apiVersion)) {
+        if ( ! validate_version($apiVersion)) {
             throw new ApiException(
                 'The API version must valid a semantic version [x.x.x].',
                 500

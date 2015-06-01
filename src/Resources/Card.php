@@ -1,8 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
+use Arcanedev\Stripe\Bases\ExternalAccount;
 use Arcanedev\Stripe\Contracts\Resources\CardInterface;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
 
 /**
  * Class Card
@@ -32,98 +31,4 @@ use Arcanedev\Stripe\Resource;
  * @property string name
  * @property string recipient
  */
-class Card extends Resource implements CardInterface
-{
-    /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const CUSTOMER_CLASS    = 'Arcanedev\\Stripe\\Resources\\Customer';
-    const RECIPIENT_CLASS   = 'Arcanedev\\Stripe\\Resources\\Recipient';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * The instance URL for this resource. It needs to be special cased
-     * because it doesn't fit into the standard resource pattern.
-     *
-     * @throws InvalidRequestException
-     *
-     * @return string
-     */
-    public function instanceUrl()
-    {
-        // TODO: Refactor this method
-        $id = $this['id'];
-
-        if (! $id) {
-            $class = get_class($this);
-            $msg   = "Could not determine which URL to request: $class instance " . "has invalid ID: $id";
-
-            throw new InvalidRequestException($msg, null);
-        }
-
-        if (isset($this['customer'])) {
-            $parent = $this['customer'];
-            $base   = parent::classUrl(self::CUSTOMER_CLASS);
-        }
-        elseif (isset($this['recipient'])) {
-            $parent = $this['recipient'];
-            $base   = parent::classUrl(self::RECIPIENT_CLASS);
-        }
-        else {
-            return null;
-        }
-
-        $parentExtn = urlencode(str_utf8($parent));
-        $extn       = urlencode(str_utf8($id));
-
-        return "$base/$parentExtn/cards/$extn";
-    }
-
-    /**
-     * Construct Card from array values
-     *
-     * @param  array $values
-     * @param  null  $apiKey
-     *
-     * @return Card
-     */
-    //public static function constructFrom($values, $apiKey = null)
-    //{
-    //    return self::scopedConstructFrom(get_class(), $values, $apiKey);
-    //}
-
-    /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Save/Update a card
-     * @link https://stripe.com/docs/api/php#update_card
-     *
-     * @param  array|string|null $options
-     *
-     * @return Card
-     */
-    public function save($options = null)
-    {
-        return parent::scopedSave();
-    }
-
-    /**
-     * Delete a card
-     * @link https://stripe.com/docs/api/php#delete_card
-     *
-     * @param  array|null        $params
-     * @param  array|string|null $options
-     *
-     * @return Card
-     */
-    public function delete($params = [], $options = null)
-    {
-        return parent::scopedDelete($params);
-    }
-}
+class Card extends ExternalAccount implements CardInterface {}

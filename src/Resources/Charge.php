@@ -41,6 +41,7 @@ class Charge extends Resource implements ChargeInterface
      | ------------------------------------------------------------------------------------------------
      */
     const SAFE       = 'safe';
+
     const FRAUDULENT = 'fraudulent';
 
     /* ------------------------------------------------------------------------------------------------
@@ -54,11 +55,11 @@ class Charge extends Resource implements ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     public static function all($params = [], $options = null)
     {
-        return parent::scopedAll($params, $options);
+        return self::scopedAll($params, $options);
     }
 
     /**
@@ -68,11 +69,11 @@ class Charge extends Resource implements ChargeInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        return parent::scopedRetrieve($id, $options);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -82,11 +83,11 @@ class Charge extends Resource implements ChargeInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return Charge|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
-        return parent::scopedCreate($params, $options);
+        return self::scopedCreate($params, $options);
     }
 
     /**
@@ -95,11 +96,11 @@ class Charge extends Resource implements ChargeInterface
      *
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public function save($options = null)
     {
-        return parent::scopedSave($options);
+        return self::scopedSave($options);
     }
 
     /**
@@ -109,13 +110,13 @@ class Charge extends Resource implements ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public function refund($params = [], $options = null)
     {
         $url = $this->instanceUrl() . '/refund';
 
-        return parent::scopedPostCall($url, $params, $options);
+        return self::scopedPostCall($url, $params, $options);
     }
 
     /**
@@ -125,13 +126,13 @@ class Charge extends Resource implements ChargeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public function capture($params = [], $options = null)
     {
         $url = $this->instanceUrl() . '/capture';
 
-        return parent::scopedPostCall($url, $params, $options);
+        return self::scopedPostCall($url, $params, $options);
     }
 
     /**
@@ -166,7 +167,7 @@ class Charge extends Resource implements ChargeInterface
     {
         $url = $this->instanceUrl() . '/dispute/close';
 
-        return parent::scopedPostCall($url, [], $options);
+        return self::scopedPostCall($url, [], $options);
     }
 
     /**
@@ -174,7 +175,7 @@ class Charge extends Resource implements ChargeInterface
      *
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public function markAsFraudulent($options = null)
     {
@@ -186,7 +187,7 @@ class Charge extends Resource implements ChargeInterface
      *
      * @param  array|string|null $options
      *
-     * @return Charge
+     * @return self
      */
     public function markAsSafe($options = null)
     {
@@ -200,10 +201,10 @@ class Charge extends Resource implements ChargeInterface
     /**
      * Update charge's fraud details
      *
-     * @param  bool $safe
+     * @param  bool              $safe
      * @param  array|string|null $options
      *
-     * @return $this
+     * @return self
      */
     private function updateFraudDetails($safe = false, $options = null)
     {
