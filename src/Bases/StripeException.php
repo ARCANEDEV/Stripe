@@ -1,6 +1,10 @@
-<?php namespace Arcanedev\Stripe\Exceptions;
+<?php namespace Arcanedev\Stripe\Bases;
 
-abstract class StripeException extends Exception
+/**
+ * Class StripeException
+ * @package Arcanedev\Stripe\Exceptions
+ */
+abstract class StripeException extends \Exception
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -49,7 +53,7 @@ abstract class StripeException extends Exception
      * Stripe Error Constructor
      *
      * @param string      $message
-     * @param int         $statusCode
+     * @param int         $code
      * @param string|null $type
      * @param string|null $stripeCode
      * @param string|null $httpBody
@@ -58,14 +62,14 @@ abstract class StripeException extends Exception
      */
     public function __construct(
         $message,
-        $statusCode = 0,
+        $code = 0,
         $type = null,
         $stripeCode = null,
         $httpBody = null,
         $jsonBody = [],
         $params = []
     ) {
-        parent::__construct($message, $statusCode);
+        parent::__construct($message, $code);
 
         // Stripe Properties
         //--------------------------------------
