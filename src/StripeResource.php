@@ -10,10 +10,10 @@ use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 
 /**
- * Class Resource
+ * Class StripeResource
  * @package Arcanedev\Stripe
  */
-abstract class Resource extends StripeObject implements ResourceInterface
+abstract class StripeResource extends StripeObject implements ResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

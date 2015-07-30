@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\TokenInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Token
@@ -17,7 +17,7 @@ use Arcanedev\Stripe\Resource;
  * @property Object bank_account
  * @property Card   card
  */
-class Token extends Resource implements TokenInterface
+class Token extends StripeResource implements TokenInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

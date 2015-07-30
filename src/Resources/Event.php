@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\EventInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Event
@@ -21,7 +21,7 @@ use Arcanedev\Stripe\Resource;
  * @property string request
  * @property string customer_email
  */
-class Event extends Resource implements EventInterface
+class Event extends StripeResource implements EventInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

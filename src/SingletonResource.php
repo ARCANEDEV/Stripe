@@ -4,7 +4,7 @@
  * Class SingletonResource
  * @package Arcanedev\Stripe
  */
-class SingletonResource extends Resource
+class SingletonResource extends StripeResource
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

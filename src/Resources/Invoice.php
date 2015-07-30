@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\Utilities\Util;
 
@@ -44,7 +44,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property int            tax
  * @property float          tax_percent
  */
-class Invoice extends Resource implements InvoiceInterface
+class Invoice extends StripeResource implements InvoiceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

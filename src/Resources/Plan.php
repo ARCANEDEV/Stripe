@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Plan
@@ -23,7 +23,7 @@ use Arcanedev\Stripe\Resource;
  * @property int            trial_period_days
  * @property string         statement_descriptor
  */
-class Plan extends Resource implements PlanInterface
+class Plan extends StripeResource implements PlanInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

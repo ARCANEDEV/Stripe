@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Refund
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\Resource;
  * @property string         receipt_number
  * @property string         description
  */
-class Refund extends Resource implements RefundInterface
+class Refund extends StripeResource implements RefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

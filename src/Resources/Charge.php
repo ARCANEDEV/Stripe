@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Charge
@@ -34,7 +34,7 @@ use Arcanedev\Stripe\Resource;
  * @property mixed          fraud_details
  * @property array          shipping
  */
-class Charge extends Resource implements ChargeInterface
+class Charge extends StripeResource implements ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

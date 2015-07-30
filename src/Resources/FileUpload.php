@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 use Arcanedev\Stripe\Requestor;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Utilities\RequestOptions;
 
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
  * @property string url
  * @property string type [pdf|jpeg|png]
  */
-class FileUpload extends Resource implements FileUploadInterface
+class FileUpload extends StripeResource implements FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

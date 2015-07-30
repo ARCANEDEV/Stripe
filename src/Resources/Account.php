@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Account
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\Resource;
  * @property string statement_descriptor
  * @property string timezone
  */
-class Account extends Resource implements AccountInterface
+class Account extends StripeResource implements AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

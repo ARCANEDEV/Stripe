@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\Stripe\Tests\Dummies;
 
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
-class ResourceObject extends Resource
+class ResourceObject extends StripeResource
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

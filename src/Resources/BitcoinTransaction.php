@@ -1,13 +1,13 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\BitcoinTransactionInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class BitcoinTransaction
  * @package Arcanedev\Stripe\Resources
  */
-class BitcoinTransaction extends Resource implements BitcoinTransactionInterface
+class BitcoinTransaction extends StripeResource implements BitcoinTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

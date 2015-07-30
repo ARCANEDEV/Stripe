@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Subscription
@@ -28,7 +28,7 @@ use Arcanedev\Stripe\Resource;
  * @property int            trial_end
  * @property int            trial_start
  */
-class Subscription extends Resource implements SubscriptionInterface
+class Subscription extends StripeResource implements SubscriptionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

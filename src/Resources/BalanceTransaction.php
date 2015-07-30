@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class BalanceTransaction
@@ -23,7 +23,7 @@ use Arcanedev\Stripe\Resource;
  * @property string     description
  * @property string     source
  */
-class BalanceTransaction extends Resource implements BalanceTransactionInterface
+class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

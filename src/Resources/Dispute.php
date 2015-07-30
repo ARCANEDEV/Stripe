@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Dispute
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\Resource;
  * @property bool            is_charge_refundable
  * @property AttachedObject  metadata
  */
-class Dispute extends Resource
+class Dispute extends StripeResource
 {
     // TODO: Complete Discount Class implementation
 }
