@@ -2,7 +2,11 @@
 
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 
-interface ResourceInterface
+/**
+ * Interface StripeResourceInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
+interface StripeResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

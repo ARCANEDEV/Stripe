@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\ResourceInterface;
+use Arcanedev\Stripe\Contracts\StripeResourceInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
@@ -13,7 +13,7 @@ use ReflectionClass;
  * Class StripeResource
  * @package Arcanedev\Stripe
  */
-abstract class StripeResource extends StripeObject implements ResourceInterface
+abstract class StripeResource extends StripeObject implements StripeResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
