@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
+/**
+ * Interface HttpClientInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ */
 interface HttpClientInterface
 {
     /* ------------------------------------------------------------------------------------------------

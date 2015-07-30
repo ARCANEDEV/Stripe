@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Balance;
 
+/**
+ * Interface BalanceInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface BalanceInterface
 {
     /* ------------------------------------------------------------------------------------------------

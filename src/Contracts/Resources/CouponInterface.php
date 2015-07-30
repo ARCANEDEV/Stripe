@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Coupon;
 
+/**
+ * Interface CouponInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface CouponInterface
 {
     /* ------------------------------------------------------------------------------------------------

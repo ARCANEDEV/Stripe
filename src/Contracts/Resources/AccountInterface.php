@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Account;
 
+/**
+ * Interface AccountInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------

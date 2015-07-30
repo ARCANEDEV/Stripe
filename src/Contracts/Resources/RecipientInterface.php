@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 
+/**
+ * Interface RecipientInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface RecipientInterface
 {
     /* ------------------------------------------------------------------------------------------------

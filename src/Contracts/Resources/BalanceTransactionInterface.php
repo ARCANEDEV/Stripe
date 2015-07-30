@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\BalanceTransaction;
 
+/**
+ * Interface BalanceTransactionInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface BalanceTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------

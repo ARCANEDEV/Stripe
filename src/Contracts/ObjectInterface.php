@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
+/**
+ * Interface ObjectInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface ObjectInterface
 {
     /**

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Charge;
 
+/**
+ * Interface ChargeInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------

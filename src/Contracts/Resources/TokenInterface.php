@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Token;
 
+/**
+ * Interface TokenInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface TokenInterface
 {
     /* ------------------------------------------------------------------------------------------------

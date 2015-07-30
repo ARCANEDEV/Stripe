@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Collection;
 
+/**
+ * Interface CollectionInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface CollectionInterface
 {
     /* ------------------------------------------------------------------------------------------------

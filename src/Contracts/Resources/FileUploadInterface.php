@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\FileUpload;
 
+/**
+ * Interface FileUploadInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------

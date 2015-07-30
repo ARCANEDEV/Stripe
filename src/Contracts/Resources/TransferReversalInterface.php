@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\TransferReversal;
 
+/**
+ * Interface TransferReversalInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface TransferReversalInterface
 {
     /* ------------------------------------------------------------------------------------------------

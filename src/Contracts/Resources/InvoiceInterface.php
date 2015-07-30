@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Invoice;
 
+/**
+ * Interface InvoiceInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface InvoiceInterface
 {
     /* ------------------------------------------------------------------------------------------------
