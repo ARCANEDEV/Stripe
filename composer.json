@@ -20,7 +20,7 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.6",
+        "phpunit/phpunit": "~4.7",
         "phpunit/phpcov": "~2.0",
         "mockery/mockery": "~0.9"
     },
@@ -34,6 +34,5 @@
         "psr-4": {
             "Arcanedev\\Stripe\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
