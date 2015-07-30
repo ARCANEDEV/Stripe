@@ -20,10 +20,10 @@ if ( ! function_exists('mb_detect_encoding')) {
  |  Constants
  | ------------------------------------------------------------------------------------------------
  */
-include_once __DIR__ . '/start/constants.php';
+require_once __DIR__ . '/start/constants.php';
 
 /* ------------------------------------------------------------------------------------------------
  |  Constants
  | ------------------------------------------------------------------------------------------------
  */
-include_once __DIR__ . '/start/helpers.php';
+require_once __DIR__ . '/start/helpers.php';
