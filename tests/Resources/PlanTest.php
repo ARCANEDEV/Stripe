@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class PlanTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class PlanTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

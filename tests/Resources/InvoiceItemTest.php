@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class InvoiceItemTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class InvoiceItemTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

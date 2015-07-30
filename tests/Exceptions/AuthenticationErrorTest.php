@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class AuthenticationErrorTest
+ * @package Arcanedev\Stripe\Tests\Exceptions
+ */
 class AuthenticationErrorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

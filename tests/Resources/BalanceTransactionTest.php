@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\BalanceTransaction;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class BalanceTransactionTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class BalanceTransactionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

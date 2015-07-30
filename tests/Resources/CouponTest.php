@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class CouponTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class CouponTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

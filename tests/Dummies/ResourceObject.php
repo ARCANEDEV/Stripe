@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\StripeResource;
 
+/**
+ * Class ResourceObject
+ * @package Arcanedev\Stripe\Tests\Dummies
+ */
 class ResourceObject extends StripeResource
 {
     /* ------------------------------------------------------------------------------------------------

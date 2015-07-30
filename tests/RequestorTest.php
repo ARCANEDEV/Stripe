@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
 
+/**
+ * Class RequestorTest
+ * @package Arcanedev\Stripe\Tests
+ */
 class RequestorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

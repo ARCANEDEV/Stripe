@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class StripeTest
+ * @package Arcanedev\Stripe\Tests
+ */
 class StripeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

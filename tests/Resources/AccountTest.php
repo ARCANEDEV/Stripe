@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class AccountTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class AccountTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

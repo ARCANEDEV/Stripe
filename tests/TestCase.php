@@ -3,6 +3,10 @@
 use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 
+/**
+ * Class TestCase
+ * @package Arcanedev\Stripe\Tests
+ */
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
     /* ------------------------------------------------------------------------------------------------

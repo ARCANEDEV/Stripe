@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Event;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class EventTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class EventTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

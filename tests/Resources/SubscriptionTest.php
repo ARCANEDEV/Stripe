@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Subscription;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class SubscriptionTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class SubscriptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

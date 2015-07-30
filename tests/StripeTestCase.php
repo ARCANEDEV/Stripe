@@ -10,6 +10,10 @@ use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class StripeTestCase
+ * @package Arcanedev\Stripe\Tests
+ */
 abstract class StripeTestCase extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------

@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Request\CurlOptions;
 
+/**
+ * Class CurlOptionsTest
+ * @package Arcanedev\Stripe\Tests\Utilities\Request
+ */
 class CurlOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

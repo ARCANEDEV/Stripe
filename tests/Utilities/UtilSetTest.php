@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\UtilSet;
 
+/**
+ * Class UtilSetTest
+ * @package Arcanedev\Stripe\Tests\Utilities
+ */
 class UtilSetTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

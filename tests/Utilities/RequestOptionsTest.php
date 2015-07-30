@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\RequestOptions;
 
+/**
+ * Class RequestOptionsTest
+ * @package Arcanedev\Stripe\Tests\Utilities
+ */
 class RequestOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

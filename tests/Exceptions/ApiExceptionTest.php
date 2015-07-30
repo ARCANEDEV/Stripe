@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class ApiExceptionTest
+ * @package Arcanedev\Stripe\Tests\Exceptions
+ */
 class ApiExceptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

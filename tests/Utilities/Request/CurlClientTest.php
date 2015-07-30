@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
+/**
+ * Class CurlClientTest
+ * @package Arcanedev\Stripe\Tests\Utilities\Request
+ */
 class CurlClientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class TokenTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class TokenTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
