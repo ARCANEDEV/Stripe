@@ -13,7 +13,7 @@ use ReflectionClass;
  * Class Resource
  * @package Arcanedev\Stripe
  */
-abstract class Resource extends Object implements ResourceInterface
+abstract class Resource extends StripeObject implements ResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

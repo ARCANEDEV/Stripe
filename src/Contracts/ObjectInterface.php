@@ -19,7 +19,7 @@ interface ObjectInterface
      * @param  array  $values
      * @param  string $options
      *
-     * @return \Arcanedev\Stripe\Object
+     * @return \Arcanedev\Stripe\StripeObject
      */
     public static function scopedConstructFrom($class, $values, $options);
 

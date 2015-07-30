@@ -29,7 +29,7 @@ interface CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|Resource|array
      */
     public function create($params = [], $options = null);
 
@@ -42,7 +42,7 @@ interface CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|Resource|array
      */
     public function retrieve($id, $params = [], $options = null);
 

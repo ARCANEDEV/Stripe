@@ -47,7 +47,7 @@ class Collection extends Resource implements CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\Resource|array
      */
     public function create($params = [], $options = null)
     {
@@ -67,7 +67,7 @@ class Collection extends Resource implements CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\Resource|array
      */
     public function retrieve($id, $params = [], $options = null)
     {
@@ -85,7 +85,7 @@ class Collection extends Resource implements CollectionInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return Collection|\Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array|
+     * @return Collection|\Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\Resource|array|
      */
     private function requestAndConvertToStripeObject($method, $params, $options)
     {

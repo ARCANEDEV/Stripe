@@ -6,7 +6,7 @@ use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
  * Class AttachedObject
  * @package Arcanedev\Stripe
  */
-class AttachedObject extends Object implements AttachedObjectInterface
+class AttachedObject extends StripeObject implements AttachedObjectInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
