@@ -2,7 +2,11 @@
 
 use Arcanedev\Stripe\StripeObject;
 
-class ObjectTest extends StripeTestCase
+/**
+ * Class StripeObjectTest
+ * @package Arcanedev\Stripe\Tests
+ */
+class StripeObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
@@ -156,6 +160,15 @@ class ObjectTest extends StripeTestCase
             'description' => 'description',
             'metadata'    => $object->metadata
         ], $method->invoke($object));
+    }
+
+    /** @test */
+    public function it_can_encode_to_json()
+    {
+        $object      = new StripeObject;
+        $object->foo = 'a';
+
+        $this->assertEquals('{"foo":"a"}', json_encode($object));
     }
 
     /* ------------------------------------------------------------------------------------------------

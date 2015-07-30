@@ -9,6 +9,7 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;
+use JsonSerializable;
 
 /**
  * Class StripeObject
@@ -17,7 +18,7 @@ use ArrayAccess;
  * @property string id
  * @property string object
  */
-class StripeObject implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
+class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
@@ -249,6 +250,14 @@ class StripeObject implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     public function __toString()
     {
         return get_class($this) . ' JSON: ' . $this->toJson();
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray(true);
     }
 
     /**
