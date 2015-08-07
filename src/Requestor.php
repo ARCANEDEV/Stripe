@@ -109,7 +109,7 @@ class Requestor implements RequestorInterface
      */
     private function setApiBase($apiBaseUrl)
     {
-        if ( ! $apiBaseUrl) {
+        if (empty($apiBaseUrl)) {
             $apiBaseUrl = Stripe::getApiBaseUrl();
         }
 
