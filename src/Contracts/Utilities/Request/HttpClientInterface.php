@@ -50,5 +50,4 @@ interface HttpClientInterface
      * @return array
      */
     public function request($method, $url, $params, $headers);
-
 }

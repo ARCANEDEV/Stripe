@@ -13,8 +13,8 @@ class SingletonResource extends StripeResource
     /**
      * Retrieve a singleton resource
      *
-     * @param  string      $class
-     * @param  string|null $apiKey
+     * @param  string            $class
+     * @param  array|string|null $apiKey
      *
      * @return SingletonResource
      */

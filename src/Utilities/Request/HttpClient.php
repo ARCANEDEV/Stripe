@@ -73,6 +73,11 @@ class HttpClient implements HttpClientInterface
         $this->response = null;
     }
 
+    public function __destruct()
+    {
+        $this->close();
+    }
+
     /**
      * Get the HTTP
      *
@@ -85,11 +90,6 @@ class HttpClient implements HttpClientInterface
         }
 
         return self::$instance;
-    }
-
-    public function __destruct()
-    {
-        $this->close();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -214,6 +214,9 @@ class HttpClient implements HttpClientInterface
         return [$this->response, $statusCode];
     }
 
+    /**
+     * Check Cert Errors
+     */
     private function checkCertErrors()
     {
         if (SslChecker::hasCertErrors($this->errorCode)) {
@@ -262,7 +265,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Process Resource Parameter
      *
-     * @param resource $resource
+     * @param  resource $resource
      *
      * @throws ApiException
      *
@@ -285,8 +288,8 @@ class HttpClient implements HttpClientInterface
     /**
      * Encode array to query string
      *
-     * @param array       $array
-     * @param string|null $prefix
+     * @param  array       $array
+     * @param  string|null $prefix
      *
      * @return string
      */
@@ -330,7 +333,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Check Resource type is stream
      *
-     * @param resource $resource
+     * @param  resource $resource
      *
      * @throws ApiException
      */
@@ -362,7 +365,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Check if param is resource File
      *
-     * @param mixed $resource
+     * @param  mixed $resource
      *
      * @return bool
      */
