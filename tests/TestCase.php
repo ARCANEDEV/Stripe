@@ -53,7 +53,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     protected static function generateRandomString($length = 24)
     {
-        $chars       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU';
+        $chars       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charsLength = strlen($chars);
         $random      = '';
 
@@ -62,5 +62,17 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         }
 
         return $random;
+    }
+
+    /**
+     * Generate a semi-random email.
+     *
+     * @param  string $domain
+     *
+     * @return string
+     */
+    protected static function generateRandomEmail($domain = 'bar.com')
+    {
+        return self::generateRandomString() . '@' . $domain;
     }
 }
