@@ -29,7 +29,7 @@ You can install the bindings via [Composer](http://getcomposer.org/). Add this t
 ```json
 {
     "require": {
-        "arcanedev/stripe": "~2.1"
+        "arcanedev/stripe": "~3.0.0"
     }
 }
 ```
@@ -74,5 +74,4 @@ Please see [Stripe API Reference](https://stripe.com/docs/api) for up-to-date do
   - [ ] More tests and code coverage
   - [ ] Mockery for curl requests
   - [ ] Stripe OAuth Class
-  - [ ] Laravel support 
-  - [ ] Refactoring
+  - [ ] Laravel support

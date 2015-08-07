@@ -11,6 +11,17 @@ use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
 abstract class Stripe implements StripeInterface
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Library Version
+     *
+     * @var string
+     */
+    const VERSION = '3.0.0';
+
+    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -48,13 +59,6 @@ abstract class Stripe implements StripeInterface
      * @var boolean
      */
     public static $verifySslCerts = true;
-
-    /**
-     * Library Version
-     *
-     * @var string|null
-     */
-    const VERSION = '2.1.4';
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

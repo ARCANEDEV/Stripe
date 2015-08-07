@@ -31,7 +31,7 @@ abstract class StripeTestCase extends TestCase
     protected $myApiKey     = 'my-secret-api-key';
 
     /** @var string */
-    protected $myApiVersion = '2.0.0';
+    protected $myApiVersion = '3.0.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
