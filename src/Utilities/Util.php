@@ -94,10 +94,10 @@ abstract class Util implements UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param  array $response   - The response from the Stripe API.
+     * @param  array $response  -  The response from the Stripe API.
      * @param  array $options
      *
-     * @return StripeObject|StripeResource|Collection|StripeObject[]
+     * @return StripeObject|StripeResource|Collection|StripeObject[]|array
      */
     public static function convertToStripeObject($response, $options)
     {
