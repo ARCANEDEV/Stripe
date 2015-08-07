@@ -33,10 +33,6 @@ class Collection extends StripeResource implements CollectionInterface
     public function all($params = [], $options = null)
     {
         return $this->requestAndConvertToStripeObject('get', $params, $options);
-        //list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        //list($response, $opts) = $this->request('get', $url, $params, $options);
-        //
-        //return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -52,10 +48,6 @@ class Collection extends StripeResource implements CollectionInterface
     public function create($params = [], $options = null)
     {
         return $this->requestAndConvertToStripeObject('post', $params, $options);
-        //list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        //list($response, $opts) = $this->request('post', $url, $params);
-        //
-        //return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -118,7 +110,7 @@ class Collection extends StripeResource implements CollectionInterface
      */
     private function checkPath(array $url)
     {
-        if (! isset($url['path']) or empty($url['path'])) {
+        if ( ! isset($url['path']) || empty($url['path'])) {
             throw new ApiException(
                 'Could not parse list url into parts: ' . $this->url
             );
@@ -136,7 +128,7 @@ class Collection extends StripeResource implements CollectionInterface
      */
     public function count()
     {
-        return ($this->isList() and isset($this->total_count))
+        return ($this->isList() && isset($this->total_count))
             ? $this->total_count
             : 0;
     }
