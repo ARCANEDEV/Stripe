@@ -90,6 +90,19 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
+     * Deleted an account.
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return Account
+     */
+    public function delete($params = null, $options = null)
+    {
+        return $this->scopedDelete($params, $options);
+    }
+
+    /**
      * Get all accounts
      *
      * @param  array|null $params

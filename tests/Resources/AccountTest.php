@@ -46,6 +46,7 @@ class AccountTest extends StripeTestCase
     public function it_can_retrieve()
     {
         $this->account = Account::retrieve();
+
         $this->assertInstanceOf(self::ACCOUNT_CLASS, $this->account);
         $this->assertEquals('cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7', $this->account->id);
         $this->assertEquals('test+bindings@stripe.com', $this->account->email);
@@ -53,10 +54,45 @@ class AccountTest extends StripeTestCase
         $this->assertFalse($this->account->details_submitted);
     }
 
+    /** @test */
     public function it_can_retrieve_by_Id()
     {
-        $this->account = Account::retrieve('cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7');
-        $this->assertSame($this->account->id, "cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7");
-        $this->assertSame($this->account->email, "test+bindings@stripe.com");
+        $id = 'cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7';
+        $this->account = Account::retrieve($id);
+
+        $this->assertEquals($id, $this->account->id);
+        $this->assertEquals('test+bindings@stripe.com', $this->account->email);
+    }
+
+    /**
+     * @todo: Add http client mock
+     */
+    public function it_can_delete()
+    {
+        $account = self::createTestAccount();
+
+        $deleted = $account->delete();
+
+        $this->assertEquals($deleted->id, $account->id);
+        $this->assertTrue($deleted->deleted);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get deleted account response
+     *
+     * @param  string $id
+     *
+     * @return array
+     */
+    private function deletedAccountResponse($id)
+    {
+        return [
+            'id'      => $id,
+            'deleted' => true
+        ];
     }
 }
