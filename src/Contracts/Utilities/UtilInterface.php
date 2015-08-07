@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Interface UtilInterface
@@ -28,7 +29,7 @@ interface UtilInterface
      * @param  array  $response   - The response from the Stripe API.
      * @param  string $options
      *
-     * @return StripeObject|Resource|Collection|array
+     * @return StripeObject|StripeResource|Collection|StripeObject[]
      */
     public static function convertToStripeObject($response, $options);
 

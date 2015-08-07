@@ -3,6 +3,7 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
 use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Util
@@ -96,21 +97,21 @@ abstract class Util implements UtilInterface
      * @param  array $response   - The response from the Stripe API.
      * @param  array $options
      *
-     * @return StripeObject|Resource|Collection|array
+     * @return StripeObject|StripeResource|Collection|StripeObject[]
      */
     public static function convertToStripeObject($response, $options)
     {
         if (self::isList($response)) {
-            $mapped = array_map(function($i) use ($options) {
+            return array_map(function($i) use ($options) {
                 return self::convertToStripeObject($i, $options);
             }, $response);
-
-            return $mapped;
         }
         elseif (is_array($response)) {
-            $class = self::DEFAULT_NAMESPACE . self::getClassTypeObject($response);
-
-            return StripeObject::scopedConstructFrom($class, $response, $options);
+            return StripeObject::scopedConstructFrom(
+                self::DEFAULT_NAMESPACE . self::getClassTypeObject($response),
+                $response,
+                $options
+            );
         }
 
         return $response;
