@@ -166,7 +166,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
             ->request($method, $url, $params, $opts->headers);
 
         foreach ($opts->headers as $k => $v) {
-            if (! array_key_exists($k, self::$persistedHeaders)) {
+            if ( ! array_key_exists($k, self::$persistedHeaders)) {
                 unset($opts->headers[$k]);
             }
         }
@@ -297,7 +297,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         $opts = RequestOptions::parse($options);
 
-        list($response, $options) = Requestor::make($opts->getApiKey())
+        list($response, $options) = Requestor::make($opts->getApiKey(), static::baseUrl())
             ->post($url, $params);
 
         $this->refreshFrom($response, $options);
