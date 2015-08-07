@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Contracts\Resources\DisputeInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -22,7 +24,61 @@ use Arcanedev\Stripe\StripeResource;
  * @property bool            is_charge_refundable
  * @property AttachedObject  metadata
  */
-class Dispute extends StripeResource
+class Dispute extends StripeResource implements DisputeInterface
 {
-    // TODO: Complete Discount Class implementation
+    /* ------------------------------------------------------------------------------------------------
+     |  CRUD Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get a dispute by id
+     *
+     * @param  string            $id
+     * @param  array|string|null $options
+     *
+     * @return Dispute
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
+     * Get all disputes
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return Collection|self[]
+     */
+    public static function all($params = null, $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
+     * Save dispute
+     *
+     * @param  array|string|null $options
+     *
+     * @return Dispute
+     */
+    public function save($options = null)
+    {
+        return self::scopedSave($options);
+    }
+
+    /**
+     * Close dispute
+     *
+     * @param  array|string|null $options
+     *
+     * @return Dispute
+     */
+    public function close($options = null)
+    {
+        $url = $this->instanceUrl() . '/close';
+
+        return self::scopedPostCall($url, [], $options);
+    }
 }
