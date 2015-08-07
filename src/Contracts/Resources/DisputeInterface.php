@@ -1,37 +1,53 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\BalanceTransaction;
+use Arcanedev\Stripe\Resources\Dispute;
 
 /**
- * Interface BalanceTransactionInterface
+ * Interface DisputeInterface
  * @package Arcanedev\Stripe\Contracts\Resources
  */
-interface BalanceTransactionInterface
+interface DisputeInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieving a Balance Transaction
-     * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
+     * Get a dispute by id
      *
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return BalanceTransaction
+     * @return Dispute
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List balance history
-     * @link https://stripe.com/docs/api/php#balance_history
+     * Get all disputes
      *
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|BalanceTransaction[]
+     * @return Collection|Dispute[]
      */
-    public static function all($params = [], $options = null);
+    public static function all($params = null, $options = null);
+
+    /**
+     * Save dispute
+     *
+     * @param  array|string|null $options
+     *
+     * @return Dispute
+     */
+    public function save($options = null);
+
+    /**
+     * Close dispute
+     *
+     * @param  array|string|null $options
+     *
+     * @return Dispute
+     */
+    public function close($options = null);
 }

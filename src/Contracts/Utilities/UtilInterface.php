@@ -1,7 +1,13 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities;
 
 use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 
+/**
+ * Interface UtilInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities
+ */
 interface UtilInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -23,7 +29,7 @@ interface UtilInterface
      * @param  array  $response   - The response from the Stripe API.
      * @param  string $options
      *
-     * @return \Arcanedev\Stripe\Object|Resource|Collection|array
+     * @return StripeObject|StripeResource|Collection|StripeObject[]
      */
     public static function convertToStripeObject($response, $options);
 

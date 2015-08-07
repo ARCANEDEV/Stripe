@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Card;
 
+/**
+ * Interface CardInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface CardInterface
 {
     /* ------------------------------------------------------------------------------------------------

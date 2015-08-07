@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities;
 
+/**
+ * Interface UtilSetInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities
+ */
 interface UtilSetInterface
 {
     /**

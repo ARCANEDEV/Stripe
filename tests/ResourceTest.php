@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Tests\Dummies\ResourceObject;
 
+/**
+ * Class ResourceTest
+ * @package Arcanedev\Stripe\Tests
+ */
 class ResourceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Utilities\Request\HeaderBag;
 
+/**
+ * Interface HeaderBagInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ */
 interface HeaderBagInterface
 {
     /* ------------------------------------------------------------------------------------------------

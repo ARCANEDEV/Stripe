@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Charge;
 
+/**
+ * Interface ChargeInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface ChargeInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -73,27 +77,6 @@ interface ChargeInterface
      * @return Charge
      */
     public function capture($params = [], $options = null);
-
-    /**
-     * Updating a dispute
-     * @link https://stripe.com/docs/api/php#update_dispute
-     *
-     * @param  array|null        $params
-     * @param  array|string|null $options
-     *
-     * @return Object
-     */
-    public function updateDispute($params = [], $options = null);
-
-    /**
-     * Closing a dispute
-     * @link https://stripe.com/docs/api/php#close_dispute
-     *
-     * @param  array|string|null $options
-     *
-     * @return Object
-     */
-    public function closeDispute($options = null);
 
     /**
      * Mark charge as Fraudulent

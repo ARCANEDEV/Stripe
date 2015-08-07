@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
+/**
+ * Interface BitcoinTransactionInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface BitcoinTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------

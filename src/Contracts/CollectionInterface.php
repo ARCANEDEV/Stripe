@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Collection;
 
+/**
+ * Interface CollectionInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface CollectionInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -29,7 +33,7 @@ interface CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|Resource|array
      */
     public function create($params = [], $options = null);
 
@@ -42,7 +46,7 @@ interface CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|Resource|array
+     * @return \Arcanedev\Stripe\StripeObject|Resource|array
      */
     public function retrieve($id, $params = [], $options = null);
 

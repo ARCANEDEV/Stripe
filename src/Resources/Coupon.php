@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Coupon
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\Resource;
  * @property int            times_redeemed
  * @property bool           valid
  */
-class Coupon extends Resource implements CouponInterface
+class Coupon extends StripeResource implements CouponInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

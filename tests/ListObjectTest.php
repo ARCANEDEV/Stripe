@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Collection;
 
+/**
+ * Class ListObjectTest
+ * @package Arcanedev\Stripe\Tests
+ */
 class ListObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

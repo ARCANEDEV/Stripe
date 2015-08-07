@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Resources\Balance;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Util;
 
+/**
+ * Class BalanceTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class BalanceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

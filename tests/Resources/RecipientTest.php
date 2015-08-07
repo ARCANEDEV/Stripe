@@ -5,6 +5,10 @@ use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class RecipientTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class RecipientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

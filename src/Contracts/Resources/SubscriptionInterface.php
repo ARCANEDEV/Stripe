@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\Subscription;
 
+/**
+ * Interface SubscriptionInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface SubscriptionInterface
 {
     /* ------------------------------------------------------------------------------------------------

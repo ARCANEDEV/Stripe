@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class CouponTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class CouponTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -110,6 +114,6 @@ class CouponTest extends StripeTestCase
      */
     private function getCouponId()
     {
-        return 'test_coupon-' . self::generateRandomString(8);
+        return 'test_coupon-' . self::generateRandomString(20);
     }
 }

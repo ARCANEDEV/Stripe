@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Event;
 
+/**
+ * Interface EventInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface EventInterface
 {
     /* ------------------------------------------------------------------------------------------------

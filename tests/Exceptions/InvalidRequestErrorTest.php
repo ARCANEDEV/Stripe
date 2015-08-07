@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class InvalidRequestErrorTest
+ * @package Arcanedev\Stripe\Tests\Exceptions
+ */
 class InvalidRequestErrorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Discount
@@ -13,7 +13,7 @@ use Arcanedev\Stripe\Resource;
  * @property int               start
  * @property int               end
  */
-class Discount extends Resource
+class Discount extends StripeResource
 {
     // TODO: Complete Discount Class implementation
 }

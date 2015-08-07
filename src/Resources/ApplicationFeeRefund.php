@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeRefundInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class ApplicationFeeRefund
@@ -19,7 +19,7 @@ use Arcanedev\Stripe\Resource;
  * @property string         fee
  * @property AttachedObject metadata
  */
-class ApplicationFeeRefund extends Resource implements ApplicationFeeRefundInterface
+class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

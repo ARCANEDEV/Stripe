@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
+/**
+ * Class ApiKeyNotSetException
+ * @package Arcanedev\Stripe\Exceptions
+ */
 class ApiKeyNotSetException extends AuthenticationException
 {
     /* ------------------------------------------------------------------------------------------------
@@ -10,7 +14,7 @@ class ApiKeyNotSetException extends AuthenticationException
      * API Key Not Set Constructor
      *
      * @param string      $message
-     * @param int         $statusCode
+     * @param int         $code
      * @param string|null $type
      * @param string|null $stripeCode
      * @param string|null $httpBody
@@ -19,7 +23,7 @@ class ApiKeyNotSetException extends AuthenticationException
      */
     public function __construct(
         $message,
-        $statusCode = 500,
+        $code = 500,
         $type = 'api_error',
         $stripeCode = null,
         $httpBody = null,
@@ -31,6 +35,6 @@ class ApiKeyNotSetException extends AuthenticationException
         . 'the Stripe web interface.  See https://stripe.com/api for '
         . 'details, or email support@stripe.com if you have any questions.';
 
-        parent::__construct($message, $statusCode, $type);
+        parent::__construct($message, $code, $type);
     }
 }

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Request\CurlOptions;
 
+/**
+ * Interface CurlOptionsInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ */
 interface CurlOptionsInterface
 {
     /**

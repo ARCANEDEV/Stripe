@@ -7,6 +7,10 @@ use Arcanedev\Stripe\Resources\Invoice;
 use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Resources\Subscription;
 
+/**
+ * Interface CustomerInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface CustomerInterface
 {
     /* ------------------------------------------------------------------------------------------------

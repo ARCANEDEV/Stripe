@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Subscription;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class SubscriptionTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class SubscriptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -70,7 +74,7 @@ class SubscriptionTest extends StripeTestCase
     public function it_can_delete_discount()
     {
         $plan     = self::retrieveOrCreatePlan();
-        $couponID = '25off-' . self::generateRandomString(8);
+        $couponID = '25off-' . self::generateRandomString(20);
         self::retrieveOrCreateCoupon($couponID);
 
         $customer = self::createTestCustomer();

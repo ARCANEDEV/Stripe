@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Resources\TransferReversal;
 
+/**
+ * Interface TransferInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface TransferInterface
 {
     /* ------------------------------------------------------------------------------------------------

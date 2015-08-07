@@ -1,8 +1,13 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\StripeResource;
 
-interface ResourceInterface
+/**
+ * Interface StripeResourceInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
+interface StripeResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -11,7 +16,7 @@ interface ResourceInterface
     /**
      * Get the refreshed resource.
      *
-     * @returns Resource
+     * @returns StripeResource
      */
     public function refresh();
 

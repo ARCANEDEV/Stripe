@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\ResourceInterface;
+use Arcanedev\Stripe\Contracts\StripeResourceInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
@@ -10,10 +10,10 @@ use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 
 /**
- * Class Resource
+ * Class StripeResource
  * @package Arcanedev\Stripe
  */
-abstract class Resource extends Object implements ResourceInterface
+abstract class StripeResource extends StripeObject implements StripeResourceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -41,7 +41,7 @@ abstract class Resource extends Object implements ResourceInterface
     /**
      * Get the refreshed resource.
      *
-     * @return Resource
+     * @return self
      */
     public function refresh()
     {
@@ -166,7 +166,7 @@ abstract class Resource extends Object implements ResourceInterface
             ->request($method, $url, $params, $opts->headers);
 
         foreach ($opts->headers as $k => $v) {
-            if (! array_key_exists($k, self::$persistedHeaders)) {
+            if ( ! array_key_exists($k, self::$persistedHeaders)) {
                 unset($opts->headers[$k]);
             }
         }
@@ -184,7 +184,7 @@ abstract class Resource extends Object implements ResourceInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Resource
+     * @return self
      */
     protected static function scopedRetrieve($id, $options = null)
     {
@@ -204,7 +204,7 @@ abstract class Resource extends Object implements ResourceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     protected static function scopedAll($params = [], $options = null)
     {
@@ -225,7 +225,7 @@ abstract class Resource extends Object implements ResourceInterface
      * @throws ApiException
      * @throws InvalidArgumentException
      *
-     * @return Resource
+     * @return self
      */
     protected static function scopedCreate($params = [], $options = null)
     {
@@ -245,7 +245,7 @@ abstract class Resource extends Object implements ResourceInterface
      *
      * @throws InvalidRequestException
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedSave($options = null)
     {
@@ -268,7 +268,7 @@ abstract class Resource extends Object implements ResourceInterface
      *
      * @throws InvalidRequestException
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedDelete($params = [], $options = null)
     {
@@ -291,13 +291,13 @@ abstract class Resource extends Object implements ResourceInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {
         $opts = RequestOptions::parse($options);
 
-        list($response, $options) = Requestor::make($opts->getApiKey())
+        list($response, $options) = Requestor::make($opts->getApiKey(), static::baseUrl())
             ->post($url, $params);
 
         $this->refreshFrom($response, $options);

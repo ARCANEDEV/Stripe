@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class ChargeTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class ChargeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -173,7 +177,7 @@ class ChargeTest extends StripeTestCase
     /** @test */
     public function it_can_create_with_bitcoin_receiver_source()
     {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
 
         $charge = Charge::create([
             'amount'   => 100,

@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Utilities\Util;
 
+/**
+ * Class UtilTest
+ * @package Arcanedev\Stripe\Tests
+ */
 class UtilTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

@@ -4,6 +4,10 @@ use Arcanedev\Stripe\Resources\FileUpload;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 use CURLFile;
 
+/**
+ * Class FileUploadTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class FileUploadTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

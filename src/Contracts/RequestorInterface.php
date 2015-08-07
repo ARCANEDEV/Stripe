@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
+/**
+ * Interface RequestorInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface RequestorInterface
 {
     /* ------------------------------------------------------------------------------------------------

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class ApplicationFeeRefundTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class ApplicationFeeRefundTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

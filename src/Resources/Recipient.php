@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Recipient
@@ -23,7 +23,7 @@ use Arcanedev\Stripe\Resource;
  * @property Collection     cards
  * @property string         default_card
  */
-class Recipient extends Resource implements RecipientInterface
+class Recipient extends StripeResource implements RecipientInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

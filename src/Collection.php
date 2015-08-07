@@ -14,7 +14,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property bool   has_more
  * @property string url
  */
-class Collection extends Resource implements CollectionInterface
+class Collection extends StripeResource implements CollectionInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
@@ -33,10 +33,6 @@ class Collection extends Resource implements CollectionInterface
     public function all($params = [], $options = null)
     {
         return $this->requestAndConvertToStripeObject('get', $params, $options);
-        //list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        //list($response, $opts) = $this->request('get', $url, $params, $options);
-        //
-        //return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -47,15 +43,11 @@ class Collection extends Resource implements CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array
+     * @return StripeObject|StripeResource|array
      */
     public function create($params = [], $options = null)
     {
         return $this->requestAndConvertToStripeObject('post', $params, $options);
-        //list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        //list($response, $opts) = $this->request('post', $url, $params);
-        //
-        //return Util::convertToStripeObject($response, $opts);
     }
 
     /**
@@ -67,7 +59,7 @@ class Collection extends Resource implements CollectionInterface
      *
      * @throws ApiException
      *
-     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array
+     * @return StripeObject|StripeResource|array
      */
     public function retrieve($id, $params = [], $options = null)
     {
@@ -85,7 +77,7 @@ class Collection extends Resource implements CollectionInterface
      * @param  array             $params
      * @param  array|string|null $options
      *
-     * @return Collection|\Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|array|
+     * @return Collection|StripeObject|StripeResource|array|
      */
     private function requestAndConvertToStripeObject($method, $params, $options)
     {
@@ -118,7 +110,7 @@ class Collection extends Resource implements CollectionInterface
      */
     private function checkPath(array $url)
     {
-        if (! isset($url['path']) or empty($url['path'])) {
+        if ( ! isset($url['path']) || empty($url['path'])) {
             throw new ApiException(
                 'Could not parse list url into parts: ' . $this->url
             );
@@ -136,7 +128,7 @@ class Collection extends Resource implements CollectionInterface
      */
     public function count()
     {
-        return ($this->isList() and isset($this->total_count))
+        return ($this->isList() && isset($this->total_count))
             ? $this->total_count
             : 0;
     }

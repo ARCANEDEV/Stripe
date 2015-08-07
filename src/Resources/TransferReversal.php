@@ -2,13 +2,13 @@
 
 use Arcanedev\Stripe\Contracts\Resources\TransferReversalInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class TransferReversal
  * @package Arcanedev\Stripe\Resources
  */
-class TransferReversal extends Resource implements TransferReversalInterface
+class TransferReversal extends StripeResource implements TransferReversalInterface
 {
     /**
      * Get API URL for this Stripe transfer reversal

@@ -9,15 +9,16 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;
+use JsonSerializable;
 
 /**
- * Class Object
+ * Class StripeObject
  * @package Arcanedev\Stripe
  *
  * @property string id
  * @property string object
  */
-class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
+class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
@@ -95,7 +96,13 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     {
         $this->values                    = [];
         self::$permanentAttributes       = new UtilSet(['opts', 'id']);
-        self::$nestedUpdatableAttributes = new UtilSet(['metadata']);
+        self::$nestedUpdatableAttributes = new UtilSet([
+            'metadata', 'legal_entity', 'address', 'dob', 'transfer_schedule', 'verification',
+            'tos_acceptance', 'personal_address', 'evidence',
+            // will make the array into an AttachedObject: weird, but works for now
+            'additional_owners', 0, 1, 2, 3, 4 // Max 3, but leave the 4th so errors work properly
+        ]);
+
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
@@ -114,7 +121,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      *
      * @throws ApiException
      *
-     * @return Object
+     * @return self
      */
     private function setId($id)
     {
@@ -242,7 +249,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Convert Object to string
+     * Convert StripeObject to string
      *
      * @return string
      */
@@ -252,7 +259,15 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Convert Object to array
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray(true);
+    }
+
+    /**
+     * Convert StripeObject to array
      *
      * @param  bool $recursive
      *
@@ -266,7 +281,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Convert Object to JSON
+     * Convert StripeObject to JSON
      *
      * @param  int $options
      *
@@ -329,11 +344,11 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
      * @param  array  $values
      * @param  string $options
      *
-     * @return \Arcanedev\Stripe\Object
+     * @return self
      */
     public static function scopedConstructFrom($class, $values, $options)
     {
-        /** @var \Arcanedev\Stripe\Object $obj */
+        /** @var self $obj */
         $obj = new $class(isset($values['id']) ? $values['id'] : null);
         $obj->refreshFrom($values, $options);
 
@@ -369,7 +384,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Clean refreshed Object
+     * Clean refreshed StripeObject
      *
      * @param array   $values
      * @param boolean $partial - false by default
@@ -496,7 +511,7 @@ class Object implements ObjectInterface, ArrayAccess, Arrayable, Jsonable
     private function checkMetadataAttribute($key, $value)
     {
         if (
-            $key === "metadata" &&
+            $key === 'metadata' &&
             ( ! is_array($value) && ! is_null($value))
         ) {
             throw new InvalidArgumentException(

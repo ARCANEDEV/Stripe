@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
+/**
+ * Interface StripeInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface StripeInterface
 {
     /* ------------------------------------------------------------------------------------------------

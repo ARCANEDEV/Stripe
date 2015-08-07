@@ -3,7 +3,8 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
+use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
@@ -32,7 +33,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property int            application_fee
  * @property string         charge
  * @property string         description
- * @property Object         discount             // Discount Object
+ * @property StripeObject   discount             // Discount Object
  * @property int            ending_balance
  * @property int            next_payment_attempt
  * @property string         receipt_number
@@ -43,7 +44,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property int            tax
  * @property float          tax_percent
  */
-class Invoice extends Resource implements InvoiceInterface
+class Invoice extends StripeResource implements InvoiceInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Utilities\Request\SslChecker;
 
+/**
+ * Interface SslCheckerInterface
+ * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ */
 interface SslCheckerInterface
 {
     /* ------------------------------------------------------------------------------------------------

@@ -1,5 +1,9 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
+/**
+ * Interface AttachedObjectInterface
+ * @package Arcanedev\Stripe\Contracts
+ */
 interface AttachedObjectInterface
 {
     /* ------------------------------------------------------------------------------------------------

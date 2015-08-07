@@ -2,7 +2,8 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
-use Arcanedev\Stripe\Object;
+use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Util
@@ -16,7 +17,7 @@ abstract class Util implements UtilInterface
      */
     const DEFAULT_NAMESPACE = 'Arcanedev\\Stripe\\';
 
-    const DEFAULT_RESOURCE  = 'Object';
+    const DEFAULT_RESOURCE  = 'StripeObject';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -76,7 +77,7 @@ abstract class Util implements UtilInterface
                 continue;
             }
 
-            if ($v instanceof Object) {
+            if ($v instanceof StripeObject) {
                 $results[$k] = $v->toArray(true);
             }
             elseif (is_array($v)) {
@@ -93,24 +94,24 @@ abstract class Util implements UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param  array $response   - The response from the Stripe API.
+     * @param  array $response  -  The response from the Stripe API.
      * @param  array $options
      *
-     * @return \Arcanedev\Stripe\Object|\Arcanedev\Stripe\Resource|Collection|array
+     * @return StripeObject|StripeResource|Collection|StripeObject[]|array
      */
     public static function convertToStripeObject($response, $options)
     {
         if (self::isList($response)) {
-            $mapped = array_map(function($i) use ($options) {
+            return array_map(function($i) use ($options) {
                 return self::convertToStripeObject($i, $options);
             }, $response);
-
-            return $mapped;
         }
         elseif (is_array($response)) {
-            $class = self::DEFAULT_NAMESPACE . self::getClassTypeObject($response);
-
-            return Object::scopedConstructFrom($class, $response, $options);
+            return StripeObject::scopedConstructFrom(
+                self::DEFAULT_NAMESPACE . self::getClassTypeObject($response),
+                $response,
+                $options
+            );
         }
 
         return $response;

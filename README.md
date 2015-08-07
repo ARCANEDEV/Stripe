@@ -3,9 +3,9 @@ Stripe PHP Library [![Packagist License](http://img.shields.io/packagist/l/arcan
 [![Travis Status](https://img.shields.io/scrutinizer/build/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/Stripe)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master)
+[![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/issues)
 [![Github Release](http://img.shields.io/github/release/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/releases)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/arcanedev/stripe.svg?style=flat-square)](https://packagist.org/packages/arcanedev/stripe)
-[![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/Stripe.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/issues)
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
@@ -29,7 +29,7 @@ You can install the bindings via [Composer](http://getcomposer.org/). Add this t
 ```json
 {
     "require": {
-        "arcanedev/stripe": "~2.1"
+        "arcanedev/stripe": "~3.0.0"
     }
 }
 ```
@@ -74,5 +74,4 @@ Please see [Stripe API Reference](https://stripe.com/docs/api) for up-to-date do
   - [ ] More tests and code coverage
   - [ ] Mockery for curl requests
   - [ ] Stripe OAuth Class
-  - [ ] Laravel support 
-  - [ ] Refactoring
+  - [ ] Laravel support

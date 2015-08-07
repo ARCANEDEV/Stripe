@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\ApplicationFee;
 
+/**
+ * Interface ApplicationFeeInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface ApplicationFeeInterface
 {
     /* ------------------------------------------------------------------------------------------------

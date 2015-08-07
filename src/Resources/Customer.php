@@ -4,7 +4,7 @@ use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Customer
@@ -27,7 +27,7 @@ use Arcanedev\Stripe\Resource;
  * @property Collection     subscriptions
  * @property Subscription   subscription    // It's for updateSubscription and cancelSubscription
  */
-class Customer extends Resource implements CustomerInterface
+class Customer extends StripeResource implements CustomerInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

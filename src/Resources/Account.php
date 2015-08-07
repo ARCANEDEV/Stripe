@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Account
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\Resource;
  * @property string statement_descriptor
  * @property string timezone
  */
-class Account extends Resource implements AccountInterface
+class Account extends StripeResource implements AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -87,6 +87,19 @@ class Account extends Resource implements AccountInterface
     public function save($options = null)
     {
         return $this->scopedSave($options);
+    }
+
+    /**
+     * Deleted an account.
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return Account
+     */
+    public function delete($params = null, $options = null)
+    {
+        return $this->scopedDelete($params, $options);
     }
 
     /**

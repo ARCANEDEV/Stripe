@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class InvoiceItem
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\Resource;
  * @property int            quantity
  * @property string         subscription
  */
-class InvoiceItem extends Resource implements InvoiceItemInterface
+class InvoiceItem extends StripeResource implements InvoiceItemInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

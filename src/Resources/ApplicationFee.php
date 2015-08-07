@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class ApplicationFee
@@ -23,7 +23,7 @@ use Arcanedev\Stripe\Resource;
  * @property Collection refunds
  * @property int        amount_refunded
  */
-class ApplicationFee extends Resource implements ApplicationFeeInterface
+class ApplicationFee extends StripeResource implements ApplicationFeeInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

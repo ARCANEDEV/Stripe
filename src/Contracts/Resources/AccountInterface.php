@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Account;
 
+/**
+ * Interface AccountInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -37,6 +41,16 @@ interface AccountInterface
      * @return Account
      */
     public function save($options = null);
+
+    /**
+     * Deleted an account.
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return Account
+     */
+    public function delete($params = null, $options = null);
 
     /**
      * Get all accounts

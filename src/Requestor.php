@@ -9,7 +9,6 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
-use Arcanedev\Stripe\Resource as ResourceObject;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
@@ -110,7 +109,7 @@ class Requestor implements RequestorInterface
      */
     private function setApiBase($apiBaseUrl)
     {
-        if ( ! $apiBaseUrl) {
+        if (empty($apiBaseUrl)) {
             $apiBaseUrl = Stripe::getApiBaseUrl();
         }
 
@@ -135,6 +134,8 @@ class Requestor implements RequestorInterface
 
     /**
      * Set the HTTP client
+     *
+     * @param HttpClientInterface $client
      */
     public static function setHttpClient(HttpClientInterface $client)
     {
@@ -319,7 +320,7 @@ class Requestor implements RequestorInterface
     /**
      * Encode Objects
      *
-     * @param  ResourceObject|bool|array|string $obj
+     * @param  StripeResource|bool|array|string $obj
      *
      * @throws ApiException
      *
@@ -327,7 +328,7 @@ class Requestor implements RequestorInterface
      */
     private static function encodeObjects($obj)
     {
-        if ($obj instanceof ResourceObject) {
+        if ($obj instanceof StripeResource) {
             return str_utf8($obj->id);
         }
 

@@ -3,6 +3,10 @@
 use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
+/**
+ * Class CardTest
+ * @package Arcanedev\Stripe\Tests\Resources
+ */
 class CardTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------

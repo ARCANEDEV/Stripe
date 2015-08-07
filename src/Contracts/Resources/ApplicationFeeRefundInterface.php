@@ -2,6 +2,10 @@
 
 use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
 
+/**
+ * Interface ApplicationFeeRefundInterface
+ * @package Arcanedev\Stripe\Contracts\Resources
+ */
 interface ApplicationFeeRefundInterface
 {
     /* ------------------------------------------------------------------------------------------------

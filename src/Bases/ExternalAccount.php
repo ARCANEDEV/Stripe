@@ -1,13 +1,13 @@
 <?php namespace Arcanedev\Stripe\Bases;
 
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class ExternalAccount
  * @package Arcanedev\Stripe\Bases
  */
-abstract class ExternalAccount extends Resource
+abstract class ExternalAccount extends StripeResource
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

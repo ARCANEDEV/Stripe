@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Coupon;
@@ -10,6 +11,10 @@ use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Stripe;
 
+/**
+ * Class StripeTestCase
+ * @package Arcanedev\Stripe\Tests
+ */
 abstract class StripeTestCase extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -26,7 +31,7 @@ abstract class StripeTestCase extends TestCase
     protected $myApiKey     = 'my-secret-api-key';
 
     /** @var string */
-    protected $myApiVersion = '2.0.0';
+    protected $myApiVersion = '3.0.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -36,13 +41,7 @@ abstract class StripeTestCase extends TestCase
     {
         parent::setUp();
 
-        $apiKey = getenv('STRIPE_API_KEY');
-
-        if ( ! $apiKey) {
-            $apiKey = self::API_KEY;
-        }
-
-        Stripe::setApiKey($apiKey);
+        $this->init();
     }
 
     public function tearDown()
@@ -51,13 +50,13 @@ abstract class StripeTestCase extends TestCase
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Tests Functions
+     |  Helpers Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Create a valid test charge.
      *
-     * @param array $attributes
+     * @param  array $attributes
      *
      * @return Charge
      */
@@ -74,7 +73,7 @@ abstract class StripeTestCase extends TestCase
     /**
      * Create a valid test customer.
      *
-     * @param array $attributes
+     * @param  array $attributes
      *
      * @return Customer
      */
@@ -86,9 +85,27 @@ abstract class StripeTestCase extends TestCase
     }
 
     /**
+     * Create a test account
+     *
+     * @param  array $attributes
+     *
+     * @return Account
+     */
+    protected static function createTestAccount(array $attributes = [])
+    {
+        return Account::create(
+            $attributes + [
+                'managed' => false,
+                'country' => 'US',
+                'email'   => self::generateRandomEmail(),
+            ]
+        );
+    }
+
+    /**
      * Create a valid test recipient
      *
-     * @param array $attributes
+     * @param  array $attributes
      *
      * @return Recipient
      */
@@ -109,7 +126,7 @@ abstract class StripeTestCase extends TestCase
     /**
      * Create Test Bitcoin Receiver
      *
-     * @param string $email
+     * @param  string $email
      *
      * @return BitcoinReceiver
      */
@@ -124,14 +141,13 @@ abstract class StripeTestCase extends TestCase
     }
 
     /**
-     * Verify that a plan with a given ID exists, or create a new one if it does
-     * not.
+     * Verify that a plan with a given ID exists, or create a new one if it does not.
      *
      * @return Plan
      */
     protected static function retrieveOrCreatePlan()
     {
-        $id = 'gold-' . self::generateRandomString(8);
+        $id = 'gold-' . self::generateRandomString(20);
 
         try {
             return Plan::retrieve($id);
@@ -148,10 +164,9 @@ abstract class StripeTestCase extends TestCase
     }
 
     /**
-     * Verify that a coupon with a given ID exists, or create a new one if it does
-     * not.
+     * Verify that a coupon with a given ID exists, or create a new one if it does not.
      *
-     * @param $id
+     * @param  string $id
      *
      * @return Coupon
      */
@@ -182,10 +197,10 @@ abstract class StripeTestCase extends TestCase
 
         return Transfer::create(
             $attributes + [
-                'amount' => 2000,
-                'currency' => 'usd',
+                'amount'      => 2000,
+                'currency'    => 'usd',
                 'description' => 'Transfer to test@example.com',
-                'recipient' => $recipient->id
+                'recipient'   => $recipient->id
             ]
         );
     }
@@ -193,7 +208,7 @@ abstract class StripeTestCase extends TestCase
     /**
      * Get a valid card data
      *
-     * @param  null $cvc
+     * @param  string|null $cvc
      *
      * @return array
      */
@@ -210,5 +225,16 @@ abstract class StripeTestCase extends TestCase
         }
 
         return $card;
+    }
+
+    private function init()
+    {
+        $apiKey = getenv('STRIPE_API_KEY');
+
+        if (! $apiKey) {
+            $apiKey = self::API_KEY;
+        }
+
+        Stripe::setApiKey($apiKey);
     }
 }

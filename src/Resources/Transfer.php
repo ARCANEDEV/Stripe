@@ -3,7 +3,7 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
-use Arcanedev\Stripe\Resource;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class Transfer
@@ -29,7 +29,7 @@ use Arcanedev\Stripe\Resource;
  * @property string         recipient
  * @property string         statement_descriptor
  */
-class Transfer extends Resource implements TransferInterface
+class Transfer extends StripeResource implements TransferInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions

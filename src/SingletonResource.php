@@ -4,7 +4,7 @@
  * Class SingletonResource
  * @package Arcanedev\Stripe
  */
-class SingletonResource extends Resource
+class SingletonResource extends StripeResource
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -13,8 +13,8 @@ class SingletonResource extends Resource
     /**
      * Retrieve a singleton resource
      *
-     * @param  string      $class
-     * @param  string|null $apiKey
+     * @param  string            $class
+     * @param  array|string|null $apiKey
      *
      * @return SingletonResource
      */
