@@ -29,7 +29,7 @@ interface DisputeInterface
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|Dispute
+     * @return Collection|Dispute[]
      */
     public static function all($params = null, $options = null);
 

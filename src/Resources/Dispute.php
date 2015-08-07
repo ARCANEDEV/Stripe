@@ -36,7 +36,7 @@ class Dispute extends StripeResource implements DisputeInterface
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Dispute
+     * @return self
      */
     public static function retrieve($id, $options = null)
     {
@@ -61,7 +61,7 @@ class Dispute extends StripeResource implements DisputeInterface
      *
      * @param  array|string|null $options
      *
-     * @return Dispute
+     * @return self
      */
     public function save($options = null)
     {
@@ -73,7 +73,7 @@ class Dispute extends StripeResource implements DisputeInterface
      *
      * @param  array|string|null $options
      *
-     * @return Dispute
+     * @return self
      */
     public function close($options = null)
     {

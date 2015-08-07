@@ -41,7 +41,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * Get the refreshed resource.
      *
-     * @return Resource
+     * @return self
      */
     public function refresh()
     {
@@ -184,7 +184,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  string            $id
      * @param  array|string|null $options
      *
-     * @return Resource
+     * @return self
      */
     protected static function scopedRetrieve($id, $options = null)
     {
@@ -204,7 +204,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @return Collection|self[]
      */
     protected static function scopedAll($params = [], $options = null)
     {
@@ -225,7 +225,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @throws ApiException
      * @throws InvalidArgumentException
      *
-     * @return Resource
+     * @return self
      */
     protected static function scopedCreate($params = [], $options = null)
     {
@@ -245,7 +245,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      *
      * @throws InvalidRequestException
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedSave($options = null)
     {
@@ -268,7 +268,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      *
      * @throws InvalidRequestException
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedDelete($params = [], $options = null)
     {
@@ -291,7 +291,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  array|null        $params
      * @param  array|string|null $options
      *
-     * @return Resource
+     * @return self
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {
