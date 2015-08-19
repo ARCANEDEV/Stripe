@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\AttachedObject;
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -25,37 +25,51 @@ use Arcanedev\Stripe\StripeResource;
 class Refund extends StripeResource implements RefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * @throws InvalidRequestException
-     *
-     * @return string The API URL for this Stripe refund.
-     */
-    public function instanceUrl()
-    {
-        // TODO: Refactor this method
-        $id       = $this['id'];
-
-        if ( ! $id) {
-            throw new InvalidRequestException(
-                'Could not determine which URL to request: class instance has invalid ID: '. $id,
-                null
-            );
-        }
-
-        $base     = self::classUrl('Arcanedev\\Stripe\\Resources\\Charge');
-        $chargeId = urlencode(str_utf8($this['charge']));
-        $refundId = urlencode(str_utf8($id));
-
-        return "$base/$chargeId/refunds/$refundId";
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Retrieve a Refund by ID
+     * @link https://stripe.com/docs/api/php#retrieve_refund
+     *
+     * @param  string            $id
+     * @param  array|string|null $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
+     * List all refunds
+     * @link https://stripe.com/docs/api/php#list_refunds
+     *
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Collection|self[]
+     */
+    public static function all($params = null, $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
+     * Create a Refund
+     * @link https://stripe.com/docs/api/php#create_refund
+     *
+     * @param  array|null        $params
+     * @param  array|string|null $options
+     *
+     * @return self
+     */
+    public static function create($params = null, $options = null)
+    {
+        return self::scopedCreate($params, $options);
+    }
+
     /**
      * Update/Save a Refund
      * @link https://stripe.com/docs/api/php#update_refund
