@@ -31,7 +31,7 @@ abstract class StripeTestCase extends TestCase
     protected $myApiKey     = 'my-secret-api-key';
 
     /** @var string */
-    protected $myApiVersion = '3.0.0';
+    protected $myApiVersion = '';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -47,6 +47,18 @@ abstract class StripeTestCase extends TestCase
     public function tearDown()
     {
         parent::tearDown();
+    }
+
+    private function init()
+    {
+        $apiKey = getenv('STRIPE_API_KEY');
+
+        if (! $apiKey) {
+            $apiKey = self::API_KEY;
+        }
+
+        Stripe::setApiKey($apiKey);
+        $this->myApiVersion = Stripe::VERSION;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -225,16 +237,5 @@ abstract class StripeTestCase extends TestCase
         }
 
         return $card;
-    }
-
-    private function init()
-    {
-        $apiKey = getenv('STRIPE_API_KEY');
-
-        if (! $apiKey) {
-            $apiKey = self::API_KEY;
-        }
-
-        Stripe::setApiKey($apiKey);
     }
 }
