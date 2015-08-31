@@ -9,7 +9,7 @@ Stripe PHP Library [![Packagist License](http://img.shields.io/packagist/l/arcan
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-This package is "inspired" by [Stripe PHP library](https://github.com/stripe/stripe-php)
+PHP library for Stripe
 
 You can sign up for a Stripe account at https://stripe.com.
 
