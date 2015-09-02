@@ -1,4 +1,4 @@
-Stripe PHP Library [![Packagist License](http://img.shields.io/packagist/l/arcanedev/sanitizer.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/blob/master/LICENSE)
+PHP library for Stripe [![Packagist License](http://img.shields.io/packagist/l/arcanedev/sanitizer.svg?style=flat-square)](https://github.com/ARCANEDEV/Stripe/blob/master/LICENSE)
 ==============
 [![Travis Status](https://img.shields.io/scrutinizer/build/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/Stripe)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/Stripe.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master)
