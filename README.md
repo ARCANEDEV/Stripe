@@ -9,8 +9,6 @@ PHP library for Stripe [![Packagist License](http://img.shields.io/packagist/l/a
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-PHP library for Stripe
-
 You can sign up for a Stripe account at https://stripe.com.
 
 ### Requirements
