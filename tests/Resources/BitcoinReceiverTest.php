@@ -65,16 +65,16 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_list_all()
     {
-        $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-
+        $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
         $receivers = BitcoinReceiver::all();
+
         $this->assertTrue(count($receivers->data) > 0);
     }
 
     /** @test */
     public function it_can_create()
     {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
 
         $this->assertEquals(100, $receiver->amount);
         $this->assertNotNull($receiver->id);
@@ -89,19 +89,35 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
+        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $r        = BitcoinReceiver::retrieve($receiver->id);
 
-        $r = BitcoinReceiver::retrieve($receiver->id);
         $this->assertEquals($receiver->id, $r->id);
     }
 
     /** @test */
     public function it_can_list_all_transactions()
     {
-        $receiver = $this->createTestBitcoinReceiver("do+fill_now@stripe.com");
-        $this->assertEquals(0, count($receiver->transactions->data));
-
+        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
         $transactions = $receiver->transactions->all(['limit' => 1]);
-        $this->assertEquals(1, count($transactions->data));
+
+        $this->assertCount(0, $receiver->transactions->data);
+        $this->assertCount(1, $transactions->data);
+    }
+
+    /** @test */
+    public function it_can_refund()
+    {
+        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = BitcoinReceiver::retrieve($receiver->id);
+
+        $this->assertNull($receiver->refund_address);
+
+        $refundAddress = '007, Real refund address, Earth.';
+        $receiver->refund([
+            'refund_address' => $refundAddress
+        ]);
+
+        $this->assertEquals($refundAddress, $receiver->refund_address);
     }
 }
