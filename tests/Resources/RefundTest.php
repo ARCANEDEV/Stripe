@@ -137,7 +137,7 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_create_refund_for_bitcoin()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
         $charge   = Charge::create([
             'amount'      => $receiver->amount,
             'currency'    => $receiver->currency,
@@ -206,7 +206,7 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_create_for_bitcoin_via_charge()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
         $charge   = Charge::create([
             'amount'      => $receiver->amount,
             'currency'    => $receiver->currency,

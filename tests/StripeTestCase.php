@@ -138,11 +138,11 @@ abstract class StripeTestCase extends TestCase
     /**
      * Create Test Bitcoin Receiver
      *
-     * @param  string $email
+     * @param  string  $email
      *
      * @return BitcoinReceiver
      */
-    protected function createTestBitcoinReceiver($email)
+    protected function createTestBitcoinReceiver($email = 'do+fill_now@stripe.com')
     {
         return BitcoinReceiver::create([
             'amount'      => 100,

@@ -65,7 +65,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_list_all()
     {
-        $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $this->createTestBitcoinReceiver();
         $receivers = BitcoinReceiver::all();
 
         $this->assertTrue(count($receivers->data) > 0);
@@ -74,7 +74,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_create()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
 
         $this->assertEquals(100, $receiver->amount);
         $this->assertNotNull($receiver->id);
@@ -89,7 +89,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
         $r        = BitcoinReceiver::retrieve($receiver->id);
 
         $this->assertEquals($receiver->id, $r->id);
@@ -98,7 +98,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_list_all_transactions()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
         $transactions = $receiver->transactions->all(['limit' => 1]);
 
         $this->assertCount(0, $receiver->transactions->data);
@@ -108,7 +108,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_refund()
     {
-        $receiver = $this->createTestBitcoinReceiver('do+fill_now@stripe.com');
+        $receiver = $this->createTestBitcoinReceiver();
         $receiver = BitcoinReceiver::retrieve($receiver->id);
 
         $this->assertNull($receiver->refund_address);
