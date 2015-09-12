@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-use Arcanedev\Stripe\Bases\StripeException;
-
 /**
- * Class RateLimitException
- * @package Arcanedev\Stripe\Exceptions
+ * Class     RateLimitException
+ *
+ * @package  Arcanedev\Stripe\Exceptions
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class RateLimitException extends StripeException {}
+class RateLimitException extends InvalidRequestException {}

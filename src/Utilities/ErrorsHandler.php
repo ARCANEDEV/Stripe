@@ -115,9 +115,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     /**
      * Handle API Errors
      *
-     * @param  string $respBody
-     * @param  int    $respCode
-     * @param  array  $response
+     * @param  string  $respBody
+     * @param  int     $respCode
+     * @param  array   $response
      *
      * @throws ApiException
      * @throws AuthenticationException
@@ -139,10 +139,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
         $exception = $this->getException();
 
-        if (
-            $this->respCode === 400 &&
-            $stripeCode === 'rate_limit'
-        ) {
+        if ($this->respCode === 400 && $stripeCode === 'rate_limit') {
             $this->setRespCode(429);
             $exception = $this->getExceptionByCode(429);
         }
