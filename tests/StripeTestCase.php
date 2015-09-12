@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
+use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Resources\Charge;
@@ -10,6 +12,8 @@ use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\Utilities\Request\HttpClient;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Class StripeTestCase
@@ -33,6 +37,12 @@ abstract class StripeTestCase extends TestCase
     /** @var string */
     protected $myApiVersion = '';
 
+    /** @var HttpClientInterface|ObjectProphecy */
+    protected $mock;
+
+    /** @var int */
+    protected $call;
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -41,12 +51,7 @@ abstract class StripeTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->init();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
+        self::init();
     }
 
     private function init()
@@ -59,6 +64,56 @@ abstract class StripeTestCase extends TestCase
 
         Stripe::setApiKey($apiKey);
         $this->myApiVersion = Stripe::VERSION;
+
+        Requestor::setHttpClient(HttpClient::instance());
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Mock Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Mock request
+     *
+     * @param  string  $method
+     * @param  string  $path
+     * @param  array   $params
+     * @param  array   $return
+     * @param  int     $rcode
+     */
+    protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200)
+    {
+        $mock = $this->setUpMockRequest();
+
+        $mock->setApiKey(self::API_KEY)->willReturn($mock);
+        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, [])->willReturn([
+            json_encode($return),
+            $rcode,
+            []
+        ]);
+    }
+
+    /**
+     * Setup mock Request
+     *
+     * @return HttpClientInterface|ObjectProphecy
+     */
+    protected function setUpMockRequest()
+    {
+        if ( ! $this->mock) {
+            $this->mock = $this->prophesize(
+                'Arcanedev\\Stripe\\Contracts\\Utilities\\Request\\HttpClientInterface'
+            );
+
+            Requestor::setHttpClient($this->mock->reveal());
+        }
+
+        return $this->mock;
     }
 
     /* ------------------------------------------------------------------------------------------------
