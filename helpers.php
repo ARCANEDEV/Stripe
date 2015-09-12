@@ -90,7 +90,7 @@ if ( ! function_exists('str_url_queries')) {
         foreach ($queries as $key => $value) {
             if (is_null($value)) continue;
 
-            if ($prefix !== null) {
+            if ($prefix) {
                 $key = $prefix . (($key && ! is_int($key)) ? "[$key]" : '[]');
             }
 
