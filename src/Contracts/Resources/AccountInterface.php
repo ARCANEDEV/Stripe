@@ -43,16 +43,6 @@ interface AccountInterface
     public function save($options = null);
 
     /**
-     * Deleted an account.
-     *
-     * @param  array|null        $params
-     * @param  array|string|null $options
-     *
-     * @return Account
-     */
-    public function delete($params = null, $options = null);
-
-    /**
      * Get all accounts
      *
      * @param  array|null        $params
