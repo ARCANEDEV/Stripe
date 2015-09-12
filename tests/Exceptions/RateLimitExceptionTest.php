@@ -1,10 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Exceptions;
 
-use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
-use Arcanedev\Stripe\Requestor;
 use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Class     RateLimitExceptionTest

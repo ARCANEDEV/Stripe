@@ -595,9 +595,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
             if (
                 isset($this->$property) &&
-                $this->$property instanceof self
+                $this->$property instanceof self &&
+                $serialized = $this->$property->serializeParameters()
             ) {
-                $params[$property] = $this->$property->serializeParameters();
+                $params[$property] = $serialized;
             }
         }
     }
