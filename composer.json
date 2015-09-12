@@ -28,7 +28,7 @@
         "psr-4": {
             "Arcanedev\\Stripe\\": "src/"
         },
-        "files": ["src/start.php"]
+        "files": ["requirements.php", "constants.php", "helpers.php"]
     },
     "autoload-dev": {
         "psr-4": {

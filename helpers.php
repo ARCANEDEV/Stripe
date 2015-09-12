@@ -6,7 +6,7 @@
  */
 if ( ! function_exists('is_testing')) {
     /**
-     * Check if testing environment
+     * Check if testing environment.
      *
      * @return bool
      */
@@ -18,7 +18,7 @@ if ( ! function_exists('is_testing')) {
 
 if ( ! function_exists('is_hhvm')) {
     /**
-     * Check if running on HHVM env
+     * Check if running on HHVM env.
      *
      * @return bool
      */
@@ -34,9 +34,9 @@ if ( ! function_exists('is_hhvm')) {
  */
 if ( ! function_exists('str_utf8')) {
     /**
-     * Encoding string to UTF-8
+     * Encoding string to UTF-8.
      *
-     * @param  string|mixed $string
+     * @param  string|mixed  $string
      *
      * @return string
      */
@@ -55,16 +55,16 @@ if ( ! function_exists('str_utf8')) {
 
 if ( ! function_exists('str_parse_url')) {
     /**
-     * Parse url with queries
+     * Parse url with queries.
      *
-     * @param  string      $baseUrl
-     * @param  array|mixed $queries
+     * @param  string       $baseUrl
+     * @param  array|mixed  $queries
      *
      * @return string
      */
     function str_parse_url($baseUrl, $queries = [])
     {
-        if (! is_string($baseUrl) || empty($queries)) {
+        if ( ! is_string($baseUrl) || empty($queries)) {
             return $baseUrl;
         }
 
@@ -76,23 +76,19 @@ if ( ! function_exists('str_url_queries')) {
     /**
      *  A query string, essentially.
      *
-     * @param  array|mixed $queries An map of param keys to values.
-     * @param  string|null $prefix  (It doesn't look like we ever use $prefix...)
+     * @param  array|mixed  $queries  An map of param keys to values.
+     * @param  string|null  $prefix
      *
      * @return string
      */
     function str_url_queries($queries, $prefix = null)
     {
-        if ( ! is_array($queries)) {
-            return $queries;
-        }
+        if ( ! is_array($queries)) return $queries;
 
         $output = [];
 
         foreach ($queries as $key => $value) {
-            if (is_null($value)) {
-                continue;
-            }
+            if (is_null($value)) continue;
 
             if ($prefix) {
                 $key = $prefix . (($key && ! is_int($key)) ? "[$key]" : '[]');
@@ -109,7 +105,7 @@ if ( ! function_exists('str_url_queries')) {
 
 if ( ! function_exists('str_split_camelcase')) {
     /**
-     * Split Camel Case String
+     * Split Camel Case String.
      *
      * @param  string $string
      * @param  string $glue
@@ -118,9 +114,7 @@ if ( ! function_exists('str_split_camelcase')) {
      */
     function str_split_camelcase($string, $glue = ' ')
     {
-        if ( ! is_string($string)) {
-            return $string;
-        }
+        if ( ! is_string($string)) return $string;
 
         $string = preg_split('/(?<=\\w)(?=[A-Z])/', trim($string));
 
@@ -132,19 +126,17 @@ if ( ! function_exists('str_split_camelcase')) {
  |  Array
  | ------------------------------------------------------------------------------------------------
  */
-if (! function_exists('is_multi_dim_array')) {
+if ( ! function_exists('is_multi_dim_array')) {
     /**
-     * Check if array is a multidimensional array
+     * Check if array is a multidimensional array.
      *
-     * @param  array $array
+     * @param  array  $array
      *
      * @return bool
      */
     function is_multi_dim_array($array)
     {
-        if (! is_array($array)) {
-            return false;
-        }
+        if ( ! is_array($array)) return false;
 
         $array = array_filter($array, 'is_array');
 
@@ -152,19 +144,17 @@ if (! function_exists('is_multi_dim_array')) {
     }
 }
 
-if (! function_exists('is_assoc_array')) {
+if ( ! function_exists('is_assoc_array')) {
     /**
-     * Check if array is an associative array
+     * Check if array is an associative array.
      *
-     * @param  array $array
+     * @param  array  $array
      *
      * @return bool
      */
     function is_assoc_array($array)
     {
-        if (! is_array($array)) {
-            return false;
-        }
+        if ( ! is_array($array)) return false;
 
         $array = array_filter(array_keys($array), 'is_string');
 
@@ -176,10 +166,11 @@ if (! function_exists('is_assoc_array')) {
  |  Validations
  | ------------------------------------------------------------------------------------------------
  */
-if (! function_exists('validate_url')) {
+if ( ! function_exists('validate_url')) {
     /**
-     * Check if url is valid
-     * @param  string $url
+     * Check if url is valid.
+     *
+     * @param  string  $url
      *
      * @return bool
      */
@@ -189,36 +180,36 @@ if (! function_exists('validate_url')) {
     }
 }
 
-if (! function_exists('validate_version')) {
+if ( ! function_exists('validate_version')) {
     /**
-     * Check if version is valid
+     * Check if version is valid.
      *
-     * @param  string $version
+     * @param  string  $version
      *
      * @return bool
      */
     function validate_version($version)
     {
-        if (! is_string($version)) {
-            return false;
-        }
+        if ( ! is_string($version)) return false;
 
         // Format [x.x.x] - no beta & no release candidate
-        preg_match("/(\d+.){2}\d+/", $version, $matches);
+        preg_match('/(\d+.){2}\d+/', $version, $matches);
 
         return isset($matches[0]);
     }
 }
 
-if (! function_exists('validate_bool')) {
+if ( ! function_exists('validate_bool')) {
     /**
-     * @param  mixed $value
+     * Validate boolean.
+     *
+     * @param  mixed  $value
      *
      * @return bool
      */
     function validate_bool($value)
     {
-        if (! is_bool($value)) {
+        if ( ! is_bool($value)) {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
