@@ -273,7 +273,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Process Resource Parameter.
      *
-     * @param  \resource  $resource
+     * @param  resource  $resource
      *
      * @throws ApiException
      *
@@ -339,7 +339,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Check Resource type is stream.
      *
-     * @param  \resource  $resource
+     * @param  resource  $resource
      *
      * @throws ApiException
      */

@@ -3,8 +3,8 @@
 use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
-use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**

@@ -90,7 +90,7 @@ if ( ! function_exists('str_url_queries')) {
         foreach ($queries as $key => $value) {
             if (is_null($value)) continue;
 
-            if ($prefix) {
+            if ($prefix !== null) {
                 $key = $prefix . (($key && ! is_int($key)) ? "[$key]" : '[]');
             }
 
@@ -203,7 +203,7 @@ if ( ! function_exists('validate_bool')) {
     /**
      * Validate boolean.
      *
-     * @param  mixed  $value
+     * @param  bool|mixed  $value
      *
      * @return bool
      */

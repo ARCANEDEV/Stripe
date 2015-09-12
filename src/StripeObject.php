@@ -89,7 +89,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Constructor
+     * Make a Stripe object instance.
      *
      * @param  string|null        $id
      * @param  string|array|null  $options
