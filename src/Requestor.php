@@ -13,8 +13,10 @@ use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
 /**
- * Class Requestor
- * @package Arcanedev\Stripe
+ * Class     Requestor
+ *
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Requestor implements RequestorInterface
 {
@@ -56,10 +58,10 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Constructor
+     * Create Requestor instance.
      *
-     * @param string|null $apiKey
-     * @param string|null $apiBase
+     * @param  string|null  $apiKey
+     * @param  string|null  $apiBase
      */
     public function __construct($apiKey = null, $apiBase = null)
     {
@@ -73,7 +75,7 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Stripe API Key
+     * Get Stripe API Key.
      *
      * @return string
      */
@@ -89,7 +91,7 @@ class Requestor implements RequestorInterface
     /**
      * Set API Key
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
      * @return Requestor
      */
@@ -103,7 +105,7 @@ class Requestor implements RequestorInterface
     /**
      * Set API Base URL
      *
-     * @param  string|null $apiBaseUrl
+     * @param  string|null  $apiBaseUrl
      *
      * @return Requestor
      */
@@ -125,9 +127,11 @@ class Requestor implements RequestorInterface
      */
     private function httpClient()
     {
+        // @codeCoverageIgnoreStart
         if ( ! self::$httpClient) {
             self::$httpClient = HttpClient::instance();
         }
+        // @codeCoverageIgnoreEnd
 
         return self::$httpClient;
     }
@@ -135,7 +139,7 @@ class Requestor implements RequestorInterface
     /**
      * Set the HTTP client
      *
-     * @param HttpClientInterface $client
+     * @param  HttpClientInterface  $client
      */
     public static function setHttpClient(HttpClientInterface $client)
     {
@@ -147,10 +151,10 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create Requestor with static method
+     * Make Requestor instance.
      *
-     * @param  string|null $apiKey
-     * @param  string      $apiBase
+     * @param  string|null  $apiKey
+     * @param  string       $apiBase
      *
      * @return Requestor
      */
@@ -160,11 +164,11 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * GET Request.
      *
-     * @param  string     $url
-     * @param  array|null $params
-     * @param  array|null $headers
+     * @param  string      $url
+     * @param  array|null  $params
+     * @param  array|null  $headers
      *
      * @return array
      */
@@ -174,11 +178,11 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * POST Request.
      *
-     * @param  string     $url
-     * @param  array|null $params
-     * @param  array|null $headers
+     * @param  string      $url
+     * @param  array|null  $params
+     * @param  array|null  $headers
      *
      * @return array
      */
@@ -188,11 +192,11 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * DELETE Request.
      *
-     * @param  string     $url
-     * @param  array|null $params
-     * @param  array|null $headers
+     * @param  string      $url
+     * @param  array|null  $params
+     * @param  array|null  $headers
      *
      * @return array
      */
@@ -202,12 +206,13 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the request.
+     * Make a request.
+     * Note: An array whose first element is the response and second element is the API key used to make the request.
      *
-     * @param  string     $method
-     * @param  string     $url
-     * @param  array|null $params
-     * @param  array|null $headers
+     * @param  string      $method
+     * @param  string      $url
+     * @param  array|null  $params
+     * @param  array|null  $headers
      *
      * @throws ApiException
      *
@@ -234,10 +239,36 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Interpret Response
+     * Raw request
      *
-     * @param  string $respBody
-     * @param  int    $respCode
+     * @param  string  $method
+     * @param  string  $url
+     * @param  array   $params
+     * @param  array   $headers
+     *
+     * @throws ApiConnectionException
+     * @throws ApiException
+     * @throws ApiKeyNotSetException
+     *
+     * @return array
+     */
+    private function requestRaw($method, $url, $params, $headers)
+    {
+        $params = self::encodeObjects($params);
+
+        $this->httpClient()->setApiKey($this->getApiKey());
+
+        list($respBody, $respCode) = $this->httpClient()
+            ->request($method, $this->apiBaseUrl . $url, $params, $headers);
+
+        return [$respBody, $respCode, $this->getApiKey()];
+    }
+
+    /**
+     * Interpret Response.
+     *
+     * @param  string  $respBody
+     * @param  int     $respCode
      *
      * @throws ApiException
      * @throws AuthenticationException
@@ -271,38 +302,12 @@ class Requestor implements RequestorInterface
         return $response;
     }
 
-    /**
-     * Raw request
-     *
-     * @param  string $method
-     * @param  string $url
-     * @param  array  $params
-     * @param  array  $headers
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws ApiKeyNotSetException
-     *
-     * @return array
-     */
-    private function requestRaw($method, $url, $params, $headers)
-    {
-        $absUrl = $this->apiBaseUrl . $url;
-        $params = self::encodeObjects($params);
-
-        list($respBody, $respCode) = $this->httpClient()
-            ->setApiKey($this->getApiKey())
-            ->request($method, $absUrl, $params, $headers);
-
-        return [$respBody, $respCode, $this->getApiKey()];
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if the API Key is set
+     * Check if the API Key is set.
      *
      * @return bool
      */
@@ -313,6 +318,39 @@ class Requestor implements RequestorInterface
         return ! empty($apiKey);
     }
 
+    /**
+     * Check if API Key Exists
+     *
+     * @throws ApiKeyNotSetException
+     */
+    private function checkApiKey()
+    {
+        if ( ! $this->isApiKeyExists()) {
+            throw new ApiKeyNotSetException(
+                'The Stripe API Key is required !'
+            );
+        }
+    }
+
+    /**
+     * Check Http Method
+     *
+     * @param  string  $method
+     *
+     * @throws ApiException
+     */
+    private function checkMethod(&$method)
+    {
+        $method = strtolower($method);
+
+        if ( ! in_array($method, self::$allowedMethods)) {
+            throw new ApiException(
+                "Unrecognized method $method, must be [" . implode(', ', self::$allowedMethods) . '].',
+                500
+            );
+        }
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
@@ -320,7 +358,7 @@ class Requestor implements RequestorInterface
     /**
      * Encode Objects
      *
-     * @param  StripeResource|bool|array|string $obj
+     * @param  StripeResource|bool|array|string  $obj
      *
      * @throws ApiException
      *
@@ -343,38 +381,5 @@ class Requestor implements RequestorInterface
         }
 
         return str_utf8($obj);
-    }
-
-    /**
-     * Check if API Key Exists
-     *
-     * @throws ApiKeyNotSetException
-     */
-    private function checkApiKey()
-    {
-        if ( ! $this->isApiKeyExists()) {
-            throw new ApiKeyNotSetException(
-                'The Stripe API Key is required !'
-            );
-        }
-    }
-
-    /**
-     * Check Http Method
-     *
-     * @param  string $method
-     *
-     * @throws ApiException
-     */
-    private function checkMethod(&$method)
-    {
-        $method = strtolower($method);
-
-        if ( ! in_array($method, self::$allowedMethods)) {
-            throw new ApiException(
-                "Unrecognized method $method, must be [" . implode(', ', self::$allowedMethods) . '].',
-                500
-            );
-        }
     }
 }

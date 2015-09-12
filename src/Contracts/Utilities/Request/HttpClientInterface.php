@@ -2,7 +2,6 @@
 
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
 /**
  * Interface HttpClientInterface
@@ -19,7 +18,7 @@ interface HttpClientInterface
      *
      * @param  string $apiKey
      *
-     * @return HttpClient
+     * @return self
      */
     public function setApiKey($apiKey);
 
@@ -28,7 +27,7 @@ interface HttpClientInterface
      *
      * @param  string $apiBaseUrl
      *
-     * @return HttpClient
+     * @return self
      */
     public function setApiBaseUrl($apiBaseUrl);
 
@@ -39,10 +38,10 @@ interface HttpClientInterface
     /**
      * Curl the request
      *
-     * @param  string       $method
-     * @param  string       $url
-     * @param  array|string $params
-     * @param  array        $headers
+     * @param  string        $method
+     * @param  string        $url
+     * @param  array|string  $params
+     * @param  array         $headers
      *
      * @throws ApiConnectionException
      * @throws ApiException

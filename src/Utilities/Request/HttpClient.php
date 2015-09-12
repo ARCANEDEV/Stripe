@@ -6,8 +6,10 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use CURLFile;
 
 /**
- * Class HttpClient
- * @package Arcanedev\Stripe\Utilities\Request
+ * Class     HttpClient
+ *
+ * @package  Arcanedev\Stripe\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HttpClient implements HttpClientInterface
 {
@@ -78,20 +80,6 @@ class HttpClient implements HttpClientInterface
         $this->close();
     }
 
-    /**
-     * Get the HTTP
-     *
-     * @return HttpClient
-     */
-    public static function instance()
-    {
-        if ( ! self::$instance) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -99,9 +87,9 @@ class HttpClient implements HttpClientInterface
     /**
      * Set API Key
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
-     * @return HttpClient
+     * @return self
      */
     public function setApiKey($apiKey)
     {
@@ -113,9 +101,9 @@ class HttpClient implements HttpClientInterface
     /**
      * Set Base URL
      *
-     * @param  string $apiBaseUrl
+     * @param  string  $apiBaseUrl
      *
-     * @return HttpClient
+     * @return self
      */
     public function setApiBaseUrl($apiBaseUrl)
     {
@@ -127,9 +115,9 @@ class HttpClient implements HttpClientInterface
     /**
      * Set array options
      *
-     * @param  array $options
+     * @param  array  $options
      *
-     * @return HttpClient
+     * @return self
      */
     public function setOptionArray(array $options)
     {
@@ -175,12 +163,26 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get the HTTP
+     *
+     * @return self
+     */
+    public static function instance()
+    {
+        if ( ! self::$instance) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
+
+    /**
      * Curl the request
      *
-     * @param  string       $method
-     * @param  string       $url
-     * @param  array|string $params
-     * @param  array        $headers
+     * @param  string        $method
+     * @param  string        $url
+     * @param  array|string  $params
+     * @param  array         $headers
      *
      * @throws ApiConnectionException
      * @throws ApiException
@@ -192,7 +194,7 @@ class HttpClient implements HttpClientInterface
         $hasFile = self::processResourceParams($params);
 
         if ($method !== 'post') {
-            $url = str_parse_url($url, $params);
+            $url    = str_parse_url($url, $params);
         }
         else {
             $params = $hasFile ? $params : str_url_queries($params);
@@ -237,7 +239,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Process Resource Parameters
      *
-     * @param  array|string $params
+     * @param  array|string  $params
      *
      * @throws ApiException
      *
@@ -245,9 +247,9 @@ class HttpClient implements HttpClientInterface
      */
     private static function processResourceParams(&$params)
     {
-        if ( ! is_array($params)) {
-            return false;
-        }
+        // @codeCoverageIgnoreStart
+        if ( ! is_array($params)) return false;
+        // @codeCoverageIgnoreEnd
 
         $hasFile = false;
 
@@ -265,7 +267,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Process Resource Parameter
      *
-     * @param  resource $resource
+     * @param  resource  $resource
      *
      * @throws ApiException
      *
@@ -288,16 +290,16 @@ class HttpClient implements HttpClientInterface
     /**
      * Encode array to query string
      *
-     * @param  array       $array
-     * @param  string|null $prefix
+     * @param  array        $array
+     * @param  string|null  $prefix
      *
      * @return string
      */
     protected static function encode($array, $prefix = null)
     {
-        if ( ! is_array($array)) {
-            return $array;
-        }
+        // @codeCoverageIgnoreStart
+        if ( ! is_array($array)) return $array;
+        // @codeCoverageIgnoreEnd
 
         $result = [];
 
@@ -313,13 +315,11 @@ class HttpClient implements HttpClientInterface
                 $key = $prefix . '[]';
             }
 
-            if (is_array($value)) {
-                if ($enc = self::encode($value, $key)) {
-                    $result[] = $enc;
-                }
-            }
-            else {
+            if ( ! is_array($value)) {
                 $result[] = urlencode($key) . '=' . urlencode($value);
+            }
+            elseif ($enc = self::encode($value, $key)) {
+                $result[] = $enc;
             }
         }
 
@@ -333,7 +333,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Check Resource type is stream
      *
-     * @param  resource $resource
+     * @param  \resource  $resource
      *
      * @throws ApiException
      */
@@ -349,11 +349,11 @@ class HttpClient implements HttpClientInterface
     /**
      * Check resource MetaData
      *
-     * @param  array $metaData
+     * @param  array  $metaData
      *
      * @throws ApiException
      */
-    private static function checkResourceMetaData($metaData)
+    private static function checkResourceMetaData(array $metaData)
     {
         if ($metaData['wrapper_type'] !== 'plainfile') {
             throw new ApiException(
@@ -365,16 +365,15 @@ class HttpClient implements HttpClientInterface
     /**
      * Check if param is resource File
      *
-     * @param  mixed $resource
+     * @param  mixed  $resource
      *
      * @return bool
      */
     private static function checkHasResourceFile($resource)
     {
-        return is_resource($resource) || (
-            class_exists('CURLFile') &&
-            $resource instanceof CURLFile
-        );
+        return
+            is_resource($resource) ||
+            (class_exists('CURLFile') && $resource instanceof CURLFile);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -388,12 +387,9 @@ class HttpClient implements HttpClientInterface
      */
     private function checkResponse()
     {
-        if ($this->response !== false) {
-            return;
-        }
+        if ($this->response !== false) return;
 
         $this->close();
-
         $this->handleCurlError();
     }
 
