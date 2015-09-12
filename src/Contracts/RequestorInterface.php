@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 /**
- * Interface RequestorInterface
- * @package Arcanedev\Stripe\Contracts
+ * Interface  RequestorInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface RequestorInterface
 {
@@ -22,9 +24,11 @@ interface RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string|null $apiKey
+     * Make requestor instance.
      *
-     * @return RequestorInterface
+     * @param  string|null  $apiKey
+     *
+     * @return self
      */
     public static function make($apiKey = null);
 
@@ -33,48 +37,45 @@ interface RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * GET request.
      *
-     * @param string $url
-     * @param array|null $params
+     * @param  string      $url
+     * @param  array|null  $params
      *
      * @return array
      */
     public function get($url, $params = null);
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * POST request.
      *
-     * @param string $url
-     * @param array|null $params
+     * @param  string      $url
+     * @param  array|null  $params
      *
      * @return array
      */
     public function post($url, $params = null);
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the GET request.
+     * DELETE request.
      *
-     * @param string $url
-     * @param array|null $params
+     * @param  string      $url
+     * @param  array|null  $params
      *
      * @return array
      */
     public function delete($url, $params = null);
 
     /**
-     * An array whose first element is the response and second element is the API key used to make the request.
+     * Make a request.
      *
-     * @param string $method
-     * @param string $url
-     * @param array|null $params
+     * Note: An array whose first element is the response and second element is the API key used to make the request.
+     *
+     * @param  string      $method
+     * @param  string      $url
+     * @param  array|null  $params
      *
      * @return array
      */
     public function request($method, $url, $params = null);
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
 }

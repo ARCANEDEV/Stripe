@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Request\HeaderBag;
 
 /**
- * Class HeaderBagTest
- * @package Arcanedev\Stripe\Tests\Utilities\Request
+ * Class     HeaderBagTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HeaderBagTest extends StripeTestCase
 {

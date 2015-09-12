@@ -1,11 +1,13 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
-use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\StripeObject;
+use Arcanedev\Stripe\StripeResource;
 
 /**
- * Interface CollectionInterface
- * @package Arcanedev\Stripe\Contracts
+ * Interface  CollectionInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CollectionInterface
 {
@@ -14,39 +16,33 @@ interface CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List Function
+     * List Function.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
-     * @throws ApiException
-     *
-     * @return Collection|array
+     * @return self|array
      */
     public function all($params = [], $options = null);
 
     /**
-     * Create Function
+     * Create Function.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
-     * @throws ApiException
-     *
-     * @return \Arcanedev\Stripe\StripeObject|Resource|array
+     * @return StripeObject|StripeResource|array
      */
     public function create($params = [], $options = null);
 
     /**
-     * Retrieve Function
+     * Retrieve Function.
      *
-     * @param  string            $id
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
-     * @throws ApiException
-     *
-     * @return \Arcanedev\Stripe\StripeObject|Resource|array
+     * @return StripeObject|StripeResource|array
      */
     public function retrieve($id, $params = [], $options = null);
 
@@ -55,7 +51,7 @@ interface CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if Object is list
+     * Check if Object is list.
      *
      * @return bool
      */
@@ -66,7 +62,7 @@ interface CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get items Count
+     * Get items Count.
      *
      * @return int
      */

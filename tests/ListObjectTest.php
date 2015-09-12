@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\Collection;
 
 /**
- * Class ListObjectTest
- * @package Arcanedev\Stripe\Tests
+ * Class     ListObjectTest
+ *
+ * @package  Arcanedev\Stripe\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ListObjectTest extends StripeTestCase
 {

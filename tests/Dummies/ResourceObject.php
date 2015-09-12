@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class ResourceObject
- * @package Arcanedev\Stripe\Tests\Dummies
+ * Class     ResourceObject
+ *
+ * @package  Arcanedev\Stripe\Tests\Dummies
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ResourceObject extends StripeResource
 {

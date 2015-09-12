@@ -6,8 +6,10 @@ use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class RecipientTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     RecipientTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RecipientTest extends StripeTestCase
 {

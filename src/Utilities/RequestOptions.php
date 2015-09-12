@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Contracts\RequestOptionsInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 
 /**
- * Class RequestOptions
- * @package Arcanedev\Stripe\Utilities
+ * Class     RequestOptions
+ *
+ * @package  Arcanedev\Stripe\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RequestOptions implements RequestOptionsInterface
 {
@@ -24,8 +26,10 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string|null $apiKey
-     * @param array       $headers
+     * Create a RequestOptions instance.
+     *
+     * @param  string|null  $apiKey
+     * @param  array        $headers
      */
     public function __construct($apiKey = null, array $headers = [])
     {
@@ -38,7 +42,7 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get API Key
+     * Get API Key.
      *
      * @return string
      */
@@ -48,11 +52,11 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Set API Key
+     * Set API Key.
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
-     * @return RequestOptions
+     * @return self
      */
     public function setApiKey($apiKey)
     {
@@ -62,7 +66,7 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Get Headers
+     * Get Headers.
      *
      * @return array
      */
@@ -72,11 +76,11 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Set Headers
+     * Set Headers.
      *
-     * @param  array $headers
+     * @param  array  $headers
      *
-     * @return RequestOptions
+     * @return self
      */
     protected function setHeaders($headers)
     {
@@ -90,12 +94,11 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Unpacks an options array and merges it into the existing RequestOptions
-     * object.
+     * Unpacks an options array and merges it into the existing RequestOptions object.
      *
-     * @param  array|string|null $options a key => value array
+     * @param  array|string|null  $options
      *
-     * @return RequestOptions
+     * @return self
      */
     public function merge($options)
     {
@@ -111,13 +114,13 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Unpacks an options array into an Options object
+     * Unpacks an options array into an Options object.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      *
-     * @return RequestOptions
+     * @return self
      */
     public static function parse($options)
     {
@@ -127,11 +130,7 @@ class RequestOptions implements RequestOptionsInterface
             return $options;
         }
 
-        if (is_null($options)) {
-            return new self(null, []);
-        }
-
-        if (is_string($options)) {
+        if (is_null($options) || is_string($options)) {
             return new self($options, []);
         }
 
@@ -147,9 +146,9 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Prepare headers
+     * Prepare headers.
      *
-     * @param  array $options
+     * @param  array  $options
      *
      * @return array
      */
@@ -177,7 +176,7 @@ class RequestOptions implements RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if API exists
+     * Check if API exists.
      *
      * @return bool
      */
@@ -187,9 +186,9 @@ class RequestOptions implements RequestOptionsInterface
     }
 
     /**
-     * Check Options
+     * Check Options.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      */

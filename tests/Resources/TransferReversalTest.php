@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class TransferReversalTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     TransferReversalTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TransferReversalTest extends StripeTestCase
 {

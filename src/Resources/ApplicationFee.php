@@ -5,23 +5,27 @@ use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class ApplicationFee
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#application_fees
+ * Class     ApplicationFee
  *
- * @property string     id
- * @property string     object // "application_fee"
- * @property bool       livemode
- * @property string     account
- * @property int        amount
- * @property string     application
- * @property string     balance_transaction
- * @property string     charge
- * @property int        created // timestamp
- * @property string     currency
- * @property bool       refunded
- * @property Collection refunds
- * @property int        amount_refunded
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#application_fees
+ *
+ * @property  string      id
+ * @property  string      object                 // "application_fee"
+ * @property  bool        livemode
+ * @property  string      account
+ * @property  int         amount
+ * @property  string      application
+ * @property  string      balance_transaction
+ * @property  string      charge
+ * @property  int         created               // timestamp
+ * @property  string      currency
+ * @property  bool        refunded
+ * @property  Collection  refunds
+ * @property  int         amount_refunded
+ *
+ * @todo:    Complete the properties.
  */
 class ApplicationFee extends StripeResource implements ApplicationFeeInterface
 {
@@ -33,9 +37,9 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
      * This is a special case because the application fee endpoint has an
      *    underscore in it. The parent `className` function strips underscores.
      *
-     * @param  string $class
+     * @param  string  $class
      *
-     * @return string The name of the class.
+     * @return string
      */
     public static function className($class = '')
     {
@@ -47,11 +51,12 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieving an Application Fee
-     * @link https://stripe.com/docs/api/php#retrieve_application_fee
+     * Retrieving an Application Fee.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_application_fee
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -61,13 +66,14 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
     }
 
     /**
-     * List all Application Fees
-     * @link https://stripe.com/docs/api/php#list_application_fees
+     * List all Application Fees.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_application_fees
      *
-     * @return Collection|ApplicationFee[]
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -75,11 +81,12 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
     }
 
     /**
-     * Creating an Application Fee Refund
-     * @link https://stripe.com/docs/api/php#create_fee_refund
+     * Creating an Application Fee Refund.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_fee_refund
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */

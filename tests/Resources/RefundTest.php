@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Resources\Refund;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class RefundTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     RefundTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RefundTest extends StripeTestCase
 {

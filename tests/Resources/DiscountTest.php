@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class DiscountTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     DiscountTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DiscountTest extends StripeTestCase
 {

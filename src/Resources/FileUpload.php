@@ -8,17 +8,21 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Utilities\RequestOptions;
 
 /**
- * Class FileUpload
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/guides/file-upload
+ * Class     FileUpload
  *
- * @property string id
- * @property string object
- * @property int    created
- * @property int    size
- * @property string purpose
- * @property string url
- * @property string type [pdf|jpeg|png]
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/guides/file-upload
+ *
+ * @property  string  id
+ * @property  string  object
+ * @property  int     created
+ * @property  int     size
+ * @property  string  purpose
+ * @property  string  url
+ * @property  string  type      // [pdf|jpeg|png]
+ *
+ * @todo:     Update the properties.
  */
 class FileUpload extends StripeResource implements FileUploadInterface
 {

@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class ChargeTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     ChargeTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ChargeTest extends StripeTestCase
 {

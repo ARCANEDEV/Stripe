@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Resources\Dispute;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class DisputeTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     DisputeTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DisputeTest extends StripeTestCase
 {

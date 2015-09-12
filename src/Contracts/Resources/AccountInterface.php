@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Account;
 
 /**
- * Interface AccountInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  AccountInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface AccountInterface
 {
@@ -14,41 +15,41 @@ interface AccountInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an account
-     * @link https://stripe.com/docs/api/php#retrieve_account
+     * Retrieve an account.
+     * @link   https://stripe.com/docs/api/php#retrieve_account
      *
-     * @param  string|null $apiKey
+     * @param  string|null  $apiKey
      *
-     * @return Account
+     * @return self
      */
     public static function retrieve($apiKey = null);
 
     /**
-     * Create an account
+     * Create an account.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Account
+     * @return self
      */
     public static function create($params = null, $options = null);
 
     /**
-     * Save an account
+     * Save an account.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
-     * @return Account
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Get all accounts
+     * Get all accounts.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|Account[]
+     * @return Collection|array
      */
     public static function all($params = null, $options = null);
 }

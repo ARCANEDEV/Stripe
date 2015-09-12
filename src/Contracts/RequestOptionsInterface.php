@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\RequestOptions;
 
 /**
- * Interface RequestOptionsInterface
- * @package Arcanedev\Stripe\Contracts
+ * Interface  RequestOptionsInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface RequestOptionsInterface
 {
@@ -14,23 +16,23 @@ interface RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get API Key
+     * Get API Key.
      *
      * @return string
      */
     public function getApiKey();
 
     /**
-     * Set API Key
+     * Set API Key.
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
-     * @return RequestOptions
+     * @return self
      */
     public function setApiKey($apiKey);
 
     /**
-     * Get Headers
+     * Get Headers.
      *
      * @return array
      */
@@ -41,13 +43,11 @@ interface RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Unpacks an options array into an Options object
+     * Unpacks an options array into an Options object.
      *
-     * @param  array|string $options
+     * @param  array|string  $options
      *
-     * @throws ApiException
-     *
-     * @return RequestOptions
+     * @return self
      */
     public static function parse($options);
 
@@ -56,7 +56,7 @@ interface RequestOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if API exists
+     * Check if API exists.
      *
      * @return bool
      */

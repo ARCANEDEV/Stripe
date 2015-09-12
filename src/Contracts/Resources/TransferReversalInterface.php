@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\TransferReversal;
-
 /**
- * Interface TransferReversalInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  TransferReversalInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface TransferReversalInterface
 {
@@ -13,11 +13,11 @@ interface TransferReversalInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Saved the transfer reversal
+     * Saved the transfer reversal.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
-     * @return TransferReversal
+     * @return self
      */
     public function save($options = null);
 }

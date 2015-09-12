@@ -12,6 +12,8 @@ use Arcanedev\Stripe\StripeResource;
  * @property Subscription|null subscription
  * @property int               start
  * @property int               end
+ *
+ * @todo:    Update the implementation.
  */
 class Discount extends StripeResource
 {

@@ -10,8 +10,10 @@ use Arcanedev\Stripe\Utilities\Util;
 use ReflectionClass;
 
 /**
- * Class StripeResource
- * @package Arcanedev\Stripe
+ * Class     StripeResource
+ *
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class StripeResource extends StripeObject implements StripeResourceInterface
 {
@@ -19,6 +21,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var array */
     private static $persistedHeaders = [
         'Stripe-Account' => true,
         'Stripe-Version' => true
@@ -29,7 +32,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the base url
+     * Get the base url.
      *
      * @return string
      */
@@ -58,7 +61,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * Get The name of the class, with namespacing and underscores stripped.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -71,9 +74,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Get Class short name
+     * Get Class short name.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -91,7 +94,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -103,11 +106,11 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Get Instance URL
+     * Get Instance URL.
      *
      * @throws InvalidRequestException
      *
-     * @return string The full API URL for this API resource.
+     * @return string
      */
     public function instanceUrl()
     {
@@ -132,12 +135,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make a request
+     * Make a request.
      *
-     * @param string              $method
-     * @param string              $url
-     * @param array|null          $params
-     * @param array|string|null   $options
+     * @param  string             $method
+     * @param  string             $url
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return array
      */
@@ -149,21 +152,22 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Make a request
+     * Make a request (static).
      *
-     * @param string              $method
-     * @param string              $url
-     * @param array|null          $params
-     * @param array|string|null   $options
+     * @param  string             $method
+     * @param  string             $url
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return array
      */
     protected static function staticRequest($method, $url, $params, $options)
     {
-        $opts = RequestOptions::parse($options);
+        $opts      = RequestOptions::parse($options);
+        $requestor = Requestor::make($opts->apiKey, static::baseUrl());
 
-        list($response, $opts->apiKey) = Requestor::make($opts->apiKey, static::baseUrl())
-            ->request($method, $url, $params, $opts->headers);
+        list($response, $opts->apiKey) =
+            $requestor->request($method, $url, $params, $opts->headers);
 
         foreach ($opts->headers as $k => $v) {
             if ( ! array_key_exists($k, self::$persistedHeaders)) {
@@ -179,10 +183,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve scope
+     * Retrieve scope.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -199,12 +203,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * List scope
+     * List scope.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|self[]
+     * @return Collection|array
      */
     protected static function scopedAll($params = [], $options = null)
     {
@@ -217,10 +221,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Create scope
+     * Create scope.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      * @throws InvalidArgumentException
@@ -239,9 +243,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Save scope
+     * Save scope.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @throws InvalidRequestException
      *
@@ -261,10 +265,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Delete Scope
+     * Delete Scope.
      *
-     * @param  array|null $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @throws InvalidRequestException
      *
@@ -285,20 +289,20 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Custom Post Call
+     * Custom Post Call.
      *
-     * @param  string            $url
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  string             $url
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {
-        $opts = RequestOptions::parse($options);
+        $opts      = RequestOptions::parse($options);
+        $requestor = Requestor::make($opts->getApiKey(), static::baseUrl());
 
-        list($response, $options) = Requestor::make($opts->getApiKey(), static::baseUrl())
-            ->post($url, $params);
+        list($response, $options) = $requestor->post($url, $params);
 
         $this->refreshFrom($response, $options);
 
@@ -310,10 +314,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check Arguments
+     * Check Arguments.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      * @throws BadMethodCallException
@@ -322,14 +326,13 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     private static function checkArguments($params = [], $options = null)
     {
         self::checkParameters($params);
-
         self::checkOptions($options);
     }
 
     /**
-     * Check parameters
+     * Check parameters.
      *
-     * @param  array|null $params
+     * @param  array|null  $params
      *
      * @throws InvalidArgumentException
      */
@@ -347,9 +350,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     }
 
     /**
-     * Check Options
+     * Check Options.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      */

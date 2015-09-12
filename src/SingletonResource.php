@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe;
 
 /**
- * Class SingletonResource
- * @package Arcanedev\Stripe
+ * Class     SingletonResource
+ *
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SingletonResource extends StripeResource
 {
@@ -13,8 +15,8 @@ class SingletonResource extends StripeResource
     /**
      * Retrieve a singleton resource
      *
-     * @param  string            $class
-     * @param  array|string|null $apiKey
+     * @param  string             $class
+     * @param  array|string|null  $apiKey
      *
      * @return SingletonResource
      */
@@ -28,11 +30,11 @@ class SingletonResource extends StripeResource
     }
 
     /**
-     * Get resource URL
+     * Get resource URL.
      *
-     * @param string $class
+     * @param  string  $class
      *
-     * @return string The endpoint associated with this singleton class.
+     * @return string - The endpoint associated with this singleton class.
      */
     public static function classUrl($class = '')
     {
@@ -44,7 +46,7 @@ class SingletonResource extends StripeResource
     /**
      * The endpoint associated with this singleton API resource.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */

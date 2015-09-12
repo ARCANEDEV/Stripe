@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
 
 /**
- * Class AttachedObject
- * @package Arcanedev\Stripe
+ * Class     AttachedObject
+ *
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class AttachedObject extends StripeObject implements AttachedObjectInterface
 {
@@ -22,7 +24,7 @@ class AttachedObject extends StripeObject implements AttachedObjectInterface
     /**
      * Updates this object.
      *
-     * @param array $properties A mapping of properties to update on this object.
+     * @param array $properties - A mapping of properties to update on this object.
      */
     public function replaceWith($properties)
     {

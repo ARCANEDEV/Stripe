@@ -6,9 +6,11 @@ use Arcanedev\Stripe\Contracts\Resources\DisputeInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Dispute
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#dispute_object
+ * Class     Dispute
+ *
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#dispute_object
  *
  * @property string          object  // "dispute"
  * @property bool            livemode
@@ -23,6 +25,8 @@ use Arcanedev\Stripe\StripeResource;
  * @property array|null      evidence_details
  * @property bool            is_charge_refundable
  * @property AttachedObject  metadata
+ *
+ * @todo:    Update the properties.
  */
 class Dispute extends StripeResource implements DisputeInterface
 {
@@ -31,10 +35,10 @@ class Dispute extends StripeResource implements DisputeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get a dispute by id
+     * Get a dispute by id.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -44,12 +48,12 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Get all disputes
+     * Get all disputes.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|self[]
+     * @return Collection|array
      */
     public static function all($params = null, $options = null)
     {
@@ -57,9 +61,9 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Save dispute
+     * Save dispute.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -69,9 +73,9 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Close dispute
+     * Close dispute.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @return self
      */

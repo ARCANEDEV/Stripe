@@ -5,13 +5,15 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class TransferReversal
- * @package Arcanedev\Stripe\Resources
+ * Class     TransferReversal
+ *
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TransferReversal extends StripeResource implements TransferReversalInterface
 {
     /**
-     * Get API URL for this Stripe transfer reversal
+     * Get API URL for this Stripe transfer reversal.
      *
      * @throws InvalidRequestException
      *
@@ -41,9 +43,9 @@ class TransferReversal extends StripeResource implements TransferReversalInterfa
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Saved the transfer reversal
+     * Saved the transfer reversal.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @return self
      */

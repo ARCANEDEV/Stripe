@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class TransferTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     TransferTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TransferTest extends StripeTestCase
 {

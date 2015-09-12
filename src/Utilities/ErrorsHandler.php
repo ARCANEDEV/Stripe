@@ -8,8 +8,10 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
 
 /**
- * Class ErrorsHandler
- * @package Arcanedev\Stripe\Utilities
+ * Class     ErrorsHandler
+ *
+ * @package  Arcanedev\Stripe\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ErrorsHandler implements ApiErrorsHandlerInterface
 {
@@ -41,9 +43,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set Response body (JSON)
+     * Set Response body (JSON).
      *
-     * @param  string $respBody
+     * @param  string  $respBody
      *
      * @return self
      */
@@ -55,9 +57,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Set Response Code
+     * Set Response Code.
      *
-     * @param  int $respCode
+     * @param  int  $respCode
      *
      * @return self
      */
@@ -69,9 +71,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Set Response
+     * Set Response.
      *
-     * @param  array $response
+     * @param  array  $response
      *
      * @return self
      */
@@ -85,7 +87,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Get Exception class
+     * Get Exception class.
      *
      * @return string
      */
@@ -97,9 +99,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Get Exception class by status code
+     * Get Exception class by status code.
      *
-     * @param  int $code
+     * @param  int  $code
      *
      * @return string
      */
@@ -113,7 +115,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Handle API Errors
+     * Handle API Errors.
      *
      * @param  string  $respBody
      * @param  int     $respCode
@@ -160,9 +162,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check Response
+     * Check Response.
      *
-     * @param  mixed $response
+     * @param  mixed  $response
      *
      * @throws ApiException
      */
@@ -182,9 +184,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Check if has Response
+     * Check if has Response.
      *
-     * @param  mixed $response
+     * @param  mixed  $response
      *
      * @return bool
      */
@@ -194,7 +196,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Check if has Exception
+     * Check if has Exception.
      *
      * @return bool
      */
@@ -208,7 +210,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Parse response error
+     * Parse response error.
      *
      * @return array
      */
@@ -223,9 +225,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     }
 
     /**
-     * Get Error attribute
+     * Get Error attribute.
      *
-     * @param  string $name
+     * @param  string  $name
      *
      * @return mixed
      */

@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Contracts\Utilities\Request\SslCheckerInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 
 /**
- * Class SslChecker
- * @package Arcanedev\Stripe\Utilities\Request
+ * Class     SslChecker
+ *
+ * @package  Arcanedev\Stripe\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SslChecker implements SslCheckerInterface
 {
@@ -21,7 +23,7 @@ class SslChecker implements SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get URL
+     * Get URL.
      *
      * @return string
      */
@@ -31,9 +33,9 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Set URL
+     * Set URL.
      *
-     * @param string $url
+     * @param  string  $url
      *
      * @return self
      */
@@ -60,7 +62,7 @@ class SslChecker implements SslCheckerInterface
      * certificate before sending potentially sensitive data on the wire. This
      * approach raises the bar for an attacker significantly.
      *
-     * @param  string $url
+     * @param  string  $url
      *
      * @throws ApiConnectionException
      *
@@ -93,9 +95,9 @@ class SslChecker implements SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check black list
+     * Check black list.
      *
-     * @param string $pemCert
+     * @param  string  $pemCert
      *
      * @throws ApiConnectionException
      */
@@ -112,9 +114,9 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Checks if a valid PEM encoded certificate is blacklisted
+     * Checks if a valid PEM encoded certificate is blacklisted.
      *
-     * @param string $cert
+     * @param  string  $cert
      *
      * @return bool
      */
@@ -137,7 +139,7 @@ class SslChecker implements SslCheckerInterface
 
 
     /**
-     * Stream Extension exists - Return true if one of the extensions not found
+     * Stream Extension exists - Return true if one of the extensions not found.
      *
      * @return bool
      */
@@ -148,11 +150,11 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Check if has errors or empty result
+     * Check if has errors or empty result.
      *
-     * @param  mixed    $result
-     * @param  int|null $errorNo
-     * @param  string   $errorStr
+     * @param  mixed     $result
+     * @param  int|null  $errorNo
+     * @param  string    $errorStr
      *
      * @throws ApiConnectionException
      */
@@ -175,7 +177,7 @@ class SslChecker implements SslCheckerInterface
     /**
      * Check if has SSL Errors
      *
-     * @param  int $errorNum
+     * @param  int  $errorNum
      *
      * @return bool
      */
@@ -193,9 +195,9 @@ class SslChecker implements SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Prepare SSL URL
+     * Prepare SSL URL.
      *
-     * @param  string $url
+     * @param  string  $url
      *
      * @return string
      */
@@ -208,7 +210,7 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Open a socket connection
+     * Open a socket connection.
      *
      * @return array
      */
@@ -233,7 +235,7 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Get the certificates file path
+     * Get the certificates file path.
      *
      * @return string
      */
@@ -247,7 +249,7 @@ class SslChecker implements SslCheckerInterface
     }
 
     /**
-     * Show Stream Extension Warning (stream_socket_enable_crypto is not supported in HHVM)
+     * Show Stream Extension Warning (stream_socket_enable_crypto is not supported in HHVM).
      *
      * @return true
      */

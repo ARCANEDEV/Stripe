@@ -1,52 +1,57 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities\Request;
 
-use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Utilities\Request\CurlOptions;
-
 /**
- * Interface CurlOptionsInterface
- * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ * Interface  CurlOptionsInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities\Request
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CurlOptionsInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * Set Options
+     * Set Options.
      *
-     * @param array $options
+     * @param  array  $options
      *
-     * @return CurlOptions
+     * @return self
      */
     public function setOptions(array $options);
 
     /**
-     * Add Option
+     * Add Option.
      *
-     * @param  int   $option
-     * @param  mixed $value
+     * @param  int    $option
+     * @param  mixed  $value
      *
-     * @return CurlOptions
+     * @return self
      */
     public function setOption($option, $value);
 
     /**
-     * Make Curl Options
-     *
-     * @param  string $method
-     * @param  string $url
-     * @param  string $params
-     * @param  array  $headers
-     * @param  bool   $hasFile
-     *
-     * @throws ApiException
-     *
-     * @return CurlOptions
-     */
-    public function make($method, $url, $params, $headers, $hasFile = false);
-
-    /**
-     * Get all options
+     * Get all options.
      *
      * @return array
      */
     public function get();
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Make Curl Options.
+     *
+     * @param  string  $method
+     * @param  string  $url
+     * @param  string  $params
+     * @param  array   $headers
+     * @param  bool    $hasFile
+     *
+     * @return self
+     */
+    public function make($method, $url, $params, $headers, $hasFile = false);
 }

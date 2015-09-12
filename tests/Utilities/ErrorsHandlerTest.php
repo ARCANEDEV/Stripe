@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 
 /**
- * Class ErrorsHandlerTest
- * @package Arcanedev\Stripe\Tests\Utilities
+ * Class     ErrorsHandlerTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ErrorsHandlerTest extends StripeTestCase
 {

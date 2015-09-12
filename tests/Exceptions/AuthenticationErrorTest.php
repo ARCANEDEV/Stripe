@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class AuthenticationErrorTest
- * @package Arcanedev\Stripe\Tests\Exceptions
+ * Class     AuthenticationErrorTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Exceptions
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class AuthenticationErrorTest extends StripeTestCase
 {

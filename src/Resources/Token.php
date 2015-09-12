@@ -4,18 +4,22 @@ use Arcanedev\Stripe\Contracts\Resources\TokenInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Token
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/curl#token_object
+ * Class     Token
  *
- * @property string id
- * @property string object  // "token"
- * @property bool   livemode
- * @property int    created
- * @property string type  // ['card'|'bank_account']
- * @property bool   used
- * @property Object bank_account
- * @property Card   card
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/curl#token_object
+ *
+ * @property  string  id
+ * @property  string  object        // "token"
+ * @property  bool    livemode
+ * @property  int     created
+ * @property  string  type          // ['card'|'bank_account']
+ * @property  bool    used
+ * @property  Object  bank_account
+ * @property  Card    card
+ *
+ * @todo:     Complete the properties.
  */
 class Token extends StripeResource implements TokenInterface
 {
@@ -24,11 +28,12 @@ class Token extends StripeResource implements TokenInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Token
-     * @link https://stripe.com/docs/api/curl#retrieve_token
+     * Retrieve a Token.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#retrieve_token
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -38,11 +43,12 @@ class Token extends StripeResource implements TokenInterface
     }
 
     /**
-     * Create a Card Token
-     * @link https://stripe.com/docs/api/curl#create_card_token
+     * Create a Card Token.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#create_card_token
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */

@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class PlanTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     PlanTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PlanTest extends StripeTestCase
 {

@@ -1,11 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities\Request;
 
-use Arcanedev\Stripe\Exceptions\ApiConnectionException;
-use Arcanedev\Stripe\Utilities\Request\SslChecker;
-
 /**
- * Interface SslCheckerInterface
- * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ * Interface  SslCheckerInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities\Request
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface SslCheckerInterface
 {
@@ -14,18 +13,18 @@ interface SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get URL
+     * Get URL.
      *
      * @return string
      */
     public function getUrl();
 
     /**
-     * Set URL
+     * Set URL.
      *
-     * @param string $url
+     * @param  string  $url
      *
-     * @return SslChecker
+     * @return self
      */
     public function setUrl($url);
 
@@ -43,9 +42,7 @@ interface SslCheckerInterface
      * certificate before sending potentially sensitive data on the wire. This
      * approach raises the bar for an attacker significantly.
      *
-     * @param string $url
-     *
-     * @throws ApiConnectionException
+     * @param  string  $url
      *
      * @return bool
      */
@@ -56,27 +53,25 @@ interface SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check black list
+     * Check black list.
      *
-     * @param string $pemCert
-     *
-     * @throws ApiConnectionException
+     * @param  string  $pemCert
      */
     public function checkBlackList($pemCert);
 
     /**
-     * Checks if a valid PEM encoded certificate is blacklisted
+     * Checks if a valid PEM encoded certificate is blacklisted.
      *
-     * @param string $cert
+     * @param  string  $cert
      *
      * @return bool
      */
     public function isBlackListed($cert);
 
     /**
-     * Check if has SSL Errors
+     * Check if has SSL Errors.
      *
-     * @param  int $errorNum
+     * @param  int  $errorNum
      *
      * @return bool
      */
@@ -87,7 +82,7 @@ interface SslCheckerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the certificates file path
+     * Get the certificates file path.
      *
      * @return string
      */

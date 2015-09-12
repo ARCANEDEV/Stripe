@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Contracts\Utilities\Request\HeaderBagInterface;
 use Arcanedev\Stripe\Stripe;
 
 /**
- * Class HeaderBag
- * @package Arcanedev\Stripe\Utilities\Request
+ * Class     HeaderBag
+ *
+ * @package  Arcanedev\Stripe\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HeaderBag implements HeaderBagInterface
 {
@@ -20,12 +22,10 @@ class HeaderBag implements HeaderBagInterface
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Create the HeaderBag instance.
+     */
     public function __construct()
-    {
-        $this->init();
-    }
-
-    private function init()
     {
         $this->headers = [];
     }
@@ -35,10 +35,10 @@ class HeaderBag implements HeaderBagInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get default headers
+     * Get default headers.
      *
-     * @param  string $apiKey
-     * @param  bool $hasFile
+     * @param  string  $apiKey
+     * @param  bool    $hasFile
      *
      * @return array
      */
@@ -61,7 +61,7 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Get User Agent (JSON format)
+     * Get User Agent (JSON format).
      *
      * @return string
      */
@@ -81,11 +81,11 @@ class HeaderBag implements HeaderBagInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make Header Bag
+     * Make Header Bag.
      *
-     * @param string  $apiKey
-     * @param array  $headers
-     * @param bool   $hasFile
+     * @param  string  $apiKey
+     * @param  array   $headers
+     * @param  bool    $hasFile
      *
      * @return array
      */
@@ -95,17 +95,17 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Prepare Headers
+     * Prepare Headers.
      *
-     * @param string $apiKey
-     * @param array  $headers
-     * @param bool   $hasFile
+     * @param  string  $apiKey
+     * @param  array   $headers
+     * @param  bool    $hasFile
      *
-     * @return HeaderBag
+     * @return self
      */
     public function prepare($apiKey, array $headers = [], $hasFile = false)
     {
-        $this->init();
+        $this->headers = [];
 
         $this->headers = array_merge(
             self::getDefaults($apiKey, $hasFile),
@@ -116,7 +116,7 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Get all headers
+     * Get all headers.
      *
      * @return array
      */
@@ -132,12 +132,12 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Add a Header to collection
+     * Add a Header to collection.
      *
-     * @param  string $name
-     * @param  string $value
+     * @param  string  $name
+     * @param  string  $value
      *
-     * @return HeaderBag
+     * @return self
      */
     public function set($name, $value)
     {
@@ -147,7 +147,7 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Get all headers
+     * Get all headers.
      *
      * @return array
      */
@@ -157,7 +157,7 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Return headers count
+     * Return headers count.
      *
      * @return int
      */
@@ -171,10 +171,10 @@ class HeaderBag implements HeaderBagInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Format header
+     * Format header.
      *
-     * @param  string $header
-     * @param  string $value
+     * @param  string  $header
+     * @param  string  $value
      *
      * @return string
      */

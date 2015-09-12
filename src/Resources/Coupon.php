@@ -6,24 +6,28 @@ use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Coupon
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#coupons
+ * Class     Coupon
  *
- * @property string         id
- * @property string         object // "coupon"
- * @property bool           livemode
- * @property int            created
- * @property string         duration
- * @property int            amount_off
- * @property string         currency
- * @property int            duration_in_months
- * @property int            max_redemptions
- * @property AttachedObject metadata
- * @property int            percent_off
- * @property int            redeem_by
- * @property int            times_redeemed
- * @property bool           valid
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#coupons
+ *
+ * @property  string          id
+ * @property  string          object                // "coupon"
+ * @property  bool            livemode
+ * @property  int             created
+ * @property  string          duration
+ * @property  int             amount_off
+ * @property  string          currency
+ * @property  int             duration_in_months
+ * @property  int             max_redemptions
+ * @property  AttachedObject  metadata
+ * @property  int             percent_off
+ * @property  int             redeem_by
+ * @property  int             times_redeemed
+ * @property  bool            valid
+ *
+ * @todo:     Update the properties.
  */
 class Coupon extends StripeResource implements CouponInterface
 {

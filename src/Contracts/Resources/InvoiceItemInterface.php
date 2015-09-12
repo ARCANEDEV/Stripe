@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\InvoiceItem;
 
 /**
- * Interface InvoiceItemInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  InvoiceItemInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface InvoiceItemInterface
 {
@@ -14,56 +15,60 @@ interface InvoiceItemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an Invoice Item
-     * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
+     * Retrieve an Invoice Item.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_invoiceitem
      *
-     * @return InvoiceItem
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Invoice Items
-     * @link https://stripe.com/docs/api/php#list_invoiceitems
+     * List all Invoice Items.
+     * @link   https://stripe.com/docs/api/php#list_invoiceitems
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|InvoiceItem[]
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Create an Invoice Item
-     * @link https://stripe.com/docs/api/php#create_invoiceitem
+     * Create an Invoice Item.
      *
-     * @param array             $params
-     * @param array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_invoiceitem
      *
-     * @return InvoiceItem|array
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * Update/Save an Invoice Item
-     * @link https://stripe.com/docs/api/php#update_invoiceitem
+     * Update/Save an Invoice Item.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_invoiceitem
      *
-     * @return InvoiceItem
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete an Invoice Item
-     * @link https://stripe.com/docs/api/php#delete_invoiceitem
+     * Delete an Invoice Item.
      *
-     * @param  array $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_invoiceitem
      *
-     * @return InvoiceItem
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function delete($params = [], $options = null);
 }

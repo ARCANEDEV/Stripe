@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class AccountTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     AccountTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class AccountTest extends StripeTestCase
 {

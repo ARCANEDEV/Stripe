@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\BalanceTransaction;
 
 /**
- * Interface BalanceTransactionInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  BalanceTransactionInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface BalanceTransactionInterface
 {
@@ -14,24 +15,26 @@ interface BalanceTransactionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieving a Balance Transaction
-     * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
+     * Retrieving a Balance Transaction.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_balance_transaction
      *
-     * @return BalanceTransaction
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List balance history
-     * @link https://stripe.com/docs/api/php#balance_history
+     * List balance history.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#balance_history
      *
-     * @return Collection|BalanceTransaction[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 }

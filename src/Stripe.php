@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
 
 /**
- * Class Stripe
- * @package Arcanedev\Stripe
+ * Class     Stripe
+ *
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Stripe implements StripeInterface
 {
@@ -56,7 +58,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Verify SSL Certs
      *
-     * @var boolean
+     * @var bool
      */
     public static $verifySslCerts = true;
 
@@ -77,7 +79,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Sets the API key to be used for requests.
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
      * @throws ApiException
      * @throws ApiKeyNotSetException
@@ -90,7 +92,7 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Get API Base URL
+     * Get API Base URL.
      *
      * @return string
      */
@@ -100,9 +102,9 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Set API Base URL
+     * Set API Base URL.
      *
-     * @param  string $apiBaseUrl
+     * @param  string  $apiBaseUrl
      *
      * @throws ApiException
      */
@@ -114,7 +116,7 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Get Upload Base URL
+     * Get Upload Base URL.
      *
      * @return string
      */
@@ -125,9 +127,9 @@ abstract class Stripe implements StripeInterface
 
 
     /**
-     * Set Upload Base URL
+     * Set Upload Base URL.
      *
-     * @param  string $uploadBaseUrl
+     * @param  string  $uploadBaseUrl
      *
      * @throws ApiException
      */
@@ -161,7 +163,7 @@ abstract class Stripe implements StripeInterface
     /**
      * Sets the API version to use for requests.
      *
-     * @param string $apiVersion
+     * @param  string  $apiVersion
      */
     public static function setApiVersion($apiVersion)
     {
@@ -171,7 +173,7 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Get Verify SSL Certs
+     * Get Verify SSL Certs.
      *
      * @return bool
      */
@@ -181,9 +183,9 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Sets Verify SSL Certs
+     * Sets Verify SSL Certs.
      *
-     * @param bool $verify
+     * @param  bool  $verify
      */
     public static function setVerifySslCerts($verify)
     {
@@ -195,9 +197,9 @@ abstract class Stripe implements StripeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Init Stripe
+     * Init Stripe.
      *
-     * @param string $apiKey
+     * @param  string  $apiKey
      */
     public static function init($apiKey)
     {
@@ -209,9 +211,9 @@ abstract class Stripe implements StripeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check API Key
+     * Check API Key.
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
      * @throws ApiException
      * @throws ApiKeyNotSetException
@@ -235,9 +237,9 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Check API Base URL
+     * Check API Base URL.
      *
-     * @param  string $apiBaseUrl
+     * @param  string  $apiBaseUrl
      *
      * @throws ApiException
      */
@@ -259,9 +261,9 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Check Upload Base URL
+     * Check Upload Base URL.
      *
-     * @param  string $uploadBaseUrl
+     * @param  string  $uploadBaseUrl
      *
      * @throws ApiException
      */
@@ -283,9 +285,9 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Check API Version
+     * Check API Version.
      *
-     * @param  string|null $apiVersion
+     * @param  string|null  $apiVersion
      *
      * @throws ApiException
      */
@@ -316,7 +318,7 @@ abstract class Stripe implements StripeInterface
     }
 
     /**
-     * Check if API version exists
+     * Check if API version exists.
      *
      * @return bool
      */

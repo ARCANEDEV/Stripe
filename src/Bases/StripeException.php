@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Bases;
 
 /**
- * Class StripeException
- * @package Arcanedev\Stripe\Exceptions
+ * Class     StripeException
+ *
+ * @package  Arcanedev\Stripe\Bases
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class StripeException extends \Exception
 {
@@ -11,35 +13,35 @@ abstract class StripeException extends \Exception
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Stripe Error type
+     * Stripe Error type.
      *
      * @var string|null
      */
     protected $type;
 
     /**
-     * Stripe Error code
+     * Stripe Error code.
      *
      * @var string|null
      */
     protected $stripeCode;
 
     /**
-     * HTTP Response Body (json)
+     * HTTP Response Body (json).
      *
      * @var string|null
      */
     protected $httpBody;
 
     /**
-     * HTTP Response Body (array)
+     * HTTP Response Body (array).
      *
      * @var array|null
      */
     protected $jsonBody;
 
     /**
-     * Parameters
+     * Parameters.
      *
      * @var array
      */
@@ -50,7 +52,7 @@ abstract class StripeException extends \Exception
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Stripe Error Constructor
+     * Create Stripe Exception instance.
      *
      * @param string      $message
      * @param int         $code
@@ -85,7 +87,7 @@ abstract class StripeException extends \Exception
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Stripe Error type
+     * Get Stripe Error type.
      *
      * @return string
      */
@@ -95,11 +97,11 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Set Type
+     * Set Type.
      *
-     * @param  string|null $type
+     * @param  string|null  $type
      *
-     * @return StripeException
+     * @return self
      */
     private function setType($type)
     {
@@ -109,7 +111,7 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Get Stripe code
+     * Get Stripe code.
      *
      * @return string|null
      */
@@ -119,11 +121,11 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Set Stripe code
+     * Set Stripe code.
      *
-     * @param  string|null $stripeCode
+     * @param  string|null  $stripeCode
      *
-     * @return StripeException
+     * @return self
      */
     private function setStripeCode($stripeCode)
     {
@@ -133,7 +135,7 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Get HTTP status code
+     * Get HTTP status code.
      *
      * @return int
      */
@@ -143,7 +145,7 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Get HTTP Body
+     * Get HTTP Body.
      *
      * @return string|null
      */
@@ -153,11 +155,11 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Set HTTP Body
+     * Set HTTP Body.
      *
-     * @param  string|null $httpBody
+     * @param  string|null  $httpBody
      *
-     * @return StripeException
+     * @return self
      */
     private function setHttpBody($httpBody)
     {
@@ -167,7 +169,7 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Get Json Body
+     * Get Json Body.
      *
      * @return array|null
      */
@@ -177,11 +179,11 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Set Json Body
+     * Set Json Body.
      *
-     * @param  array|null $jsonBody
+     * @param  array|null  $jsonBody
      *
-     * @return StripeException
+     * @return self
      */
     private function setJsonBody($jsonBody)
     {
@@ -191,7 +193,7 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Get Parameters
+     * Get Parameters.
      *
      * @return array
      */
@@ -201,11 +203,11 @@ abstract class StripeException extends \Exception
     }
 
     /**
-     * Set parameters
+     * Set parameters.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return StripeException
+     * @return self
      */
     private function setParams($params)
     {

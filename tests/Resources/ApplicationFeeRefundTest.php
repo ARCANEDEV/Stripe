@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class ApplicationFeeRefundTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     ApplicationFeeRefundTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ApplicationFeeRefundTest extends StripeTestCase
 {

@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class CouponTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     CouponTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CouponTest extends StripeTestCase
 {

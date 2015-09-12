@@ -12,11 +12,13 @@ use ArrayAccess;
 use JsonSerializable;
 
 /**
- * Class StripeObject
- * @package Arcanedev\Stripe
+ * Class     StripeObject
  *
- * @property string id
- * @property string object
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @property  string  id
+ * @property  string  object
  */
 class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
@@ -39,21 +41,21 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     protected $values;
 
     /**
-     * Unsaved Values
+     * Unsaved Values.
      *
      * @var UtilSet
      */
     protected $unsavedValues;
 
     /**
-     * Transient (Deleted) Values
+     * Transient (Deleted) Values.
      *
      * @var UtilSet
      */
     protected $transientValues;
 
     /**
-     * Retrieve parameters used to query the object
+     * Retrieve parameters used to query the object.
      *
      * @var array
      */
@@ -76,7 +78,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     public static $nestedUpdatableAttributes;
 
     /**
-     * Allow to check attributes while setting
+     * Allow to check attributes while setting.
      *
      * @var bool
      */
@@ -89,8 +91,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     /**
      * Constructor
      *
-     * @param string|null       $id
-     * @param string|array|null $options
+     * @param  string|null        $id
+     * @param  string|array|null  $options
      */
     public function __construct($id = null, $options = null)
     {
@@ -115,9 +117,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set Id
+     * Set the Id.
      *
-     * @param  array|string|null $id
+     * @param  array|string|null  $id
      *
      * @throws ApiException
      *
@@ -135,9 +137,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Set Id from Array
+     * Set the Id from Array.
      *
-     * @param  array|string|null $id
+     * @param  array|string|null  $id
      *
      * @throws ApiException
      */
@@ -152,7 +154,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Get Retrieve Parameters
+     * Get Retrieve Parameters.
      *
      * @return array
      */
@@ -162,9 +164,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Standard get accessor
+     * Standard get accessor.
      *
-     * @param  string|int $key
+     * @param  string|int  $key
      *
      * @return mixed|null
      */
@@ -180,10 +182,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Standard set accessor
+     * Standard set accessor.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param  string  $key
+     * @param  mixed   $value
      *
      * @throws InvalidArgumentException
      */
@@ -196,10 +198,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Set value
+     * Set value.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param  string  $key
+     * @param  mixed   $value
      *
      * @throws InvalidArgumentException
      */
@@ -224,9 +226,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check has a value by key
+     * Check has a value by key.
      *
-     * @param  string $key
+     * @param  string  $key
      *
      * @return bool
      */
@@ -236,9 +238,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Unset element from values
+     * Unset element from values.
      *
-     * @param string $key
+     * @param  string  $key
      */
     public function __unset($key)
     {
@@ -249,7 +251,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Convert StripeObject to string
+     * Convert StripeObject to string.
      *
      * @return string
      */
@@ -259,6 +261,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
+     * Json serialize.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -267,9 +271,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Convert StripeObject to array
+     * Convert StripeObject to array.
      *
-     * @param  bool $recursive
+     * @param  bool  $recursive
      *
      * @return array
      */
@@ -281,9 +285,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Convert StripeObject to JSON
+     * Convert StripeObject to JSON.
      *
-     * @param  int $options
+     * @param  int  $options
      *
      * @return string
      */
@@ -297,7 +301,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Get only value keys
+     * Get only value keys.
      *
      * @return array
      */
@@ -340,9 +344,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
      *
-     * @param  string $class
-     * @param  array  $values
-     * @param  string $options
+     * @param  string  $class
+     * @param  array   $values
+     * @param  string  $options
      *
      * @return self
      */
@@ -358,9 +362,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     /**
      * Refreshes this object using the provided values.
      *
-     * @param array                            $values
-     * @param RequestOptions|array|string|null $opts
-     * @param boolean                          $partial
+     * @param  array                             $values
+     * @param  RequestOptions|array|string|null  $opts
+     * @param  boolean                           $partial
      */
     public function refreshFrom($values, $opts, $partial = false)
     {
@@ -384,10 +388,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Clean refreshed StripeObject
+     * Clean refreshed StripeObject.
      *
-     * @param array   $values
-     * @param boolean $partial - false by default
+     * @param  array       $values
+     * @param  bool|false  $partial
      */
     private function cleanObject($values, $partial)
     {
@@ -407,13 +411,13 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Construct Value
+     * Construct Value.
      *
-     * @param  string $key
-     * @param  mixed  $value
-     * @param  array  $opts
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  array   $opts
      *
-     * @return self|Resource|Collection|array
+     * @return self|StripeResource|Collection|array
      */
     private function constructValue($key, $value, $opts)
     {
@@ -423,9 +427,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Pretend to have late static bindings, even in PHP 5.2
+     * Pretend to have late static bindings.
      *
-     * @param  string $method
+     * @param  string  $method
      *
      * @return mixed
      */
@@ -438,10 +442,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Scoped Late Static Bindings
+     * Scoped Late Static Bindings.
      *
-     * @param  string $class
-     * @param  string $method
+     * @param  string  $class
+     * @param  string  $method
      *
      * @return mixed
      */
@@ -457,9 +461,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if array has id
+     * Check if array has id.
      *
-     * @param  array $array
+     * @param  array  $array
      *
      * @throws ApiException
      */
@@ -471,7 +475,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check if object has retrieve parameters
+     * Check if object has retrieve parameters.
      *
      * @return bool
      */
@@ -481,10 +485,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check if attribute deletion
+     * Check if attribute deletion.
      *
-     * @param  string     $key
-     * @param  mixed|null $value
+     * @param  string      $key
+     * @param  mixed|null  $value
      *
      * @throws InvalidArgumentException
      */
@@ -501,10 +505,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check metadata attribute
+     * Check metadata attribute.
      *
-     * @param  string     $key
-     * @param  mixed|null $value
+     * @param  string      $key
+     * @param  mixed|null  $value
      *
      * @throws InvalidArgumentException
      */
@@ -521,9 +525,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check permanent attributes
+     * Check permanent attributes.
      *
-     * @param string $key
+     * @param  string  $key
      */
     private function checkPermanentAttributes($key)
     {
@@ -533,9 +537,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check unsaved attributes
+     * Check unsaved attributes.
      *
-     * @param  array $supported
+     * @param  array  $supported
      *
      * @throws InvalidArgumentException
      */
@@ -574,9 +578,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Serialize unsaved values
+     * Serialize unsaved values.
      *
-     * @param array $params
+     * @param  array  $params
      */
     private function serializeUnsavedValues(&$params)
     {
@@ -586,9 +590,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Serialize nested updatable attributes
+     * Serialize nested updatable attributes.
      *
-     * @param array $params
+     * @param  array  $params
      */
     private function serializeNestedUpdatableAttributes(&$params)
     {
@@ -604,10 +608,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Show undefined property warning message
+     * Show undefined property warning message.
      *
-     * @param string $class
-     * @param string $key
+     * @param  string  $class
+     * @param  string  $key
      */
     private function showUndefinedPropertyMsg($class, $key)
     {
@@ -626,7 +630,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Show available attributes for undefined property warning message
+     * Show available attributes for undefined property warning message.
      *
      * @return string
      */
@@ -638,9 +642,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     }
 
     /**
-     * Check not found attributes exception
+     * Check not found attributes exception.
      *
-     * @param  array $notFound
+     * @param  array  $notFound
      *
      * @throws InvalidArgumentException
      */

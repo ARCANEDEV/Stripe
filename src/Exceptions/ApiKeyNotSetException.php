@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
 /**
- * Class ApiKeyNotSetException
- * @package Arcanedev\Stripe\Exceptions
+ * Class     ApiKeyNotSetException
+ *
+ * @package  Arcanedev\Stripe\Exceptions
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ApiKeyNotSetException extends AuthenticationException
 {
@@ -11,15 +13,15 @@ class ApiKeyNotSetException extends AuthenticationException
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * API Key Not Set Constructor
+     * API Key Not Set Constructor.
      *
-     * @param string      $message
-     * @param int         $code
-     * @param string|null $type
-     * @param string|null $stripeCode
-     * @param string|null $httpBody
-     * @param array       $jsonBody
-     * @param array       $params
+     * @param  string       $message
+     * @param  int          $code
+     * @param  string|null  $type
+     * @param  string|null  $stripeCode
+     * @param  string|null  $httpBody
+     * @param  array        $jsonBody
+     * @param  array        $params
      */
     public function __construct(
         $message,

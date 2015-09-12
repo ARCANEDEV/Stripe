@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\Card;
-
 /**
- * Interface CardInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  CardInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CardInterface
 {
@@ -13,23 +13,25 @@ interface CardInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Save/Update a card
-     * @link https://stripe.com/docs/api/php#update_card
+     * Save/Update a card.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_card
      *
-     * @return Card
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete a card
-     * @link https://stripe.com/docs/api/php#delete_card
+     * Delete a card.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_card
      *
-     * @return Card
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function delete($params = [], $options = null);
 }

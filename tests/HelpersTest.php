@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
 /**
- * Class HelpersTest
- * @package Arcanedev\Stripe\Tests
+ * Class     HelpersTest
+ *
+ * @package  Arcanedev\Stripe\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HelpersTest extends TestCase
 {

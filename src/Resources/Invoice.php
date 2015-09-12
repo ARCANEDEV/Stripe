@@ -8,41 +8,46 @@ use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Class Invoice
- * @package Arcanedev\Stripe\Resources
+ * Class     Invoice
+ *
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
  * @link https://stripe.com/docs/api/php#invoices
  *
- * @property string         id
- * @property string         object // "invoice"
- * @property bool           livemode
- * @property int            amount_due
- * @property int            attempt_count
- * @property bool           attempted
- * @property bool           closed
- * @property string         currency
- * @property string         customer
- * @property int            date
- * @property bool           forgiven
- * @property Collection     lines
- * @property bool           paid
- * @property int            period_end
- * @property int            period_start
- * @property int            starting_balance
- * @property int            subtotal
- * @property int            total
- * @property int            application_fee
- * @property string         charge
- * @property string         description
- * @property StripeObject   discount             // Discount Object
- * @property int            ending_balance
- * @property int            next_payment_attempt
- * @property string         receipt_number
- * @property string         statement_descriptor
- * @property string         subscription
- * @property int            webhooks_delivered_at
- * @property AttachedObject metadata
- * @property int            tax
- * @property float          tax_percent
+ * @property  string          id
+ * @property  string          object // "invoice"
+ * @property  bool            livemode
+ * @property  int             amount_due
+ * @property  int             attempt_count
+ * @property  bool            attempted
+ * @property  bool            closed
+ * @property  string          currency
+ * @property  string          customer
+ * @property  int             date
+ * @property  bool            forgiven
+ * @property  Collection      lines
+ * @property  bool            paid
+ * @property  int             period_end
+ * @property  int             period_start
+ * @property  int             starting_balance
+ * @property  int             subtotal
+ * @property  int             total
+ * @property  int             application_fee
+ * @property  string          charge
+ * @property  string          description
+ * @property  StripeObject    discount              // Discount Object
+ * @property  int             ending_balance
+ * @property  int             next_payment_attempt
+ * @property  string          receipt_number
+ * @property  string          statement_descriptor
+ * @property  string          subscription
+ * @property  int             webhooks_delivered_at
+ * @property  AttachedObject  metadata
+ * @property  int             tax
+ * @property  float           tax_percent
+ *
+ * @todo:     Update the properties.
  */
 class Invoice extends StripeResource implements InvoiceInterface
 {
@@ -51,11 +56,12 @@ class Invoice extends StripeResource implements InvoiceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create an invoice
-     * @link https://stripe.com/docs/api/php#create_invoice
+     * Create an invoice.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_invoice
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -66,10 +72,11 @@ class Invoice extends StripeResource implements InvoiceInterface
 
     /**
      * Retrieving an Invoice
-     * @link https://stripe.com/docs/api/php#retrieve_invoice
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_invoice
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -79,13 +86,14 @@ class Invoice extends StripeResource implements InvoiceInterface
     }
 
     /**
-     * List of all Invoices
-     * @link https://stripe.com/docs/api/php#list_customer_invoices
+     * List of all Invoices.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_customer_invoices
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -93,10 +101,11 @@ class Invoice extends StripeResource implements InvoiceInterface
     }
 
     /**
-     * Update/Save an invoice
-     * @link https://stripe.com/docs/api/php#update_invoice
+     * Update/Save an invoice.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_invoice
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -106,11 +115,12 @@ class Invoice extends StripeResource implements InvoiceInterface
     }
 
     /**
-     * Retrieve  Upcoming Invoice
-     * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
+     * Retrieve Upcoming Invoice.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_customer_invoice
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -124,10 +134,11 @@ class Invoice extends StripeResource implements InvoiceInterface
     }
 
     /**
-     * Pay an invoice
-     * @link https://stripe.com/docs/api/php#pay_invoice
+     * Pay an invoice.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#pay_invoice
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -136,7 +147,6 @@ class Invoice extends StripeResource implements InvoiceInterface
         $url = $this->instanceUrl() . '/pay';
 
         list($response, $opts) = $this->request('post', $url, [], $options);
-
         $this->refreshFrom($response, $opts);
 
         return $this;

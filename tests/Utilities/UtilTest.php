@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Class UtilTest
- * @package Arcanedev\Stripe\Tests\Utilities
+ * Class     UtilTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilTest extends StripeTestCase
 {

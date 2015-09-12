@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Dispute;
 
 /**
- * Interface DisputeInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  DisputeInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface DisputeInterface
 {
@@ -14,40 +15,40 @@ interface DisputeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get a dispute by id
+     * Get a dispute by id.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
-     * @return Dispute
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * Get all disputes
+     * Get all disputes.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|Dispute[]
+     * @return Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
-     * Save dispute
+     * Save dispute.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
-     * @return Dispute
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Close dispute
+     * Close dispute.
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
-     * @return Dispute
+     * @return self
      */
     public function close($options = null);
 }

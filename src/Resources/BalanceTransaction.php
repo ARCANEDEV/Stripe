@@ -5,23 +5,25 @@ use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class BalanceTransaction
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#balance_transaction_object
+ * Class     BalanceTransaction
  *
- * @property string     id
- * @property string     object       // "balance_transaction"
- * @property int        amount
- * @property int        available_on
- * @property int        created
- * @property string     currency
- * @property int        fee
- * @property Collection fee_details
- * @property int        net
- * @property string     status
- * @property string     type
- * @property string     description
- * @property string     source
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#balance_transaction_object
+ *
+ * @property  string      id
+ * @property  string      object        // "balance_transaction"
+ * @property  int         amount
+ * @property  int         available_on
+ * @property  int         created
+ * @property  string      currency
+ * @property  int         fee
+ * @property  Collection  fee_details
+ * @property  int         net
+ * @property  string      status
+ * @property  string      type
+ * @property  string      description
+ * @property  string      source
  */
 class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
 {
@@ -33,7 +35,7 @@ class BalanceTransaction extends StripeResource implements BalanceTransactionInt
      * The class URL for this resource. It needs to be special cased because
      * it doesn't fit into the standard resource pattern.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -47,11 +49,12 @@ class BalanceTransaction extends StripeResource implements BalanceTransactionInt
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieving a Balance Transaction
-     * @link https://stripe.com/docs/api/php#retrieve_balance_transaction
+     * Retrieving a Balance Transaction.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_balance_transaction
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -61,13 +64,14 @@ class BalanceTransaction extends StripeResource implements BalanceTransactionInt
     }
 
     /**
-     * List balance history
-     * @link https://stripe.com/docs/api/php#balance_history
+     * List balance history.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#balance_history
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {

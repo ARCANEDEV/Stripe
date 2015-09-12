@@ -6,28 +6,30 @@ use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Transfer
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/curl#transfer_object
+ * Class     Transfer
  *
- * @property string         id
- * @property string         object  // "transfer"
- * @property bool           livemode
- * @property int            amount
- * @property int            created
- * @property string         currency
- * @property int            date
- * @property string         status
- * @property string         type
- * @property string         balance_transaction
- * @property string         description
- * @property string         failure_code
- * @property string         failure_message
- * @property AttachedObject metadata
- * @property Object         bank_account
- * @property Card           card
- * @property string         recipient
- * @property string         statement_descriptor
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/curl#transfer_object
+ *
+ * @property  string          id
+ * @property  string          object               // "transfer"
+ * @property  bool            livemode
+ * @property  int             amount
+ * @property  int             created
+ * @property  string          currency
+ * @property  int             date
+ * @property  string          status
+ * @property  string          type
+ * @property  string          balance_transaction
+ * @property  string          description
+ * @property  string          failure_code
+ * @property  string          failure_message
+ * @property  AttachedObject  metadata
+ * @property  Object          bank_account
+ * @property  Card            card
+ * @property  string          recipient
+ * @property  string          statement_descriptor
  */
 class Transfer extends StripeResource implements TransferInterface
 {
@@ -36,11 +38,12 @@ class Transfer extends StripeResource implements TransferInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Transfer
-     * @link https://stripe.com/docs/api/curl#retrieve_transfer
+     * Retrieve a Transfer.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#retrieve_transfer
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -50,13 +53,14 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * List all Transfers
-     * @link https://stripe.com/docs/api/curl#list_transfers
+     * List all Transfers.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#list_transfers
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -64,11 +68,12 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Create a new transfer
-     * @link https://stripe.com/docs/api/curl#create_transfer
+     * Create a new transfer.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#create_transfer
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return Transfer|array
      */
@@ -78,8 +83,9 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Cancel a Transfer
-     * @link https://stripe.com/docs/api/curl#cancel_transfer
+     * Cancel a Transfer.
+     *
+     * @link   https://stripe.com/docs/api/curl#cancel_transfer
      *
      * @return self
      */
@@ -92,10 +98,10 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Created transfer reversal
+     * Created transfer reversal.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return TransferReversal
      */
@@ -110,10 +116,11 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Update/Save a Transfer
-     * @link https://stripe.com/docs/api/curl#update_transfer
+     * Update/Save a Transfer.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#update_transfer
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */

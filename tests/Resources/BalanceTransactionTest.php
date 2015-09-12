@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\BalanceTransaction;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class BalanceTransactionTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     BalanceTransactionTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BalanceTransactionTest extends StripeTestCase
 {

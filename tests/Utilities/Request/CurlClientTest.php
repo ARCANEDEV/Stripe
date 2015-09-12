@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Request\HttpClient;
 
 /**
- * Class CurlClientTest
- * @package Arcanedev\Stripe\Tests\Utilities\Request
+ * Class     CurlClientTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CurlClientTest extends StripeTestCase
 {

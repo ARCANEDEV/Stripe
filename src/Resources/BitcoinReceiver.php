@@ -81,39 +81,39 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      * Retrieve Bitcoin Receiver
      *
      * @param  string       $id
-     * @param  string|null  $apiKey
+     * @param  string|null  $options
      *
      * @return self
      */
-    public static function retrieve($id, $apiKey = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $apiKey);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
      * List all Bitcoin Receivers
      *
      * @param  array|null   $params
-     * @param  string|null  $apiKey
+     * @param  string|null  $options
      *
-     * @return Collection|self[]
+     * @return Collection|array
      */
-    public static function all($params = [], $apiKey = null)
+    public static function all($params = [], $options = null)
     {
-        return self::scopedAll($params, $apiKey);
+        return self::scopedAll($params, $options);
     }
 
     /**
      * Create Bitcoin Receiver Object
      *
      * @param  array|null   $params
-     * @param  string|null  $apiKey
+     * @param  string|null  $options
      *
      * @return self|array
      */
-    public static function create($params = [], $apiKey = null)
+    public static function create($params = [], $options = null)
     {
-        return self::scopedCreate($params, $apiKey);
+        return self::scopedCreate($params, $options);
     }
 
     /**

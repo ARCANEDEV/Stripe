@@ -6,22 +6,26 @@ use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Plan
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#plan_object
+ * Class     Plan
  *
- * @property string         id
- * @property string         object // "plan"
- * @property bool           livemode
- * @property int            amount
- * @property int            created
- * @property int            currency
- * @property string         interval
- * @property int            interval_count
- * @property string         name
- * @property AttachedObject metadata
- * @property int            trial_period_days
- * @property string         statement_descriptor
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#plan_object
+ *
+ * @property  string          id
+ * @property  string          object                // "plan"
+ * @property  bool            livemode
+ * @property  int             amount
+ * @property  int             created
+ * @property  int             currency
+ * @property  string          interval
+ * @property  int             interval_count
+ * @property  string          name
+ * @property  AttachedObject  metadata
+ * @property  int             trial_period_days
+ * @property  string          statement_descriptor
+ *
+ * @todo:     Update the properties.
  */
 class Plan extends StripeResource implements PlanInterface
 {
@@ -30,11 +34,12 @@ class Plan extends StripeResource implements PlanInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Plan
-     * @link https://stripe.com/docs/api/php#retrieve_plan
+     * Retrieve a Plan.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_plan
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -44,13 +49,14 @@ class Plan extends StripeResource implements PlanInterface
     }
 
     /**
-     * List all Plans
-     * @link https://stripe.com/docs/api/php#list_plans
+     * List all Plans.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_plans
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -58,11 +64,12 @@ class Plan extends StripeResource implements PlanInterface
     }
 
     /**
-     * Create a plan
-     * @link https://stripe.com/docs/api/php#create_plan
+     * Create a plan.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_plan
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -72,10 +79,11 @@ class Plan extends StripeResource implements PlanInterface
     }
 
     /**
-     * Update/Save a plan
-     * @link https://stripe.com/docs/api/php#update_plan
+     * Update/Save a plan.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_plan
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -85,11 +93,12 @@ class Plan extends StripeResource implements PlanInterface
     }
 
     /**
-     * Delete a plan
-     * @link https://stripe.com/docs/api/php#delete_plan
+     * Delete a plan.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_plan
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */

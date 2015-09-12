@@ -6,7 +6,13 @@
  */
 interface ObjectInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
+     * Get keys.
+     *
      * @return array
      */
     public function keys();
@@ -19,9 +25,9 @@ interface ObjectInterface
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
      *
-     * @param  string $class
-     * @param  array  $values
-     * @param  string $options
+     * @param  string  $class
+     * @param  array   $values
+     * @param  string  $options
      *
      * @return \Arcanedev\Stripe\StripeObject
      */
@@ -30,9 +36,9 @@ interface ObjectInterface
     /**
      * Refreshes this object using the provided values.
      *
-     * @param array   $values
-     * @param string  $apiKey
-     * @param boolean $partial Defaults to false.
+     * @param  array    $values
+     * @param  string   $apiKey
+     * @param  bool     $partial
      */
     public function refreshFrom($values, $apiKey, $partial = false);
 }

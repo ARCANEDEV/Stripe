@@ -1,15 +1,13 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Charge;
-use Arcanedev\Stripe\Resources\Customer;
-use Arcanedev\Stripe\Resources\Invoice;
-use Arcanedev\Stripe\Resources\InvoiceItem;
-use Arcanedev\Stripe\Resources\Subscription;
+use Arcanedev\Stripe\StripeObject;
 
 /**
- * Interface CustomerInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  CustomerInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CustomerInterface
 {
@@ -21,52 +19,56 @@ interface CustomerInterface
      * Retrieve a Customer
      * @link https://stripe.com/docs/api/php#retrieve_customer
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
-     * @return Customer
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Customers
-     * @link https://stripe.com/docs/api/php#list_customers
+     * List all Customers.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_customers
      *
-     * @return Collection|Customer[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Create Customer
-     * @link https://stripe.com/docs/api/php#create_customer
+     * Create Customer.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_customer
      *
-     * @return Customer|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * Update/Save Customer
-     * @link https://stripe.com/docs/api/php#create_customer
+     * Update/Save Customer.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_customer
      *
-     * @return Customer
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete Customer
-     * @link https://stripe.com/docs/api/php#delete_customer
+     * Delete Customer.
+     *
+     * @link   https://stripe.com/docs/api/php#delete_customer
      *
      * @param  array|null $params
      *
-     * @return Customer
+     * @return self
      */
     public function delete($params = []);
 
@@ -75,63 +77,63 @@ interface CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Add an invoice item
+     * Add an invoice item.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return InvoiceItem|array
+     * @return InvoiceItemInterface|array
      */
     public function addInvoiceItem($params = []);
 
     /**
-     * Get all invoices
+     * Get all invoices.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|Invoice[]
+     * @return Collection|array
      */
     public function invoices($params = []);
 
     /**
-     * Get all invoice items
+     * Get all invoice items.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|InvoiceItem[]
+     * @return Collection|array
      */
     public function invoiceItems($params = []);
 
     /**
-     * Get all charges
+     * Get all charges.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|Charge[]
+     * @return Collection|array
      */
     public function charges($params = []);
 
     /**
      * Update a Subscription
      *
-     * @param  array|null $params
+     * @param  array|null  $params
      *
-     * @return Subscription
+     * @return SubscriptionInterface
      */
     public function updateSubscription($params = []);
 
     /**
      * Cancel Subscription
      *
-     * @param  array|null $params
+     * @param  array|null  $params
      *
-     * @return Subscription
+     * @return SubscriptionInterface
      */
     public function cancelSubscription($params = []);
 
     /**
      * Delete Discount
      *
-     * @return Object
+     * @return StripeObject
      */
     public function deleteDiscount();
 }

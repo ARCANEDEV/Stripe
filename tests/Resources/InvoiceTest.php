@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class InvoiceTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     InvoiceTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class InvoiceTest extends StripeTestCase
 {

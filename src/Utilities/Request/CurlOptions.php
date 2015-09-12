@@ -7,8 +7,10 @@ use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Stripe;
 
 /**
- * Class CurlOptions
- * @package Arcanedev\Stripe\Utilities\Request
+ * Class     CurlOptions
+ *
+ * @package  Arcanedev\Stripe\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CurlOptions implements CurlOptionsInterface
 {
@@ -23,15 +25,10 @@ class CurlOptions implements CurlOptionsInterface
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct()
-    {
-        $this->init();
-    }
-
     /**
-     * Init options
+     * Create the CurlOptions instance.
      */
-    private function init()
+    public function __construct()
     {
         $this->options = [];
     }
@@ -41,9 +38,9 @@ class CurlOptions implements CurlOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set Options
+     * Set Options.
      *
-     * @param  array $options
+     * @param  array  $options
      *
      * @return self
      */
@@ -57,10 +54,10 @@ class CurlOptions implements CurlOptionsInterface
     }
 
     /**
-     * Add Option
+     * Add Option.
      *
-     * @param  int   $option
-     * @param  mixed $value
+     * @param  int    $option
+     * @param  mixed  $value
      *
      * @return self
      */
@@ -76,23 +73,23 @@ class CurlOptions implements CurlOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make Curl Options
+     * Make Curl Options.
      *
-     * @param  string $method
-     * @param  string $url
-     * @param  string $params
-     * @param  array  $headers
-     * @param  bool   $hasFile
+     * @param  string  $method
+     * @param  string  $url
+     * @param  string  $params
+     * @param  array   $headers
+     * @param  bool    $hasFile
      *
      * @throws ApiException
      *
-     * @return CurlOptions
+     * @return self
      */
     public function make($method, $url, $params, $headers, $hasFile = false)
     {
         $this->checkMethod($method);
 
-        $this->init();
+        $this->options = [];
 
         $this->prepareMethodOptions($method, $params, $hasFile);
 
@@ -112,11 +109,11 @@ class CurlOptions implements CurlOptionsInterface
     }
 
     /**
-     * Prepare options based on METHOD
+     * Prepare options based on METHOD.
      *
-     * @param  string $method
-     * @param  string $params
-     * @param  bool $hasFile
+     * @param  string  $method
+     * @param  string  $params
+     * @param  bool    $hasFile
      *
      * @throws ApiException
      */
@@ -147,7 +144,7 @@ class CurlOptions implements CurlOptionsInterface
     }
 
     /**
-     * Get all options
+     * Get all options.
      *
      * @return array
      */
@@ -161,9 +158,9 @@ class CurlOptions implements CurlOptionsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check Method
+     * Check Method.
      *
-     * @param string $method
+     * @param  string  $method
      *
      * @throws BadMethodCallException
      * @throws InvalidArgumentException

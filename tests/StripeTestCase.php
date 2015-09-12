@@ -16,8 +16,10 @@ use Arcanedev\Stripe\Utilities\Request\HttpClient;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * Class StripeTestCase
- * @package Arcanedev\Stripe\Tests
+ * Class     StripeTestCase
+ *
+ * @package  Arcanedev\Stripe\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class StripeTestCase extends TestCase
 {

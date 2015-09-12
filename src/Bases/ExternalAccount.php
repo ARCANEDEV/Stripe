@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class ExternalAccount
- * @package Arcanedev\Stripe\Bases
+ * Class     ExternalAccount
+ *
+ * @package  Arcanedev\Stripe\Bases
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class ExternalAccount extends StripeResource
 {
@@ -65,25 +67,25 @@ abstract class ExternalAccount extends StripeResource
     /**
      * Delete an external account.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $opts
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return ExternalAccount
+     * @return self
      */
-    public function delete($params = null, $opts = null)
+    public function delete($params = null, $options = null)
     {
-        return $this->scopedDelete($params, $opts);
+        return $this->scopedDelete($params, $options);
     }
 
     /**
-     * Save an external account
+     * Save an external account.
      *
-     * @param  array|string|null $opts
+     * @param  array|string|null  $options
      *
-     * @return ExternalAccount
+     * @return self
      */
-    public function save($opts = null)
+    public function save($options = null)
     {
-        return $this->scopedSave($opts);
+        return $this->scopedSave($options);
     }
 }

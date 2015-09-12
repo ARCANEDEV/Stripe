@@ -6,24 +6,28 @@ use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class InvoiceItem
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#invoice_item_object
+ * Class     InvoiceItem
  *
- * @property string         id
- * @property string         object // "invoiceitem"
- * @property bool           livemode
- * @property int            amount
- * @property string         currency
- * @property string         customer
- * @property int            date
- * @property bool           proration
- * @property string         description
- * @property string         invoice
- * @property AttachedObject metadata
- * @property Plan           plan
- * @property int            quantity
- * @property string         subscription
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#invoice_item_object
+ *
+ * @property  string          id
+ * @property  string          object        // "invoiceitem"
+ * @property  bool            livemode
+ * @property  int             amount
+ * @property  string          currency
+ * @property  string          customer
+ * @property  int             date
+ * @property  bool            proration
+ * @property  string          description
+ * @property  string          invoice
+ * @property  AttachedObject  metadata
+ * @property  Plan            plan
+ * @property  int             quantity
+ * @property  string          subscription
+ *
+ * @todo:     Update the properties.
  */
 class InvoiceItem extends StripeResource implements InvoiceItemInterface
 {
@@ -34,7 +38,7 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -48,11 +52,12 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an Invoice Item
-     * @link https://stripe.com/docs/api/php#retrieve_invoiceitem
+     * Retrieve an Invoice Item.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_invoiceitem
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -62,13 +67,14 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     }
 
     /**
-     * List all Invoice Items
-     * @link https://stripe.com/docs/api/php#list_invoiceitems
+     * List all Invoice Items.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_invoiceitems
      *
-     * @return Collection|self[]
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -76,11 +82,12 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     }
 
     /**
-     * Create an Invoice Item
+     * Create an Invoice Item.
+     *
      * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -90,10 +97,11 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     }
 
     /**
-     * Update/Save an Invoice Item
-     * @link https://stripe.com/docs/api/php#update_invoiceitem
+     * Update/Save an Invoice Item.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_invoiceitem
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -104,10 +112,11 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
 
     /**
      * Delete an Invoice Item
-     * @link https://stripe.com/docs/api/php#delete_invoiceitem
+     *
+     * @link   https://stripe.com/docs/api/php#delete_invoiceitem
      *
      * @param  array $params
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @return self
      */

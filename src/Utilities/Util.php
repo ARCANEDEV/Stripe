@@ -6,8 +6,10 @@ use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Util
- * @package Arcanedev\Stripe\Utilities
+ * Class     Util
+ *
+ * @package  Arcanedev\Stripe\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Util implements UtilInterface
 {
@@ -24,7 +26,7 @@ abstract class Util implements UtilInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Available Resources
+     * Available Resources.
      *
      * @var array
      */
@@ -63,7 +65,7 @@ abstract class Util implements UtilInterface
     /**
      * Recursively converts the PHP Stripe object to an array.
      *
-     * @param  array $values The PHP Stripe object to convert.
+     * @param  array  $values
      *
      * @return array
      */
@@ -94,10 +96,10 @@ abstract class Util implements UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param  array $response  -  The response from the Stripe API.
-     * @param  array $options
+     * @param  array  $response
+     * @param  array  $options
      *
-     * @return StripeObject|StripeResource|Collection|StripeObject[]|array
+     * @return StripeObject|StripeResource|Collection|array
      */
     public static function convertToStripeObject($response, $options)
     {
@@ -118,9 +120,9 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * Get Class Type
+     * Get Class Type.
      *
-     * @param  array $response
+     * @param  array  $response
      *
      * @return string
      */
@@ -135,9 +137,9 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * Get Class Type from available resources
+     * Get Class Type from available resources.
      *
-     * @param  string $object
+     * @param  string  $object
      *
      * @return string
      */
@@ -153,15 +155,13 @@ abstract class Util implements UtilInterface
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
-     * @param  mixed $array
+     * @param  mixed  $array
      *
-     * @return boolean True if the given object is a list.
+     * @return bool
      */
     public static function isList($array)
     {
-        if ( ! is_array($array)) {
-            return false;
-        }
+        if ( ! is_array($array)) return false;
 
         // TODO: generally incorrect, but it's correct given Stripe's response
         foreach (array_keys($array) as $k) {
@@ -174,16 +174,15 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * @param  array $response
+     * Check if the object is a resource.
+     *
+     * @param  array  $response
      *
      * @return bool
      */
     private static function isClassTypeObjectExist($response)
     {
-        if (
-            isset($response['object']) &&
-            is_string($response['object'])
-        ) {
+        if (isset($response['object']) && is_string($response['object'])) {
             return self::isInAvailableResources($response['object']);
         }
 
@@ -191,7 +190,7 @@ abstract class Util implements UtilInterface
     }
 
     /**
-     * Check is an available resource
+     * Check is an available resource.
      *
      * @param  string $object
      *

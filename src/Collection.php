@@ -5,14 +5,16 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Class Collection
- * @package Arcanedev\Stripe
+ * Class     Collection
  *
- * @property string object
- * @property array  data
- * @property int    total_count
- * @property bool   has_more
- * @property string url
+ * @package  Arcanedev\Stripe
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @property  string  object
+ * @property  array   data
+ * @property  int     total_count
+ * @property  bool    has_more
+ * @property  string  url
  */
 class Collection extends StripeResource implements CollectionInterface
 {
@@ -21,14 +23,14 @@ class Collection extends StripeResource implements CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List Function
+     * List Function.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      *
-     * @return Collection|array
+     * @return self|array
      */
     public function all($params = [], $options = null)
     {
@@ -36,10 +38,10 @@ class Collection extends StripeResource implements CollectionInterface
     }
 
     /**
-     * Create Function
+     * Create Function.
      *
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      *
@@ -51,11 +53,11 @@ class Collection extends StripeResource implements CollectionInterface
     }
 
     /**
-     * Retrieve Function
+     * Retrieve Function.
      *
-     * @param  string            $id
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
      * @throws ApiException
      *
@@ -71,13 +73,13 @@ class Collection extends StripeResource implements CollectionInterface
     }
 
     /**
-     * Make a request and convert to Stripe object
+     * Make a request and convert to Stripe object.
      *
-     * @param  string            $method
-     * @param  array             $params
-     * @param  array|string|null $options
+     * @param  string             $method
+     * @param  array              $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|StripeObject|StripeResource|array|
+     * @return self|StripeObject|StripeResource|array|
      */
     private function requestAndConvertToStripeObject($method, $params, $options)
     {
@@ -92,7 +94,7 @@ class Collection extends StripeResource implements CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if Object is list
+     * Check if Object is list.
      *
      * @return bool
      */
@@ -102,9 +104,9 @@ class Collection extends StripeResource implements CollectionInterface
     }
 
     /**
-     * Check if URL has path
+     * Check if URL has path.
      *
-     * @param  array $url
+     * @param  array  $url
      *
      * @throws ApiException
      */
@@ -122,7 +124,7 @@ class Collection extends StripeResource implements CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get items Count
+     * Get items Count.
      *
      * @return int
      */
@@ -134,9 +136,9 @@ class Collection extends StripeResource implements CollectionInterface
     }
 
     /**
-     * Extract Path And Update Parameters
+     * Extract Path And Update Parameters.
      *
-     * @param  $params
+     * @param  array|null $params
      *
      * @throws ApiException
      *

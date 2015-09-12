@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\Bases\StripeException;
 
 /**
- * Class ApiException
- * @package Arcanedev\Stripe\Exceptions
+ * Class     ApiException
+ *
+ * @package  Arcanedev\Stripe\Exceptions
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ApiException extends StripeException
 {
@@ -13,15 +15,15 @@ class ApiException extends StripeException
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * API Error Constructor
+     * API Exception Constructor.
      *
-     * @param string      $message
-     * @param int         $code
-     * @param string|null $type
-     * @param string|null $stripeCode
-     * @param string|null $httpBody
-     * @param array       $jsonBody
-     * @param array       $params
+     * @param  string       $message
+     * @param  int          $code
+     * @param  string|null  $type
+     * @param  string|null  $stripeCode
+     * @param  string|null  $httpBody
+     * @param  array        $jsonBody
+     * @param  array        $params
      */
     public function __construct(
         $message,

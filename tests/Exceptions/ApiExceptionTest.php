@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class ApiExceptionTest
- * @package Arcanedev\Stripe\Tests\Exceptions
+ * Class     ApiExceptionTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Exceptions
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ApiExceptionTest extends StripeTestCase
 {

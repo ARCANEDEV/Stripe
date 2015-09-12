@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\Balance;
-
 /**
- * Interface BalanceInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  BalanceInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface BalanceInterface
 {
@@ -13,12 +13,13 @@ interface BalanceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a balance
-     * @link https://stripe.com/docs/api/php#retrieve_balance
+     * Retrieve a balance.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_balance
      *
-     * @return Balance
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($options = null);
 }

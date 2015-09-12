@@ -5,8 +5,10 @@ use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Interface UtilInterface
- * @package Arcanedev\Stripe\Contracts\Utilities
+ * Interface  UtilInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface UtilInterface
 {
@@ -17,7 +19,7 @@ interface UtilInterface
     /**
      * Recursively converts the PHP Stripe object to an array.
      *
-     * @param  array $values The PHP Stripe object to convert.
+     * @param  array  $values
      *
      * @return array
      */
@@ -26,10 +28,10 @@ interface UtilInterface
     /**
      * Converts a response from the Stripe API to the corresponding PHP object.
      *
-     * @param  array  $response   - The response from the Stripe API.
-     * @param  string $options
+     * @param  array   $response
+     * @param  string  $options
      *
-     * @return StripeObject|StripeResource|Collection|StripeObject[]
+     * @return StripeObject|StripeResource|Collection|array
      */
     public static function convertToStripeObject($response, $options);
 
@@ -40,9 +42,9 @@ interface UtilInterface
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
-     * @param  array|mixed $array
+     * @param  array|mixed  $array
      *
-     * @return boolean True if the given object is a list.
+     * @return bool
      */
     public static function isList($array);
 }

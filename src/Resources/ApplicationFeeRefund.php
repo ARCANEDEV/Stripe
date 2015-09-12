@@ -6,18 +6,22 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class ApplicationFeeRefund
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#fee_refunds
+ * Class     ApplicationFeeRefund
  *
- * @property string         id
- * @property string         object  // "fee_refund"
- * @property int            amount
- * @property int            created
- * @property string         currency
- * @property string         balance_transaction
- * @property string         fee
- * @property AttachedObject metadata
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#fee_refunds
+ *
+ * @property  string          id
+ * @property  string          object                // "fee_refund"
+ * @property  int             amount
+ * @property  int             created
+ * @property  string          currency
+ * @property  string          balance_transaction
+ * @property  string          fee
+ * @property  AttachedObject  metadata
+ *
+ * @todo:     Complete the properties.
  */
 class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefundInterface
 {
@@ -32,9 +36,7 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get instance URL - The API URL for this Stripe refund
-     *
-     * @throws InvalidRequestException
+     * Get instance URL - The API URL for this Stripe refund.
      *
      * @return string
      */
@@ -57,10 +59,11 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Update/Save an Application Fee Refund
-     * @link https://stripe.com/docs/api/php#update_fee_refund
+     * Update/Save an Application Fee Refund.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_fee_refund
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -74,9 +77,9 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if id is not empty
+     * Check if id is not empty.
      *
-     * @param  string $id
+     * @param  string  $id
      *
      * @throws InvalidRequestException
      */

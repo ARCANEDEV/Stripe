@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities;
 
 /**
- * Interface HttpRequestInterface
- * @package Arcanedev\Stripe\Contracts\Utilities
+ * Interface  HttpRequestInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface HttpRequestInterface
 {
@@ -11,46 +13,48 @@ interface HttpRequestInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set URL
+     * Set URL.
      *
-     * @param string $url
+     * @param  string  $url
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function url($url);
 
     /**
-     * Set URL
+     * Set URL.
      *
-     * @param string $url
+     * @param  string  $url
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function setUrl($url);
 
     /**
-     * Set CURL option
+     * Set CURL option.
      *
-     * @param int   $name
-     * @param mixed $value
+     * @param  int    $name
+     * @param  mixed  $value
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function setOption($name, $value);
 
     /**
-     * Set CURL options
+     * Set CURL options.
      *
-     * @param array $options
+     * @param  array  $options
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function setOptions(array $options);
 
     /**
-     * @param $headers
+     * Set HTTP Headers.
      *
-     * @return HttpRequestInterface
+     * @param  $headers
+     *
+     * @return self
      */
     public function setHttpHeaders($headers);
 
@@ -59,14 +63,14 @@ interface HttpRequestInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Execute the CURL handler
+     * Execute the CURL handler.
      *
      * @return mixed
      */
     public function execute();
 
     /**
-     * Close curl handler
+     * Close curl handler.
      */
     public function close();
 
@@ -75,23 +79,23 @@ interface HttpRequestInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if has SSL Errors
+     * Check if has SSL Errors.
      *
      * @return bool
      */
     public function hasSSLErrors();
 
     /**
-     * Enable CURL SSL Verify Peer
+     * Enable CURL SSL Verify Peer.
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function enableSSLVerifyPeer();
 
     /**
-     * Enable CURL SSL Verify Peer
+     * Enable CURL SSL Verify Peer.
      *
-     * @return HttpRequestInterface
+     * @return self
      */
     public function disableSSLVerifyPeer();
 
@@ -100,7 +104,7 @@ interface HttpRequestInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if has response
+     * Check if has response.
      *
      * @return bool
      */

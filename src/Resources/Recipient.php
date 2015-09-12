@@ -6,22 +6,26 @@ use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Recipient
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#recipient_object
+ * Class     Recipient
  *
- * @property string         id
- * @property string         object      // "recipient"
- * @property bool           livemode
- * @property int            created
- * @property string         type
- * @property Object         active_account
- * @property string         description
- * @property string         email
- * @property AttachedObject metadata
- * @property string         name
- * @property Collection     cards
- * @property string         default_card
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#recipient_object
+ *
+ * @property  string          id
+ * @property  string          object            // "recipient"
+ * @property  bool            livemode
+ * @property  int             created
+ * @property  string          type
+ * @property  Object          active_account
+ * @property  string          description
+ * @property  string          email
+ * @property  AttachedObject  metadata
+ * @property  string          name
+ * @property  Collection      cards
+ * @property  string          default_card
+ *
+ * @todo:     Update the properties.
  */
 class Recipient extends StripeResource implements RecipientInterface
 {
@@ -41,11 +45,12 @@ class Recipient extends StripeResource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Recipient
-     * @link https://stripe.com/docs/api/php#retrieve_recipient
+     * Retrieve a Recipient.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_recipient
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -55,13 +60,14 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * List all Recipients
-     * @link https://stripe.com/docs/api/php#list_recipients
+     * List all Recipients.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_recipients
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -69,11 +75,12 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * Create a New Recipient
-     * @link https://stripe.com/docs/api/php#create_recipient
+     * Create a New Recipient.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_recipient
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -83,10 +90,11 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * Update/Save a recipient
-     * @link https://stripe.com/docs/api/php#update_recipient
+     * Update/Save a recipient.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_recipient
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -96,11 +104,12 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * Delete a Recipient
-     * @link https://stripe.com/docs/api/php#delete_recipient
+     * Delete a Recipient.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_recipient
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -116,9 +125,9 @@ class Recipient extends StripeResource implements RecipientInterface
     /**
      * List all recipient's Transfers.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|Transfer[]
+     * @return Collection|array
      */
     public function transfers($params = [])
     {
@@ -132,9 +141,9 @@ class Recipient extends StripeResource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Add Recipient ID to Parameters
+     * Add Recipient ID to Parameters.
      *
-     * @param array $params
+     * @param  array  $params
      */
     private function addRecipientParam(&$params)
     {

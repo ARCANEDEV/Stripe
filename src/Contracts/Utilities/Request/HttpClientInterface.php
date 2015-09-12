@@ -1,11 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities\Request;
 
-use Arcanedev\Stripe\Exceptions\ApiConnectionException;
-use Arcanedev\Stripe\Exceptions\ApiException;
-
 /**
- * Interface HttpClientInterface
- * @package Arcanedev\Stripe\Contracts\Utilities\Request
+ * Interface  HttpClientInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities\Request
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface HttpClientInterface
 {
@@ -14,9 +13,9 @@ interface HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set API Key
+     * Set API Key.
      *
-     * @param  string $apiKey
+     * @param  string  $apiKey
      *
      * @return self
      */
@@ -25,7 +24,7 @@ interface HttpClientInterface
     /**
      * Set Base URL
      *
-     * @param  string $apiBaseUrl
+     * @param  string  $apiBaseUrl
      *
      * @return self
      */
@@ -36,15 +35,12 @@ interface HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Curl the request
+     * Curl the request.
      *
      * @param  string        $method
      * @param  string        $url
      * @param  array|string  $params
      * @param  array         $headers
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
      *
      * @return array
      */

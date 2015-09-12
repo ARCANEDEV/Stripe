@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Invoice;
 
 /**
- * Interface InvoiceInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  InvoiceInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface InvoiceInterface
 {
@@ -14,66 +15,72 @@ interface InvoiceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create an invoice
-     * @link https://stripe.com/docs/api/php#create_invoice
+     * Create an invoice.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_invoice
      *
-     * @return Invoice|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * Retrieving an Invoice
-     * @link https://stripe.com/docs/api/php#retrieve_invoice
+     * Retrieving an Invoice.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_invoice
      *
-     * @return Invoice
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List of all Invoices
-     * @link https://stripe.com/docs/api/php#list_customer_invoices
+     * List of all Invoices.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_customer_invoices
      *
-     * @return Collection|Invoice[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Update/Save an invoice
-     * @link https://stripe.com/docs/api/php#update_invoice
+     * Update/Save an invoice.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_invoice
      *
-     * @return Invoice
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Retrieve  Upcoming Invoice
-     * @link https://stripe.com/docs/api/php#retrieve_customer_invoice
+     * Retrieve Upcoming Invoice.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
-     * @return Invoice|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function upcoming($params = [], $options = null);
 
     /**
-     * Pay an invoice
-     * @link https://stripe.com/docs/api/php#pay_invoice
+     * Pay an invoice.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#pay_invoice
      *
-     * @return Invoice
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function pay($options = null);
 }

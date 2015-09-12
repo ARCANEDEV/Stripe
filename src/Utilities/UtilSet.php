@@ -6,8 +6,10 @@ use Countable;
 use IteratorAggregate;
 
 /**
- * Class UtilSet
- * @package Arcanedev\Stripe\Utilities
+ * Class     UtilSet
+ *
+ * @package  Arcanedev\Stripe\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
 {
@@ -36,6 +38,8 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check if attribute is included.
+     *
      * @param string $attribute
      *
      * @return bool

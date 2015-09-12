@@ -7,25 +7,30 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Customer
- * @package Arcanedev\Stripe\Resources
+ * Class     Customer
+ *
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
  * @link https://stripe.com/docs/api/php#customers
  *
- * @property int            id
- * @property string         object  // "customer"
- * @property bool           livemode
- * @property Collection     sources
- * @property int            created
- * @property int            account_balance
- * @property string         currency
- * @property string         default_card
- * @property bool           delinquent
- * @property string         description
- * @property Discount|null  discount
- * @property string         email
- * @property AttachedObject metadata
- * @property Collection     subscriptions
- * @property Subscription   subscription    // It's for updateSubscription and cancelSubscription
+ * @property  int             id
+ * @property  string          object          // "customer"
+ * @property  bool            livemode
+ * @property  Collection      sources
+ * @property  int             created
+ * @property  int             account_balance
+ * @property  string          currency
+ * @property  string          default_card
+ * @property  bool            delinquent
+ * @property  string          description
+ * @property  Discount|null   discount
+ * @property  string          email
+ * @property  AttachedObject  metadata
+ * @property  Collection      subscriptions
+ * @property  Subscription    subscription    // It's for updateSubscription and cancelSubscription
+ *
+ * @todo:     Update the properties.
  */
 class Customer extends StripeResource implements CustomerInterface
 {
@@ -42,7 +47,7 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Allow to check attributes while setting
+     * Allow to check attributes while setting.
      *
      * @var bool
      */
@@ -53,7 +58,7 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Subscription URL
+     * Get Subscription URL.
      *
      * @throws InvalidRequestException
      *
@@ -65,7 +70,7 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Get Discount URL
+     * Get Discount URL.
      *
      * @throws InvalidRequestException
      *
@@ -81,11 +86,12 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Customer
-     * @link https://stripe.com/docs/api/php#retrieve_customer
+     * Retrieve a Customer.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_customer
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -95,13 +101,14 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * List all Customers
-     * @link https://stripe.com/docs/api/php#list_customers
+     * List all Customers.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_customers
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -109,11 +116,12 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Create Customer
-     * @link https://stripe.com/docs/api/php#create_customer
+     * Create Customer.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_customer
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -123,10 +131,11 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Update/Save Customer
-     * @link https://stripe.com/docs/api/php#create_customer
+     * Update/Save Customer.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_customer
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -136,11 +145,12 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Delete Customer
-     * @link https://stripe.com/docs/api/php#delete_customer
+     * Delete Customer.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_customer
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -154,7 +164,7 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Add an invoice item
+     * Add an invoice item.
      *
      * @param  array $params
      *
@@ -168,11 +178,11 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Get all invoices
+     * Get all invoices.
      *
      * @param  array $params
      *
-     * @return Collection|Invoice[]
+     * @return Collection|array
      */
     public function invoices($params = [])
     {
@@ -182,11 +192,11 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Get all invoice items
+     * Get all invoice items.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|InvoiceItem[]
+     * @return Collection|array
      */
     public function invoiceItems($params = [])
     {
@@ -196,11 +206,11 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Get all charges
+     * Get all charges.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return Collection|Charge[]
+     * @return Collection|array
      */
     public function charges($params = [])
     {
@@ -210,9 +220,9 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Update a Subscription
+     * Update a Subscription.
      *
-     * @param  array|null $params
+     * @param  array|null  $params
      *
      * @return Subscription
      */
@@ -225,9 +235,9 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Cancel Subscription
+     * Cancel Subscription.
      *
-     * @param  array|null $params
+     * @param  array|null  $params
      *
      * @return Subscription
      */
@@ -240,7 +250,7 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Delete Discount
+     * Delete Discount.
      *
      * @return Object
      */
@@ -259,9 +269,9 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Add Customer ID to parameters
+     * Add Customer ID to parameters.
      *
-     * @param array $params
+     * @param  array  $params
      */
     private function appCustomerParam(&$params)
     {

@@ -18,7 +18,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * The HTTP Client instance
+     * The HTTP Client instance.
      *
      * @var HttpClient
      */
@@ -68,6 +68,9 @@ class HttpClient implements HttpClientInterface
      |  Constructor & Destructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Create a HttpClient instance.
+     */
     private function __construct()
     {
         $this->headers  = new HeaderBag;
@@ -75,6 +78,9 @@ class HttpClient implements HttpClientInterface
         $this->response = null;
     }
 
+    /**
+     * Destroy the instance.
+     */
     public function __destruct()
     {
         $this->close();
@@ -85,7 +91,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set API Key
+     * Set API Key.
      *
      * @param  string  $apiKey
      *
@@ -99,7 +105,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Set Base URL
+     * Set Base URL.
      *
      * @param  string  $apiBaseUrl
      *
@@ -113,7 +119,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Set array options
+     * Set array options.
      *
      * @param  array  $options
      *
@@ -131,7 +137,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Init curl
+     * Init curl.
      */
     private function init()
     {
@@ -139,7 +145,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Execute curl
+     * Execute curl.
      */
     private function execute()
     {
@@ -149,7 +155,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Close curl
+     * Close curl.
      */
     private function close()
     {
@@ -163,7 +169,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the HTTP
+     * Get the HTTP.
      *
      * @return self
      */
@@ -177,7 +183,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Curl the request
+     * Curl the request.
      *
      * @param  string        $method
      * @param  string        $url
@@ -217,7 +223,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Check Cert Errors
+     * Check Cert Errors.
      */
     private function checkCertErrors()
     {
@@ -237,7 +243,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Process Resource Parameters
+     * Process Resource Parameters.
      *
      * @param  array|string  $params
      *
@@ -265,9 +271,9 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Process Resource Parameter
+     * Process Resource Parameter.
      *
-     * @param  resource  $resource
+     * @param  \resource  $resource
      *
      * @throws ApiException
      *
@@ -331,7 +337,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check Resource type is stream
+     * Check Resource type is stream.
      *
      * @param  \resource  $resource
      *
@@ -347,7 +353,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Check resource MetaData
+     * Check resource MetaData.
      *
      * @param  array  $metaData
      *
@@ -363,7 +369,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Check if param is resource File
+     * Check if param is resource File.
      *
      * @param  mixed  $resource
      *
@@ -381,7 +387,7 @@ class HttpClient implements HttpClientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check Response
+     * Check Response.
      *
      * @throws ApiConnectionException
      */
@@ -394,7 +400,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Handle CURL error
+     * Handle CURL errors.
      *
      * @throws ApiConnectionException
      */

@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\Token;
-
 /**
- * Interface TokenInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  TokenInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface TokenInterface
 {
@@ -13,24 +13,26 @@ interface TokenInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Token
-     * @link https://stripe.com/docs/api/curl#retrieve_token
+     * Retrieve a Token.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#retrieve_token
      *
-     * @return Token
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * Create a Card Token
-     * @link https://stripe.com/docs/api/curl#create_card_token
+     * Create a Card Token.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/curl#create_card_token
      *
-     * @return Token|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 }

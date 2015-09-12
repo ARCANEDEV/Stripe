@@ -6,21 +6,25 @@ use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Refund
- * @package Arcanedev\Stripe\Resources
- * @link https://stripe.com/docs/api/php#refund_object
+ * Class     Refund
  *
- * @property string         id
- * @property string         object // "refund"
- * @property int            amount
- * @property int            created
- * @property string         currency
- * @property string         balance_transaction
- * @property string         charge
- * @property AttachedObject metadata
- * @property string         reason
- * @property string         receipt_number
- * @property string         description
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#refund_object
+ *
+ * @property  string          id
+ * @property  string          object                // "refund"
+ * @property  int             amount
+ * @property  int             created
+ * @property  string          currency
+ * @property  string          balance_transaction
+ * @property  string          charge
+ * @property  AttachedObject  metadata
+ * @property  string          reason
+ * @property  string          receipt_number
+ * @property  string          description
+ *
+ * @todo:     Complete the properties.
  */
 class Refund extends StripeResource implements RefundInterface
 {
@@ -29,11 +33,12 @@ class Refund extends StripeResource implements RefundInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Refund by ID
-     * @link https://stripe.com/docs/api/php#retrieve_refund
+     * Retrieve a Refund by ID.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_refund
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -43,13 +48,14 @@ class Refund extends StripeResource implements RefundInterface
     }
 
     /**
-     * List all refunds
-     * @link https://stripe.com/docs/api/php#list_refunds
+     * List all refunds.
      *
-     * @param array|null $params
-     * @param array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_refunds
      *
-     * @return Collection|self[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = null, $options = null)
     {
@@ -57,11 +63,12 @@ class Refund extends StripeResource implements RefundInterface
     }
 
     /**
-     * Create a Refund
-     * @link https://stripe.com/docs/api/php#create_refund
+     * Create a Refund.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_refund
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -71,10 +78,11 @@ class Refund extends StripeResource implements RefundInterface
     }
 
     /**
-     * Update/Save a Refund
-     * @link https://stripe.com/docs/api/php#update_refund
+     * Update/Save a Refund.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_refund
+     *
+     * @param  array|string|null  $options
      *
      * @return self
      */

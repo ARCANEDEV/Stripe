@@ -31,26 +31,18 @@ class Requestor implements RequestorInterface
      */
     private $apiKey;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $apiBaseUrl;
 
-    /**
-     * @var HttpClientInterface
-     */
+    /** @var HttpClientInterface */
     private static $httpClient;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private static $allowedMethods = [
         'get', 'post', 'delete'
     ];
 
-    /**
-     * @var ErrorsHandler
-     */
+    /** @var ErrorsHandler */
     private $errorsHandler;
 
     /* ------------------------------------------------------------------------------------------------
@@ -93,7 +85,7 @@ class Requestor implements RequestorInterface
      *
      * @param  string  $apiKey
      *
-     * @return Requestor
+     * @return self
      */
     private function setApiKey($apiKey)
     {
@@ -107,7 +99,7 @@ class Requestor implements RequestorInterface
      *
      * @param  string|null  $apiBaseUrl
      *
-     * @return Requestor
+     * @return self
      */
     private function setApiBase($apiBaseUrl)
     {
@@ -156,7 +148,7 @@ class Requestor implements RequestorInterface
      * @param  string|null  $apiKey
      * @param  string       $apiBase
      *
-     * @return Requestor
+     * @return self
      */
     public static function make($apiKey = null, $apiBase = '')
     {
@@ -319,7 +311,7 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Check if API Key Exists
+     * Check if API Key Exists.
      *
      * @throws ApiKeyNotSetException
      */
@@ -333,7 +325,7 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Check Http Method
+     * Check Http Method.
      *
      * @param  string  $method
      *
@@ -356,7 +348,7 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Encode Objects
+     * Encode Objects.
      *
      * @param  StripeResource|bool|array|string  $obj
      *

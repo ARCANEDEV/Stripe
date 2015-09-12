@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\ApplicationFeeRefund;
-
 /**
- * Interface ApplicationFeeRefundInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  ApplicationFeeRefundInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface ApplicationFeeRefundInterface
 {
@@ -13,12 +13,13 @@ interface ApplicationFeeRefundInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Update/Save an Application Fee Refund
-     * @link https://stripe.com/docs/api/php#update_fee_refund
+     * Update/Save an Application Fee Refund.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_fee_refund
      *
-     * @return ApplicationFeeRefund
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 }

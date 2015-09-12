@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class BitcoinReceiverTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     BitcoinReceiverTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BitcoinReceiverTest extends StripeTestCase
 {

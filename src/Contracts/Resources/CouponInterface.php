@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Coupon;
 
 /**
- * Interface CouponInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  CouponInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CouponInterface
 {
@@ -14,56 +15,61 @@ interface CouponInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Coupon
-     * @link https://stripe.com/docs/api/php#retrieve_coupon
+     * Retrieve a Coupon.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_coupon
      *
-     * @return Coupon
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Coupons
-     * @link https://stripe.com/docs/api/php#list_coupons
+     * List all Coupons.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_coupons
      *
-     * @return Collection|Coupon[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|self
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Create coupon
-     * @link https://stripe.com/docs/api/php#create_coupon
+     * Create coupon.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_coupon
      *
-     * @return Coupon|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * Update/Save a Coupon
-     * @link https://stripe.com/docs/api/php#update_coupon
+     * Update/Save a Coupon.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_coupon
      *
-     * @return Coupon
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete a coupon
-     * @link https://stripe.com/docs/api/php#delete_coupon
+     * Delete a coupon.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_coupon
      *
-     * @return Coupon
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function delete($params = [], $options);
 }

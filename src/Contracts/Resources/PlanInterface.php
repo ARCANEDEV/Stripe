@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\Plan;
 
 /**
- * Interface PlanInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  PlanInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface PlanInterface
 {
@@ -14,56 +15,61 @@ interface PlanInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Plan
-     * @link https://stripe.com/docs/api/php#retrieve_plan
+     * Retrieve a Plan.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#retrieve_plan
      *
-     * @return Plan
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Plans
-     * @link https://stripe.com/docs/api/php#list_plans
+     * List all Plans.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#list_plans
      *
-     * @return Collection|Plan[]
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Create a plan
-     * @link https://stripe.com/docs/api/php#create_plan
+     * Create a plan.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#create_plan
      *
-     * @return Plan|array
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * Update/Save a plan
-     * @link https://stripe.com/docs/api/php#update_plan
+     * Update/Save a plan.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_plan
      *
-     * @return Plan
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete a plan
-     * @link https://stripe.com/docs/api/php#delete_plan
+     * Delete a plan.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#delete_plan
      *
-     * @return Plan
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function delete($params = [], $options = null);
 }

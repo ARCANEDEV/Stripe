@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\BitcoinTransaction;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class BitcoinTransactionTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     BitcoinTransactionTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BitcoinTransactionTest extends StripeTestCase
 {

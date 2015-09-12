@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\StripeResource;
 
 /**
- * Interface StripeResourceInterface
- * @package Arcanedev\Stripe\Contracts
+ * Interface  StripeResourceInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface StripeResourceInterface
 {
@@ -16,14 +17,14 @@ interface StripeResourceInterface
     /**
      * Get the refreshed resource.
      *
-     * @returns StripeResource
+     * @returns self
      */
     public function refresh();
 
     /**
      * Get The name of the class, with namespacing and underscores stripped.
      *
-     * @param string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -32,16 +33,18 @@ interface StripeResourceInterface
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param string $class
+     * @param  string  $class
      *
      * @return string
      */
     public static function classUrl($class = '');
 
     /**
+     * Get the full API URL for this API resource.
+     *
      * @throws InvalidRequestException
      *
-     * @return string The full API URL for this API resource.
+     * @return string
      */
     public function instanceUrl();
 }

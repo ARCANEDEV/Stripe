@@ -1,11 +1,12 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\FileUpload;
 
 /**
- * Interface FileUploadInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  FileUploadInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface FileUploadInterface
 {
@@ -14,32 +15,32 @@ interface FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a File
+     * Retrieve a File.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
-     * @return FileUpload
+     * @return self
      */
     public static function retrieve($id, $options = null);
 
     /**
-     * Create/Upload a File
+     * Create/Upload a File.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return FileUpload|array
+     * @return self|array
      */
     public static function create($params = [], $options = null);
 
     /**
-     * List all uploaded files
+     * List all uploaded files.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return Collection|FileUpload[]
+     * @return Collection|array
      */
     public static function all($params = [], $options = null);
 }

@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Resources\Event;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
- * Class EventTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     EventTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class EventTest extends StripeTestCase
 {

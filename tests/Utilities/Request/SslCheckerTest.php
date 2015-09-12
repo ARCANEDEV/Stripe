@@ -4,8 +4,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Utilities\Request\SslChecker;
 
 /**
- * Class SslCheckerTest
- * @package Arcanedev\Stripe\Tests\Utilities\Request
+ * Class     SslCheckerTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Utilities\Request
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SslCheckerTest extends StripeTestCase
 {

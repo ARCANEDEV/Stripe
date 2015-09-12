@@ -3,8 +3,10 @@
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
- * Class UtilTest
- * @package Arcanedev\Stripe\Tests
+ * Class     UtilTest
+ *
+ * @package  Arcanedev\Stripe\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilTest extends StripeTestCase
 {

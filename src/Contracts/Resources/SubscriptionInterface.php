@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Resources\Subscription;
-
 /**
- * Interface SubscriptionInterface
- * @package Arcanedev\Stripe\Contracts\Resources
+ * Interface  SubscriptionInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface SubscriptionInterface
 {
@@ -13,31 +13,34 @@ interface SubscriptionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Cancel a Subscription
-     * @link https://stripe.com/docs/api/php#cancel_subscription
+     * Cancel a Subscription.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#cancel_subscription
      *
-     * @return Subscription
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function cancel($params = [], $options = null);
 
     /**
-     * Update/Save a Subscription
-     * @link https://stripe.com/docs/api/php#update_subscription
+     * Update/Save a Subscription.
      *
-     * @param  array|string|null $options
+     * @link   https://stripe.com/docs/api/php#update_subscription
      *
-     * @return Subscription
+     * @param  array|string|null  $options
+     *
+     * @return self
      */
     public function save($options = null);
 
     /**
-     * Delete a Subscription Discount
-     * @link https://stripe.com/docs/api/curl#delete_subscription_discount
+     * Delete a Subscription Discount.
      *
-     * @return Subscription
+     * @link   https://stripe.com/docs/api/curl#delete_subscription_discount
+     *
+     * @return self
      */
     public function deleteDiscount();
 }

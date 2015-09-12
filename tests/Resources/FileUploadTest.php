@@ -5,8 +5,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 use CURLFile;
 
 /**
- * Class FileUploadTest
- * @package Arcanedev\Stripe\Tests\Resources
+ * Class     FileUploadTest
+ *
+ * @package  Arcanedev\Stripe\Tests\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FileUploadTest extends StripeTestCase
 {
