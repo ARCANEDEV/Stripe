@@ -49,9 +49,12 @@ abstract class Util implements UtilInterface
         'invoice'               => 'Resources\\Invoice',
         'invoiceitem'           => 'Resources\\InvoiceItem',
         'list'                  => 'Collection',                     // List Object
+        'order'                 => 'Resources\\Order',
         'plan'                  => 'Resources\\Plan',
+        'product'               => 'Resources\\Product',
         'recipient'             => 'Resources\\Recipient',
         'refund'                => 'Resources\\Refund',
+        'sku'                   => 'Resources\\Sku',
         'subscription'          => 'Resources\\Subscription',
         'token'                 => 'Resources\\Token',
         'transfer'              => 'Resources\\Transfer',
