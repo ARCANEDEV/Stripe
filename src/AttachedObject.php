@@ -14,7 +14,9 @@ class AttachedObject extends StripeObject implements AttachedObjectInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $checkUnsavedAttributes = false;
 
     /* ------------------------------------------------------------------------------------------------

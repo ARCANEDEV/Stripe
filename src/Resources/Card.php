@@ -35,4 +35,7 @@ use Arcanedev\Stripe\Contracts\Resources\CardInterface;
  *
  * @todo:     Update the properties.
  */
-class Card extends ExternalAccount implements CardInterface {}
+class Card extends ExternalAccount implements CardInterface
+{
+    //
+}
