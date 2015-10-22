@@ -5,7 +5,7 @@ use Arcanedev\Stripe\Contracts\Utilities\Arrayable;
 use Arcanedev\Stripe\Contracts\Utilities\Jsonable;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
-use Arcanedev\Stripe\Utilities\RequestOptions;
+use Arcanedev\Stripe\Http\RequestOptions;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;

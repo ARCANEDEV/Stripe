@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe\Contracts;
+<?php namespace Arcanedev\Stripe\Contracts\Http;
 
 /**
  * Interface  RequestorInterface

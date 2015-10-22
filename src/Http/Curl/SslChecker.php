@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Utilities\Request\SslCheckerInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\SslCheckerInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 
 /**

@@ -1,12 +1,14 @@
 <?php namespace Arcanedev\Stripe\Http;
 
+use Arcanedev\Stripe\Contracts\Http\ResponseInterface;
+
 /**
  * Class     Response
  *
  * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Response
+class Response implements ResponseInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

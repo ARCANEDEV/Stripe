@@ -1,7 +1,7 @@
-<?php namespace Arcanedev\Stripe\Tests\Utilities;
+<?php namespace Arcanedev\Stripe\Tests\Http;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\RequestOptions;
+use Arcanedev\Stripe\Http\RequestOptions;
 
 /**
  * Class     RequestOptionsTest
@@ -11,12 +11,6 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
  */
 class RequestOptionsTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const REQUESTOPTIONS_CLASS = 'Arcanedev\\Stripe\\Utilities\\RequestOptions';
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -40,7 +34,7 @@ class RequestOptionsTest extends StripeTestCase
     {
         $opts = new RequestOptions('', []);
 
-        $this->assertInstanceOf(self::REQUESTOPTIONS_CLASS, $opts);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Http\\RequestOptions', $opts);
         $this->assertFalse($opts->hasApiKey());
         $this->assertEquals([], $opts->getHeaders());
     }

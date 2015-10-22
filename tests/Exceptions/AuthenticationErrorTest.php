@@ -33,9 +33,9 @@ class AuthenticationErrorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\AuthenticationException
-     * @expectedExceptionCode    401
-     * @expectedExceptionMessage Invalid API Key provided: *******-***-key
+     * @expectedException         \Arcanedev\Stripe\Exceptions\AuthenticationException
+     * @expectedExceptionCode     401
+     * @expectedExceptionMessage  Invalid API Key provided: *******-***-key
      */
     public function it_must_throw_authentication_exception_on_invalid_credentials()
     {

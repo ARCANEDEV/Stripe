@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe\Contracts\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Contracts\Http\Curl;
 
 /**
  * Interface  SslCheckerInterface

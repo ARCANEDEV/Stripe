@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Utilities\Request\CurlOptionsInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\CurlOptionsInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;

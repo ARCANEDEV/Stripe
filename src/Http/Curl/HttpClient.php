@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Http\Curl\CurlOptions;

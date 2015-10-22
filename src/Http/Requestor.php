@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Http;
 
-use Arcanedev\Stripe\Contracts\RequestorInterface;
-use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
+use Arcanedev\Stripe\Contracts\Http\RequestorInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
