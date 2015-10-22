@@ -1,8 +1,8 @@
-<?php namespace Arcanedev\Stripe\Tests\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\Request\HeaderBag;
+use Arcanedev\Stripe\Http\Curl\HeaderBag;
 
 /**
  * Class     HeaderBagTest
@@ -16,7 +16,7 @@ class HeaderBagTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const HEADER_BAG_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\HeaderBag';
+    const HEADER_BAG_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\HeaderBag';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties

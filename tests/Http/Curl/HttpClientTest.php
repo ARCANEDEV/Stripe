@@ -1,21 +1,21 @@
-<?php namespace Arcanedev\Stripe\Tests\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\Request\HttpClient;
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 
 /**
- * Class     CurlClientTest
+ * Class     HttpClientTest
  *
  * @package  Arcanedev\Stripe\Tests\Utilities\Request
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class CurlClientTest extends StripeTestCase
+class HttpClientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const HTTP_CLIENT_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\HttpClient';
+    const HTTP_CLIENT_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\HttpClient';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties

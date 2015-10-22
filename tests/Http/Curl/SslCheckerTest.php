@@ -1,7 +1,7 @@
-<?php namespace Arcanedev\Stripe\Tests\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\Request\SslChecker;
+use Arcanedev\Stripe\Http\Curl\SslChecker;
 
 /**
  * Class     SslCheckerTest
@@ -15,13 +15,13 @@ class SslCheckerTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const SSL_CHECKER_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\SslChecker';
+    const SSL_CHECKER_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\SslChecker';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var \Arcanedev\Stripe\Utilities\Request\SslChecker */
+    /** @var \Arcanedev\Stripe\Http\Curl\SslChecker */
     private $sslChecker;
 
     /* ------------------------------------------------------------------------------------------------

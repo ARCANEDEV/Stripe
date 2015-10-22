@@ -1,8 +1,8 @@
-<?php namespace Arcanedev\Stripe\Tests\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Utilities\Request\CurlOptions;
+use Arcanedev\Stripe\Http\Curl\CurlOptions;
 
 /**
  * Class     CurlOptionsTest
@@ -16,7 +16,7 @@ class CurlOptionsTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const CURL_OPTIONS_CLASS = 'Arcanedev\\Stripe\\Utilities\\Request\\CurlOptions';
+    const CURL_OPTIONS_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\CurlOptions';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties

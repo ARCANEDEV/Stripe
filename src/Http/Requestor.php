@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe;
+<?php namespace Arcanedev\Stripe\Http;
 
 use Arcanedev\Stripe\Contracts\RequestorInterface;
 use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
@@ -9,8 +9,10 @@ use Arcanedev\Stripe\Exceptions\AuthenticationException;
 use Arcanedev\Stripe\Exceptions\CardException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Exceptions\RateLimitException;
+use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
-use Arcanedev\Stripe\Utilities\Request\HttpClient;
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 
 /**
  * Class     Requestor

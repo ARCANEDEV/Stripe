@@ -1,7 +1,8 @@
-<?php namespace Arcanedev\Stripe\Tests;
+<?php namespace Arcanedev\Stripe\Tests\Http;
 
-use Arcanedev\Stripe\Requestor;
+use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
  * Class     RequestorTest
@@ -15,7 +16,7 @@ class RequestorTest extends StripeTestCase
      |  Constants
      | ------------------------------------------------------------------------------------------------
      */
-    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Requestor';
+    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Http\\Requestor';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties

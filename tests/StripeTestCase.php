@@ -2,7 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Requestor;
+use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Resources\Charge;
@@ -12,7 +12,7 @@ use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Stripe;
-use Arcanedev\Stripe\Utilities\Request\HttpClient;
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**

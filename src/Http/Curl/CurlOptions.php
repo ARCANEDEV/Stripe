@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Http\Curl;
 
 use Arcanedev\Stripe\Contracts\Utilities\Request\CurlOptionsInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;

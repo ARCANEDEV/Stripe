@@ -1,8 +1,11 @@
-<?php namespace Arcanedev\Stripe\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Http\Curl;
 
 use Arcanedev\Stripe\Contracts\Utilities\Request\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Http\Curl\CurlOptions;
+use Arcanedev\Stripe\Http\Curl\HeaderBag;
+use Arcanedev\Stripe\Http\Curl\SslChecker;
 use CURLFile;
 
 /**

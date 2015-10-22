@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\Stripe\Utilities\Request;
+<?php namespace Arcanedev\Stripe\Http\Curl;
 
 use Arcanedev\Stripe\Contracts\Utilities\Request\SslCheckerInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
@@ -41,8 +41,6 @@ class SslChecker implements SslCheckerInterface
      */
     public function setUrl($url)
     {
-        // TODO: Add check URL Method
-
         $this->url = $this->prepareUrl($url);
 
         return $this;
@@ -242,8 +240,6 @@ class SslChecker implements SslCheckerInterface
     public static function caBundle()
     {
         $path = realpath(__DIR__ . '/../../../data/ca-certificates.crt');
-
-        // TODO: Add checkPathExists method
 
         return $path;
     }
