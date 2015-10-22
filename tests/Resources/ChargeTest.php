@@ -121,6 +121,7 @@ class ChargeTest extends StripeTestCase
 
         $this->assertTrue($this->charge->paid);
         $this->assertFalse($this->charge->refunded);
+        $this->assertEquals(200, $this->charge->getLastResponse()->getStatusCode());
     }
 
     /** @test */
@@ -131,6 +132,7 @@ class ChargeTest extends StripeTestCase
 
         $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
         $this->assertEquals($charge->id, $this->charge->id);
+        $this->assertEquals(200, $this->charge->getLastResponse()->getCode());
     }
 
     /** @test */
@@ -230,7 +232,9 @@ class ChargeTest extends StripeTestCase
         $this->charge->save();
 
         $charge = Charge::retrieve($this->charge->id);
+
         $this->assertEquals('foo bar', $charge->metadata['test']);
+        $this->assertEquals(200, $charge->getLastResponse()->getStatusCode());
     }
 
     /** @test */

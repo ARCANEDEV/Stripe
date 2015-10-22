@@ -84,6 +84,13 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     protected $checkUnsavedAttributes = false;
 
+    /**
+     * The last response.
+     *
+     * @var  \Arcanedev\Stripe\Http\Response
+     */
+    protected $lastResponse;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -223,6 +230,30 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         }
 
         $this->checkPermanentAttributes($key);
+    }
+
+    /**
+     * Get the last response from the Stripe API.
+     *
+     * @return \Arcanedev\Stripe\Http\Response
+     */
+    public function getLastResponse()
+    {
+        return $this->lastResponse;
+    }
+
+    /**
+     * Set the last response from the Stripe API.
+     *
+     * @param  \Arcanedev\Stripe\Http\Response  $response
+     *
+     * @return self
+     */
+    public function setLastResponse(\Arcanedev\Stripe\Http\Response $response)
+    {
+        $this->lastResponse = $response;
+
+        return $this;
     }
 
     /**

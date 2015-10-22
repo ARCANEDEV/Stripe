@@ -128,9 +128,13 @@ class Invoice extends StripeResource implements InvoiceInterface
     {
         $url  = self::classUrl(get_class()) . '/upcoming';
 
+        /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
-        return Util::convertToStripeObject($response, $opts);
+        $object = Util::convertToStripeObject($response->getJson(), $opts);
+        $object->setLastResponse($response);
+
+        return $object;
     }
 
     /**

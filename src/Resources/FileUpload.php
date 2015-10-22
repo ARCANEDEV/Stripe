@@ -27,7 +27,7 @@ use Arcanedev\Stripe\Utilities\RequestOptions;
 class FileUpload extends StripeResource implements FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
+     |  Constants
      | ------------------------------------------------------------------------------------------------
      */
     const END_POINT = '/v1/files';
@@ -37,7 +37,7 @@ class FileUpload extends StripeResource implements FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get FileUpload base URL
+     * Get FileUpload base URL.
      *
      * @return string
      */
@@ -47,9 +47,9 @@ class FileUpload extends StripeResource implements FileUploadInterface
     }
 
     /**
-     * Get object name
+     * Get object name.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -61,7 +61,7 @@ class FileUpload extends StripeResource implements FileUploadInterface
     /**
      * Get the endpoint URL for the given class.
      *
-     * @param  string $class
+     * @param  string  $class
      *
      * @return string
      */
@@ -75,34 +75,34 @@ class FileUpload extends StripeResource implements FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a File
+     * Retrieve a File.
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
     public static function retrieve($id, $options = null)
     {
-        $opts    = RequestOptions::parse($options);
-
         // TODO: Refactor retrieve() method
-        $apiKey  = $opts->getApiKey();
+        $apiKey  = RequestOptions::parse($options)->getApiKey();
         $file    = new self($id, $apiKey);
 
+        /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $apiKey) = Requestor::make($apiKey, self::baseUrl())
             ->get(self::END_POINT . '/' . $id, $file->retrieveParameters);
 
-        $file->refreshFrom($response, $apiKey);
+        $file->refreshFrom($response->getJson(), $apiKey);
+        $file->setLastResponse($response);
 
         return $file;
     }
 
     /**
-     * Create/Upload a File
+     * Create/Upload a File.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -112,10 +112,10 @@ class FileUpload extends StripeResource implements FileUploadInterface
     }
 
     /**
-     * List all uploaded files
+     * List all uploaded files.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return Collection|self[]
      */

@@ -201,7 +201,7 @@ class Requestor implements RequestorInterface
 
     /**
      * Make a request.
-     * Note: An array whose first element is the response and second element is the API key used to make the request.
+     * Note: An array whose first element is the Response object and second element is the API key used to make the request.
      *
      * @param  string      $method
      * @param  string      $url
@@ -227,7 +227,8 @@ class Requestor implements RequestorInterface
 
         list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
 
-        $response = $this->interpretResponse($respBody, $respCode);
+        $json     = $this->interpretResponse($respBody, $respCode);
+        $response = new Response($respBody, $respCode, $headers, $json);
 
         return [$response, $apiKey];
     }

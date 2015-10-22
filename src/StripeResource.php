@@ -54,7 +54,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
         list($response, $this->opts->apiKey) = Requestor::make($this->opts->apiKey, self::baseUrl())
             ->get($url, $this->retrieveParameters);
 
-        $this->refreshFrom($response, $this->opts);
+
+        /** @var \Arcanedev\Stripe\Http\Response $response */
+        $this->setLastResponse($response);
+        $this->refreshFrom($response->getJson(), $this->opts);
 
         return $this;
     }
@@ -115,14 +118,13 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     public function instanceUrl()
     {
-        // TODO: Add end point in instanceUrl() method as arg
         $id     = $this['id'];
         $class  = get_class($this);
 
         if (is_null($id)) {
-            $message = "Could not determine which URL to request: $class instance has invalid ID: $id";
-
-            throw new InvalidRequestException($message, null);
+            throw new InvalidRequestException(
+                "Could not determine which URL to request: $class instance has invalid ID: $id", null
+            );
         }
 
         $base   = $this->lsb('classUrl', $class);
@@ -149,7 +151,11 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         $opts = $this->opts->merge($options);
 
-        return static::staticRequest($method, $url, $params, $opts);
+        /** @var \Arcanedev\Stripe\Http\Response $response */
+        list($response, $options) = static::staticRequest($method, $url, $params, $opts);
+        $this->setLastResponse($response);
+
+        return [$response->getJson(), $options];
     }
 
     /**
@@ -216,9 +222,13 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
         self::checkArguments($params, $options);
         $url = static::classUrl();
 
+        /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
-        return Util::convertToStripeObject($response, $opts);
+        $object = Util::convertToStripeObject($response->getJson(), $opts);
+        $object->setLastResponse($response);
+
+        return $object;
     }
 
     /**
@@ -238,9 +248,13 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
 
         $url = static::classUrl();
 
+        /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest('post', $url, $params, $options);
 
-        return Util::convertToStripeObject($response, $opts);
+        $object = Util::convertToStripeObject($response->getJson(), $opts);
+        $object->setLastResponse($response);
+
+        return $object;
     }
 
     /**
@@ -303,9 +317,11 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
         $opts      = RequestOptions::parse($options);
         $requestor = Requestor::make($opts->getApiKey(), static::baseUrl());
 
+        /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $options) = $requestor->post($url, $params);
 
-        $this->refreshFrom($response, $options);
+        $this->refreshFrom($response->getJson(), $options);
+        $this->setLastResponse($response);
 
         return $this;
     }
