@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
-use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\Util;
 
@@ -34,7 +33,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property  int                               application_fee
  * @property  string                            charge
  * @property  string                            description
- * @property  StripeObject                      discount              // Discount Object
+ * @property  \Arcanedev\Stripe\StripeObject    discount              // Discount Object
  * @property  int                               ending_balance
  * @property  int                               next_payment_attempt
  * @property  string                            receipt_number
