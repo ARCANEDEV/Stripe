@@ -577,7 +577,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     private function checkUnsavedAttributes($supported)
     {
         if (
-            $this->checkUnsavedAttributes == false ||
+            $this->checkUnsavedAttributes === false ||
             count($supported) == 0
         ) {
             return;
