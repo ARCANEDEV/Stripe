@@ -10,14 +10,14 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/curl#token_object
  *
- * @property  string  id
- * @property  string  object        // "token"
- * @property  bool    livemode
- * @property  int     created
- * @property  string  type          // ['card'|'bank_account']
- * @property  bool    used
- * @property  Object  bank_account
- * @property  Card    card
+ * @property  string                            id
+ * @property  string                            object        // "token"
+ * @property  bool                              livemode
+ * @property  int                               created
+ * @property  string                            type          // ['card'|'bank_account']
+ * @property  bool                              used
+ * @property  Object                            bank_account
+ * @property  \Arcanedev\Stripe\Resources\Card  card
  *
  * @todo:     Complete the properties.
  */

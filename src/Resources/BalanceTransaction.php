@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -11,19 +10,19 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#balance_transaction_object
  *
- * @property  string      id
- * @property  string      object        // "balance_transaction"
- * @property  int         amount
- * @property  int         available_on
- * @property  int         created
- * @property  string      currency
- * @property  int         fee
- * @property  Collection  fee_details
- * @property  int         net
- * @property  string      status
- * @property  string      type
- * @property  string      description
- * @property  string      source
+ * @property  string                        id
+ * @property  string                        object        // "balance_transaction"
+ * @property  int                           amount
+ * @property  int                           available_on
+ * @property  int                           created
+ * @property  string                        currency
+ * @property  int                           fee
+ * @property  \Arcanedev\Stripe\Collection  fee_details
+ * @property  int                           net
+ * @property  string                        status
+ * @property  string                        type
+ * @property  string                        description
+ * @property  string                        source
  */
 class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
 {
@@ -71,7 +70,7 @@ class BalanceTransaction extends StripeResource implements BalanceTransactionInt
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

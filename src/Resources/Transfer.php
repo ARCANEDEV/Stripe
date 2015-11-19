@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,24 +10,24 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/curl#transfer_object
  *
- * @property  string          id
- * @property  string          object               // "transfer"
- * @property  bool            livemode
- * @property  int             amount
- * @property  int             created
- * @property  string          currency
- * @property  int             date
- * @property  string          status
- * @property  string          type
- * @property  string          balance_transaction
- * @property  string          description
- * @property  string          failure_code
- * @property  string          failure_message
- * @property  AttachedObject  metadata
- * @property  Object          bank_account
- * @property  Card            card
- * @property  string          recipient
- * @property  string          statement_descriptor
+ * @property  string                            id
+ * @property  string                            object               // "transfer"
+ * @property  bool                              livemode
+ * @property  int                               amount
+ * @property  int                               created
+ * @property  string                            currency
+ * @property  int                               date
+ * @property  string                            status
+ * @property  string                            type
+ * @property  string                            balance_transaction
+ * @property  string                            description
+ * @property  string                            failure_code
+ * @property  string                            failure_message
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  Object                            bank_account
+ * @property  \Arcanedev\Stripe\Resources\Card  card
+ * @property  string                            recipient
+ * @property  string                            statement_descriptor
  */
 class Transfer extends StripeResource implements TransferInterface
 {
@@ -60,7 +58,7 @@ class Transfer extends StripeResource implements TransferInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

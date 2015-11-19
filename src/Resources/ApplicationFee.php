@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -11,19 +10,19 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#application_fees
  *
- * @property  string      id
- * @property  string      object                 // "application_fee"
- * @property  bool        livemode
- * @property  string      account
- * @property  int         amount
- * @property  string      application
- * @property  string      balance_transaction
- * @property  string      charge
- * @property  int         created               // timestamp
- * @property  string      currency
- * @property  bool        refunded
- * @property  Collection  refunds
- * @property  int         amount_refunded
+ * @property  string                        id
+ * @property  string                        object                 // "application_fee"
+ * @property  bool                          livemode
+ * @property  string                        account
+ * @property  int                           amount
+ * @property  string                        application
+ * @property  string                        balance_transaction
+ * @property  string                        charge
+ * @property  int                           created               // timestamp
+ * @property  string                        currency
+ * @property  bool                          refunded
+ * @property  \Arcanedev\Stripe\Collection  refunds
+ * @property  int                           amount_refunded
  *
  * @todo:    Complete the properties.
  */
@@ -73,7 +72,7 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
@@ -14,21 +12,21 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @link https://stripe.com/docs/api/php#customers
  *
- * @property  int             id
- * @property  string          object          // "customer"
- * @property  bool            livemode
- * @property  Collection      sources
- * @property  int             created
- * @property  int             account_balance
- * @property  string          currency
- * @property  string          default_card
- * @property  bool            delinquent
- * @property  string          description
- * @property  Discount|null   discount
- * @property  string          email
- * @property  AttachedObject  metadata
- * @property  Collection      subscriptions
- * @property  Subscription    subscription    // It's for updateSubscription and cancelSubscription
+ * @property  int                               id
+ * @property  string                            object          // "customer"
+ * @property  bool                              livemode
+ * @property  \Arcanedev\Stripe\Collection      sources
+ * @property  int                               created
+ * @property  int                               account_balance
+ * @property  string                            currency
+ * @property  string                            default_card
+ * @property  bool                              delinquent
+ * @property  string                            description
+ * @property  Discount|null                     discount
+ * @property  string                            email
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  \Arcanedev\Stripe\Collection      subscriptions
+ * @property  Subscription                      subscription    // It's for updateSubscription and cancelSubscription
  *
  * @todo:     Update the properties.
  */
@@ -108,7 +106,7 @@ class Customer extends StripeResource implements CustomerInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -182,7 +180,7 @@ class Customer extends StripeResource implements CustomerInterface
      *
      * @param  array $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function invoices($params = [])
     {
@@ -196,7 +194,7 @@ class Customer extends StripeResource implements CustomerInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function invoiceItems($params = [])
     {
@@ -210,7 +208,7 @@ class Customer extends StripeResource implements CustomerInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function charges($params = [])
     {

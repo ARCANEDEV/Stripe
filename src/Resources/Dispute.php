@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\DisputeInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,19 +10,20 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#dispute_object
  *
- * @property string          object  // "dispute"
- * @property bool            livemode
- * @property int             amount
- * @property string          charge
- * @property int             created
- * @property string          currency
- * @property string          reason
- * @property string          status
- * @property array           balance_transactions
- * @property DisputeEvidence evidence
- * @property array|null      evidence_details
- * @property bool            is_charge_refundable
- * @property AttachedObject  metadata
+ * @property  string                                       id
+ * @property  string                                       object // "dispute"
+ * @property  bool                                         livemode
+ * @property  int                                          amount
+ * @property  string                                       charge
+ * @property  int                                          created
+ * @property  string                                       currency
+ * @property  string                                       reason
+ * @property  string                                       status
+ * @property  array                                        balance_transactions
+ * @property  \Arcanedev\Stripe\Resources\DisputeEvidence  evidence
+ * @property  array|null                                   evidence_details
+ * @property  bool                                         is_charge_refundable
+ * @property  \Arcanedev\Stripe\AttachedObject             metadata
  *
  * @todo:    Update the properties.
  */
@@ -53,7 +52,7 @@ class Dispute extends StripeResource implements DisputeInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {

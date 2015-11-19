@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,17 +10,17 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#refund_object
  *
- * @property  string          id
- * @property  string          object                // "refund"
- * @property  int             amount
- * @property  int             created
- * @property  string          currency
- * @property  string          balance_transaction
- * @property  string          charge
- * @property  AttachedObject  metadata
- * @property  string          reason
- * @property  string          receipt_number
- * @property  string          description
+ * @property  string                            id
+ * @property  string                            object                // "refund"
+ * @property  int                               amount
+ * @property  int                               created
+ * @property  string                            currency
+ * @property  string                            balance_transaction
+ * @property  string                            charge
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            reason
+ * @property  string                            receipt_number
+ * @property  string                            description
  *
  * @todo:     Complete the properties.
  */
@@ -55,7 +53,7 @@ class Refund extends StripeResource implements RefundInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {

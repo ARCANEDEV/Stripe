@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,20 +10,20 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#invoice_item_object
  *
- * @property  string          id
- * @property  string          object        // "invoiceitem"
- * @property  bool            livemode
- * @property  int             amount
- * @property  string          currency
- * @property  string          customer
- * @property  int             date
- * @property  bool            proration
- * @property  string          description
- * @property  string          invoice
- * @property  AttachedObject  metadata
- * @property  Plan            plan
- * @property  int             quantity
- * @property  string          subscription
+ * @property  string                            id
+ * @property  string                            object        // "invoiceitem"
+ * @property  bool                              livemode
+ * @property  int                               amount
+ * @property  string                            currency
+ * @property  string                            customer
+ * @property  int                               date
+ * @property  bool                              proration
+ * @property  string                            description
+ * @property  string                            invoice
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  Plan                              plan
+ * @property  int                               quantity
+ * @property  string                            subscription
  *
  * @todo:     Update the properties.
  */
@@ -74,7 +72,7 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

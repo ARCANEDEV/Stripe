@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\StripeResource;
@@ -117,7 +116,7 @@ class FileUpload extends StripeResource implements FileUploadInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|self[]
+     * @return \Arcanedev\Stripe\Collection|self[]
      */
     public static function all($params = [], $options = null)
     {

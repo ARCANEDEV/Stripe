@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\OrderInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,20 +10,20 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api#orders
  *
- * @property  string          object                    // 'order'
- * @property  bool            livemode
- * @property  int             amount
- * @property  int             created
- * @property  int             updated
- * @property  string          currency
- * @property  array           items                     // todo: convert it to order_items (https://stripe.com/docs/api#order_items)
- * @property  AttachedObject  metadata
- * @property  string          status                    // 'paid', 'fulfilled', or 'refunded'.
- * @property  string          customer
- * @property  string          email
- * @property  string          selected_shipping_method
- * @property  Collection      shipping_methods
- * @property  array           shipping
+ * @property  string                            object                    // 'order'
+ * @property  bool                              livemode
+ * @property  int                               amount
+ * @property  int                               created
+ * @property  int                               updated
+ * @property  string                            currency
+ * @property  array                             items // todo: convert it to order_items (https://stripe.com/docs/api#order_items)
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            status                    // 'paid', 'fulfilled', or 'refunded'.
+ * @property  string                            customer
+ * @property  string                            email
+ * @property  string                            selected_shipping_method
+ * @property  \Arcanedev\Stripe\Collection      shipping_methods
+ * @property  array                             shipping
  */
 class Order extends StripeResource implements OrderInterface
 {
@@ -85,7 +83,7 @@ class Order extends StripeResource implements OrderInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {

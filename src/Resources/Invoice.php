@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
 use Arcanedev\Stripe\StripeObject;
 use Arcanedev\Stripe\StripeResource;
@@ -15,37 +13,37 @@ use Arcanedev\Stripe\Utilities\Util;
  *
  * @link https://stripe.com/docs/api/php#invoices
  *
- * @property  string          id
- * @property  string          object // "invoice"
- * @property  bool            livemode
- * @property  int             amount_due
- * @property  int             attempt_count
- * @property  bool            attempted
- * @property  bool            closed
- * @property  string          currency
- * @property  string          customer
- * @property  int             date
- * @property  bool            forgiven
- * @property  Collection      lines
- * @property  bool            paid
- * @property  int             period_end
- * @property  int             period_start
- * @property  int             starting_balance
- * @property  int             subtotal
- * @property  int             total
- * @property  int             application_fee
- * @property  string          charge
- * @property  string          description
- * @property  StripeObject    discount              // Discount Object
- * @property  int             ending_balance
- * @property  int             next_payment_attempt
- * @property  string          receipt_number
- * @property  string          statement_descriptor
- * @property  string          subscription
- * @property  int             webhooks_delivered_at
- * @property  AttachedObject  metadata
- * @property  int             tax
- * @property  float           tax_percent
+ * @property  string                            id
+ * @property  string                            object // "invoice"
+ * @property  bool                              livemode
+ * @property  int                               amount_due
+ * @property  int                               attempt_count
+ * @property  bool                              attempted
+ * @property  bool                              closed
+ * @property  string                            currency
+ * @property  string                            customer
+ * @property  int                               date
+ * @property  bool                              forgiven
+ * @property  \Arcanedev\Stripe\Collection      lines
+ * @property  bool                              paid
+ * @property  int                               period_end
+ * @property  int                               period_start
+ * @property  int                               starting_balance
+ * @property  int                               subtotal
+ * @property  int                               total
+ * @property  int                               application_fee
+ * @property  string                            charge
+ * @property  string                            description
+ * @property  StripeObject                      discount              // Discount Object
+ * @property  int                               ending_balance
+ * @property  int                               next_payment_attempt
+ * @property  string                            receipt_number
+ * @property  string                            statement_descriptor
+ * @property  string                            subscription
+ * @property  int                               webhooks_delivered_at
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  int                               tax
+ * @property  float                             tax_percent
  *
  * @todo:     Update the properties.
  */
@@ -93,7 +91,7 @@ class Invoice extends StripeResource implements InvoiceInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

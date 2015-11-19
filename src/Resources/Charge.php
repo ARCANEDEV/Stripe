@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,29 +10,29 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link https://stripe.com/docs/api/php#charges
  *
- * @property  string          id
- * @property  string          object                // "charge"
- * @property  bool            livemode
- * @property  int             amount
- * @property  bool            captured
- * @property  int             created
- * @property  string          currency
- * @property  bool            paid
- * @property  bool            refunded
- * @property  Collection      refunds
- * @property  int             amount_refunded
- * @property  string          balance_transaction
- * @property  Card            card
- * @property  string          customer
- * @property  string          description
- * @property  Dispute         dispute
- * @property  string          failure_code
- * @property  string          failure_message
- * @property  AttachedObject  metadata
- * @property  string          receipt_email
- * @property  string          receipt_number
- * @property  mixed           fraud_details
- * @property  array           shipping
+ * @property  string                            id
+ * @property  string                            object                // "charge"
+ * @property  bool                              livemode
+ * @property  int                               amount
+ * @property  bool                              captured
+ * @property  int                               created
+ * @property  string                            currency
+ * @property  bool                              paid
+ * @property  bool                              refunded
+ * @property  \Arcanedev\Stripe\Collection      refunds
+ * @property  int                               amount_refunded
+ * @property  string                            balance_transaction
+ * @property  Card                              card
+ * @property  string                            customer
+ * @property  string                            description
+ * @property  Dispute                           dispute
+ * @property  string                            failure_code
+ * @property  string                            failure_message
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            receipt_email
+ * @property  string                            receipt_number
+ * @property  mixed                             fraud_details
+ * @property  array                             shipping
  *
  * @todo:     Update the properties.
  */
@@ -60,7 +58,7 @@ class Charge extends StripeResource implements ChargeInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

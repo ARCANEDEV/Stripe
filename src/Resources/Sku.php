@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\SkuInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,19 +10,20 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api#skus
  *
- * @property  string          object             // 'sku'
- * @property  bool            livemode
- * @property  bool            active
- * @property  int             created
- * @property  int             updated
- * @property  array           attributes
- * @property  string          currency
- * @property  array           inventory
- * @property  AttachedObject  metadata
- * @property  int             price
- * @property  string          product
- * @property  string          image
- * @property  array           package_dimensions
+ * @property  string                            id
+ * @property  string                            object             // 'sku'
+ * @property  bool                              livemode
+ * @property  bool                              active
+ * @property  int                               created
+ * @property  int                               updated
+ * @property  array                             attributes
+ * @property  string                            currency
+ * @property  array                             inventory
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  int                               price
+ * @property  string                            product
+ * @property  string                            image
+ * @property  array                             package_dimensions
  */
 class Sku extends StripeResource implements SkuInterface
 {
@@ -84,7 +83,7 @@ class Sku extends StripeResource implements SkuInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {

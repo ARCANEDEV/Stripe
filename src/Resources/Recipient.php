@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,18 +10,18 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#recipient_object
  *
- * @property  string          id
- * @property  string          object            // "recipient"
- * @property  bool            livemode
- * @property  int             created
- * @property  string          type
- * @property  Object          active_account
- * @property  string          description
- * @property  string          email
- * @property  AttachedObject  metadata
- * @property  string          name
- * @property  Collection      cards
- * @property  string          default_card
+ * @property  string                            id
+ * @property  string                            object            // "recipient"
+ * @property  bool                              livemode
+ * @property  int                               created
+ * @property  string                            type
+ * @property  Object                            active_account
+ * @property  string                            description
+ * @property  string                            email
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            name
+ * @property  \Arcanedev\Stripe\Collection      cards
+ * @property  string                            default_card
  *
  * @todo:     Update the properties.
  */
@@ -67,7 +65,7 @@ class Recipient extends StripeResource implements RecipientInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -127,7 +125,7 @@ class Recipient extends StripeResource implements RecipientInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function transfers($params = [])
     {

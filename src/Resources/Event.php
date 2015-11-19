@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\EventInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -52,7 +51,7 @@ class Event extends StripeResource implements EventInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {

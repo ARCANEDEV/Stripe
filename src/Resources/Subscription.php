@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
@@ -12,23 +11,23 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#subscription_object
  *
- * @property  string          id
- * @property  string          object                   // "subscription"
- * @property  boolean         cancel_at_period_end
- * @property  string          customer
- * @property  Plan            plan
- * @property  int             quantity
- * @property  int             start
- * @property  string          status
- * @property  float           application_fee_percent
- * @property  int             canceled_at
- * @property  int             current_period_start
- * @property  int             current_period_end
- * @property  Object          discount
- * @property  int             ended_at
- * @property  AttachedObject  metadata
- * @property  int             trial_end
- * @property  int             trial_start
+ * @property  string                            id
+ * @property  string                            object                   // "subscription"
+ * @property  boolean                           cancel_at_period_end
+ * @property  string                            customer
+ * @property  Plan                              plan
+ * @property  int                               quantity
+ * @property  int                               start
+ * @property  string                            status
+ * @property  float                             application_fee_percent
+ * @property  int                               canceled_at
+ * @property  int                               current_period_start
+ * @property  int                               current_period_end
+ * @property  Object                            discount
+ * @property  int                               ended_at
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  int                               trial_end
+ * @property  int                               trial_start
  *
  * @todo:     Complete the properties.
  */

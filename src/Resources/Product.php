@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\ProductInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -12,20 +10,20 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api#products
  *
- * @property  string          object
- * @property  bool            livemode
- * @property  bool            active
- * @property  int             created
- * @property  int             updated
- * @property  array           images
- * @property  AttachedObject  metadata
- * @property  string          name
- * @property  bool            shippable
- * @property  Collection      skus
- * @property  array           attributes
- * @property  string          caption
- * @property  string          description
- * @property  string          url
+ * @property  string                            object
+ * @property  bool                              livemode
+ * @property  bool                              active
+ * @property  int                               created
+ * @property  int                               updated
+ * @property  array                             images
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            name
+ * @property  bool                              shippable
+ * @property  \Arcanedev\Stripe\Collection      skus
+ * @property  array                             attributes
+ * @property  string                            caption
+ * @property  string                            description
+ * @property  string                            url
  */
 class Product extends StripeResource implements ProductInterface
 {
@@ -85,7 +83,7 @@ class Product extends StripeResource implements ProductInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {

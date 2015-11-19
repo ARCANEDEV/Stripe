@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\AttachedObject;
 use Arcanedev\Stripe\Bases\ExternalAccount;
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
@@ -13,28 +12,28 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
  *
  * @link     https://stripe.com/docs/api/php#bitcoin_receivers
  *
- * @property  string          id
- * @property  string          object
- * @property  int             created
- * @property  bool            livemode
- * @property  bool            active
- * @property  int             amount
- * @property  int             amount_received
- * @property  int             bitcoin_amount
- * @property  int             bitcoin_amount_received
- * @property  string          bitcoin_uri
- * @property  string          currency
- * @property  bool            filled
- * @property  string          inbound_address
- * @property  bool            uncaptured_funds
- * @property  string          description
- * @property  string          email
- * @property  AttachedObject  metadata
- * @property  string          refund_address
- * @property  bool            used_for_payment
- * @property  Customer        customer
- * @property  string          payment
- * @property  Collection      transactions
+ * @property  string                            id
+ * @property  string                            object
+ * @property  int                               created
+ * @property  bool                              livemode
+ * @property  bool                              active
+ * @property  int                               amount
+ * @property  int                               amount_received
+ * @property  int                               bitcoin_amount
+ * @property  int                               bitcoin_amount_received
+ * @property  string                            bitcoin_uri
+ * @property  string                            currency
+ * @property  bool                              filled
+ * @property  string                            inbound_address
+ * @property  bool                              uncaptured_funds
+ * @property  string                            description
+ * @property  string                            email
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            refund_address
+ * @property  bool                              used_for_payment
+ * @property  Customer                          customer
+ * @property  string                            payment
+ * @property  Collection                        transactions
  */
 class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterface
 {
