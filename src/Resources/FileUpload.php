@@ -1,10 +1,10 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
-use Arcanedev\Stripe\Http\Requestor;
-use Arcanedev\Stripe\StripeResource;
-use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Http\RequestOptions;
+use Arcanedev\Stripe\Http\Requestor;
+use Arcanedev\Stripe\Stripe;
+use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class     FileUpload
