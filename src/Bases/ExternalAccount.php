@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Bases;
 
+use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
@@ -87,5 +88,29 @@ abstract class ExternalAccount extends StripeResource
     public function save($options = null)
     {
         return $this->scopedSave($options);
+    }
+
+    /**
+     * Verify the external account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    public function verify($params = null, $options = null)
+    {
+        if ( ! $this['customer']) {
+            throw new ApiException(
+                'Only customer external accounts can be verified in this manner.'
+            );
+        }
+
+        $url = $this->instanceUrl() . '/verify';
+        list($response, $options) = $this->request('post', $url, $params, $options);
+        $this->refreshFrom($response, $options);
+
+        return $this;
     }
 }
