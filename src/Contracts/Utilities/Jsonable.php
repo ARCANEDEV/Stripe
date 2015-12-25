@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts\Utilities;
 
 /**
- * Interface Jsonable
- * @package Arcanedev\Stripe\Contracts\Utilities
+ * Interface  Jsonable
+ *
+ * @package   Arcanedev\Stripe\Contracts\Utilities
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Jsonable
 {

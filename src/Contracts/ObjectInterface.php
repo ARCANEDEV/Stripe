@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\Stripe\Contracts;
 
 /**
- * Interface ObjectInterface
- * @package Arcanedev\Stripe\Contracts
+ * Interface  ObjectInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface ObjectInterface
 {
