@@ -3,9 +3,6 @@
 use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Http\Curl\CurlOptions;
-use Arcanedev\Stripe\Http\Curl\HeaderBag;
-use Arcanedev\Stripe\Http\Curl\SslChecker;
 use CURLFile;
 
 /**
@@ -16,6 +13,13 @@ use CURLFile;
  */
 class HttpClient implements HttpClientInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const DEFAULT_TIMEOUT = 80;
+    const DEFAULT_CONNECT_TIMEOUT = 30;
+
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
@@ -51,6 +55,16 @@ class HttpClient implements HttpClientInterface
      * @var resource
      */
     private $curl;
+
+    /**
+     * @var int
+     */
+    private $timeout = self::DEFAULT_TIMEOUT;
+
+    /**
+     * @var int
+     */
+    private $connectTimeout = self::DEFAULT_CONNECT_TIMEOUT;
 
     /**
      * @var mixed
@@ -117,6 +131,54 @@ class HttpClient implements HttpClientInterface
     public function setApiBaseUrl($apiBaseUrl)
     {
         $this->apiBaseUrl = $apiBaseUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get the timeout.
+     *
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * Set the timeout.
+     *
+     * @param  int  $seconds
+     *
+     * @return self
+     */
+    public function setTimeout($seconds)
+    {
+        $this->timeout = (int) max($seconds, 0);
+
+        return $this;
+    }
+
+    /**
+     * Get the connect timeout.
+     *
+     * @return int
+     */
+    public function getConnectTimeout()
+    {
+        return $this->connectTimeout;
+    }
+
+    /**
+     * Set the connect timeout.
+     *
+     * @param  int  $seconds
+     *
+     * @return self
+     */
+    public function setConnectTimeout($seconds)
+    {
+        $this->connectTimeout = (int) max($seconds, 0);
 
         return $this;
     }
@@ -211,6 +273,10 @@ class HttpClient implements HttpClientInterface
 
         $this->headers->prepare($this->apiKey, $headers, $hasFile);
         $this->options->make($method, $url, $params, $this->headers->get(), $hasFile);
+        $this->options->setOptions([
+            CURLOPT_CONNECTTIMEOUT => $this->connectTimeout,
+            CURLOPT_TIMEOUT        => $this->timeout,
+        ]);
 
         $this->init();
         $this->setOptionArray($this->options->get());

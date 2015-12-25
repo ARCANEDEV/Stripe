@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Http;
 
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -126,6 +127,18 @@ class RequestorTest extends StripeTestCase
         $method = self::getRequestMethod('interpretResponse');
 
         $method->invokeArgs(new Requestor, ['{bad: data}', 200]);
+    }
+
+    /** @test */
+    public function it_can_inject_the_http_client()
+    {
+        $method = self::getRequestMethod('httpClient');
+        $curl   = HttpClient::instance();
+
+        $curl->setTimeout(10);
+        Requestor::setHttpClient($curl);
+
+        $this->assertEquals($method->invoke(new Requestor), $curl);
     }
 
     /* ------------------------------------------------------------------------------------------------

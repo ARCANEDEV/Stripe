@@ -109,6 +109,25 @@ class HttpClientTest extends StripeTestCase
         );
     }
 
+    /** @test */
+    public function it_can_set_and_get_timeout_and_connect_timeout()
+    {
+        $curl = HttpClient::instance();
+
+        $this->assertEquals(HttpClient::DEFAULT_TIMEOUT,         $curl->getTimeout());
+        $this->assertEquals(HttpClient::DEFAULT_CONNECT_TIMEOUT, $curl->getConnectTimeout());
+
+        $curl->setTimeout(10)->setConnectTimeout(1);
+
+        $this->assertEquals(1,  $curl->getConnectTimeout());
+        $this->assertEquals(10, $curl->getTimeout());
+
+        $curl->setTimeout(-1)->setConnectTimeout(-999);
+
+        $this->assertEquals(0, $curl->getTimeout());
+        $this->assertEquals(0, $curl->getConnectTimeout());
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
