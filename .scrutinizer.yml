@@ -21,8 +21,8 @@ checks:
 
 tools:
     external_code_coverage:
-        timeout: 600
-        runs: 4
+        timeout: 800
+        runs: 5
     php_code_sniffer:
         enabled: true
         config:
