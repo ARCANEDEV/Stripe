@@ -96,11 +96,11 @@ class TokenTest extends StripeTestCase
     private function createToken()
     {
         return Token::create([
-            "card" => [
-                "number"    => "4242424242424242",
-                "exp_month" => 12,
-                "exp_year"  => 2015,
-                "cvc"       => "314"
+            'card' => [
+                'number'    => '4242424242424242',
+                'exp_month' => date('n'),
+                'exp_year'  => date('Y') + 1,
+                'cvc'       => '314'
             ]
         ]);
     }
