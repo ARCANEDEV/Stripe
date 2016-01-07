@@ -45,6 +45,9 @@ abstract class StripeTestCase extends TestCase
     /** @var int */
     protected $call;
 
+    /** @var int */
+    protected $timeout = 120;
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -68,7 +71,7 @@ abstract class StripeTestCase extends TestCase
         $this->myApiVersion = Stripe::VERSION;
 
         Requestor::setHttpClient(
-            HttpClient::instance()->setTimeout(120)
+            HttpClient::instance()->setTimeout($this->timeout)
         );
     }
 

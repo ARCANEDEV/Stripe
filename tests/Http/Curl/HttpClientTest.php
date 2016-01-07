@@ -111,7 +111,7 @@ class HttpClientTest extends StripeTestCase
     {
         $curl = HttpClient::instance();
 
-        $this->assertEquals(HttpClient::DEFAULT_TIMEOUT,         $curl->getTimeout());
+        $this->assertEquals($this->timeout,                      $curl->getTimeout());
         $this->assertEquals(HttpClient::DEFAULT_CONNECT_TIMEOUT, $curl->getConnectTimeout());
 
         $curl->setTimeout(10)->setConnectTimeout(1);
