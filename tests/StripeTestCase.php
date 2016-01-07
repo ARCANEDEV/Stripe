@@ -67,7 +67,9 @@ abstract class StripeTestCase extends TestCase
         Stripe::setApiKey($apiKey);
         $this->myApiVersion = Stripe::VERSION;
 
-        Requestor::setHttpClient(HttpClient::instance());
+        Requestor::setHttpClient(
+            HttpClient::instance()->setTimeout(120)
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------
