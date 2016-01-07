@@ -12,13 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class ChargeTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS         = 'Arcanedev\\Stripe\\Resources\\Charge';
-    const BITCOIN_RECEIVER_CLASS = 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -46,10 +39,10 @@ class ChargeTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->charge);
         $this->chargeData = [];
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -59,7 +52,7 @@ class ChargeTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Charge', $this->charge);
     }
 
     /** @test */
@@ -86,7 +79,7 @@ class ChargeTest extends StripeTestCase
     {
         $this->charge = Charge::create($this->chargeData);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Charge', $this->charge);
         $this->assertTrue($this->charge->paid);
         $this->assertFalse($this->charge->refunded);
     }
@@ -130,7 +123,7 @@ class ChargeTest extends StripeTestCase
         $charge       = Charge::create($this->chargeData);
         $this->charge = Charge::retrieve($charge->id);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->charge);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Charge', $this->charge);
         $this->assertEquals($charge->id, $this->charge->id);
         $this->assertEquals(200, $this->charge->getLastResponse()->getCode());
     }
@@ -192,7 +185,7 @@ class ChargeTest extends StripeTestCase
         $this->assertEquals($receiver->id, $charge->source->id);
         $this->assertEquals('bitcoin_receiver', $charge->source->object);
         $this->assertEquals('succeeded', $charge->status);
-        $this->assertEquals(self::BITCOIN_RECEIVER_CLASS, get_class($charge->source));
+        $this->assertEquals('Arcanedev\\Stripe\\Resources\\BitcoinReceiver', get_class($charge->source));
     }
 
     /** @test */

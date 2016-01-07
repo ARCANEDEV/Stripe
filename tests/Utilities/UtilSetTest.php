@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Utilities\UtilSet;
 class UtilSetTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const UTILSET_CLASS = 'Arcanedev\\Stripe\\Utilities\\UtilSet';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class UtilSetTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->utilSet);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,7 @@ class UtilSetTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::UTILSET_CLASS, $this->utilSet);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Utilities\\UtilSet', $this->utilSet);
     }
 
     /** @test */

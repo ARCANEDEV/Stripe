@@ -23,11 +23,6 @@ class RateLimitExceptionTest extends StripeTestCase
         $this->call = 0;
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
@@ -35,8 +30,8 @@ class RateLimitExceptionTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException     \Arcanedev\Stripe\Exceptions\RateLimitException
-     * @expectedExceptionCode 429
+     * @expectedException      \Arcanedev\Stripe\Exceptions\RateLimitException
+     * @expectedExceptionCode  429
      */
     public function testRateLimit()
     {

@@ -14,12 +14,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class RequestorTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const REQUESTOR_CLASS = 'Arcanedev\\Stripe\\Http\\Requestor';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -39,9 +33,9 @@ class RequestorTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->requestor);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -51,7 +45,10 @@ class RequestorTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::REQUESTOR_CLASS, $this->requestor);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Http\\Requestor',
+            $this->requestor
+        );
     }
 
     /** @test */
@@ -79,7 +76,7 @@ class RequestorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
+     * @expectedException  \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
      */
     public function it_must_throw_api_key_not_set_exception_on_empty_api_key()
     {
@@ -118,9 +115,9 @@ class RequestorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\ApiException
-     * @expectedExceptionCode    500
-     * @expectedExceptionMessage Invalid response body from API: {bad: data} (HTTP response code was 200)
+     * @expectedException         \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedExceptionCode     500
+     * @expectedExceptionMessage  Invalid response body from API: {bad: data} (HTTP response code was 200)
      */
     public function it_must_throw_api_exception_on_invalid_response()
     {
@@ -146,12 +143,14 @@ class RequestorTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param  string $method
+     * Get the Requestor reflected method.
+     *
+     * @param  string  $method
      *
      * @return \ReflectionMethod
      */
     private function getRequestMethod($method)
     {
-        return parent::getMethod(self::REQUESTOR_CLASS, $method);
+        return parent::getMethod('Arcanedev\\Stripe\\Http\\Requestor', $method);
     }
 }

@@ -35,9 +35,9 @@ class ResponseTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->response);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

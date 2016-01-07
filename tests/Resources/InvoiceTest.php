@@ -13,12 +13,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class InvoiceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Invoice';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -38,9 +32,9 @@ class InvoiceTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->invoice);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -50,7 +44,7 @@ class InvoiceTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
     }
 
     /** @test */
@@ -78,7 +72,7 @@ class InvoiceTest extends StripeTestCase
             "customer" => $customer->id
         ]);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
     }
 
     /** @test */
@@ -98,7 +92,7 @@ class InvoiceTest extends StripeTestCase
 
         $this->invoice = Invoice::retrieve($invoice->id);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoice);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
         $this->assertEquals($invoice->id, $this->invoice->id);
     }
 

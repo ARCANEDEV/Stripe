@@ -13,12 +13,6 @@ use Arcanedev\Stripe\Utilities\Util;
 class BalanceTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const BALANCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Balance';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -38,6 +32,8 @@ class BalanceTest extends StripeTestCase
 
     public function tearDown()
     {
+        unset($this->object);
+
         parent::tearDown();
     }
 
@@ -48,13 +44,13 @@ class BalanceTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::BALANCE_CLASS, $this->object);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Balance', $this->object);
     }
 
     /** @test */
     public function it_can_retrieve()
     {
-        $this->assertEquals("balance", $this->object->object);
+        $this->assertEquals('balance', $this->object->object);
         $this->assertTrue(Util::isList($this->object->available));
         $this->assertTrue(Util::isList($this->object->pending));
     }

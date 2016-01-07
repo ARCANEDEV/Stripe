@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class InvoiceItemTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\InvoiceItem';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -49,7 +43,7 @@ class InvoiceItemTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoiceItem);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\InvoiceItem', $this->invoiceItem);
     }
 
     /** @test */
@@ -67,7 +61,7 @@ class InvoiceItemTest extends StripeTestCase
         $customer          = parent::createTestCustomer();
         $this->invoiceItem = self::createInvoiceItem($customer->id);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoiceItem);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\InvoiceItem', $this->invoiceItem);
         $this->assertEquals($customer->id, $this->invoiceItem->customer);
     }
 
@@ -78,7 +72,7 @@ class InvoiceItemTest extends StripeTestCase
         $invoiceItem       = self::createInvoiceItem($customer->id);
         $this->invoiceItem = InvoiceItem::retrieve($invoiceItem->id);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->invoiceItem);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\InvoiceItem', $this->invoiceItem);
         $this->assertEquals($invoiceItem->id, $this->invoiceItem->id);
         $this->assertEquals($customer->id, $this->invoiceItem->customer);
     }

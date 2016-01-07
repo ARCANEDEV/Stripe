@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class CouponTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\Coupon';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class CouponTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->coupon);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,7 @@ class CouponTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->coupon);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Coupon', $this->coupon);
     }
 
     /** @test */

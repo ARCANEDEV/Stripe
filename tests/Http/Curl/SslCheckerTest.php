@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Http\Curl\SslChecker;
 class SslCheckerTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const SSL_CHECKER_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\SslChecker';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class SslCheckerTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->sslChecker);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,10 @@ class SslCheckerTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::SSL_CHECKER_CLASS, $this->sslChecker);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Http\\Curl\\SslChecker',
+            $this->sslChecker
+        );
     }
 
     /** @test */
@@ -140,11 +137,7 @@ class SslCheckerTest extends StripeTestCase
         $method->invoke($this->sslChecker, '{result:success}', 1, 'Unknown');
     }
 
-    /**
-     * @test
-     *
-     *
-     */
+    /** @test  */
     public function it_must_show_warning_if_stream_extension_not_available()
     {
         $method = self::getSslCheckerMethod('showStreamExtensionWarning');
@@ -157,13 +150,15 @@ class SslCheckerTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @param string $method
+     * Get the SslChecker reflected method.
+     *
+     * @param  string  $method
      *
      * @return \ReflectionMethod
      */
     private function getSslCheckerMethod($method)
     {
-        return parent::getMethod(self::SSL_CHECKER_CLASS, $method);
+        return parent::getMethod('Arcanedev\\Stripe\\Http\\Curl\\SslChecker', $method);
     }
 
     /**

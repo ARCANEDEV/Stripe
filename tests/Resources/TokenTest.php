@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class TokenTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const TOKEN_CLASS = 'Arcanedev\\Stripe\\Resources\\Token';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class TokenTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->token);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,7 @@ class TokenTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::TOKEN_CLASS, $this->token);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
     }
 
     /** @test */
@@ -65,7 +59,7 @@ class TokenTest extends StripeTestCase
     {
         $this->token = self::createToken();
 
-        $this->assertInstanceOf(self::TOKEN_CLASS, $this->token);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
         $this->assertEquals('card', $this->token->type);
         $this->assertInstanceOf(
             'Arcanedev\Stripe\Resources\Card',

@@ -13,12 +13,6 @@ use Arcanedev\Stripe\Http\Curl\HeaderBag;
 class HeaderBagTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const HEADER_BAG_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\HeaderBag';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -38,11 +32,11 @@ class HeaderBagTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->headerBag);
 
         Stripe::setApiVersion(null);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -52,7 +46,10 @@ class HeaderBagTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::HEADER_BAG_CLASS, $this->headerBag);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Http\\Curl\\HeaderBag',
+            $this->headerBag
+        );
     }
 
     /** @test */

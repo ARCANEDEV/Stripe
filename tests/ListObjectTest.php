@@ -11,12 +11,6 @@ use Arcanedev\Stripe\Collection;
 class ListObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Collection';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -36,9 +30,9 @@ class ListObjectTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->collection);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -48,7 +42,7 @@ class ListObjectTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $this->collection);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $this->collection);
     }
 
     /**

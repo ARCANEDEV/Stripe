@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class ApplicationFeeRefundTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const APPLICATIONFEE_REFUND_CLASS = 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class ApplicationFeeRefundTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->appFeeRefund);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -50,7 +44,7 @@ class ApplicationFeeRefundTest extends StripeTestCase
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(
-            self::APPLICATIONFEE_REFUND_CLASS,
+            'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
             $this->appFeeRefund
         );
     }

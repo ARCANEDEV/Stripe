@@ -14,13 +14,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class CustomerTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const CUSTOMER_CLASS   = 'Arcanedev\\Stripe\\Resources\\Customer';
-    const COLLECTION_CLASS = 'Arcanedev\\Stripe\\Collection';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -40,9 +33,9 @@ class CustomerTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->customer);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -52,7 +45,10 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::CUSTOMER_CLASS, $this->customer);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Customer',
+            $this->customer
+        );
     }
 
     /** @test */
@@ -60,7 +56,10 @@ class CustomerTest extends StripeTestCase
     {
         $customers = Customer::all();
 
-        $this->assertInstanceOf(self::COLLECTION_CLASS, $customers);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Collection',
+            $customers
+        );
     }
 
     /** @test */
@@ -205,7 +204,7 @@ class CustomerTest extends StripeTestCase
         $invoices   = $customer->invoices();
 
         $this->assertInstanceOf(
-            self::COLLECTION_CLASS,
+            'Arcanedev\\Stripe\\Collection',
             $invoices
         );
         $this->assertEquals('/v1/invoices', $invoices->url);
@@ -238,7 +237,7 @@ class CustomerTest extends StripeTestCase
         ]);
 
         $invoiceItems = $customer->invoiceItems();
-        $this->assertInstanceOf(self::COLLECTION_CLASS, $invoiceItems);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $invoiceItems);
     }
 
     /** @test */
@@ -247,7 +246,7 @@ class CustomerTest extends StripeTestCase
         $customer   = self::createTestCustomer();
 
         $charges    = $customer->charges();
-        $this->assertInstanceOf(self::COLLECTION_CLASS, $charges);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $charges);
     }
 
     /** @test */
@@ -261,7 +260,7 @@ class CustomerTest extends StripeTestCase
         $customer = Customer::retrieve($customer->id);
 
         $this->assertInstanceOf(
-            self::COLLECTION_CLASS,
+            'Arcanedev\\Stripe\\Collection',
             $customer->subscriptions
         );
         $this->assertEquals(1, $customer->subscriptions->count());

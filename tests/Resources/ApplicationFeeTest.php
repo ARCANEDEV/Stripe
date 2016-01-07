@@ -66,7 +66,7 @@ class ApplicationFeeTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedException  \Arcanedev\Stripe\Exceptions\InvalidRequestException
      */
     public function it_must_throw_invalid_request_error_exception_on_invalid_id()
     {

@@ -13,12 +13,6 @@ use CURLFile;
 class FileUploadTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const FILE_UPLOAD_CLASS = 'Arcanedev\\Stripe\\Resources\\FileUpload';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -42,10 +36,10 @@ class FileUploadTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->fileUpload);
         unset($this->filePath);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -55,7 +49,7 @@ class FileUploadTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::FILE_UPLOAD_CLASS, $this->fileUpload);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\FileUpload', $this->fileUpload);
     }
 
     /** @test */

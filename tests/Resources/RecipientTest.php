@@ -14,12 +14,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class RecipientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RECIPIENT_CLASS = 'Arcanedev\\Stripe\\Resources\\Recipient';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -39,9 +33,9 @@ class RecipientTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->recipient);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -51,7 +45,7 @@ class RecipientTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::RECIPIENT_CLASS, $this->recipient);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $this->recipient);
     }
 
     /** @test */
@@ -70,7 +64,7 @@ class RecipientTest extends StripeTestCase
 
         $recipient = Recipient::retrieve($this->recipient->id);
 
-        $this->assertInstanceOf(self::RECIPIENT_CLASS, $recipient);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $recipient);
 
         $this->assertEquals($this->recipient->id, $this->recipient->id);
         $this->assertEquals($this->recipient->name, $this->recipient->name);

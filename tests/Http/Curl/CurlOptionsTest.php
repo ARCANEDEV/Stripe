@@ -13,12 +13,6 @@ use Arcanedev\Stripe\Http\Curl\CurlOptions;
 class CurlOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const CURL_OPTIONS_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\CurlOptions';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -51,11 +45,11 @@ class CurlOptionsTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->curlOptions);
         $this->url     = '';
         $this->headers = [];
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -65,7 +59,10 @@ class CurlOptionsTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::CURL_OPTIONS_CLASS, $this->curlOptions);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Http\\Curl\\CurlOptions',
+            $this->curlOptions
+        );
         $this->assertEmpty($this->curlOptions->get());
     }
 

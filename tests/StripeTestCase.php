@@ -70,11 +70,6 @@ abstract class StripeTestCase extends TestCase
         Requestor::setHttpClient(HttpClient::instance());
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Mock Functions
      | ------------------------------------------------------------------------------------------------

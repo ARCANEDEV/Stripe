@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class EventTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const EVENT_CLASS = 'Arcanedev\\Stripe\\Resources\\Event';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class EventTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->event);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,10 @@ class EventTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::EVENT_CLASS, $this->event);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Event',
+            $this->event
+        );
     }
 
     /** @test */
@@ -74,7 +71,10 @@ class EventTest extends StripeTestCase
 
         $this->event = Event::retrieve($eventId);
 
-        $this->assertInstanceOf(self::EVENT_CLASS, $this->event);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Resources\\Event',
+            $this->event
+        );
         $this->assertEquals($eventId, $this->event->id);
     }
 }

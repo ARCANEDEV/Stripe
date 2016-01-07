@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Http\Curl\HttpClient;
 class HttpClientTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const HTTP_CLIENT_CLASS = 'Arcanedev\\Stripe\\Http\\Curl\\HttpClient';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,9 +31,9 @@ class HttpClientTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->httpClient);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +43,10 @@ class HttpClientTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::HTTP_CLIENT_CLASS, $this->httpClient);
+        $this->assertInstanceOf(
+            'Arcanedev\\Stripe\\Http\\Curl\\HttpClient',
+            $this->httpClient
+        );
     }
 
     /** @test */
@@ -133,14 +130,14 @@ class HttpClientTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Curl Client method
+     * Get Curl Client reflected method.
      *
-     * @param string $method
+     * @param  string  $method
      *
      * @return \ReflectionMethod
      */
     private function getCurlClientMethod($method)
     {
-        return parent::getMethod(self::HTTP_CLIENT_CLASS, $method);
+        return parent::getMethod('Arcanedev\\Stripe\\Http\\Curl\\HttpClient', $method);
     }
 }

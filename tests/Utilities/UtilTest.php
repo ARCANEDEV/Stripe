@@ -13,20 +13,6 @@ use Arcanedev\Stripe\Utilities\Util;
 class UtilTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -36,13 +22,13 @@ class UtilTest extends StripeTestCase
         $array = Util::convertStripeObjectToArray([
             '_'         => 'Hello',
             'customer'  => new Customer([
-                "id"    => 'cust_kjfhdflsdhfdsjl',
+                'id'    => 'cust_kjfhdflsdhfdsjl',
             ])
         ]);
 
         $this->assertEquals([
             'customer' => [
-                "id"    => 'cust_kjfhdflsdhfdsjl',
+                'id'    => 'cust_kjfhdflsdhfdsjl',
             ]
         ], $array);
     }

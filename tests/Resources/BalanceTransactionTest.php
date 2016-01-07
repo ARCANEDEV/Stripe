@@ -12,26 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class BalanceTransactionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const RESOURCE_CLASS = 'Arcanedev\\Stripe\\Resources\\BalanceTransaction';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -52,7 +32,7 @@ class BalanceTransactionTest extends StripeTestCase
         $btId = $bts->data[0]->id;
         $bt   = BalanceTransaction::retrieve($btId);
 
-        $this->assertInstanceOf(self::RESOURCE_CLASS, $bt);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\BalanceTransaction', $bt);
         $this->assertEquals($btId, $bt->id);
     }
 }

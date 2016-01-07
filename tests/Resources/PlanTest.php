@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class PlanTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const PLAN_CLASS = 'Arcanedev\\Stripe\\Resources\\Plan';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -41,10 +35,10 @@ class PlanTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->plan);
         unset($this->planId);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -54,7 +48,7 @@ class PlanTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::PLAN_CLASS, $this->plan);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Plan', $this->plan);
     }
 
     /** @test */

@@ -12,36 +12,20 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class SubscriptionTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedException  \Arcanedev\Stripe\Exceptions\InvalidRequestException
      */
     public function it_must_throw_invalid_request_exception_on_instance_url()
     {
         (new Subscription)->instanceUrl();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_create_update_cancel()
     {
         $plan     = self::retrieveOrCreatePlan();
@@ -70,9 +54,7 @@ class SubscriptionTest extends StripeTestCase
         $this->assertTrue($subscription->cancel_at_period_end);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_delete_discount()
     {
         $plan     = self::retrieveOrCreatePlan();

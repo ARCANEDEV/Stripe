@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class TransferTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const TRANSFER_CLASS = 'Arcanedev\\Stripe\\Resources\\Transfer';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -37,26 +31,22 @@ class TransferTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->transfer);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::TRANSFER_CLASS, $this->transfer);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Transfer', $this->transfer);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_list_all()
     {
         $transfers = Transfer::all();
@@ -65,9 +55,7 @@ class TransferTest extends StripeTestCase
         $this->assertEquals('/v1/transfers', $transfers->url);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_create()
     {
         $recipient = self::createTestRecipient();
@@ -81,9 +69,7 @@ class TransferTest extends StripeTestCase
         $this->assertEquals('pending', $this->transfer->status);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_retrieve()
     {
         $recipient = self::createTestRecipient();
@@ -99,9 +85,7 @@ class TransferTest extends StripeTestCase
         $this->assertEquals($transfer->id, $this->transfer->id);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_cancel()
     {
         $recipient = self::createTestRecipient();
@@ -120,9 +104,7 @@ class TransferTest extends StripeTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_update_one_metadata()
     {
         $recipient = self::createTestRecipient();
@@ -141,9 +123,7 @@ class TransferTest extends StripeTestCase
         $this->assertEquals('foo bar', $transfer->metadata['test']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_update_all_metadata()
     {
         $recipient = self::createTestRecipient();

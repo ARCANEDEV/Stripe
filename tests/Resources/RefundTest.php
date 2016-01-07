@@ -13,12 +13,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class RefundTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const REFUND_CLASS = 'Arcanedev\\Stripe\\Resources\\Refund';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -38,9 +32,9 @@ class RefundTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->refund);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -50,7 +44,7 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::REFUND_CLASS, $this->refund);
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Refund', $this->refund);
     }
 
     /** @test */

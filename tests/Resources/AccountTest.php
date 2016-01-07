@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
 class AccountTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const ACCOUNT_CLASS = 'Arcanedev\\Stripe\\Resources\\Account';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -28,11 +22,6 @@ class AccountTest extends StripeTestCase
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function tearDown()
     {
         parent::tearDown();

@@ -12,20 +12,6 @@ use Arcanedev\Stripe\Http\RequestOptions;
 class RequestOptionsTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -103,7 +89,7 @@ class RequestOptionsTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     * @expectedException  \Arcanedev\Stripe\Exceptions\ApiException
      */
     public function it_must_throw_api_exception_on_wrong_type()
     {

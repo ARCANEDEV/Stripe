@@ -31,9 +31,9 @@ class ProductTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         $this->productId = '';
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
