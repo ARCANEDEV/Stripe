@@ -21,7 +21,7 @@ abstract class Stripe implements StripeInterface
      *
      * @var string
      */
-    const VERSION = '3.5.0';
+    const VERSION = '3.6.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
