@@ -2,6 +2,12 @@
 
 use Arcanedev\Stripe\Collection;
 
+/**
+ * Interface  SkuInterface
+ *
+ * @package   Arcanedev\Stripe\Contracts\Resources
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
 interface SkuInterface
 {
     /* ------------------------------------------------------------------------------------------------
@@ -54,4 +60,16 @@ interface SkuInterface
      * @return Collection|array
      */
     public static function all($params = null, $options = null);
+
+    /**
+     * Delete a product SKU.
+     *
+     * @link   https://stripe.com/docs/api#delete_sku
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null);
 }
