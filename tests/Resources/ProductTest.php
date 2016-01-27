@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Product;
+use Arcanedev\Stripe\Resources\Sku;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -79,6 +80,35 @@ class ProductTest extends StripeTestCase
 
         $this->assertEquals($product->name,      $stripeProduct->name);
         $this->assertEquals($stripeProduct->url, 'www.stripe.com/gold');
+    }
+
+    /** @test */
+    public function it_can_delete_sku_and_product()
+    {
+        $productId = 'silver-' . self::generateRandomString(20);
+        $product   = Product::create([
+            'name' => 'Silver Product',
+            'id'   => $productId,
+            'url'  => 'stripe.com/silver',
+        ]);
+
+        $SkuID = 'silver-sku-' . self::generateRandomString(20);
+        $sku   = Sku::create([
+            'price'     => 500,
+            'currency'  => 'usd',
+            'id'        => $SkuID,
+            'inventory' => [
+                'type'     => 'finite',
+                'quantity' => 40,
+            ],
+            'product'   => $productId,
+        ]);
+
+        $deletedSku = $sku->delete();
+        $this->assertTrue($deletedSku->deleted);
+
+        $deletedProduct = $product->delete();
+        $this->assertTrue($deletedProduct->deleted);
     }
 
     /* ------------------------------------------------------------------------------------------------

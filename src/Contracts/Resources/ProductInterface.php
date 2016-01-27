@@ -25,6 +25,7 @@ interface ProductInterface
      * @return self
      */
     public static function retrieve($id, $options = null);
+
     /**
      * Create a product.
      *
@@ -59,4 +60,16 @@ interface ProductInterface
      * @return Collection|array
      */
     public static function all($params = null, $options = null);
+
+    /**
+     * Delete a product.
+     *
+     * @link   https://stripe.com/docs/api#delete_product
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null);
 }
