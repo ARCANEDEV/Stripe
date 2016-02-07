@@ -39,6 +39,7 @@ abstract class Util implements UtilInterface
         'bitcoin_transaction'   => 'Resources\\BitcoinTransaction',
         'card'                  => 'Resources\\Card',
         'charge'                => 'Resources\\Charge',
+        'country_spec'          => 'Resources\\CountrySpec',
         'coupon'                => 'Resources\\Coupon',
         'customer'              => 'Resources\\Customer',
         'discount'              => 'Resources\\Discount',
