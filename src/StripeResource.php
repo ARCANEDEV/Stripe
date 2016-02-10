@@ -1,10 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
 use Arcanedev\Stripe\Contracts\StripeResourceInterface;
-use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Exceptions\BadMethodCallException;
-use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Http\RequestOptions;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Utilities\Util;
@@ -112,7 +108,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * Get Instance URL.
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return string
      */
@@ -122,7 +118,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
         $class  = get_class($this);
 
         if (is_null($id)) {
-            throw new InvalidRequestException(
+            throw new Exceptions\InvalidRequestException(
                 "Could not determine which URL to request: $class instance has invalid ID: $id", null
             );
         }
@@ -212,10 +208,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * List scope.
      *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
+     * @param  array|null        $params
+     * @param  array|string|null $options
      *
-     * @return Collection|array
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     *
+     * @return \Arcanedev\Stripe\Collection|array
      */
     protected static function scopedAll($params = [], $options = null)
     {
@@ -226,7 +224,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
         list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
+
+
+        self::checkIsCollectionObject($object);
+
         $object->setLastResponse($response);
+        $object->setRequestParams($params);
 
         return $object;
     }
@@ -237,8 +240,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @throws ApiException
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      *
      * @return self
      */
@@ -262,7 +265,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      *
      * @param  array|string|null  $options
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return self
      */
@@ -285,7 +288,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return self
      */
@@ -336,9 +339,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @throws ApiException
-     * @throws BadMethodCallException
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\BadMethodCallException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private static function checkArguments($params = [], $options = null)
     {
@@ -351,7 +354,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      *
      * @param  array|null  $params
      *
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private static function checkParameters($params)
     {
@@ -362,7 +365,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
                 . '\'card\' => [\'number\' => 4242424242424242, \'exp_month\' => 5, '
                 . '\'exp_year\' => 2015]]))';
 
-            throw new InvalidArgumentException($message);
+            throw new Exceptions\InvalidArgumentException($message);
         }
     }
 
@@ -371,7 +374,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      *
      * @param  array|string|null  $options
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private static function checkOptions($options)
     {
@@ -385,7 +388,24 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
                 . 'optional per-request apiKey, which must be a string.  '
                 . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")';
 
-            throw new ApiException($message, 500);
+            throw new Exceptions\ApiException($message, 500);
+        }
+    }
+
+    /**
+     * Check the object is a Collection class.
+     *
+     * @param  mixed  $object
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    private static function checkIsCollectionObject($object)
+    {
+        if ( ! is_a($object, 'Arcanedev\\Stripe\\Collection')) {
+            $class   = get_class($object);
+            $message = 'Expected type "Arcanedev\Stripe\Collection", got "' . $class . '" instead';
+
+            throw new Exceptions\ApiException($message);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\CollectionInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Utilities\AutoPagingIterator;
 use Arcanedev\Stripe\Utilities\Util;
 
 /**
@@ -18,6 +19,26 @@ use Arcanedev\Stripe\Utilities\Util;
  */
 class Collection extends StripeResource implements CollectionInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+    protected $requestParams = [];
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the request parameters.
+     *
+     * @param  array  $params
+     */
+    public function setRequestParams($params)
+    {
+        $this->requestParams = $params;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
@@ -69,6 +90,8 @@ class Collection extends StripeResource implements CollectionInterface
         $extn                  = urlencode(str_utf8($id));
         list($response, $opts) = $this->request('get', "$url/$extn", $params);
 
+        $this->setRequestParams($params);
+
         return Util::convertToStripeObject($response, $opts);
     }
 
@@ -86,7 +109,21 @@ class Collection extends StripeResource implements CollectionInterface
         list($url, $params)    = $this->extractPathAndUpdateParams($params);
         list($response, $opts) = $this->request($method, $url, $params, $options);
 
+        $this->setRequestParams($params);
+
         return Util::convertToStripeObject($response, $opts);
+    }
+
+    /**
+     * Get An iterator that can be used to iterate across all objects across all pages.
+     *     As page boundaries are encountered, the next page will be fetched automatically
+     *     for continued iteration.
+     *
+     * @return \Arcanedev\Stripe\Utilities\AutoPagingIterator
+     */
+    public function autoPagingIterator()
+    {
+        return AutoPagingIterator::make($this, $this->requestParams);
     }
 
     /* ------------------------------------------------------------------------------------------------
