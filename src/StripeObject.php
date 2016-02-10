@@ -6,6 +6,7 @@ use Arcanedev\Stripe\Contracts\Utilities\Jsonable;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
 use Arcanedev\Stripe\Http\RequestOptions;
+use Arcanedev\Stripe\Http\Response;
 use Arcanedev\Stripe\Utilities\Util;
 use Arcanedev\Stripe\Utilities\UtilSet;
 use ArrayAccess;
@@ -177,15 +178,17 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @return mixed|null
      */
-    public function __get($key)
+    public function &__get($key)
     {
+        $nullVal = null;
+
         if (in_array($key, $this->keys())) {
             return $this->values[$key];
         }
 
         $this->showUndefinedPropertyMsg(get_class($this), $key);
 
-        return null;
+        return $nullVal;
     }
 
     /**
@@ -249,7 +252,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @return self
      */
-    public function setLastResponse(\Arcanedev\Stripe\Http\Response $response)
+    public function setLastResponse(Response $response)
     {
         $this->lastResponse = $response;
 
