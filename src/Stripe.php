@@ -56,6 +56,13 @@ abstract class Stripe implements StripeInterface
     public static $apiVersion    = null;
 
     /**
+     * The account ID for connected accounts requests.
+     *
+     * @var string|null
+     */
+    public static $accountId     = null;
+
+    /**
      * Verify SSL Certs
      *
      * @var bool
@@ -170,6 +177,26 @@ abstract class Stripe implements StripeInterface
         self::checkApiVersion($apiVersion);
 
         self::$apiVersion = $apiVersion;
+    }
+
+    /**
+     * Get the Stripe account ID for connected accounts requests.
+     *
+     * @return string|null
+     */
+    public static function getAccountId()
+    {
+        return self::$accountId;
+    }
+
+    /**
+     * Set the Stripe account ID to set for connected accounts requests.
+     *
+     * @param  string  $accountId
+     */
+    public static function setAccountId($accountId)
+    {
+        self::$accountId = $accountId;
     }
 
     /**
@@ -325,5 +352,15 @@ abstract class Stripe implements StripeInterface
     public static function hasApiVersion()
     {
         return ! empty(self::$apiVersion);
+    }
+
+    /**
+     * Check if the Stripe has account ID for connected accounts requests.
+     *
+     * @return bool
+     */
+    public static function hasAccountId()
+    {
+        return ! empty(self::$accountId);
     }
 }
