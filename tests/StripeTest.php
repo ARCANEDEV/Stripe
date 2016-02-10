@@ -31,6 +31,20 @@ class StripeTest extends StripeTestCase
         $this->assertEquals($this->myApiKey, Stripe::getApiKey());
     }
 
+    /** @test */
+    public function it_can_get_and_set_account_id()
+    {
+        $accountId = 'stripe_account_id';
+
+        $this->assertFalse(Stripe::hasAccountId());
+        $this->assertNull(Stripe::getAccountId());
+
+        Stripe::setAccountId($accountId);
+
+        $this->assertTrue(Stripe::hasAccountId());
+        $this->assertEquals($accountId, Stripe::getAccountId());
+    }
+
     /**
      * @test
      *

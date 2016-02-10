@@ -57,6 +57,10 @@ class HeaderBag implements HeaderBagInterface
             $defaults['Stripe-Version'] = Stripe::getApiVersion();
         }
 
+        if (Stripe::hasAccountId()) {
+            $defaultHeaders['Stripe-Account'] = Stripe::getAccountId();
+        }
+
         return $defaults;
     }
 
