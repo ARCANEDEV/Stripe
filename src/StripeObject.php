@@ -223,6 +223,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         if (
             self::$nestedUpdatableAttributes->includes($key) &&
             isset($this->$key) &&
+            $this->$key instanceof AttachedObject &&
             is_array($value)
         ) {
             $this->$key->replaceWith($value);
