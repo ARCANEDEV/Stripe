@@ -159,6 +159,18 @@ class StripeObjectTest extends StripeTestCase
         $this->assertEquals('{"foo":"a"}', json_encode($object));
     }
 
+    /** @test */
+    public function it_can_replace_new_nested_updatable_attributes()
+    {
+        $object = new StripeObject;
+
+        $object->metadata = ['foo'];
+        $this->assertEquals(['foo'], $object->metadata);
+
+        $object->metadata = ['bar', 'baz'];
+        $this->assertEquals(['bar', 'baz'], $object->metadata);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
