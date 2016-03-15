@@ -111,4 +111,32 @@ class Account extends StripeResource implements AccountInterface
     {
         return self::scopedAll($params, $options);
     }
+
+    /**
+     * Delete an account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null)
+    {
+        return $this->scopedDelete($params, $options);
+    }
+
+    /**
+     * Reject an account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function reject($params = null, $options = null)
+    {
+        $url = $this->instanceUrl() . '/reject';
+
+        return $this->scopedPostCall($url, $params, $options);
+    }
 }

@@ -52,4 +52,24 @@ interface AccountInterface
      * @return Collection|array
      */
     public static function all($params = null, $options = null);
+
+    /**
+     * Delete an account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null);
+
+    /**
+     * Reject an account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function reject($params = null, $options = null);
 }
