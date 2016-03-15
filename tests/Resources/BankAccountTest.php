@@ -24,11 +24,11 @@ class BankAccountTest extends StripeTestCase
         $bankAccount = $customer->sources->create([
             'source' => [
                 'object'              => 'bank_account',
-                'account_holder_type' => 'individual',
                 'country'             => 'US',
                 'account_number'      => '000123456789',
                 'routing_number'      => '110000000',
-                'name'                => 'John Doe',
+                'account_holder_name' => 'John Doe',
+                'account_holder_type' => 'individual',
             ]
         ]);
 
