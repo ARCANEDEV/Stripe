@@ -54,7 +54,8 @@ class AccountTest extends StripeTestCase
         $this->assertEquals($this->account->id, 'acct_DEF');
     }
 
-    public function testCreate()
+    /** @test */
+    public function it_can_create()
     {
         $response = $this->managedAccountResponse('acct_ABC');
         $this->mockRequest('POST', '/v1/accounts', ['managed' => 'true'], $response);
@@ -204,6 +205,39 @@ class AccountTest extends StripeTestCase
         $this->assertEquals('Jane', $this->account->legal_entity->additional_owners[1]->first_name);
     }
 
+    /** @test */
+    public function it_can_delete()
+    {
+        $account = self::createTestAccount();
+
+        $this->mockRequest(
+            'DELETE',
+            '/v1/accounts/' . $account->id,
+            [],
+            $this->deletedAccountResponse('acct_ABC')
+        );
+
+        $deleted = $account->delete();
+        $this->assertEquals($deleted->id, $account->id);
+        $this->assertTrue($deleted->deleted);
+    }
+
+    /** @test */
+    public function it_can_reject_an_account()
+    {
+        $account = self::createTestAccount();
+
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/' . $account->id . '/reject',
+            ['reason' => 'fraud'],
+            $this->deletedAccountResponse('acct_ABC')
+        );
+
+        $rejected = $account->reject(['reason' => 'fraud']);
+        $this->assertEquals($rejected->id, $account->id);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
@@ -268,6 +302,21 @@ class AccountTest extends StripeTestCase
                     'details'   => null,
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Get deleted account response
+     *
+     * @param  string  $id
+     *
+     * @return array
+     */
+    private function deletedAccountResponse($id)
+    {
+        return [
+            'id'      => $id,
+            'deleted' => true
         ];
     }
 }
