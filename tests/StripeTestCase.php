@@ -63,7 +63,7 @@ abstract class StripeTestCase extends TestCase
     {
         $apiKey = getenv('STRIPE_API_KEY');
 
-        if (! $apiKey) {
+        if ( ! $apiKey) {
             $apiKey = self::API_KEY;
         }
 
@@ -93,11 +93,10 @@ abstract class StripeTestCase extends TestCase
         $mock = $this->setUpMockRequest();
 
         $mock->setApiKey(self::API_KEY)->willReturn($mock);
-        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, [])->willReturn([
-            json_encode($return),
-            $rcode,
-            []
-        ]);
+        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, [], false)
+             ->willReturn([
+                 json_encode($return), $rcode, []
+             ]);
     }
 
     /**
@@ -127,7 +126,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  array $attributes
      *
-     * @return Charge
+     * @return \Arcanedev\Stripe\Resources\Charge
      */
     protected static function createTestCharge(array $attributes = [])
     {
@@ -144,7 +143,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  array $attributes
      *
-     * @return Customer
+     * @return \Arcanedev\Stripe\Resources\Customer
      */
     protected static function createTestCustomer(array $attributes = [])
     {
@@ -158,7 +157,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  array $attributes
      *
-     * @return Account
+     * @return \Arcanedev\Stripe\Resources\Account
      */
     protected static function createTestAccount(array $attributes = [])
     {
@@ -176,7 +175,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  array $attributes
      *
-     * @return Recipient
+     * @return \Arcanedev\Stripe\Resources\Recipient
      */
     protected static function createTestRecipient(array $attributes = [])
     {
@@ -197,7 +196,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  string  $email
      *
-     * @return BitcoinReceiver
+     * @return \Arcanedev\Stripe\Resources\BitcoinReceiver
      */
     protected function createTestBitcoinReceiver($email = 'do+fill_now@stripe.com')
     {
@@ -212,7 +211,7 @@ abstract class StripeTestCase extends TestCase
     /**
      * Verify that a plan with a given ID exists, or create a new one if it does not.
      *
-     * @return Plan
+     * @return \Arcanedev\Stripe\Resources\Plan
      */
     protected static function retrieveOrCreatePlan()
     {
@@ -237,7 +236,7 @@ abstract class StripeTestCase extends TestCase
      *
      * @param  string $id
      *
-     * @return Coupon
+     * @return \Arcanedev\Stripe\Resources\Coupon
      */
     protected static function retrieveOrCreateCoupon($id)
     {
@@ -256,9 +255,9 @@ abstract class StripeTestCase extends TestCase
     /**
      * Create transfer for tests
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      *
-     * @return Transfer|array
+     * @return \Arcanedev\Stripe\Resources\Transfer|array
      */
     protected static function createTestTransfer(array $attributes = [])
     {
