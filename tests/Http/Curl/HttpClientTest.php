@@ -104,6 +104,16 @@ class HttpClientTest extends StripeTestCase
                 'bar' => 'baz'
             ])
         );
+
+        $this->assertEquals(
+            'foo%5B0%5D%5Bbar%5D=baz&foo%5B1%5D%5Bbar%5D=bin',
+            $method->invoke($this->httpClient, [
+                'foo' => [
+                    ['bar' => 'baz'],
+                    ['bar' => 'bin'],
+                ],
+            ])
+        );
     }
 
     /** @test */

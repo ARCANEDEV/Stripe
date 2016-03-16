@@ -2,8 +2,6 @@
 
 use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
-use Arcanedev\Stripe\Exceptions\ApiException;
-use CURLFile;
 
 /**
  * Class     HttpClient
@@ -27,7 +25,7 @@ class HttpClient implements HttpClientInterface
     /**
      * The HTTP Client instance.
      *
-     * @var HttpClient
+     * @var \Arcanedev\Stripe\Http\Curl\HttpClient
      */
     private static $instance;
 
@@ -42,12 +40,12 @@ class HttpClient implements HttpClientInterface
     private $apiBaseUrl;
 
     /**
-     * @var HeaderBag
+     * @var \Arcanedev\Stripe\Http\Curl\HeaderBag
      */
     private $headers;
 
     /**
-     * @var CurlOptions
+     * @var \Arcanedev\Stripe\Http\Curl\CurlOptions
      */
     private $options;
 
@@ -254,21 +252,20 @@ class HttpClient implements HttpClientInterface
      * @param  string        $url
      * @param  array|string  $params
      * @param  array         $headers
+     * @param  bool          $hasFile
      *
-     * @throws ApiConnectionException
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return array
      */
-    public function request($method, $url, $params, $headers)
+    public function request($method, $url, $params, $headers, $hasFile)
     {
-        $hasFile = self::processResourceParams($params);
-
         if ($method !== 'post') {
             $url    = str_parse_url($url, $params);
         }
         else {
-            $params = $hasFile ? $params : str_url_queries($params);
+            $params = $hasFile ? $params : self::encode($params);
         }
 
         $this->headers->prepare($this->apiKey, $headers, $hasFile);
@@ -312,57 +309,6 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Process Resource Parameters.
-     *
-     * @param  array|string  $params
-     *
-     * @throws ApiException
-     *
-     * @return bool
-     */
-    private static function processResourceParams(&$params)
-    {
-        // @codeCoverageIgnoreStart
-        if ( ! is_array($params)) return false;
-        // @codeCoverageIgnoreEnd
-
-        $hasFile = false;
-
-        foreach ($params as $key => $resource) {
-            $hasFile = self::checkHasResourceFile($resource);
-
-            if (is_resource($resource)) {
-                $params[$key] = self::processResourceParam($resource);
-            }
-        }
-
-        return $hasFile;
-    }
-
-    /**
-     * Process Resource Parameter.
-     *
-     * @param  resource  $resource
-     *
-     * @throws ApiException
-     *
-     * @return CURLFile|string
-     */
-    private static function processResourceParam($resource)
-    {
-        self::checkResourceType($resource);
-
-        $metaData = stream_get_meta_data($resource);
-
-        self::checkResourceMetaData($metaData);
-
-        // We don't have the filename or mimetype, but the API doesn't care
-        return class_exists('CURLFile')
-            ? new CURLFile($metaData['uri'])
-            : '@' . $metaData['uri'];
-    }
-
-    /**
      * Encode array to query string
      *
      * @param  array        $array
@@ -383,11 +329,10 @@ class HttpClient implements HttpClientInterface
                 continue;
             }
 
-            if ($prefix && $key && ! is_int($key)) {
-                $key = $prefix .'[' . $key . ']';
-            }
-            elseif ($prefix) {
-                $key = $prefix . '[]';
+            if ($prefix) {
+                $key = ($key !== null && (! is_int($key) || is_array($value)))
+                    ? $prefix . "[" . $key . "]"
+                    : $prefix . "[]";
             }
 
             if ( ! is_array($value)) {
@@ -401,55 +346,7 @@ class HttpClient implements HttpClientInterface
         return implode('&', $result);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Check Resource type is stream.
-     *
-     * @param  resource  $resource
-     *
-     * @throws ApiException
-     */
-    private static function checkResourceType($resource)
-    {
-        if (get_resource_type($resource) !== 'stream') {
-            throw new ApiException(
-                'Attempted to upload a resource that is not a stream'
-            );
-        }
-    }
 
-    /**
-     * Check resource MetaData.
-     *
-     * @param  array  $metaData
-     *
-     * @throws ApiException
-     */
-    private static function checkResourceMetaData(array $metaData)
-    {
-        if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException(
-                'Only plainfile resource streams are supported'
-            );
-        }
-    }
-
-    /**
-     * Check if param is resource File.
-     *
-     * @param  mixed  $resource
-     *
-     * @return bool
-     */
-    private static function checkHasResourceFile($resource)
-    {
-        return
-            is_resource($resource) ||
-            (class_exists('CURLFile') && $resource instanceof CURLFile);
-    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
@@ -458,7 +355,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Check Response.
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     private function checkResponse()
     {
@@ -471,7 +368,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Handle CURL errors.
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     private function handleCurlError()
     {

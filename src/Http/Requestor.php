@@ -1,18 +1,14 @@
 <?php namespace Arcanedev\Stripe\Http;
 
-use Arcanedev\Stripe\Contracts\Http\RequestorInterface;
 use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
-use Arcanedev\Stripe\Exceptions\ApiConnectionException;
+use Arcanedev\Stripe\Contracts\Http\RequestorInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
-use Arcanedev\Stripe\Exceptions\AuthenticationException;
-use Arcanedev\Stripe\Exceptions\CardException;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Exceptions\RateLimitException;
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
-use Arcanedev\Stripe\Http\Curl\HttpClient;
+use CURLFile;
 
 /**
  * Class     Requestor
@@ -33,18 +29,24 @@ class Requestor implements RequestorInterface
      */
     private $apiKey;
 
-    /** @var string */
+    /**
+     * The API base URL.
+     *
+     * @var string
+     */
     private $apiBaseUrl;
 
-    /** @var HttpClientInterface */
+    /**
+     * @var \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface
+     */
     private static $httpClient;
 
     /** @var array */
-    private static $allowedMethods = [
-        'get', 'post', 'delete'
-    ];
+    private static $allowedMethods = ['get', 'post', 'delete'];
 
-    /** @var ErrorsHandler */
+    /**
+     * @var \Arcanedev\Stripe\Utilities\ErrorsHandler
+     */
     private $errorsHandler;
 
     /* ------------------------------------------------------------------------------------------------
@@ -117,7 +119,7 @@ class Requestor implements RequestorInterface
     /**
      * Get the HTTP client
      *
-     * @return HttpClientInterface
+     * @return \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface
      */
     private function httpClient()
     {
@@ -133,7 +135,7 @@ class Requestor implements RequestorInterface
     /**
      * Set the HTTP client
      *
-     * @param  HttpClientInterface  $client
+     * @param  \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface  $client
      */
     public static function setHttpClient(HttpClientInterface $client)
     {
@@ -208,22 +210,14 @@ class Requestor implements RequestorInterface
      * @param  array|null  $params
      * @param  array|null  $headers
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return array
      */
     public function request($method, $url, $params = null, $headers = null)
     {
-        $this->checkApiKey();
-        $this->checkMethod($method);
-
-        if (is_null($params)) {
-            $params = [];
-        }
-
-        if (is_null($headers)) {
-            $headers = [];
-        }
+        if (is_null($params))  $params  = [];
+        if (is_null($headers)) $headers = [];
 
         list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
 
@@ -234,27 +228,32 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Raw request
+     * Raw request.
      *
      * @param  string  $method
      * @param  string  $url
      * @param  array   $params
      * @param  array   $headers
      *
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws ApiKeyNotSetException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
      *
      * @return array
      */
     private function requestRaw($method, $url, $params, $headers)
     {
+        $this->checkApiKey();
+        $this->checkMethod($method);
+
         $params = self::encodeObjects($params);
 
         $this->httpClient()->setApiKey($this->getApiKey());
 
+        $hasFile = self::processResourceParams($params);
+
         list($respBody, $respCode) = $this->httpClient()
-            ->request($method, $this->apiBaseUrl . $url, $params, $headers);
+            ->request($method, $this->apiBaseUrl . $url, $params, $headers, $hasFile);
 
         return [$respBody, $respCode, $this->getApiKey()];
     }
@@ -265,11 +264,11 @@ class Requestor implements RequestorInterface
      * @param  string  $respBody
      * @param  int     $respCode
      *
-     * @throws ApiException
-     * @throws AuthenticationException
-     * @throws CardException
-     * @throws InvalidRequestException
-     * @throws RateLimitException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\AuthenticationException
+     * @throws \Arcanedev\Stripe\Exceptions\CardException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\RateLimitException
      *
      * @return array
      */
@@ -302,6 +301,18 @@ class Requestor implements RequestorInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check if API Key Exists.
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
+     */
+    private function checkApiKey()
+    {
+        if ( ! $this->isApiKeyExists()) {
+            throw new ApiKeyNotSetException('The Stripe API Key is required !');
+        }
+    }
+
+    /**
      * Check if the API Key is set.
      *
      * @return bool
@@ -314,25 +325,11 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Check if API Key Exists.
-     *
-     * @throws ApiKeyNotSetException
-     */
-    private function checkApiKey()
-    {
-        if ( ! $this->isApiKeyExists()) {
-            throw new ApiKeyNotSetException(
-                'The Stripe API Key is required !'
-            );
-        }
-    }
-
-    /**
      * Check Http Method.
      *
      * @param  string  $method
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function checkMethod(&$method)
     {
@@ -346,16 +343,113 @@ class Requestor implements RequestorInterface
         }
     }
 
+    /**
+     * Check Resource type is stream.
+     *
+     * @param  resource  $resource
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    private static function checkResourceType($resource)
+    {
+        if (get_resource_type($resource) !== 'stream') {
+            throw new ApiException(
+                'Attempted to upload a resource that is not a stream'
+            );
+        }
+    }
+
+    /**
+     * Check resource MetaData.
+     *
+     * @param  array  $metaData
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    private static function checkResourceMetaData(array $metaData)
+    {
+        if ($metaData['wrapper_type'] !== 'plainfile') {
+            throw new ApiException(
+                'Only plainfile resource streams are supported'
+            );
+        }
+    }
+
+    /**
+     * Check if param is resource File.
+     *
+     * @param  mixed  $resource
+     *
+     * @return bool
+     */
+    private static function checkHasResourceFile($resource)
+    {
+        return
+            is_resource($resource) ||
+            (class_exists('CURLFile') && $resource instanceof CURLFile);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Process Resource Parameters.
+     *
+     * @param  array|string  $params
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     *
+     * @return bool
+     */
+    private static function processResourceParams(&$params)
+    {
+        // @codeCoverageIgnoreStart
+        if ( ! is_array($params)) return false;
+        // @codeCoverageIgnoreEnd
+
+        $hasFile = false;
+
+        foreach ($params as $key => $resource) {
+            $hasFile = self::checkHasResourceFile($resource);
+
+            if (is_resource($resource)) {
+                $params[$key] = self::processResourceParam($resource);
+            }
+        }
+
+        return $hasFile;
+    }
+
+    /**
+     * Process Resource Parameter.
+     *
+     * @param  resource  $resource
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     *
+     * @return \CURLFile|string
+     */
+    private static function processResourceParam($resource)
+    {
+        self::checkResourceType($resource);
+
+        $metaData = stream_get_meta_data($resource);
+
+        self::checkResourceMetaData($metaData);
+
+        // We don't have the filename or mimetype, but the API doesn't care
+        return class_exists('CURLFile')
+            ? new CURLFile($metaData['uri'])
+            : '@' . $metaData['uri'];
+    }
+
+    /**
      * Encode Objects.
      *
-     * @param  StripeResource|bool|array|string  $obj
+     * @param  \Arcanedev\Stripe\StripeResource|bool|array|string  $obj
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return array|string
      */
@@ -366,7 +460,7 @@ class Requestor implements RequestorInterface
         }
 
         if (is_bool($obj)) {
-            return ($obj) ? 'true' : 'false';
+            return $obj ? 'true' : 'false';
         }
 
         if (is_array($obj)) {
