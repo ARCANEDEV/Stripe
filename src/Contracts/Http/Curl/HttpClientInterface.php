@@ -3,7 +3,7 @@
 /**
  * Interface  HttpClientInterface
  *
- * @package   Arcanedev\Stripe\Contracts\Utilities\Request
+ * @package   Arcanedev\Stripe\Contracts\Http\Curl
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface HttpClientInterface

@@ -42,10 +42,7 @@ if ( ! function_exists('str_utf8')) {
      */
     function str_utf8($string)
     {
-        if (
-            is_string($string) &&
-            mb_detect_encoding($string, 'UTF-8', true) != 'UTF-8'
-        ) {
+        if (is_string($string) && mb_detect_encoding($string, 'UTF-8', true) !== 'UTF-8') {
             $string = utf8_encode($string);
         }
 

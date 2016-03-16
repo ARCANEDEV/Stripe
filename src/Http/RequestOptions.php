@@ -6,7 +6,7 @@ use Arcanedev\Stripe\Exceptions\ApiException;
 /**
  * Class     RequestOptions
  *
- * @package  Arcanedev\Stripe\Utilities
+ * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RequestOptions implements RequestOptionsInterface
@@ -118,8 +118,6 @@ class RequestOptions implements RequestOptionsInterface
      *
      * @param  array|string|null  $options
      *
-     * @throws ApiException
-     *
      * @return self
      */
     public static function parse($options)
@@ -190,7 +188,7 @@ class RequestOptions implements RequestOptionsInterface
      *
      * @param  array|string|null  $options
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private static function checkOptions($options)
     {

@@ -1,9 +1,7 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
 use Arcanedev\Stripe\StripeObject;
-use Arcanedev\Stripe\StripeResource;
 
 /**
  * Class     Util
@@ -31,35 +29,35 @@ abstract class Util implements UtilInterface
      * @var array
      */
     private static $resources = [
-        'account'               => 'Resources\\Account',
-        'alipay_account'        => 'Resources\\AlipayAccount',
-        'balance_transaction'   => 'Resources\\BalanceTransaction',
-        'bank_account'          => 'Resources\\BankAccount',
-        'bitcoin_receiver'      => 'Resources\\BitcoinReceiver',
-        'bitcoin_transaction'   => 'Resources\\BitcoinTransaction',
-        'card'                  => 'Resources\\Card',
-        'charge'                => 'Resources\\Charge',
-        'country_spec'          => 'Resources\\CountrySpec',
-        'coupon'                => 'Resources\\Coupon',
-        'customer'              => 'Resources\\Customer',
-        'discount'              => 'Resources\\Discount',
-        'dispute'               => 'Resources\\Dispute',
-        'event'                 => 'Resources\\Event',
-        'fee_refund'            => 'Resources\\ApplicationFeeRefund',
-        'file_upload'           => 'Resources\\FileUpload',
-        'invoice'               => 'Resources\\Invoice',
-        'invoiceitem'           => 'Resources\\InvoiceItem',
-        'list'                  => 'Collection',                     // List Object
-        'order'                 => 'Resources\\Order',
-        'plan'                  => 'Resources\\Plan',
-        'product'               => 'Resources\\Product',
-        'recipient'             => 'Resources\\Recipient',
-        'refund'                => 'Resources\\Refund',
-        'sku'                   => 'Resources\\Sku',
-        'subscription'          => 'Resources\\Subscription',
-        'token'                 => 'Resources\\Token',
-        'transfer'              => 'Resources\\Transfer',
-        'transfer_reversal'     => 'Resources\\TransferReversal',
+        'account'             => 'Resources\\Account',
+        'alipay_account'      => 'Resources\\AlipayAccount',
+        'balance_transaction' => 'Resources\\BalanceTransaction',
+        'bank_account'        => 'Resources\\BankAccount',
+        'bitcoin_receiver'    => 'Resources\\BitcoinReceiver',
+        'bitcoin_transaction' => 'Resources\\BitcoinTransaction',
+        'card'                => 'Resources\\Card',
+        'charge'              => 'Resources\\Charge',
+        'country_spec'        => 'Resources\\CountrySpec',
+        'coupon'              => 'Resources\\Coupon',
+        'customer'            => 'Resources\\Customer',
+        'discount'            => 'Resources\\Discount',
+        'dispute'             => 'Resources\\Dispute',
+        'event'               => 'Resources\\Event',
+        'fee_refund'          => 'Resources\\ApplicationFeeRefund',
+        'file_upload'         => 'Resources\\FileUpload',
+        'invoice'             => 'Resources\\Invoice',
+        'invoiceitem'         => 'Resources\\InvoiceItem',
+        'list'                => 'Collection',                     // List Object
+        'order'               => 'Resources\\Order',
+        'plan'                => 'Resources\\Plan',
+        'product'             => 'Resources\\Product',
+        'recipient'           => 'Resources\\Recipient',
+        'refund'              => 'Resources\\Refund',
+        'sku'                 => 'Resources\\Sku',
+        'subscription'        => 'Resources\\Subscription',
+        'token'               => 'Resources\\Token',
+        'transfer'            => 'Resources\\Transfer',
+        'transfer_reversal'   => 'Resources\\TransferReversal',
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -79,9 +77,7 @@ abstract class Util implements UtilInterface
 
         foreach ($values as $k => $v) {
             // FIXME: this is an encapsulation violation
-            if ($k[0] == '_') {
-                continue;
-            }
+            if ($k[0] == '_') continue;
 
             if ($v instanceof StripeObject) {
                 $results[$k] = $v->toArray(true);
@@ -103,7 +99,7 @@ abstract class Util implements UtilInterface
      * @param  array  $response
      * @param  array  $options
      *
-     * @return StripeObject|StripeResource|Collection|array
+     * @return \Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\StripeResource|\Arcanedev\Stripe\Collection|array
      */
     public static function convertToStripeObject($response, $options)
     {
@@ -196,7 +192,7 @@ abstract class Util implements UtilInterface
     /**
      * Check is an available resource.
      *
-     * @param  string $object
+     * @param  string  $object
      *
      * @return bool
      */

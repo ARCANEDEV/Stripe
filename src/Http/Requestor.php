@@ -13,7 +13,7 @@ use CURLFile;
 /**
  * Class     Requestor
  *
- * @package  Arcanedev\Stripe
+ * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Requestor implements RequestorInterface
@@ -41,7 +41,11 @@ class Requestor implements RequestorInterface
      */
     private static $httpClient;
 
-    /** @var array */
+    /**
+     * The allowed HTTP methods.
+     *
+     * @var array
+     */
     private static $allowedMethods = ['get', 'post', 'delete'];
 
     /**

@@ -6,7 +6,7 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 /**
  * Class     HttpClient
  *
- * @package  Arcanedev\Stripe\Utilities\Request
+ * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HttpClient implements HttpClientInterface
@@ -254,9 +254,6 @@ class HttpClient implements HttpClientInterface
      * @param  array         $headers
      * @param  bool          $hasFile
      *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     *
      * @return array
      */
     public function request($method, $url, $params, $headers, $hasFile)
@@ -311,8 +308,8 @@ class HttpClient implements HttpClientInterface
     /**
      * Encode array to query string
      *
-     * @param  array        $array
-     * @param  string|null  $prefix
+     * @param  array|string  $array
+     * @param  string|null   $prefix
      *
      * @return string
      */
@@ -325,9 +322,7 @@ class HttpClient implements HttpClientInterface
         $result = [];
 
         foreach ($array as $key => $value) {
-            if (is_null($value)) {
-                continue;
-            }
+            if (is_null($value)) continue;
 
             if ($prefix) {
                 $key = ($key !== null && (! is_int($key) || is_array($value)))
@@ -345,8 +340,6 @@ class HttpClient implements HttpClientInterface
 
         return implode('&', $result);
     }
-
-
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
@@ -376,7 +369,7 @@ class HttpClient implements HttpClientInterface
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = 'Could not connect to Stripe (' . $this->apiBaseUrl . '). Please check your internet connection '
+                $msg = "Could not connect to Stripe ({$this->apiBaseUrl}). Please check your internet connection "
                     . 'and try again.  If this problem persists, you should check Stripe\'s service status at '
                     . 'https://twitter.com/stripestatus, or';
                 break;
@@ -384,7 +377,7 @@ class HttpClient implements HttpClientInterface
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
                 $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure that your network is not '
-                    . 'intercepting certificates. (Try going to ' . $this->apiBaseUrl . ' in your browser.) '
+                    . "intercepting certificates. (Try going to {$this->apiBaseUrl} in your browser.) "
                     . 'If this problem persists,';
                 break;
 
