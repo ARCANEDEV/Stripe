@@ -88,6 +88,46 @@ class AccountTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_create_additional_owners()
+    {
+        $request  = [
+            'managed'      => true,
+            'country'      => 'GB',
+            'legal_entity' => [
+                'additional_owners' => [
+                    0 => [
+                        'dob' => [
+                            'day'   => 12,
+                            'month' => 5,
+                            'year'  => 1970,
+                        ],
+                        'first_name' => 'John',
+                        'last_name'  => 'Doe',
+                    ],
+                    1 => [
+                        'dob' => [
+                            'day'   => 8,
+                            'month' => 4,
+                            'year'  => 1979,
+                        ],
+                        'first_name' => 'Jane',
+                        'last_name'  => 'Doe',
+                    ],
+                ],
+            ],
+        ];
+
+        $account  = Account::create($request);
+        $response = $account->toArray(true);
+        $respAO   = $response['legal_entity']['additional_owners'];
+
+        foreach ($request['legal_entity']['additional_owners'] as $index => $owner) {
+            $this->assertEquals($owner['dob'],        $respAO[$index]['dob']);
+            $this->assertEquals($owner['first_name'], $respAO[$index]['first_name']);
+        }
+    }
+
+    /** @test */
     public function it_can_update_additional_owners()
     {
         $response = $this->managedAccountResponse('acct_ABC');
