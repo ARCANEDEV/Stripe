@@ -63,4 +63,17 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         return self::generateRandomString() . '@' . $domain;
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Dump and die.
+     */
+    protected function dd()
+    {
+        array_map('var_dump', func_get_args());
+        die(1);
+    }
 }
