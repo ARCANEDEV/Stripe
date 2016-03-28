@@ -6,7 +6,7 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 /**
  * Class     SslChecker
  *
- * @package  Arcanedev\Stripe\Utilities\Request
+ * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SslChecker implements SslCheckerInterface
@@ -62,8 +62,6 @@ class SslChecker implements SslCheckerInterface
      *
      * @param  string  $url
      *
-     * @throws ApiConnectionException
-     *
      * @return bool
      */
     public function checkCert($url)
@@ -97,7 +95,7 @@ class SslChecker implements SslCheckerInterface
      *
      * @param  string  $pemCert
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     public function checkBlackList($pemCert)
     {
@@ -154,7 +152,7 @@ class SslChecker implements SslCheckerInterface
      * @param  int|null  $errorNo
      * @param  string    $errorStr
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     private function checkResult($result, $errorNo, $errorStr)
     {
@@ -239,9 +237,9 @@ class SslChecker implements SslCheckerInterface
      */
     public static function caBundle()
     {
-        $path = realpath(__DIR__ . '/../../../data/ca-certificates.crt');
+        $basePath = __DIR__ . '/../../..';
 
-        return $path;
+        return realpath($basePath . '/data/ca-certificates.crt');
     }
 
     /**

@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Stripe;
 /**
  * Class     CurlOptions
  *
- * @package  Arcanedev\Stripe\Utilities\Request
+ * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CurlOptions implements CurlOptionsInterface
@@ -81,8 +81,6 @@ class CurlOptions implements CurlOptionsInterface
      * @param  array   $headers
      * @param  bool    $hasFile
      *
-     * @throws ApiException
-     *
      * @return self
      */
     public function make($method, $url, $params, $headers, $hasFile = false)
@@ -92,7 +90,6 @@ class CurlOptions implements CurlOptionsInterface
         $this->options = [];
 
         $this->prepareMethodOptions($method, $params, $hasFile);
-
         $this->setOptions([
             CURLOPT_URL            => str_utf8($url),
             CURLOPT_RETURNTRANSFER => true,
@@ -117,7 +114,7 @@ class CurlOptions implements CurlOptionsInterface
      * @param  string  $params
      * @param  bool    $hasFile
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function prepareMethodOptions($method, $params, $hasFile)
     {
@@ -164,8 +161,8 @@ class CurlOptions implements CurlOptionsInterface
      *
      * @param  string  $method
      *
-     * @throws BadMethodCallException
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\BadMethodCallException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private function checkMethod(&$method)
     {

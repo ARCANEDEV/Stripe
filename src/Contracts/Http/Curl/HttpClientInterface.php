@@ -3,7 +3,7 @@
 /**
  * Interface  HttpClientInterface
  *
- * @package   Arcanedev\Stripe\Contracts\Utilities\Request
+ * @package   Arcanedev\Stripe\Contracts\Http\Curl
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface HttpClientInterface
@@ -41,8 +41,9 @@ interface HttpClientInterface
      * @param  string        $url
      * @param  array|string  $params
      * @param  array         $headers
+     * @param  bool          $hasFile
      *
      * @return array
      */
-    public function request($method, $url, $params, $headers);
+    public function request($method, $url, $params, $headers, $hasFile);
 }

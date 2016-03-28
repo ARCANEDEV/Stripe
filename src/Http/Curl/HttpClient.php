@@ -2,13 +2,11 @@
 
 use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
-use Arcanedev\Stripe\Exceptions\ApiException;
-use CURLFile;
 
 /**
  * Class     HttpClient
  *
- * @package  Arcanedev\Stripe\Utilities\Request
+ * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HttpClient implements HttpClientInterface
@@ -27,7 +25,7 @@ class HttpClient implements HttpClientInterface
     /**
      * The HTTP Client instance.
      *
-     * @var HttpClient
+     * @var \Arcanedev\Stripe\Http\Curl\HttpClient
      */
     private static $instance;
 
@@ -42,12 +40,12 @@ class HttpClient implements HttpClientInterface
     private $apiBaseUrl;
 
     /**
-     * @var HeaderBag
+     * @var \Arcanedev\Stripe\Http\Curl\HeaderBag
      */
     private $headers;
 
     /**
-     * @var CurlOptions
+     * @var \Arcanedev\Stripe\Http\Curl\CurlOptions
      */
     private $options;
 
@@ -254,21 +252,17 @@ class HttpClient implements HttpClientInterface
      * @param  string        $url
      * @param  array|string  $params
      * @param  array         $headers
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
+     * @param  bool          $hasFile
      *
      * @return array
      */
-    public function request($method, $url, $params, $headers)
+    public function request($method, $url, $params, $headers, $hasFile)
     {
-        $hasFile = self::processResourceParams($params);
-
         if ($method !== 'post') {
             $url    = str_parse_url($url, $params);
         }
         else {
-            $params = $hasFile ? $params : str_url_queries($params);
+            $params = $hasFile ? $params : self::encode($params);
         }
 
         $this->headers->prepare($this->apiKey, $headers, $hasFile);
@@ -312,61 +306,10 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Process Resource Parameters.
-     *
-     * @param  array|string  $params
-     *
-     * @throws ApiException
-     *
-     * @return bool
-     */
-    private static function processResourceParams(&$params)
-    {
-        // @codeCoverageIgnoreStart
-        if ( ! is_array($params)) return false;
-        // @codeCoverageIgnoreEnd
-
-        $hasFile = false;
-
-        foreach ($params as $key => $resource) {
-            $hasFile = self::checkHasResourceFile($resource);
-
-            if (is_resource($resource)) {
-                $params[$key] = self::processResourceParam($resource);
-            }
-        }
-
-        return $hasFile;
-    }
-
-    /**
-     * Process Resource Parameter.
-     *
-     * @param  resource  $resource
-     *
-     * @throws ApiException
-     *
-     * @return CURLFile|string
-     */
-    private static function processResourceParam($resource)
-    {
-        self::checkResourceType($resource);
-
-        $metaData = stream_get_meta_data($resource);
-
-        self::checkResourceMetaData($metaData);
-
-        // We don't have the filename or mimetype, but the API doesn't care
-        return class_exists('CURLFile')
-            ? new CURLFile($metaData['uri'])
-            : '@' . $metaData['uri'];
-    }
-
-    /**
      * Encode array to query string
      *
-     * @param  array        $array
-     * @param  string|null  $prefix
+     * @param  array|string  $array
+     * @param  string|null   $prefix
      *
      * @return string
      */
@@ -379,15 +322,12 @@ class HttpClient implements HttpClientInterface
         $result = [];
 
         foreach ($array as $key => $value) {
-            if (is_null($value)) {
-                continue;
-            }
+            if (is_null($value)) continue;
 
-            if ($prefix && $key && ! is_int($key)) {
-                $key = $prefix .'[' . $key . ']';
-            }
-            elseif ($prefix) {
-                $key = $prefix . '[]';
+            if ($prefix) {
+                $key = ($key !== null && (! is_int($key) || is_array($value)))
+                    ? $prefix . "[" . $key . "]"
+                    : $prefix . "[]";
             }
 
             if ( ! is_array($value)) {
@@ -402,63 +342,13 @@ class HttpClient implements HttpClientInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Check Resource type is stream.
-     *
-     * @param  resource  $resource
-     *
-     * @throws ApiException
-     */
-    private static function checkResourceType($resource)
-    {
-        if (get_resource_type($resource) !== 'stream') {
-            throw new ApiException(
-                'Attempted to upload a resource that is not a stream'
-            );
-        }
-    }
-
-    /**
-     * Check resource MetaData.
-     *
-     * @param  array  $metaData
-     *
-     * @throws ApiException
-     */
-    private static function checkResourceMetaData(array $metaData)
-    {
-        if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException(
-                'Only plainfile resource streams are supported'
-            );
-        }
-    }
-
-    /**
-     * Check if param is resource File.
-     *
-     * @param  mixed  $resource
-     *
-     * @return bool
-     */
-    private static function checkHasResourceFile($resource)
-    {
-        return
-            is_resource($resource) ||
-            (class_exists('CURLFile') && $resource instanceof CURLFile);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Check Response.
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     private function checkResponse()
     {
@@ -471,7 +361,7 @@ class HttpClient implements HttpClientInterface
     /**
      * Handle CURL errors.
      *
-     * @throws ApiConnectionException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
      */
     private function handleCurlError()
     {
@@ -479,7 +369,7 @@ class HttpClient implements HttpClientInterface
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = 'Could not connect to Stripe (' . $this->apiBaseUrl . '). Please check your internet connection '
+                $msg = "Could not connect to Stripe ({$this->apiBaseUrl}). Please check your internet connection "
                     . 'and try again.  If this problem persists, you should check Stripe\'s service status at '
                     . 'https://twitter.com/stripestatus, or';
                 break;
@@ -487,7 +377,7 @@ class HttpClient implements HttpClientInterface
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
                 $msg = 'Could not verify Stripe\'s SSL certificate.  Please make sure that your network is not '
-                    . 'intercepting certificates. (Try going to ' . $this->apiBaseUrl . ' in your browser.) '
+                    . "intercepting certificates. (Try going to {$this->apiBaseUrl} in your browser.) "
                     . 'If this problem persists,';
                 break;
 

@@ -23,6 +23,7 @@ class Collection extends StripeResource implements CollectionInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var array  */
     protected $requestParams = [];
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ class Collection extends StripeResource implements CollectionInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return self|array
      */
@@ -64,9 +65,9 @@ class Collection extends StripeResource implements CollectionInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
-     * @return StripeObject|StripeResource|array
+     * @return \Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\StripeResource|array
      */
     public function create($params = [], $options = null)
     {
@@ -80,9 +81,9 @@ class Collection extends StripeResource implements CollectionInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
-     * @return StripeObject|StripeResource|array
+     * @return \Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\StripeResource|array
      */
     public function retrieve($id, $params = [], $options = null)
     {
@@ -102,7 +103,7 @@ class Collection extends StripeResource implements CollectionInterface
      * @param  array              $params
      * @param  array|string|null  $options
      *
-     * @return self|StripeObject|StripeResource|array|
+     * @return self|\Arcanedev\Stripe\StripeObject|\Arcanedev\Stripe\StripeResource|array|
      */
     private function requestAndConvertToStripeObject($method, $params, $options)
     {
@@ -145,7 +146,7 @@ class Collection extends StripeResource implements CollectionInterface
      *
      * @param  array  $url
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function checkPath(array $url)
     {
@@ -177,7 +178,7 @@ class Collection extends StripeResource implements CollectionInterface
      *
      * @param  array|null $params
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return array
      */

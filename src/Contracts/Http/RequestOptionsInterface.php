@@ -3,7 +3,7 @@
 /**
  * Interface  RequestOptionsInterface
  *
- * @package   Arcanedev\Stripe\Contracts
+ * @package   Arcanedev\Stripe\Contracts\Http
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface RequestOptionsInterface

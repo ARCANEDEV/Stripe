@@ -6,7 +6,7 @@ use Arcanedev\Stripe\Stripe;
 /**
  * Class     HeaderBag
  *
- * @package  Arcanedev\Stripe\Utilities\Request
+ * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HeaderBag implements HeaderBagInterface
