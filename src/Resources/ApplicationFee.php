@@ -91,7 +91,7 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
      */
     public function refund($params = [], $options = null)
     {
-        $this->refunds->create();
+        $this->refunds->create($params, $options);
         $this->refresh();
 
         return $this;
