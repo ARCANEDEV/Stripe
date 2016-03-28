@@ -12,14 +12,30 @@ use ReflectionClass;
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Assertion Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Asserts that a count value is greater than another value.
+     *
+     * @param  mixed   $expected
+     * @param  mixed   $actual
+     * @param  string  $message
+     */
+    protected function assertCountGreaterThan($expected, $actual, $message = '')
+    {
+        $this->assertGreaterThan($expected, count($actual), $message);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
      |  Common Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Get private or protected method of a given class
      *
-     * @param        $class
-     * @param string $methodName
+     * @param  string  $class
+     * @param  string  $methodName
      *
      * @return \ReflectionMethod
      */
@@ -35,7 +51,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     /**
      * Generate a semi-random string
      *
-     * @param int $length
+     * @param  int  $length
      *
      * @return string
      */
@@ -55,7 +71,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     /**
      * Generate a semi-random email.
      *
-     * @param  string $domain
+     * @param  string  $domain
      *
      * @return string
      */

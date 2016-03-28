@@ -11,17 +11,16 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#file_upload_object
  * @link     https://stripe.com/docs/guides/file-upload
  *
  * @property  string  id
- * @property  string  object
- * @property  int     created
- * @property  int     size
+ * @property  string  object   // 'file_upload'
+ * @property  int     created  // timestamp
  * @property  string  purpose
- * @property  string  url
+ * @property  int     size
  * @property  string  type      // [pdf|jpeg|png]
- *
- * @todo:     Update the properties.
+ * @property  string  url
  */
 class FileUpload extends StripeResource implements FileUploadInterface
 {
@@ -74,16 +73,18 @@ class FileUpload extends StripeResource implements FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a File.
+     * Retrieve a File Upload.
+     * @link   https://stripe.com/docs/api/php#retrieve_file_upload
      *
      * @param  string             $id
      * @param  array|string|null  $options
      *
      * @return self
+     *
+     * @todo: Refactor the FileUpload::retrieve() method
      */
     public static function retrieve($id, $options = null)
     {
-        // TODO: Refactor retrieve() method
         $apiKey  = RequestOptions::parse($options)->getApiKey();
         $file    = new self($id, $apiKey);
 
@@ -98,7 +99,8 @@ class FileUpload extends StripeResource implements FileUploadInterface
     }
 
     /**
-     * Create/Upload a File.
+     * Create/Upload a File Upload.
+     * @link   https://stripe.com/docs/api/php#create_file_upload
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -112,6 +114,7 @@ class FileUpload extends StripeResource implements FileUploadInterface
 
     /**
      * List all uploaded files.
+     * @link   https://stripe.com/docs/api/php#list_file_uploads
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests;
+
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Http\RequestOptions;
 
@@ -50,7 +51,7 @@ class CollectionTest extends StripeTestCase
             '/v1/pageablemodels',
             [
                 'foo'            => 'bar',
-                'starting_after' => 'pm_124'
+                'starting_after' => 'pm_124',
             ],
             $this->pageableModelResponse(['pm_125', 'pm_126'], true)
         );
@@ -60,7 +61,7 @@ class CollectionTest extends StripeTestCase
             '/v1/pageablemodels',
             [
                 'foo'            => 'bar',
-                'starting_after' => 'pm_126'
+                'starting_after' => 'pm_126',
             ],
             $this->pageableModelResponse(['pm_127'], false)
         );
@@ -78,14 +79,20 @@ class CollectionTest extends StripeTestCase
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    private function pageableModelResponse($ids, $hasMore)
+    /**
+     * @param  array  $ids
+     * @param  bool   $hasMore
+     *
+     * @return array
+     */
+    private function pageableModelResponse(array $ids, $hasMore)
     {
         $data = [];
 
         foreach ($ids as $id) {
             array_push($data, [
                 'id'     => $id,
-                'object' => 'pageablemodel'
+                'object' => 'pageablemodel',
             ]);
         }
 
@@ -93,7 +100,7 @@ class CollectionTest extends StripeTestCase
             'object'   => 'list',
             'url'      => '/v1/pageablemodels',
             'data'     => $data,
-            'has_more' => $hasMore
+            'has_more' => $hasMore,
         ];
     }
 }

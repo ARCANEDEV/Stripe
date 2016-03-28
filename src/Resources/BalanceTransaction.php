@@ -13,16 +13,17 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                        id
  * @property  string                        object        // "balance_transaction"
  * @property  int                           amount
- * @property  int                           available_on
- * @property  int                           created
+ * @property  int                           available_on  // timestamp
+ * @property  int                           created       // timestamp
  * @property  string                        currency
+ * @property  string                        description
  * @property  int                           fee
  * @property  \Arcanedev\Stripe\Collection  fee_details
  * @property  int                           net
+ * @property  string                        source
+ * @property  \Arcanedev\Stripe\Collection  sourced_transfers
  * @property  string                        status
  * @property  string                        type
- * @property  string                        description
- * @property  string                        source
  */
 class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
 {

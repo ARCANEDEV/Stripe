@@ -14,6 +14,7 @@ interface CountrySpecInterface
      */
     /**
      * Get the Country Spec for a given Country code.
+     * @link   https://stripe.com/docs/api/php#retrieve_country_spec
      *
      * @param  string             $country
      * @param  array|string|null  $options
@@ -24,6 +25,7 @@ interface CountrySpecInterface
 
     /**
      * Lists all Country Specs.
+     * @link   https://stripe.com/docs/api/php#list_country_specs
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

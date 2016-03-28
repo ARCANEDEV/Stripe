@@ -10,12 +10,10 @@ use Arcanedev\Stripe\SingletonResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#balance_object
  *
- * @property  string  object    // "balance"
- * @property  bool    livemode
+ * @property  string  object     // "balance"
  * @property  array   available
+ * @property  bool    livemode
  * @property  array   pending
- *
- * @todo:     Complete the properties.
  */
 class Balance extends SingletonResource implements BalanceInterface
 {

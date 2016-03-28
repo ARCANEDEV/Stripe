@@ -8,13 +8,14 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#country_spec_object
  *
- * @link     https://stripe.com/docs/api/php#country_specs
- *
- * @property  \Arcanedev\Stripe\StripeObject|array  supported_bank_account_currencies
- * @property  array                                 supported_payment_currencies
- * @property  array                                 supported_payment_methods
- * @property  \Arcanedev\Stripe\StripeObject|array  verification_fields
+ * @property  string                          id
+ * @property  string                          object                             // 'country_spec'
+ * @property  \Arcanedev\Stripe\StripeObject  supported_bank_account_currencies
+ * @property  array                           supported_payment_currencies
+ * @property  array                           supported_payment_methods
+ * @property  \Arcanedev\Stripe\StripeObject  verification_fields
  */
 class CountrySpec extends StripeResource implements CountrySpecInterface
 {
@@ -23,8 +24,8 @@ class CountrySpec extends StripeResource implements CountrySpecInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * This is a special case because the country specs endpoint has an
-     *    underscore in it. The parent `className` function strips underscores.
+     * This is a special case because the country specs endpoint has an underscore in it.
+     * The parent `className` function strips underscores.
      *
      * @param  string  $class
      *
@@ -41,7 +42,6 @@ class CountrySpec extends StripeResource implements CountrySpecInterface
      */
     /**
      * Get the Country Spec for a given Country code.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_country_spec
      *
      * @param  string             $country
@@ -56,7 +56,6 @@ class CountrySpec extends StripeResource implements CountrySpecInterface
 
     /**
      * Lists all Country Specs.
-     *
      * @link   https://stripe.com/docs/api/php#list_country_specs
      *
      * @param  array|null         $params

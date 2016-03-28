@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  EventInterface
  *
@@ -16,7 +14,6 @@ interface EventInterface
      */
     /**
      * Retrieve an event.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_event
      *
      * @param  string             $id
@@ -28,13 +25,12 @@ interface EventInterface
 
     /**
      * List all events.
-     *
      * @link   https://stripe.com/docs/api/php#list_events
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 }

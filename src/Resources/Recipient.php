@@ -10,20 +10,21 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#recipient_object
  *
- * @property  string                            id
- * @property  string                            object            // "recipient"
- * @property  bool                              livemode
- * @property  int                               created
- * @property  string                            type
- * @property  Object                            active_account
- * @property  string                            description
- * @property  string                            email
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  string                            name
- * @property  \Arcanedev\Stripe\Collection      cards
- * @property  string                            default_card
+ * @deprecated since the end of 2015, use Connect (https://stripe.com/docs/connect) instead.
  *
- * @todo:     Update the properties.
+ * @property  string                                        id
+ * @property  string                                        object          // 'recipient'
+ * @property  \Arcanedev\Stripe\Bases\ExternalAccount|null  active_account
+ * @property  \Arcanedev\Stripe\Collection                  cards
+ * @property  int                                           created         // timestamp
+ * @property  string                                        default_card
+ * @property  string                                        description
+ * @property  string                                        email
+ * @property  bool                                          livemode
+ * @property  \Arcanedev\Stripe\AttachedObject              metadata
+ * @property  string|null                                   migrated_to
+ * @property  string                                        name
+ * @property  string                                        type            // 'individual' or 'corporation'
  */
 class Recipient extends StripeResource implements RecipientInterface
 {
@@ -44,7 +45,6 @@ class Recipient extends StripeResource implements RecipientInterface
      */
     /**
      * Retrieve a Recipient.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_recipient
      *
      * @param  string             $id
@@ -59,7 +59,6 @@ class Recipient extends StripeResource implements RecipientInterface
 
     /**
      * List all Recipients.
-     *
      * @link   https://stripe.com/docs/api/php#list_recipients
      *
      * @param  array|null         $params
@@ -73,8 +72,7 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * Create a New Recipient.
-     *
+     * Create a new Recipient.
      * @link   https://stripe.com/docs/api/php#create_recipient
      *
      * @param  array|null         $params
@@ -88,8 +86,7 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
-     * Update/Save a recipient.
-     *
+     * Update/Save a Recipient.
      * @link   https://stripe.com/docs/api/php#update_recipient
      *
      * @param  array|string|null  $options
@@ -103,7 +100,6 @@ class Recipient extends StripeResource implements RecipientInterface
 
     /**
      * Delete a Recipient.
-     *
      * @link   https://stripe.com/docs/api/php#delete_recipient
      *
      * @param  array|null         $params
@@ -121,7 +117,7 @@ class Recipient extends StripeResource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List all recipient's Transfers.
+     * List all Recipient's Transfers.
      *
      * @param  array  $params
      *

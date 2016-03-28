@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  RefundInterface
  *
@@ -27,20 +25,18 @@ interface RefundInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * List all refunds.
-     *
+     * List all Refunds.
      * @link   https://stripe.com/docs/api/php#list_refunds
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
      * Create a Refund.
-     *
      * @link   https://stripe.com/docs/api/php#create_refund
      *
      * @param  array|null         $params
@@ -52,7 +48,6 @@ interface RefundInterface
 
     /**
      * Update/Save a Refund.
-     *
      * @link   https://stripe.com/docs/api/php#update_refund
      *
      * @param  array|string|null  $options

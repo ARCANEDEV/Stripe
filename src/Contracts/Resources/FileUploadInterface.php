@@ -15,7 +15,8 @@ interface FileUploadInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a File.
+     * Retrieve a File Upload.
+     * @link   https://stripe.com/docs/api/php#retrieve_file_upload
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -25,7 +26,8 @@ interface FileUploadInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * Create/Upload a File.
+     * Create/Upload a File Upload.
+     * @link   https://stripe.com/docs/api/php#create_file_upload
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -36,6 +38,7 @@ interface FileUploadInterface
 
     /**
      * List all uploaded files.
+     * @link   https://stripe.com/docs/api/php#list_file_uploads
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

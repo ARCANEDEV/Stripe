@@ -135,85 +135,61 @@ class RecipientTest extends StripeTestCase
     /** @test */
     public function it_can_add_card_to_recipient()
     {
-        $token = Token::create([
-            "card" => [
-                "number"    => "4000056655665556",
-                "exp_month" => 5,
-                "exp_year"  => date('Y') + 3,
-                "cvc"       => "314"
-            ]
-        ]);
-
+        $token     = $this->createTestToken();
         $recipient = $this->createTestRecipient();
         $recipient->cards->create([
-            "card" => $token->id
+            'card' => $token->id
         ]);
         $recipient->save();
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
         $updatedCards       = $updatedRecipient->cards->all();
-        $this->assertEquals(1, count($updatedCards["data"]));
+        $this->assertCount(1, $updatedCards['data']);
 
     }
 
     /** @test */
     public function it_can_update_recipient_card()
     {
-        $token = Token::create([
-            "card" => [
-                "number"    => "4000056655665556",
-                "exp_month" => 5,
-                "exp_year"  => date('Y') + 3,
-                "cvc"       => "314"
-            ]
-        ]);
-
+        $token     = $this->createTestToken();
         $recipient = $this->createTestRecipient();
         $recipient->cards->create([
-            "card" => $token->id
+            'card' => $token->id
         ]);
         $recipient->save();
 
         $createdCards = $recipient->cards->all();
-        $this->assertEquals(1, count($createdCards["data"]));
+        $this->assertCount(1, $createdCards['data']);
 
         /** @var Card $card */
         $card       = $createdCards['data'][0];
-        $card->name = "Jane Austen";
+        $card->name = 'Jane Austen';
         $card->save();
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
         $updatedCards       = $updatedRecipient->cards->all();
-        $this->assertEquals("Jane Austen", $updatedCards["data"][0]->name);
+        $this->assertEquals('Jane Austen', $updatedCards['data'][0]->name);
     }
 
     /** @test */
     public function it_can_delete_recipient_card()
     {
-        $token = Token::create([
-            "card" => [
-                "number"    => "4000056655665556",
-                "exp_month" => 5,
-                "exp_year"  => date('Y') + 3,
-                "cvc"       => "314"
-            ]
-        ]);
-
-        $recipient      = $this->createTestRecipient();
-        $createdCard    = $recipient->cards->create(["card" => $token->id]);
+        $token       = $this->createTestToken();
+        $recipient   = $this->createTestRecipient();
+        $createdCard = $recipient->cards->create(['card' => $token->id]);
         $recipient->save();
 
-        $updatedRecipient   = Recipient::retrieve($recipient->id);
-        $updatedCards       = $updatedRecipient->cards->all();
-        $this->assertEquals(1, count($updatedCards["data"]));
+        $updatedRecipient = Recipient::retrieve($recipient->id);
+        $updatedCards     = $updatedRecipient->cards->all();
+        $this->assertCount(1, $updatedCards['data']);
 
         $deleteStatus = $updatedRecipient->cards->retrieve($createdCard->id)->delete();
         $this->assertTrue($deleteStatus->deleted);
         $updatedRecipient->save();
 
-        $postDeleteRecipient    = Recipient::retrieve($recipient->id);
-        $postDeleteCards        = $postDeleteRecipient->cards->all();
-        $this->assertEquals(0, count($postDeleteCards["data"]));
+        $postDeleteRecipient = Recipient::retrieve($recipient->id);
+        $postDeleteCards     = $postDeleteRecipient->cards->all();
+        $this->assertCount(0, $postDeleteCards['data']);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -228,5 +204,26 @@ class RecipientTest extends StripeTestCase
 
         $this->assertTrue($transfers->isList());
         $this->assertEquals('/v1/transfers', $transfers->url);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Create token.
+     *
+     * @return \Arcanedev\Stripe\Resources\Token|array
+     */
+    private function createTestToken()
+    {
+        return Token::create([
+            'card' => [
+                'number'    => '4000056655665556',
+                'exp_month' => 5,
+                'exp_year'  => date('Y') + 3,
+                'cvc'       => '314'
+            ],
+        ]);
     }
 }

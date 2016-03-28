@@ -19,9 +19,9 @@ class InvalidRequestErrorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
-     * @expectedExceptionCode    404
-     * @expectedExceptionMessage No such customer: invalid
+     * @expectedException         \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode     404
+     * @expectedExceptionMessage  No such customer: invalid
      */
     public function it_must_throw_invalid_request_exception_on_invalid_params()
     {
@@ -31,9 +31,9 @@ class InvalidRequestErrorTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
-     * @expectedExceptionCode    400
-     * @expectedExceptionMessage Must provide source or customer.
+     * @expectedException         \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionCode     400
+     * @expectedExceptionMessage  Must provide source or customer.
      */
     public function it_must_throw_invalid_request_exception_on_bad_data()
     {

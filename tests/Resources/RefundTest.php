@@ -16,7 +16,7 @@ class RefundTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Refund */
+    /** @var \Arcanedev\Stripe\Resources\Refund */
     private $refund;
 
     /* ------------------------------------------------------------------------------------------------
@@ -71,12 +71,8 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_create()
     {
-        $charge = self::createTestCharge();
-
-        $this->refund = Refund::create([
-            'amount' => 100,
-            'charge' => $charge->id
-        ]);
+        $charge       = self::createTestCharge();
+        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
 
         $this->assertEquals(100, $this->refund->amount);
         $this->assertEquals($charge->id, $this->refund->charge);
@@ -86,10 +82,7 @@ class RefundTest extends StripeTestCase
     public function it_can_update_and_retrieve()
     {
         $charge       = self::createTestCharge();
-        $this->refund = Refund::create([
-            'amount' => 100,
-            'charge' => $charge->id
-        ]);
+        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
 
         $this->refund->metadata['key'] = 'value';
         $this->refund->save();
@@ -101,23 +94,17 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_list_all_for_charge()
     {
-        $charge = self::createTestCharge();
-        $refA   = Refund::create([
-            'amount' => 100,
-            'charge' => $charge->id
-        ]);
-        $refB   = Refund::create([
-            'amount' => 50,
-            'charge' => $charge->id
-        ]);
-        $all    = Refund::all([
-            'charge' => $charge
-        ]);
+        $charge  = self::createTestCharge();
+        $refundA = Refund::create(['charge' => $charge->id, 'amount' => 100]);
+        $refundB = Refund::create(['charge' => $charge->id, 'amount' => 50]);
+        $all     = Refund::all(['charge' => $charge]);
 
         $this->assertFalse($all['has_more']);
-        $this->assertEquals(2, count($all->data));
-        $this->assertEquals($refB->id, $all->data[0]->id);
-        $this->assertEquals($refA->id, $all->data[1]->id);
+        $this->assertCount(2, $all->data);
+        $this->assertEquals($all->data[0]->id,     $refundB->id);
+        $this->assertEquals($all->data[0]->amount, $refundB->amount);
+        $this->assertEquals($all->data[1]->id,     $refundA->id);
+        $this->assertEquals($all->data[1]->amount, $refundA->amount);
     }
 
     /** @test */
@@ -141,7 +128,7 @@ class RefundTest extends StripeTestCase
             'source'      => $receiver->id
         ]);
 
-        $this->refund   = Refund::create([
+        $this->refund = Refund::create([
             'amount'         => $receiver->amount,
             'refund_address' => 'ABCDEF',
             'charge'         => $charge->id
@@ -158,9 +145,7 @@ class RefundTest extends StripeTestCase
     public function it_can_create_via_charge()
     {
         $charge       = self::createTestCharge();
-        $this->refund = $charge->refunds->create([
-            'amount' => 100
-        ]);
+        $this->refund = $charge->refunds->create(['amount' => 100]);
 
         $this->assertEquals(100, $this->refund->amount);
         $this->assertEquals($charge->id, $this->refund->charge);
@@ -170,9 +155,7 @@ class RefundTest extends StripeTestCase
     public function it_can_update_and_retrieve_via_charge()
     {
         $charge       = self::createTestCharge();
-        $this->refund = $charge->refunds->create([
-            'amount' => 100
-        ]);
+        $this->refund = $charge->refunds->create(['amount' => 100]);
         $this->refund->metadata['key'] = 'value';
         $this->refund->save();
 
@@ -184,19 +167,17 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_list_all_via_charge()
     {
-        $charge = self::createTestCharge();
-        $refA   = $charge->refunds->create([
-            'amount' => 50
-        ]);
-        $refB   = $charge->refunds->create([
-            'amount' => 50
-        ]);
-        $all    = $charge->refunds->all();
+        $charge  = self::createTestCharge();
+        $refundA = $charge->refunds->create(['amount' => 50]);
+        $refundB = $charge->refunds->create(['amount' => 50]);
+        $all     = $charge->refunds->all();
 
         $this->assertFalse($all['has_more']);
-        $this->assertEquals(2, count($all->data));
-        $this->assertEquals($refB->id, $all->data[0]->id);
-        $this->assertEquals($refA->id, $all->data[1]->id);
+        $this->assertCount(2, $all->data);
+        $this->assertEquals($all->data[0]->id,     $refundB->id);
+        $this->assertEquals($all->data[0]->amount, $refundB->amount);
+        $this->assertEquals($all->data[1]->id,     $refundA->id);
+        $this->assertEquals($all->data[1]->amount, $refundA->amount);
     }
 
     /** @test */
@@ -210,12 +191,13 @@ class RefundTest extends StripeTestCase
             'source'      => $receiver->id
         ]);
 
-        $ref      = $charge->refunds->create([
+        /** @var \Arcanedev\Stripe\Resources\Refund $refund */
+        $refund   = $charge->refunds->create([
             'amount'         => $receiver->amount,
             'refund_address' => 'ABCDEF'
         ]);
 
-        $this->assertEquals($receiver->amount, $ref->amount);
-        $this->assertNotNull($ref->id);
+        $this->assertEquals($receiver->amount, $refund->amount);
+        $this->assertNotNull($refund->id);
     }
 }

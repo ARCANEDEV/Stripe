@@ -19,17 +19,15 @@ class HelpersTest extends TestCase
 
         $this->assertEquals($baseUrl, str_parse_url($baseUrl));
         $this->assertEquals($baseUrl, str_parse_url($baseUrl, []));
-
-        $url = str_parse_url($baseUrl, [
-            'my'    => 'value',
-            'that'  => [
-                'your' => 'example'
-            ],
-            'bar'   => 1,
-            'baz'   => null
-        ]);
-
-        $this->assertEquals($baseUrl . '?my=value&that%5Byour%5D=example&bar=1', $url);
+        $this->assertEquals(
+            $baseUrl . '?my=value&that%5Byour%5D=example&bar=1',
+            str_parse_url($baseUrl, [
+                'my'   => 'value',
+                'that' => ['your' => 'example'],
+                'bar'  => 1,
+                'baz'  => null,
+            ])
+        );
     }
 
     /** @test */
@@ -40,12 +38,10 @@ class HelpersTest extends TestCase
         $this->assertEquals(
             'my=value&that%5Byour%5D=example&bar=1',
             str_url_queries([
-                'my'    => 'value',
-                'that'  => [
-                    'your' => 'example'
-                ],
-                'bar'   => 1,
-                'baz'   => null
+                'my'   => 'value',
+                'that' => ['your' => 'example'],
+                'bar'  => 1,
+                'baz'  => null,
             ])
         );
 
@@ -64,9 +60,7 @@ class HelpersTest extends TestCase
             str_url_queries([
                 [
                     'that' => 'example',
-                    'foo' => [
-                        'bar', 'baz'
-                    ]
+                    'foo'  => ['bar', 'baz'],
                 ]
             ])
         );
@@ -76,10 +70,10 @@ class HelpersTest extends TestCase
             str_url_queries([
                 'my' => 'value',
                 'that' => [
-                    'your' => ['cheese', 'whiz', null]
+                    'your' => ['cheese', 'whiz', null],
                 ],
                 'bar' => 1,
-                'baz' => null
+                'baz' => null,
             ])
         );
     }
@@ -115,9 +109,7 @@ class HelpersTest extends TestCase
         $this->assertTrue(is_multi_dim_array([
             'foo' => 'foo',
             'bar' => 'bar',
-            'baz' => [
-                'hello' => 'world'
-            ],
+            'baz' => ['hello' => 'world'],
         ]));
     }
 

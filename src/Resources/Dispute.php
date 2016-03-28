@@ -11,21 +11,19 @@ use Arcanedev\Stripe\StripeResource;
  * @link     https://stripe.com/docs/api/php#dispute_object
  *
  * @property  string                                       id
- * @property  string                                       object // "dispute"
- * @property  bool                                         livemode
+ * @property  string                                       object                // "dispute"
  * @property  int                                          amount
+ * @property  array                                        balance_transactions
  * @property  string                                       charge
- * @property  int                                          created
+ * @property  int                                          created               // timestamp
  * @property  string                                       currency
+ * @property  \Arcanedev\Stripe\AttachedObject             evidence
+ * @property  \Arcanedev\Stripe\StripeObject               evidence_details
+ * @property  bool                                         is_charge_refundable
+ * @property  bool                                         livemode
+ * @property  \Arcanedev\Stripe\AttachedObject             metadata
  * @property  string                                       reason
  * @property  string                                       status
- * @property  array                                        balance_transactions
- * @property  \Arcanedev\Stripe\Resources\DisputeEvidence  evidence
- * @property  array|null                                   evidence_details
- * @property  bool                                         is_charge_refundable
- * @property  \Arcanedev\Stripe\AttachedObject             metadata
- *
- * @todo:    Update the properties.
  */
 class Dispute extends StripeResource implements DisputeInterface
 {
@@ -34,7 +32,8 @@ class Dispute extends StripeResource implements DisputeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get a dispute by id.
+     * Get a Dispute by id.
+     * @link   https://stripe.com/docs/api/php#retrieve_dispute
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -47,7 +46,8 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Get all disputes.
+     * Get all Disputes.
+     * @link   https://stripe.com/docs/api/php#list_disputes
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -60,7 +60,8 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Save dispute.
+     * Save a Dispute.
+     * @link   https://stripe.com/docs/api/php#update_dispute
      *
      * @param  array|string|null  $options
      *
@@ -72,7 +73,8 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Close dispute.
+     * Close a Dispute.
+     * @link   https://stripe.com/docs/api/php#close_dispute
      *
      * @param  array|string|null  $options
      *

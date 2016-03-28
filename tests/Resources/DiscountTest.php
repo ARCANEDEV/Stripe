@@ -19,22 +19,24 @@ class DiscountTest extends StripeTestCase
     /** @test */
     public function it_can_delete()
     {
-        $id = 'test-coupon-' . self::generateRandomString(20);
+        $couponId = 'test-coupon-' . self::generateRandomString(20);
 
         Coupon::create([
-            'id'                 => $id,
+            'id'                 => $couponId,
             'percent_off'        => 25,
             'duration'           => 'repeating',
             'duration_in_months' => 5,
         ]);
 
         $customer = self::createTestCustomer([
-            'coupon' => $id
+            'coupon' => $couponId
         ]);
 
         $this->assertNotNull($customer->discount);
+        $this->assertInstanceOf('Arcanedev\Stripe\Resources\Discount', $customer->discount);
         $this->assertNotNull($customer->discount->coupon);
-        $this->assertEquals($id, $customer->discount->coupon->id);
+        $this->assertInstanceOf('Arcanedev\Stripe\Resources\Coupon', $customer->discount->coupon);
+        $this->assertEquals($couponId, $customer->discount->coupon->id);
 
         $customer->deleteDiscount();
 

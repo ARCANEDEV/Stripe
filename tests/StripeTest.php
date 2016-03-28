@@ -28,6 +28,7 @@ class StripeTest extends StripeTestCase
         $this->assertEquals(self::API_KEY, Stripe::getApiKey());
 
         Stripe::setApiKey($this->myApiKey);
+
         $this->assertEquals($this->myApiKey, Stripe::getApiKey());
     }
 
@@ -106,10 +107,12 @@ class StripeTest extends StripeTestCase
     public function it_can_get_and_set_upload_base_url()
     {
         $url = 'https://uploads.stripe.com';
+
         $this->assertEquals($url, Stripe::getUploadBaseUrl());
 
         $url .= '/v2';
         Stripe::setUploadBaseUrl($url);
+
         $this->assertEquals($url, Stripe::getUploadBaseUrl());
     }
 
@@ -147,6 +150,7 @@ class StripeTest extends StripeTestCase
         $this->assertEquals($this->myApiVersion, Stripe::version());
 
         Stripe::setApiVersion(null);
+
         $this->assertNull(Stripe::version());
     }
 
@@ -178,9 +182,11 @@ class StripeTest extends StripeTestCase
         $this->assertTrue(Stripe::getVerifySslCerts());
 
         Stripe::setVerifySslCerts(false);
+
         $this->assertFalse(Stripe::getVerifySslCerts());
 
         Stripe::setVerifySslCerts('on');
+
         $this->assertTrue(Stripe::getVerifySslCerts());
     }
 }

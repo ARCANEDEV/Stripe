@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
 use Arcanedev\Stripe\StripeResource;
 
@@ -11,20 +10,32 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#account_object
  *
- * @property  null    id
- * @property  string  object
- * @property  bool    charges_enabled
- * @property  string  country
- * @property  array   currencies_supported
- * @property  string  default_currency
- * @property  bool    details_submitted
- * @property  bool    transfers_enabled
- * @property  string  display_name
- * @property  string  email
- * @property  string  statement_descriptor
- * @property  string  timezone
- *
- * @todo:     Update the properties.
+ * @property  null                              id
+ * @property  string                            object                   // "account"
+ * @property  string|null                       business_logo
+ * @property  string                            business_name
+ * @property  string|null                       business_url
+ * @property  bool                              charges_enabled
+ * @property  string                            country
+ * @property  bool                              debit_negative_balances  // managed accounts only
+ * @property  \Arcanedev\Stripe\StripeObject    decline_charge_on
+ * @property  string                            default_currency
+ * @property  bool                              details_submitted
+ * @property  string                            display_name
+ * @property  string                            email
+ * @property  \Arcanedev\Stripe\Collection      external_accounts        // managed accounts only
+ * @property  \Arcanedev\Stripe\AttachedObject  legal_entity             // managed accounts only
+ * @property  bool                              managed
+ * @property  string|null                       product_description      // managed accounts only
+ * @property  string|null                       statement_descriptor
+ * @property  string|null                       support_email
+ * @property  string|null                       support_phone
+ * @property  string|null                       support_url
+ * @property  string                            timezone
+ * @property  \Arcanedev\Stripe\AttachedObject  tos_acceptance           // managed accounts only
+ * @property  \Arcanedev\Stripe\AttachedObject  transfer_schedule        // managed accounts only
+ * @property  bool                              transfers_enabled
+ * @property  \Arcanedev\Stripe\AttachedObject  verification
  */
 class Account extends StripeResource implements AccountInterface
 {
@@ -39,11 +50,7 @@ class Account extends StripeResource implements AccountInterface
      */
     public function instanceUrl()
     {
-        if (is_null($this['id'])) {
-            return '/v1/account';
-        }
-
-        return parent::instanceUrl();
+        return is_null($this['id']) ? '/v1/account' : parent::instanceUrl();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -77,6 +84,8 @@ class Account extends StripeResource implements AccountInterface
     /**
      * Create an account.
      *
+     * @link   https://stripe.com/docs/api/php#create_account
+     *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
@@ -90,6 +99,8 @@ class Account extends StripeResource implements AccountInterface
     /**
      * Save an account.
      *
+     * @link   https://stripe.com/docs/api/php#update_account
+     *
      * @param  array|string|null  $options
      *
      * @return self
@@ -102,10 +113,12 @@ class Account extends StripeResource implements AccountInterface
     /**
      * Get all accounts.
      *
+     * @link   https://stripe.com/docs/api/php#list_accounts
+     *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null)
     {
@@ -114,6 +127,8 @@ class Account extends StripeResource implements AccountInterface
 
     /**
      * Delete an account.
+     *
+     * @link   https://stripe.com/docs/api/php#delete_account
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -128,6 +143,8 @@ class Account extends StripeResource implements AccountInterface
     /**
      * Reject an account.
      *
+     * @link   https://stripe.com/docs/api/php#reject_account
+     *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
@@ -135,8 +152,6 @@ class Account extends StripeResource implements AccountInterface
      */
     public function reject($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/reject';
-
-        return $this->scopedPostCall($url, $params, $options);
+        return $this->scopedPostCall($this->instanceUrl() . '/reject', $params, $options);
     }
 }

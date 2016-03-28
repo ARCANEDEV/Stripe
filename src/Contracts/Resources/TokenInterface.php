@@ -14,8 +14,7 @@ interface TokenInterface
      */
     /**
      * Retrieve a Token.
-     *
-     * @link   https://stripe.com/docs/api/curl#retrieve_token
+     * @link   https://stripe.com/docs/api/php#retrieve_token
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -25,9 +24,9 @@ interface TokenInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * Create a Card Token.
-     *
-     * @link   https://stripe.com/docs/api/curl#create_card_token
+     * Create a Token.
+     * @link   https://stripe.com/docs/api/php#create_card_token
+     * @link   https://stripe.com/docs/api/php#create_bank_account_token
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

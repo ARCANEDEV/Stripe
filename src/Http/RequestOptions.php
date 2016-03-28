@@ -60,7 +60,9 @@ class RequestOptions implements RequestOptionsInterface
      */
     public function setApiKey($apiKey)
     {
-        $this->apiKey  = trim($apiKey);
+        if ( ! is_null($apiKey)) {
+            $this->apiKey = trim($apiKey);
+        }
 
         return $this;
     }
@@ -104,9 +106,8 @@ class RequestOptions implements RequestOptionsInterface
     {
         $otherOptions = self::parse($options);
 
-        if ($otherOptions->apiKey === null) {
+        if (is_null($otherOptions->apiKey))
             $otherOptions->apiKey = $this->apiKey;
-        }
 
         $otherOptions->headers = array_merge($this->headers, $otherOptions->headers);
 
@@ -124,9 +125,7 @@ class RequestOptions implements RequestOptionsInterface
     {
         self::checkOptions($options);
 
-        if ($options instanceof self) {
-            return $options;
-        }
+        if ($options instanceof self) return $options;
 
         if (is_null($options) || is_string($options)) {
             return new self($options, []);
@@ -134,7 +133,7 @@ class RequestOptions implements RequestOptionsInterface
 
         // $options is array
         $key     = null;
-        if (array_key_exists('api_key', $options)) {
+        if (isset($options['api_key'])) {
             $key = $options['api_key'];
         }
 
@@ -153,17 +152,15 @@ class RequestOptions implements RequestOptionsInterface
     private static function prepareHeaders($options = [])
     {
         $headers = [];
+        $keys    = [
+            'idempotency_key' => 'Idempotency-Key',
+            'stripe_account'  => 'Stripe-Account',
+            'stripe_version'  => 'Stripe-Version',
+        ];
 
-        if (array_key_exists('idempotency_key', $options)) {
-            $headers['Idempotency-Key'] = $options['idempotency_key'];
-        }
-
-        if (array_key_exists('stripe_account', $options)) {
-            $headers['Stripe-Account'] = $options['stripe_account'];
-        }
-
-        if (array_key_exists('stripe_version', $options)) {
-            $headers['Stripe-Version'] = $options['stripe_version'];
+        foreach ($keys as $keyFrom => $keyTo) {
+            if (isset($options[$keyFrom]))
+                $headers[$keyTo] = $options[$keyFrom];
         }
 
         return $headers;

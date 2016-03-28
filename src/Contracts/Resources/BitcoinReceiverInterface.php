@@ -1,8 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Resources\BitcoinReceiver;
-
 /**
  * Interface  BitcoinReceiverInterface
  *
@@ -31,6 +28,7 @@ interface BitcoinReceiverInterface
      */
     /**
      * Retrieve Bitcoin Receiver.
+     * @link   https://stripe.com/docs/api/php#retrieve_bitcoin_receiver
      *
      * @param  string       $id
      * @param  string|null  $options
@@ -41,16 +39,18 @@ interface BitcoinReceiverInterface
 
     /**
      * List all Bitcoin Receivers.
+     * @link   https://stripe.com/docs/api/php#list_bitcoin_receivers
      *
      * @param  array|null   $params
      * @param  string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
      * Create Bitcoin Receiver Object.
+     * @link  https://stripe.com/docs/api/php#create_bitcoin_receiver
      *
      * @param  array|null   $params
      * @param  string|null  $options
@@ -64,7 +64,7 @@ interface BitcoinReceiverInterface
      *
      * @param  array|string|null  $options
      *
-     * @return BitcoinReceiver
+     * @return self
      */
     public function save($options = null);
 
@@ -74,7 +74,7 @@ interface BitcoinReceiverInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return BitcoinReceiver
+     * @return self
      */
     public function refund($params = null, $options = null);
 }

@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  AccountInterface
  *
@@ -16,6 +14,7 @@ interface AccountInterface
      */
     /**
      * Retrieve an account.
+     *
      * @link   https://stripe.com/docs/api/php#retrieve_account
      *
      * @param  string|null  $apiKey
@@ -27,6 +26,8 @@ interface AccountInterface
     /**
      * Create an account.
      *
+     * @link   https://stripe.com/docs/api/php#create_account
+     *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
@@ -37,6 +38,8 @@ interface AccountInterface
     /**
      * Save an account.
      *
+     * @link   https://stripe.com/docs/api/php#update_account
+     *
      * @param  array|string|null  $options
      *
      * @return self
@@ -46,15 +49,19 @@ interface AccountInterface
     /**
      * Get all accounts.
      *
+     * @link   https://stripe.com/docs/api/php#list_accounts
+     *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
      * Delete an account.
+     *
+     * @link   https://stripe.com/docs/api/php#delete_account
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -65,6 +72,8 @@ interface AccountInterface
 
     /**
      * Reject an account.
+     *
+     * @link   https://stripe.com/docs/api/php#reject_account
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

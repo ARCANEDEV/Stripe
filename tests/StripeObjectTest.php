@@ -17,13 +17,6 @@ class StripeObjectTest extends StripeTestCase
     const OBJECT_CLASS = 'Arcanedev\\Stripe\\StripeObject';
 
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    /** @var Object */
-    protected $object;
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -67,32 +60,38 @@ class StripeObjectTest extends StripeTestCase
     /** @test */
     public function it_can_access_object_like_array()
     {
-        $s          = new StripeObject;
-        $s['foo']   = 'a';
-        $this->assertEquals('a', $s['foo']);
-        $this->assertTrue(isset($s['foo']));
+        $object        = new StripeObject;
+        $object['foo'] = 'a';
 
-        unset($s['foo']);
-        $this->assertFalse(isset($s['foo']));
+        $this->assertArrayHasKey('foo', $object);
+        $this->assertEquals('a', $object['foo']);
+
+        unset($object['foo']);
+
+        $this->assertArrayNotHasKey('foo', $object);
     }
 
     /** @test */
     public function it_can_access_with_normal_accessors()
     {
-        $s      = new StripeObject;
-        $s->foo = 'a';
-        $this->assertEquals('a', $s->foo);
-        $this->assertTrue(isset($s->foo));
-        unset($s->foo);
-        $this->assertFalse(isset($s->foo));
+        $object      = new StripeObject;
+        $object->foo = 'a';
+
+        $this->assertNotNull(isset($object->foo));
+        $this->assertEquals('a', $object->foo);
+
+        unset($object->foo);
+
+        $this->assertNull($object->foo);
     }
 
     /** @test */
     public function it_can_get_values_keys()
     {
-        $s      = new StripeObject;
-        $s->foo = 'a';
-        $this->assertEquals(['foo'], $s->keys());
+        $object      = new StripeObject;
+        $object->foo = 'a';
+
+        $this->assertEquals(['foo'], $object->keys());
     }
 
     /** @test */
@@ -110,6 +109,7 @@ class StripeObjectTest extends StripeTestCase
     public function it_can_convert_object_to_string()
     {
         $object = new StripeObject('foo');
+
         $this->assertEquals(
             "Arcanedev\\Stripe\\StripeObject JSON: {\n    \"id\": \"foo\"\n}",
             (string) $object
@@ -156,7 +156,8 @@ class StripeObjectTest extends StripeTestCase
         $object      = new StripeObject;
         $object->foo = 'a';
 
-        $this->assertEquals('{"foo":"a"}', json_encode($object));
+        $this->assertJson($json = json_encode($object));
+        $this->assertEquals('{"foo":"a"}', $json);
     }
 
     /** @test */
@@ -165,9 +166,11 @@ class StripeObjectTest extends StripeTestCase
         $object = new StripeObject;
 
         $object->metadata = ['foo'];
+
         $this->assertEquals(['foo'], $object->metadata);
 
         $object->metadata = ['bar', 'baz'];
+
         $this->assertEquals(['bar', 'baz'], $object->metadata);
     }
 
@@ -178,7 +181,7 @@ class StripeObjectTest extends StripeTestCase
     /**
      * Get StripeObject Method
      *
-     * @param string $method
+     * @param  string  $method
      *
      * @return \ReflectionMethod
      */

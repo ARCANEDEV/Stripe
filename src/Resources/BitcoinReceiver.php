@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Bases\ExternalAccount;
-use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
 
 /**
@@ -9,31 +8,30 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
  * @link     https://stripe.com/docs/api/php#bitcoin_receivers
  *
  * @property  string                            id
  * @property  string                            object
- * @property  int                               created
- * @property  bool                              livemode
  * @property  bool                              active
  * @property  int                               amount
  * @property  int                               amount_received
  * @property  int                               bitcoin_amount
  * @property  int                               bitcoin_amount_received
  * @property  string                            bitcoin_uri
+ * @property  int                               created
  * @property  string                            currency
- * @property  bool                              filled
- * @property  string                            inbound_address
- * @property  bool                              uncaptured_funds
+ * @property  Customer                          customer
  * @property  string                            description
  * @property  string                            email
+ * @property  bool                              filled
+ * @property  string                            inbound_address
+ * @property  bool                              livemode
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  string                            refund_address
- * @property  bool                              used_for_payment
- * @property  Customer                          customer
  * @property  string                            payment
- * @property  Collection                        transactions
+ * @property  string                            refund_address
+ * @property  \Arcanedev\Stripe\Collection      transactions
+ * @property  bool                              uncaptured_funds
+ * @property  bool                              used_for_payment
  */
 class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterface
 {
@@ -47,23 +45,21 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      */
     public function instanceUrl()
     {
-        $result = parent::instanceUrl();
-
-        if ($result === null) {
-            $extn   = urlencode(str_utf8($this['id']));
-            $base   = self::classUrl();
-
-            $result = "$base/$extn";
+        if ( ! is_null($result = parent::instanceUrl())) {
+            return $result;
         }
 
-        return $result;
+        $base   = self::classUrl();
+        $extn   = urlencode(str_utf8($this['id']));
+
+        return "$base/$extn";
     }
 
     /**
      * The class URL for this resource.
-     * It needs to be special cased because it doesn't fit into the standard resource pattern.
+     * It needs to be special cased because it does not fit into the standard resource pattern.
      *
-     * @param  string $class Ignored.
+     * @param  string  $class
      *
      * @return string
      */
@@ -77,7 +73,8 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve Bitcoin Receiver
+     * Retrieve Bitcoin Receiver.
+     * @link   https://stripe.com/docs/api/php#retrieve_bitcoin_receiver
      *
      * @param  string       $id
      * @param  string|null  $options
@@ -90,12 +87,13 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
     }
 
     /**
-     * List all Bitcoin Receivers
+     * List all Bitcoin Receivers.
+     * @link   https://stripe.com/docs/api/php#list_bitcoin_receivers
      *
      * @param  array|null   $params
      * @param  string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -103,7 +101,8 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
     }
 
     /**
-     * Create Bitcoin Receiver Object
+     * Create Bitcoin Receiver Object.
+     * @link   https://stripe.com/docs/api/php#create_bitcoin_receiver
      *
      * @param  array|null   $params
      * @param  string|null  $options
@@ -125,8 +124,9 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      */
     public function refund($params = null, $options = null)
     {
-        $url                   = $this->instanceUrl() . '/refund';
-        list($response, $opts) = $this->request('post', $url, $params, $options);
+        list($response, $opts) = $this->request(
+            'post', $this->instanceUrl() . '/refund', $params, $options
+        );
 
         $this->refreshFrom($response, $opts);
 

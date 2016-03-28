@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Resources\Account;
 use Arcanedev\Stripe\Resources\BitcoinReceiver;
@@ -12,7 +13,6 @@ use Arcanedev\Stripe\Resources\Plan;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Transfer;
 use Arcanedev\Stripe\Stripe;
-use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -63,9 +63,7 @@ abstract class StripeTestCase extends TestCase
     {
         $apiKey = getenv('STRIPE_API_KEY');
 
-        if ( ! $apiKey) {
-            $apiKey = self::API_KEY;
-        }
+        if (is_null($apiKey)) $apiKey = self::API_KEY;
 
         Stripe::setApiKey($apiKey);
         $this->myApiVersion = Stripe::VERSION;
@@ -131,10 +129,10 @@ abstract class StripeTestCase extends TestCase
     protected static function createTestCharge(array $attributes = [])
     {
         return Charge::create($attributes + [
-            'amount'        => 2000,
-            'currency'      => 'usd',
-            'description'   => 'Charge for test@example.com',
-            'card'          => static::getValidCardData(),
+            'amount'      => 2000,
+            'currency'    => 'usd',
+            'description' => 'Charge for test@example.com',
+            'card'        => static::getValidCardData(),
         ]);
     }
 
@@ -161,13 +159,11 @@ abstract class StripeTestCase extends TestCase
      */
     protected static function createTestAccount(array $attributes = [])
     {
-        return Account::create(
-            $attributes + [
-                'managed' => false,
-                'country' => 'US',
-                'email'   => self::generateRandomEmail(),
-            ]
-        );
+        return Account::create($attributes + [
+            'managed' => false,
+            'country' => 'US',
+            'email'   => self::generateRandomEmail(),
+        ]);
     }
 
     /**
@@ -180,13 +176,13 @@ abstract class StripeTestCase extends TestCase
     protected static function createTestRecipient(array $attributes = [])
     {
         return Recipient::create($attributes + [
-            'name'          => 'PHP Test',
-            'type'          => 'individual',
-            'tax_id'        => '000000000',
-            'bank_account'  => [
-                'country'           => 'US',
-                'routing_number'    => '110000000',
-                'account_number'    => '000123456789'
+            'name'         => 'PHP Test',
+            'type'         => 'individual',
+            'tax_id'       => '000000000',
+            'bank_account' => [
+                'country'        => 'US',
+                'routing_number' => '110000000',
+                'account_number' => '000123456789'
             ],
         ]);
     }
@@ -261,16 +257,12 @@ abstract class StripeTestCase extends TestCase
      */
     protected static function createTestTransfer(array $attributes = [])
     {
-        $recipient = self::createTestRecipient();
-
-        return Transfer::create(
-            $attributes + [
-                'amount'      => 2000,
-                'currency'    => 'usd',
-                'description' => 'Transfer to test@example.com',
-                'recipient'   => $recipient->id
-            ]
-        );
+        return Transfer::create($attributes + [
+            'amount'      => 100,
+            'currency'    => 'usd',
+            'description' => 'Transfer to test@example.com',
+            'recipient'   => self::createTestRecipient()->id
+        ]);
     }
 
     /**
@@ -288,9 +280,7 @@ abstract class StripeTestCase extends TestCase
             'exp_year'  => date('Y') + 1,
         ];
 
-        if ($cvc !== null) {
-            $card['cvc'] = $cvc;
-        }
+        if ( ! is_null($cvc)) $card['cvc'] = $cvc;
 
         return $card;
     }

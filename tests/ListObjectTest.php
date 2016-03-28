@@ -14,7 +14,7 @@ class ListObjectTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Collection */
+    /** @var  \Arcanedev\Stripe\Collection  */
     private $collection;
 
     /* ------------------------------------------------------------------------------------------------

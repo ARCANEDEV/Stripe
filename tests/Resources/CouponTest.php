@@ -58,35 +58,25 @@ class CouponTest extends StripeTestCase
     /** @test */
     public function it_can_create_and_save()
     {
-        $couponId   = $this->getCouponId();
-        $coupon     = Coupon::create([
-            'id'                    => $couponId,
-            'percent_off'           => 25,
-            'duration'              => 'repeating',
-            'duration_in_months'    => 5,
-        ]);
+        $couponId     = $this->getCouponId();
+        $this->coupon = $this->createTestCoupon($couponId);
 
-        $this->assertEquals($couponId, $coupon->id);
-        $this->assertEquals(25, $coupon->percent_off);
+        $this->assertEquals($couponId, $this->coupon->id);
+        $this->assertEquals(25,        $this->coupon->percent_off);
 
-        $coupon->metadata['foo'] = 'bar';
-        $coupon->save();
+        $this->coupon->metadata['foo'] = 'bar';
+        $this->coupon->save();
 
         $stripeCoupon = Coupon::retrieve($couponId);
-        $this->assertEquals($coupon->metadata, $stripeCoupon->metadata);
+        $this->assertEquals($stripeCoupon->metadata, $this->coupon->metadata);
     }
 
     /** @test */
     public function it_can_delete()
     {
         $couponId     = $this->getCouponId();
-        $this->coupon = Coupon::create([
-            'id'                    => $couponId,
-            'percent_off'           => 25,
-            'duration'              => 'repeating',
-            'duration_in_months'    => 5,
-        ]);
-        $customer = self::createTestCustomer([
+        $this->coupon = $this->createTestCoupon($couponId);
+        $customer     = self::createTestCustomer([
             'coupon' => $couponId
         ]);
 
@@ -106,10 +96,30 @@ class CouponTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Create a random coupon id.
+     *
      * @return string
      */
-    private function getCouponId()
+    protected function getCouponId()
     {
         return 'test_coupon-' . self::generateRandomString(20);
+    }
+
+    /**
+     * Create a dummy coupon.
+     *
+     * @param  string  $couponId
+     * @param  array   $params
+     *
+     * @return \Arcanedev\Stripe\Resources\Coupon|array
+     */
+    protected function createTestCoupon($couponId, array $params = [])
+    {
+        return Coupon::create(array_merge([
+            'id'                 => $couponId,
+            'percent_off'        => 25,
+            'duration'           => 'repeating',
+            'duration_in_months' => 5,
+        ], $params));
     }
 }

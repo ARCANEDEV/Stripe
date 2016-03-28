@@ -63,9 +63,7 @@ class EventTest extends StripeTestCase
     {
         $events = Event::all();
 
-        if (count($events->data) == 0) {
-            return ;
-        }
+        if (count($events->data) == 0) return;
 
         $eventId = $events->data[0]->id;
 

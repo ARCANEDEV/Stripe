@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  PlanInterface
  *
@@ -16,7 +14,6 @@ interface PlanInterface
      */
     /**
      * Retrieve a Plan.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_plan
      *
      * @param  string             $id
@@ -28,19 +25,17 @@ interface PlanInterface
 
     /**
      * List all Plans.
-     *
      * @link   https://stripe.com/docs/api/php#list_plans
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Create a plan.
-     *
+     * Create a Plan.
      * @link   https://stripe.com/docs/api/php#create_plan
      *
      * @param  array|null         $params
@@ -51,8 +46,7 @@ interface PlanInterface
     public static function create($params = [], $options = null);
 
     /**
-     * Update/Save a plan.
-     *
+     * Update/Save a Plan.
      * @link   https://stripe.com/docs/api/php#update_plan
      *
      * @param  array|string|null  $options

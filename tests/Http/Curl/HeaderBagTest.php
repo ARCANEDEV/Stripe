@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
+use Arcanedev\Stripe\Http\Curl\HeaderBag;
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Http\Curl\HeaderBag;
 
 /**
  * Class     HeaderBagTest
@@ -16,7 +16,7 @@ class HeaderBagTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var HeaderBag */
+    /** @var \Arcanedev\Stripe\Http\Curl\HeaderBag */
     private $headerBag;
 
     /* ------------------------------------------------------------------------------------------------
@@ -57,19 +57,19 @@ class HeaderBagTest extends StripeTestCase
     {
         $headers = $this->headerBag->make($this->myApiKey);
 
-        $this->assertEquals(4, count($headers));
-        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/' . $this->myApiVersion, $headers[1]);
-        $this->assertEquals('Authorization: Bearer ' . $this->myApiKey,                 $headers[2]);
-        $this->assertEquals('Content-Type: application/x-www-form-urlencoded',          $headers[3]);
+        $this->assertCount(4, $headers);
+        $this->assertEquals("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
+        $this->assertEquals("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
+        $this->assertEquals('Content-Type: application/x-www-form-urlencoded',         $headers[3]);
 
         Stripe::setApiVersion($this->myApiVersion);
         $headers = $this->headerBag->make($this->myApiKey, [], true);
 
-        $this->assertEquals(5, count($headers));
-        $this->assertEquals('User-Agent: Stripe/v1 PhpBindings/' . $this->myApiVersion, $headers[1]);
-        $this->assertEquals('Authorization: Bearer ' . $this->myApiKey,                 $headers[2]);
-        $this->assertEquals('Content-Type: multipart/form-data',                        $headers[3]);
-        $this->assertEquals('Stripe-Version: ' . $this->myApiVersion,                   $headers[4]);
+        $this->assertCount(5, $headers);
+        $this->assertEquals("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
+        $this->assertEquals("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
+        $this->assertEquals('Content-Type: multipart/form-data',                       $headers[3]);
+        $this->assertEquals("Stripe-Version: {$this->myApiVersion}",                   $headers[4]);
     }
 
     /** @test */
@@ -120,11 +120,9 @@ class HeaderBagTest extends StripeTestCase
     /** @test */
     public function it_can_merge_headers()
     {
-        $headers = $this->headerBag->make($this->myApiKey, [
-            'Foo' => 'Bar',
-        ]);
+        $headers = $this->headerBag->make($this->myApiKey, ['Foo' => 'Bar']);
 
-        $this->assertEquals(5, count($headers));
+        $this->assertCount(5, $headers);
         $this->assertEquals('Foo: Bar', $headers[4]);
     }
 }

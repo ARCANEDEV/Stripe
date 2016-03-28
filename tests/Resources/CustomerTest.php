@@ -287,7 +287,7 @@ class CustomerTest extends StripeTestCase
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
-            'plan'  => $plan->id,
+            'plan' => $plan->id,
         ]);
 
         $customer->cancelSubscription([

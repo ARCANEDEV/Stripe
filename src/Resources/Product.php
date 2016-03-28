@@ -8,21 +8,24 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link     https://stripe.com/docs/api#products
+ * @link     https://stripe.com/docs/api/php#product_object
  *
- * @property  string                            object
- * @property  bool                              livemode
+ * @property  string                            id
+ * @property  string                            object       // 'product'
  * @property  bool                              active
- * @property  int                               created
- * @property  int                               updated
- * @property  array                             images
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  string                            name
- * @property  bool                              shippable
- * @property  \Arcanedev\Stripe\Collection      skus
  * @property  array                             attributes
  * @property  string                            caption
+ * @property  int                               created      // timestamp
+ * @property  array                             deactivate_on
  * @property  string                            description
+ * @property  array                             images
+ * @property  bool                              livemode
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            name
+ * @property  array|null                        package_dimensions
+ * @property  bool                              shippable
+ * @property  \Arcanedev\Stripe\Collection      skus
+ * @property  int                               updated
  * @property  string                            url
  */
 class Product extends StripeResource implements ProductInterface
@@ -33,8 +36,7 @@ class Product extends StripeResource implements ProductInterface
      */
     /**
      * Retrieve a product.
-     *
-     * @link   https://stripe.com/docs/api#retrieve_product
+     * @link   https://stripe.com/docs/api/php#retrieve_product
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -47,9 +49,8 @@ class Product extends StripeResource implements ProductInterface
     }
 
     /**
-     * Create a product.
-     *
-     * @link   https://stripe.com/docs/api#create_product
+     * Create a Product.
+     * @link   https://stripe.com/docs/api/php#create_product
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -62,9 +63,8 @@ class Product extends StripeResource implements ProductInterface
     }
 
     /**
-     * Update a product.
-     *
-     * @link   https://stripe.com/docs/api#update_product
+     * Update a Product.
+     * @link   https://stripe.com/docs/api/php#update_product
      *
      * @param  array|string|null  $options
      *
@@ -76,9 +76,8 @@ class Product extends StripeResource implements ProductInterface
     }
 
     /**
-     * List all products.
-     *
-     * @link   https://stripe.com/docs/api#list_products
+     * List all Products.
+     * @link   https://stripe.com/docs/api/php#list_products
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -91,9 +90,8 @@ class Product extends StripeResource implements ProductInterface
     }
 
     /**
-     * Delete a product.
-     *
-     * @link   https://stripe.com/docs/api#delete_product
+     * Delete a Product.
+     * @link   https://stripe.com/docs/api/php#delete_product
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

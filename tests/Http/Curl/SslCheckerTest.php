@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
-use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Http\Curl\SslChecker;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
  * Class     SslCheckerTest

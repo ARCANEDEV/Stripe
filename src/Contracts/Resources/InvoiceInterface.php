@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  InvoiceInterface
  *
@@ -16,7 +14,6 @@ interface InvoiceInterface
      */
     /**
      * Create an invoice.
-     *
      * @link   https://stripe.com/docs/api/php#create_invoice
      *
      * @param  array|null         $params
@@ -28,7 +25,6 @@ interface InvoiceInterface
 
     /**
      * Retrieving an Invoice.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_invoice
      *
      * @param  string             $id
@@ -40,19 +36,17 @@ interface InvoiceInterface
 
     /**
      * List of all Invoices.
-     *
      * @link   https://stripe.com/docs/api/php#list_customer_invoices
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
-     * Update/Save an invoice.
-     *
+     * Update/Save an Invoice.
      * @link   https://stripe.com/docs/api/php#update_invoice
      *
      * @param  array|string|null  $options
@@ -63,7 +57,6 @@ interface InvoiceInterface
 
     /**
      * Retrieve Upcoming Invoice.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_customer_invoice
      *
      * @param  array|null         $params
@@ -74,8 +67,7 @@ interface InvoiceInterface
     public static function upcoming($params = [], $options = null);
 
     /**
-     * Pay an invoice.
-     *
+     * Pay an Invoice.
      * @link   https://stripe.com/docs/api/php#pay_invoice
      *
      * @param  array|string|null  $options

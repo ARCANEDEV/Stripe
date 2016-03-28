@@ -15,7 +15,7 @@ class TransferTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Transfer */
+    /** @var \Arcanedev\Stripe\Resources\Transfer */
     private $transfer;
 
     /* ------------------------------------------------------------------------------------------------
@@ -58,13 +58,7 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_create()
     {
-        $recipient = self::createTestRecipient();
-
-        $this->transfer = Transfer::create([
-            'amount' => 100,
-            'currency' => 'usd',
-            'recipient' => $recipient->id
-        ]);
+        $this->transfer = self::createTestTransfer();
 
         $this->assertEquals('pending', $this->transfer->status);
     }
@@ -72,49 +66,28 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $recipient = self::createTestRecipient();
+        $this->transfer = self::createTestTransfer();
+        $retrievedTrans = Transfer::retrieve($this->transfer->id);
 
-        $this->transfer = Transfer::create([
-            'amount' => 100,
-            'currency' => 'usd',
-            'recipient' => $recipient->id
-        ]);
-
-        $transfer = Transfer::retrieve($this->transfer->id);
-
-        $this->assertEquals($transfer->id, $this->transfer->id);
+        $this->assertEquals($this->transfer->id, $retrievedTrans->id);
     }
 
     /** @test */
     public function it_can_cancel()
     {
-        $recipient = self::createTestRecipient();
+        $this->transfer = self::createTestTransfer();
+        $retrievedTrans = Transfer::retrieve($this->transfer->id);
 
-        $this->transfer = Transfer::create([
-            'amount'    => 100,
-            'currency'  => 'usd',
-            'recipient' => $recipient->id
-        ]);
+        $this->assertEquals($this->transfer->id, $retrievedTrans->id);
 
-        $transfer = Transfer::retrieve($this->transfer->id);
-        $this->assertEquals($transfer->id, $this->transfer->id);
-
-        if ($transfer->status !== 'paid') {
-            $transfer->cancel();
-        }
+        if ($retrievedTrans->status !== 'paid')
+            $retrievedTrans->cancel();
     }
 
     /** @test */
     public function it_can_update_one_metadata()
     {
-        $recipient = self::createTestRecipient();
-
-        $this->transfer = Transfer::create([
-            'amount' => 100,
-            'currency' => 'usd',
-            'recipient' => $recipient->id
-        ]);
-
+        $this->transfer = self::createTestTransfer();
         $this->transfer->metadata['test'] = 'foo bar';
         $this->transfer->save();
 
@@ -126,14 +99,7 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_update_all_metadata()
     {
-        $recipient = self::createTestRecipient();
-
-        $this->transfer = Transfer::create([
-            'amount'    => 100,
-            'currency'  => 'usd',
-            'recipient' => $recipient->id
-        ]);
-
+        $this->transfer = self::createTestTransfer();
         $this->transfer->metadata = ['test' => 'foo bar'];
         $this->transfer->save();
 

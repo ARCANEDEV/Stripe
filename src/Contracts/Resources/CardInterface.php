@@ -14,7 +14,6 @@ interface CardInterface
      */
     /**
      * Save/Update a card.
-     *
      * @link   https://stripe.com/docs/api/php#update_card
      *
      * @param  array|string|null  $options
@@ -25,7 +24,6 @@ interface CardInterface
 
     /**
      * Delete a card.
-     *
      * @link   https://stripe.com/docs/api/php#delete_card
      *
      * @param  array|null         $params

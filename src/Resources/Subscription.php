@@ -11,25 +11,24 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#subscription_object
  *
- * @property  string                            id
- * @property  string                            object                   // "subscription"
- * @property  boolean                           cancel_at_period_end
- * @property  string                            customer
- * @property  Plan                              plan
- * @property  int                               quantity
- * @property  int                               start
- * @property  string                            status
- * @property  float                             application_fee_percent
- * @property  int                               canceled_at
- * @property  int                               current_period_start
- * @property  int                               current_period_end
- * @property  Object                            discount
- * @property  int                               ended_at
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  int                               trial_end
- * @property  int                               trial_start
- *
- * @todo:     Complete the properties.
+ * @property  string                                id
+ * @property  string                                object                   // 'subscription'
+ * @property  float                                 application_fee_percent
+ * @property  boolean                               cancel_at_period_end
+ * @property  int                                   canceled_at              // timestamp
+ * @property  int                                   current_period_end       // timestamp
+ * @property  int                                   current_period_start     // timestamp
+ * @property  string                                customer
+ * @property  \Arcanedev\Stripe\Resources\Discount  discount
+ * @property  int                                   ended_at                 // timestamp
+ * @property  \Arcanedev\Stripe\AttachedObject      metadata
+ * @property  \Arcanedev\Stripe\Resources\Plan      plan
+ * @property  int                                   quantity
+ * @property  int                                   start                    // timestamp
+ * @property  string                                status
+ * @property  float                                 tax_percent
+ * @property  int                                   trial_end                // timestamp
+ * @property  int                                   trial_start              // timestamp
  */
 class Subscription extends StripeResource implements SubscriptionInterface
 {
@@ -40,17 +39,15 @@ class Subscription extends StripeResource implements SubscriptionInterface
     /**
      * Get the instance URL.
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return string
      */
     public function instanceUrl()
     {
-        $id         = $this['id'];
-
-        if ( ! $id) {
+        if (is_null($id = $this['id'])) {
             throw new InvalidRequestException(
-                'Could not determine which URL to request: class instance has invalid ID: '. $id,
+                "Could not determine which URL to request: class instance has invalid ID [null]",
                 null
             );
         }
@@ -68,7 +65,6 @@ class Subscription extends StripeResource implements SubscriptionInterface
      */
     /**
      * Cancel a Subscription.
-     *
      * @link   https://stripe.com/docs/api/php#cancel_subscription
      *
      * @param  array|null         $params
@@ -82,8 +78,7 @@ class Subscription extends StripeResource implements SubscriptionInterface
     }
 
     /**
-     * Update/Save a Subscription.
-     *
+     * Update a Subscription.
      * @link   https://stripe.com/docs/api/php#update_subscription
      *
      * @param  array|string|null  $options
@@ -97,15 +92,13 @@ class Subscription extends StripeResource implements SubscriptionInterface
 
     /**
      * Delete a Subscription Discount.
-     *
-     * @link   https://stripe.com/docs/api/curl#delete_subscription_discount
+     * @link   https://stripe.com/docs/api/php#delete_subscription_discount
      *
      * @return self
      */
     public function deleteDiscount()
     {
-        $url = $this->instanceUrl() . '/discount';
-        list($response, $opts) = $this->request('delete', $url);
+        list($response, $opts) = $this->request('delete', $this->instanceUrl() . '/discount');
 
         $this->refreshFrom(['discount' => null], $opts, true);
         unset($response);

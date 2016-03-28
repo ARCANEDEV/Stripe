@@ -23,10 +23,10 @@ class CountrySpecTest extends StripeTestCase
 
         $this->assertEquals($country->object, 'country_spec');
         $this->assertEquals($country->id, $code);
-        $this->assertGreaterThan(0, count($country->supported_bank_account_currencies));
-        $this->assertGreaterThan(0, count($country->supported_payment_currencies));
-        $this->assertGreaterThan(0, count($country->supported_payment_methods));
-        $this->assertGreaterThan(0, count($country->verification_fields));
+        $this->assertCountGreaterThan(0, $country->supported_bank_account_currencies);
+        $this->assertCountGreaterThan(0, $country->supported_payment_currencies);
+        $this->assertCountGreaterThan(0, $country->supported_payment_methods);
+        $this->assertCountGreaterThan(0, $country->verification_fields);
     }
 
     /** @test */
@@ -35,7 +35,7 @@ class CountrySpecTest extends StripeTestCase
         $countries = CountrySpec::all();
 
         $this->assertEquals('list', $countries->object);
-        $this->assertGreaterThan(0, count($countries->data));
+        $this->assertCountGreaterThan(0, count($countries->data));
 
         $country   = $countries->data[0];
 

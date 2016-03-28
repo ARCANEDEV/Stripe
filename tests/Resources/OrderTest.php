@@ -25,6 +25,12 @@ class OrderTest extends StripeTestCase
         $this->assertEquals('order', $order->object);
         $this->assertEquals('usd', $order->currency);
         $this->assertEquals('foo@bar.com', $order->email);
+
+        foreach ($order->items as $orderItem) {
+            /** @var \Arcanedev\Stripe\Resources\OrderItem $orderItem */
+            $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\OrderItem', $orderItem);
+            $this->assertTrue(in_array($orderItem->type, ['sku', 'tax', 'shipping', 'discount']));
+        }
     }
 
     /** @test */
