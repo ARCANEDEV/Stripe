@@ -21,9 +21,9 @@ class SkuTest extends StripeTestCase
     {
         $sku = $this->createSku();
 
-        $this->assertEquals($sku->price, 500);
+        $this->assertEquals(500,      $sku->price);
+        $this->assertEquals(40,       $sku->inventory->quantity);
         $this->assertEquals('finite', $sku->inventory->type);
-        $this->assertEquals(40, $sku->inventory->quantity);
     }
 
     /** @test */
@@ -33,9 +33,9 @@ class SkuTest extends StripeTestCase
         $sku->price = 600;
         $sku->save();
 
-        $this->assertEquals($sku->price, 600);
+        $this->assertEquals(600,      $sku->price);
         $this->assertEquals('finite', $sku->inventory->type);
-        $this->assertEquals(40, $sku->inventory->quantity);
+        $this->assertEquals(40,       $sku->inventory->quantity);
     }
 
     /** @test */
@@ -44,9 +44,9 @@ class SkuTest extends StripeTestCase
         $sku       = $this->createSku();
         $stripeSku = SKU::retrieve($sku->id);
 
-        $this->assertEquals($stripeSku->price, 500);
-        $this->assertEquals('finite', $stripeSku->inventory->type);
-        $this->assertEquals(40, $stripeSku->inventory->quantity);
+        $this->assertEquals($sku->price,               $stripeSku->price);
+        $this->assertEquals($sku->inventory->type,     $stripeSku->inventory->type);
+        $this->assertEquals($sku->inventory->quantity, $stripeSku->inventory->quantity);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -54,9 +54,9 @@ class SkuTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create SKU.
+     * Create a SKU.
      *
-     * @return Sku
+     * @return \Arcanedev\Stripe\Resources\Sku
      */
     private function createSku()
     {
@@ -77,14 +77,14 @@ class SkuTest extends StripeTestCase
     /**
      * Create a product for tests.
      *
-     * @return Product
+     * @return \Arcanedev\Stripe\Resources\Product
      */
     protected function createProduct()
     {
         return Product::create([
-            'name'  => 'Silver Product',
-            'id'    => 'silver-' . self::generateRandomString(20),
-            'url'   => 'www.stripe.com/silver'
+            'name' => 'Silver Product',
+            'id'   => 'silver-' . self::generateRandomString(20),
+            'url'  => 'www.stripe.com/silver'
         ]);
     }
 }

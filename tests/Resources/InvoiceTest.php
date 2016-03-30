@@ -63,13 +63,13 @@ class InvoiceTest extends StripeTestCase
         $customer = parent::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 0,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 0,
+            'currency' => 'usd',
         ]);
 
         $this->invoice = Invoice::create([
-            "customer" => $customer->id
+            'customer' => $customer->id
         ]);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
@@ -81,13 +81,13 @@ class InvoiceTest extends StripeTestCase
         $customer = parent::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 0,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 0,
+            'currency' => 'usd',
         ]);
 
         $invoice = Invoice::create([
-            "customer" => $customer->id
+            'customer' => $customer->id
         ]);
 
         $this->invoice = Invoice::retrieve($invoice->id);
@@ -102,13 +102,13 @@ class InvoiceTest extends StripeTestCase
         $customer = parent::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 0,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 0,
+            'currency' => 'usd',
         ]);
 
         $invoice = Invoice::create([
-            "customer" => $customer->id
+            'customer' => $customer->id
         ]);
 
         $this->invoice = Invoice::retrieve($invoice->id);
@@ -126,9 +126,9 @@ class InvoiceTest extends StripeTestCase
         $customer = self::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 0,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 0,
+            'currency' => 'usd',
         ]);
 
         $this->invoice = Invoice::upcoming([
@@ -145,17 +145,19 @@ class InvoiceTest extends StripeTestCase
         $customer = self::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 1000,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 1000,
+            'currency' => 'usd',
         ]);
 
         $this->invoice = Invoice::create([
-            "customer" => $customer->id
+            'customer' => $customer->id
         ]);
 
         $this->assertFalse($this->invoice->paid);
+
         $this->invoice->pay();
+
         $this->assertTrue($this->invoice->paid);
     }
 
@@ -165,9 +167,9 @@ class InvoiceTest extends StripeTestCase
         $customer = parent::createTestCustomer();
 
         InvoiceItem::create([
-            'customer'  => $customer->id,
-            'amount'    => 100,
-            'currency'  => 'usd',
+            'customer' => $customer->id,
+            'amount'   => 100,
+            'currency' => 'usd',
         ]);
 
         $invoice = Invoice::upcoming([

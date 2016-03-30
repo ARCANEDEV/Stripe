@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -9,26 +8,24 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#customer_object
  *
- * @link https://stripe.com/docs/api/php#customers
- *
- * @property  int                               id
- * @property  string                            object          // "customer"
- * @property  bool                              livemode
- * @property  \Arcanedev\Stripe\Collection      sources
- * @property  int                               created
- * @property  int                               account_balance
- * @property  string                            currency
- * @property  string                            default_card
- * @property  bool                              delinquent
- * @property  string                            description
- * @property  Discount|null                     discount
- * @property  string                            email
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  \Arcanedev\Stripe\Collection      subscriptions
- * @property  Subscription                      subscription    // It's for updateSubscription and cancelSubscription
- *
- * @todo:     Update the properties.
+ * @property  string                                         id
+ * @property  string                                         object           // 'customer'
+ * @property  int                                            account_balance
+ * @property  int                                            created          // timestamp
+ * @property  string                                         currency
+ * @property  string                                         default_source
+ * @property  bool                                           delinquent
+ * @property  string                                         description
+ * @property  \Arcanedev\Stripe\Resources\Discount|null      discount
+ * @property  string                                         email
+ * @property  bool                                           livemode
+ * @property  \Arcanedev\Stripe\AttachedObject               metadata
+ * @property  string                                         shipping
+ * @property  \Arcanedev\Stripe\Collection                   sources
+ * @property  \Arcanedev\Stripe\Collection                   subscriptions
+ * @property  \Arcanedev\Stripe\Resources\Subscription|null  subscription    // It's for updateSubscription and cancelSubscription
  */
 class Customer extends StripeResource implements CustomerInterface
 {
@@ -58,7 +55,7 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Get Subscription URL.
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return string
      */
@@ -70,7 +67,7 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Get Discount URL.
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return string
      */
@@ -85,7 +82,6 @@ class Customer extends StripeResource implements CustomerInterface
      */
     /**
      * Retrieve a Customer.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_customer
      *
      * @param  string             $id
@@ -100,7 +96,6 @@ class Customer extends StripeResource implements CustomerInterface
 
     /**
      * List all Customers.
-     *
      * @link   https://stripe.com/docs/api/php#list_customers
      *
      * @param  array|null         $params
@@ -115,7 +110,6 @@ class Customer extends StripeResource implements CustomerInterface
 
     /**
      * Create Customer.
-     *
      * @link   https://stripe.com/docs/api/php#create_customer
      *
      * @param  array|null         $params
@@ -130,7 +124,6 @@ class Customer extends StripeResource implements CustomerInterface
 
     /**
      * Update/Save Customer.
-     *
      * @link   https://stripe.com/docs/api/php#create_customer
      *
      * @param  array|string|null  $options
@@ -144,7 +137,6 @@ class Customer extends StripeResource implements CustomerInterface
 
     /**
      * Delete Customer.
-     *
      * @link   https://stripe.com/docs/api/php#delete_customer
      *
      * @param  array|null         $params
@@ -164,9 +156,9 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Add an invoice item.
      *
-     * @param  array $params
+     * @param  array  $params
      *
-     * @return InvoiceItem|array
+     * @return \Arcanedev\Stripe\Resources\InvoiceItem|array
      */
     public function addInvoiceItem($params = [])
     {
@@ -178,7 +170,7 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Get all invoices.
      *
-     * @param  array $params
+     * @param  array  $params
      *
      * @return \Arcanedev\Stripe\Collection|array
      */
@@ -222,7 +214,7 @@ class Customer extends StripeResource implements CustomerInterface
      *
      * @param  array|null  $params
      *
-     * @return Subscription
+     * @return \Arcanedev\Stripe\Resources\Subscription
      */
     public function updateSubscription($params = [])
     {
@@ -237,7 +229,7 @@ class Customer extends StripeResource implements CustomerInterface
      *
      * @param  array|null  $params
      *
-     * @return Subscription
+     * @return \Arcanedev\Stripe\Resources\Subscription
      */
     public function cancelSubscription($params = [])
     {
@@ -250,7 +242,7 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Delete Discount.
      *
-     * @return Object
+     * @return \Arcanedev\Stripe\StripeObject
      */
     public function deleteDiscount()
     {
@@ -273,9 +265,8 @@ class Customer extends StripeResource implements CustomerInterface
      */
     private function appCustomerParam(&$params)
     {
-        if (empty($params)) {
-            $params = [];
-        }
+        if (empty($params)) $params = [];
+
         $params['customer'] = $this->id;
     }
 }

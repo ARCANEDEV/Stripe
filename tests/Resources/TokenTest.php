@@ -15,7 +15,7 @@ class TokenTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Token */
+    /** @var \Arcanedev\Stripe\Resources\Token */
     private $token;
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,15 +49,14 @@ class TokenTest extends StripeTestCase
     /** @test */
     public function it_can_get_urls()
     {
-        $this->assertEquals('/v1/tokens', Token::classUrl());
-
+        $this->assertEquals('/v1/tokens',             Token::classUrl());
         $this->assertEquals('/v1/tokens/abcd%2Fefgh', $this->token->instanceUrl());
     }
 
     /** @test */
-    public function it_can_create()
+    public function it_can_create_card_token()
     {
-        $this->token = self::createToken();
+        $this->token = self::createCardToken();
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
         $this->assertEquals('card', $this->token->type);
@@ -71,10 +70,10 @@ class TokenTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $token       = self::createToken();
+        $token       = self::createCardToken();
         $this->token = Token::retrieve($token->id);
 
-        $this->assertEquals($token->id, $this->token->id);
+        $this->assertEquals($token->id,   $this->token->id);
         $this->assertEquals($token->type, $this->token->type);
     }
 
@@ -87,7 +86,7 @@ class TokenTest extends StripeTestCase
      *
      * @return Token
      */
-    private function createToken()
+    private function createCardToken()
     {
         return Token::create([
             'card' => [

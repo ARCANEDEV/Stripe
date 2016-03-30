@@ -39,6 +39,7 @@ class UtilTest extends StripeTestCase
     public function it_convert_stripe_object_to_array_that_includes_id()
     {
         $customer = self::createTestCustomer();
+
         $this->assertArrayHasKey('id', $customer->toArray(true));
     }
 }

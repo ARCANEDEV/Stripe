@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  ChargeInterface
  *
@@ -16,19 +14,17 @@ interface ChargeInterface
      */
     /**
      * List all Charges.
-     *
      * @link   https://stripe.com/docs/api/php#list_charges
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
      * Retrieve a Charge.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_charge
      *
      * @param  string             $id
@@ -40,7 +36,6 @@ interface ChargeInterface
 
     /**
      * Create a new charge (charging a credit card).
-     *
      * @link   https://stripe.com/docs/api/php#create_charge
      *
      * @param  array              $params
@@ -52,7 +47,6 @@ interface ChargeInterface
 
     /**
      * Save/Update a Charge.
-     *
      * @link   https://stripe.com/docs/api/php#update_charge
      *
      * @param  array|string|null  $options
@@ -63,7 +57,6 @@ interface ChargeInterface
 
     /**
      * Creating a new refund
-     *
      * @link   https://stripe.com/docs/api/php#create_refund
      *
      * @param  array|null   $params
@@ -75,7 +68,6 @@ interface ChargeInterface
 
     /**
      * Capture a charge.
-     *
      * @link   https://stripe.com/docs/api/php#capture_charge
      *
      * @param  array|null         $params

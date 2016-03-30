@@ -8,18 +8,17 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link     https://stripe.com/docs/api/curl#token_object
+ * @link     https://stripe.com/docs/api/php#token_object
  *
- * @property  string                            id
- * @property  string                            object        // "token"
- * @property  bool                              livemode
- * @property  int                               created
- * @property  string                            type          // ['card'|'bank_account']
- * @property  bool                              used
- * @property  Object                            bank_account
- * @property  \Arcanedev\Stripe\Resources\Card  card
- *
- * @todo:     Complete the properties.
+ * @property  string                                   id
+ * @property  string                                   object     // 'token'
+ * @property  \Arcanedev\Stripe\Resources\BankAccount  bank_account
+ * @property  \Arcanedev\Stripe\Resources\Card         card
+ * @property  string                                   client_ip
+ * @property  int                                      created    // timestamp
+ * @property  bool                                     livemode
+ * @property  string                                   type       // 'card' or 'bank_account'
+ * @property  bool                                     used
  */
 class Token extends StripeResource implements TokenInterface
 {
@@ -29,8 +28,7 @@ class Token extends StripeResource implements TokenInterface
      */
     /**
      * Retrieve a Token.
-     *
-     * @link   https://stripe.com/docs/api/curl#retrieve_token
+     * @link   https://stripe.com/docs/api/php#retrieve_token
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -43,9 +41,9 @@ class Token extends StripeResource implements TokenInterface
     }
 
     /**
-     * Create a Card Token.
-     *
-     * @link   https://stripe.com/docs/api/curl#create_card_token
+     * Create a Token.
+     * @link   https://stripe.com/docs/api/php#create_card_token
+     * @link   https://stripe.com/docs/api/php#create_bank_account_token
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

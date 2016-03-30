@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  SkuInterface
  *
@@ -15,9 +13,8 @@ interface SkuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Sku.
-     *
-     * @link   https://stripe.com/docs/api#retrieve_sku
+     * Retrieve a SKU.
+     * @link   https://stripe.com/docs/api/php#retrieve_sku
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -27,9 +24,8 @@ interface SkuInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * Create a Sku.
-     *
-     * @link   https://stripe.com/docs/api#create_sku
+     * Create a SKU.
+     * @link   https://stripe.com/docs/api/php#create_sku
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -39,9 +35,8 @@ interface SkuInterface
     public static function create($params = null, $options = null);
 
     /**
-     * Update a Sku.
-     *
-     * @link   https://stripe.com/docs/api#update_sku
+     * Update a SKU.
+     * @link   https://stripe.com/docs/api/php#update_sku
      *
      * @param  array|string|null  $options
      *
@@ -51,20 +46,18 @@ interface SkuInterface
 
     /**
      * List all SKUs.
-     *
-     * @link   https://stripe.com/docs/api#list_skus
+     * @link   https://stripe.com/docs/api/php#list_skus
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
-     * Delete a product SKU.
-     *
-     * @link   https://stripe.com/docs/api#delete_sku
+     * Delete a SKU.
+     * @link   https://stripe.com/docs/api/php#delete_sku
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

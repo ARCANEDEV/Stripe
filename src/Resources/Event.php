@@ -11,16 +11,15 @@ use Arcanedev\Stripe\StripeResource;
  * @link     https://stripe.com/docs/api/php#event_object
  * @link     https://stripe.com/docs/api/php#event_types
  *
- * @property  string  id
- * @property  string  object            // "event"
- * @property  bool    livemode
- * @property  int     created
- * @property  array   data
- * @property  int     pending_webhooks
- * @property  string  type
- * @property  string  api_version
- * @property  string  request
- * @property  string  customer_email
+ * @property  string                          id
+ * @property  string                          object            // 'event'
+ * @property  string                          api_version
+ * @property  int                             created           // timestamp
+ * @property  \Arcanedev\Stripe\StripeObject  data
+ * @property  bool                            livemode
+ * @property  int                             pending_webhooks
+ * @property  string                          request
+ * @property  string                          type
  */
 class Event extends StripeResource implements EventInterface
 {
@@ -30,7 +29,6 @@ class Event extends StripeResource implements EventInterface
      */
     /**
      * Retrieve an event.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_event
      *
      * @param  string             $id
@@ -45,7 +43,6 @@ class Event extends StripeResource implements EventInterface
 
     /**
      * List all events.
-     *
      * @link   https://stripe.com/docs/api/php#list_events
      *
      * @param  array|null         $params

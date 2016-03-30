@@ -17,7 +17,7 @@ class RequestorTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Requestor */
+    /** @var \Arcanedev\Stripe\Http\Requestor */
     private $requestor;
 
     /* ------------------------------------------------------------------------------------------------

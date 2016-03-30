@@ -8,21 +8,22 @@ use Arcanedev\Stripe\Contracts\Resources\BankAccountInterface;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @link     https://stripe.com/docs/api#bank_accounts
+ * @link     https://stripe.com/docs/api/php#bank_accounts
  *
  * @property  string                            id
- * @property  string                            object                // 'bank_account'
+ * @property  string                            object                // "bank_account"
  * @property  string                            account
+ * @property  string                            account_holder_name
+ * @property  string                            account_holder_type   // "individual" or "company"
+ * @property  string                            bank_name
  * @property  string                            country
  * @property  string                            currency
  * @property  bool                              default_for_currency
+ * @property  string                            fingerprint
  * @property  string                            last4
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  string                            status                // 'new', 'validated', 'verified', or 'errored'
- * @property  string                            bank_name
- * @property  string                            fingerprint
  * @property  string                            routing_number
+ * @property  string                            status                // 'new', 'validated', 'verified', or 'errored'
  */
 class BankAccount extends ExternalAccount implements BankAccountInterface
 {
@@ -40,8 +41,8 @@ class BankAccount extends ExternalAccount implements BankAccountInterface
      */
     public function verify($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/verify';
-
-        return $this->scopedPostCall($url, $params, $options);
+        return $this->scopedPostCall(
+            $this->instanceUrl() . '/verify', $params, $options
+        );
     }
 }

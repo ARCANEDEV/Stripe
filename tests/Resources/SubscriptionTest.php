@@ -18,7 +18,8 @@ class SubscriptionTest extends StripeTestCase
     /**
      * @test
      *
-     * @expectedException  \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @expectedExceptionMessage Could not determine which URL to request: class instance has invalid ID [null]
      */
     public function it_must_throw_invalid_request_exception_on_instance_url()
     {
@@ -31,47 +32,45 @@ class SubscriptionTest extends StripeTestCase
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer();
 
-        /** @var Subscription $subscription */
-        $subscription = $customer->subscriptions->create([
-            'plan' => $plan->id
-        ]);
+        /** @var \Arcanedev\Stripe\Resources\Subscription $subscription */
+        $subscription = $customer->subscriptions->create(['plan' => $plan->id]);
 
-        $this->assertEquals($subscription->status, 'active');
-        $this->assertEquals($subscription->plan->id, $plan->id);
+        $this->assertEquals('active',  $subscription->status);
+        $this->assertEquals($plan->id, $subscription->plan->id);
 
         $subscription->quantity = 2;
         $subscription->save();
-
         $subscription = $customer->subscriptions->retrieve($subscription->id);
-        $this->assertEquals($subscription->status, 'active');
-        $this->assertEquals($subscription->plan->id, $plan->id);
-        $this->assertEquals($subscription->quantity, 2);
+
+        $this->assertEquals('active',  $subscription->status);
+        $this->assertEquals($plan->id, $subscription->plan->id);
+        $this->assertEquals(2,         $subscription->quantity);
 
         $subscription->cancel(['at_period_end' => true]);
-
         $subscription = $customer->subscriptions->retrieve($subscription->id);
-        $this->assertEquals($subscription->status, 'active');
+
+        $this->assertEquals('active', $subscription->status);
         $this->assertTrue($subscription->cancel_at_period_end);
     }
 
     /** @test */
     public function it_can_delete_discount()
     {
-        $plan     = self::retrieveOrCreatePlan();
-        $couponID = '25off-' . self::generateRandomString(20);
-        self::retrieveOrCreateCoupon($couponID);
-
         $customer = self::createTestCustomer();
+        $plan     = self::retrieveOrCreatePlan();
+        self::retrieveOrCreateCoupon(
+            $couponID = '25off-' . self::generateRandomString(20)
+        );
 
         /** @var Subscription $subscription */
         $subscription = $customer->subscriptions->create([
-            'plan'      => $plan->id,
-            'coupon'    => $couponID
+            'plan'   => $plan->id,
+            'coupon' => $couponID,
         ]);
 
-        $this->assertEquals($subscription->status, 'active');
-        $this->assertEquals($subscription->plan->id, $plan->id);
-        $this->assertEquals($subscription->discount->coupon->id, $couponID);
+        $this->assertEquals('active',  $subscription->status);
+        $this->assertEquals($plan->id, $subscription->plan->id);
+        $this->assertEquals($couponID, $subscription->discount->coupon->id);
 
         $subscription->deleteDiscount();
         $subscription = $customer->subscriptions->retrieve($subscription->id);

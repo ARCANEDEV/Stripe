@@ -9,23 +9,35 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#transfer_reversal_object
+ *
+ * @property  string                            id
+ * @property  string                            object               // 'transfer_reversal'
+ * @property  int                               amount
+ * @property  string                            balance_transaction
+ * @property  int                               created              // timestamp
+ * @property  string                            currency
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  string                            transfer
  */
 class TransferReversal extends StripeResource implements TransferReversalInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Get API URL for this Stripe transfer reversal.
      *
-     * @throws InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
      * @return string
      */
     public function instanceUrl()
     {
-        $id = $this['id'];
-
-        if ( ! $id) {
+        if (is_null($id = $this['id'])) {
             throw new InvalidRequestException(
-                'Could not determine which URL to request: class instance has invalid ID: ' . $id,
+                'Could not determine which URL to request: class instance has invalid ID [null]',
                 null
             );
         }
@@ -34,16 +46,17 @@ class TransferReversal extends StripeResource implements TransferReversalInterfa
             Transfer::classUrl(),
             urlencode(str_utf8($this['transfer'])),
             'reversals',
-            urlencode(str_utf8($id))
+            urlencode(str_utf8($id)),
         ]);
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Saved the transfer reversal.
+     * @link   https://stripe.com/docs/api/php#update_transfer_reversal
      *
      * @param  array|string|null  $options
      *

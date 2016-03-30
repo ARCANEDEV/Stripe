@@ -8,33 +8,39 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link https://stripe.com/docs/api/php#charges
+ * @link     https://stripe.com/docs/api/php#charge_object
  *
- * @property  string                            id
- * @property  string                            object                // "charge"
- * @property  bool                              livemode
- * @property  int                               amount
- * @property  bool                              captured
- * @property  int                               created
- * @property  string                            currency
- * @property  bool                              paid
- * @property  bool                              refunded
- * @property  \Arcanedev\Stripe\Collection      refunds
- * @property  int                               amount_refunded
- * @property  string                            balance_transaction
- * @property  Card                              card
- * @property  string                            customer
- * @property  string                            description
- * @property  Dispute                           dispute
- * @property  string                            failure_code
- * @property  string                            failure_message
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  string                            receipt_email
- * @property  string                            receipt_number
- * @property  mixed                             fraud_details
- * @property  array                             shipping
- *
- * @todo:     Update the properties.
+ * @property  string                               id
+ * @property  string                               object               // 'charge'
+ * @property  int                                  amount
+ * @property  int                                  amount_refunded
+ * @property  string|null                          application_fee
+ * @property  string                               balance_transaction
+ * @property  bool                                 captured
+ * @property  int                                  created              // timestamp
+ * @property  string                               currency
+ * @property  string                               customer
+ * @property  string                               description
+ * @property  string                               destination
+ * @property  \Arcanedev\Stripe\Resources\Dispute  dispute
+ * @property  string                               failure_code
+ * @property  string                               failure_message
+ * @property  array                                fraud_details
+ * @property  string                               invoice
+ * @property  bool                                 livemode
+ * @property  \Arcanedev\Stripe\AttachedObject     metadata
+ * @property  string                               order
+ * @property  bool                                 paid
+ * @property  string                               receipt_email
+ * @property  string                               receipt_number
+ * @property  bool                                 refunded
+ * @property  \Arcanedev\Stripe\Collection         refunds
+ * @property  array                                shipping
+ * @property  \Arcanedev\Stripe\Resources\Card     source
+ * @property  string                               source_transfer
+ * @property  string                               statement_descriptor
+ * @property  string                               status
+ * @property  string                               transfer
  */
 class Charge extends StripeResource implements ChargeInterface
 {
@@ -52,7 +58,6 @@ class Charge extends StripeResource implements ChargeInterface
      */
     /**
      * List all Charges.
-     *
      * @link   https://stripe.com/docs/api/php#list_charges
      *
      * @param  array|null         $params
@@ -67,7 +72,6 @@ class Charge extends StripeResource implements ChargeInterface
 
     /**
      * Retrieve a Charge.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_charge
      *
      * @param  string             $id
@@ -82,7 +86,6 @@ class Charge extends StripeResource implements ChargeInterface
 
     /**
      * Create a new charge (charging a credit card).
-     *
      * @link   https://stripe.com/docs/api/php#create_charge
      *
      * @param  array              $params
@@ -97,7 +100,6 @@ class Charge extends StripeResource implements ChargeInterface
 
     /**
      * Save/Update a Charge.
-     *
      * @link   https://stripe.com/docs/api/php#update_charge
      *
      * @param  array|string|null  $options
@@ -111,7 +113,6 @@ class Charge extends StripeResource implements ChargeInterface
 
     /**
      * Creating a new refund.
-     *
      * @link   https://stripe.com/docs/api/php#create_refund
      *
      * @param  array|null         $params
@@ -121,14 +122,13 @@ class Charge extends StripeResource implements ChargeInterface
      */
     public function refund($params = [], $options = null)
     {
-        $url = $this->instanceUrl() . '/refund';
-
-        return self::scopedPostCall($url, $params, $options);
+        return self::scopedPostCall(
+            $this->instanceUrl() . '/refund', $params, $options
+        );
     }
 
     /**
      * Capture a charge.
-     *
      * @link   https://stripe.com/docs/api/php#capture_charge
      *
      * @param  array|null         $params
@@ -138,14 +138,13 @@ class Charge extends StripeResource implements ChargeInterface
      */
     public function capture($params = [], $options = null)
     {
-        $url = $this->instanceUrl() . '/capture';
-
-        return self::scopedPostCall($url, $params, $options);
+        return self::scopedPostCall(
+            $this->instanceUrl() . '/capture', $params, $options
+        );
     }
 
     /**
      * Mark charge as Fraudulent.
-     *
      * @param  array|string|null  $options
      *
      * @return self
@@ -157,7 +156,6 @@ class Charge extends StripeResource implements ChargeInterface
 
     /**
      * Mark charge as Safe.
-     *
      * @param  array|string|null  $options
      *
      * @return self
@@ -181,17 +179,12 @@ class Charge extends StripeResource implements ChargeInterface
      */
     private function updateFraudDetails($safe = false, $options = null)
     {
-        $fraud_details = [
+        $params = [
             'fraud_details' => [
                 'user_report' => $safe ? self::SAFE : self::FRAUDULENT,
             ],
         ];
 
-        // TODO: Refactor to Requestor::make()
-        list($response, $opts) = $this->request('post', $this->instanceUrl(), $fraud_details, $options);
-
-        $this->refreshFrom($response, $opts);
-
-        return $this;
+        return $this->scopedPostCall($this->instanceUrl(), $params, $options);
     }
 }

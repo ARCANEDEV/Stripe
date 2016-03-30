@@ -14,7 +14,6 @@ interface SubscriptionInterface
      */
     /**
      * Cancel a Subscription.
-     *
      * @link   https://stripe.com/docs/api/php#cancel_subscription
      *
      * @param  array|null         $params
@@ -25,8 +24,7 @@ interface SubscriptionInterface
     public function cancel($params = [], $options = null);
 
     /**
-     * Update/Save a Subscription.
-     *
+     * Update a Subscription.
      * @link   https://stripe.com/docs/api/php#update_subscription
      *
      * @param  array|string|null  $options
@@ -37,8 +35,7 @@ interface SubscriptionInterface
 
     /**
      * Delete a Subscription Discount.
-     *
-     * @link   https://stripe.com/docs/api/curl#delete_subscription_discount
+     * @link   https://stripe.com/docs/api/php#delete_subscription_discount
      *
      * @return self
      */

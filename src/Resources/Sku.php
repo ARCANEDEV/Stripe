@@ -8,22 +8,22 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link     https://stripe.com/docs/api#skus
+ * @link     https://stripe.com/docs/api/php#sku_object
  *
  * @property  string                            id
  * @property  string                            object             // 'sku'
- * @property  bool                              livemode
  * @property  bool                              active
- * @property  int                               created
- * @property  int                               updated
  * @property  array                             attributes
+ * @property  int                               created             // timestamp
  * @property  string                            currency
- * @property  array                             inventory
+ * @property  string                            image
+ * @property  \Arcanedev\Stripe\StripeObject    inventory
+ * @property  bool                              livemode
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  array                             package_dimensions
  * @property  int                               price
  * @property  string                            product
- * @property  string                            image
- * @property  array                             package_dimensions
+ * @property  int                               updated             // timestamp
  */
 class Sku extends StripeResource implements SkuInterface
 {
@@ -32,9 +32,8 @@ class Sku extends StripeResource implements SkuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Sku.
-     *
-     * @link   https://stripe.com/docs/api#retrieve_sku
+     * Retrieve a SKU.
+     * @link   https://stripe.com/docs/api/php#retrieve_sku
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -47,9 +46,8 @@ class Sku extends StripeResource implements SkuInterface
     }
 
     /**
-     * Create a Sku.
-     *
-     * @link   https://stripe.com/docs/api#create_sku
+     * Create a SKU.
+     * @link   https://stripe.com/docs/api/php#create_sku
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -62,9 +60,8 @@ class Sku extends StripeResource implements SkuInterface
     }
 
     /**
-     * Update a Sku.
-     *
-     * @link   https://stripe.com/docs/api#update_sku
+     * Update a SKU.
+     * @link   https://stripe.com/docs/api/php#update_sku
      *
      * @param  array|string|null  $options
      *
@@ -77,8 +74,7 @@ class Sku extends StripeResource implements SkuInterface
 
     /**
      * List all SKUs.
-     *
-     * @link   https://stripe.com/docs/api#list_skus
+     * @link   https://stripe.com/docs/api/php#list_skus
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -91,9 +87,8 @@ class Sku extends StripeResource implements SkuInterface
     }
 
     /**
-     * Delete a product SKU.
-     *
-     * @link   https://stripe.com/docs/api#delete_sku
+     * Delete a SKU.
+     * @link   https://stripe.com/docs/api/php#delete_sku
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

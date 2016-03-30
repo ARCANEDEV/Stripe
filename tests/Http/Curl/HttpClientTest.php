@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
-use Arcanedev\Stripe\Tests\StripeTestCase;
 use Arcanedev\Stripe\Http\Curl\HttpClient;
+use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
  * Class     HttpClientTest
@@ -15,7 +15,7 @@ class HttpClientTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var HttpClient */
+    /** @var \Arcanedev\Stripe\Http\Curl\HttpClient */
     private $httpClient;
 
     /* ------------------------------------------------------------------------------------------------
@@ -57,12 +57,10 @@ class HttpClientTest extends StripeTestCase
         $this->assertEquals(
             'my=value&that%5Byour%5D=example&bar=1',
             $method->invoke($this->httpClient, [
-                'my'    => 'value',
-                'that'  => [
-                    'your' => 'example'
-                ],
-                'bar'   => 1,
-                'baz'   => null
+                'my'   => 'value',
+                'that' => ['your' => 'example'],
+                'bar'  => 1,
+                'baz'  => null
             ])
         );
 
@@ -70,29 +68,29 @@ class HttpClientTest extends StripeTestCase
             'that%5Byour%5D=example',
             $method->invoke($this->httpClient, [
                 'that' => [
-                    'your'  => 'example',
-                    'foo'   => null
-                ]
+                    'your' => 'example',
+                    'foo'  => null,
+                ],
             ])
         );
 
         $this->assertEquals(
             'that=example&foo%5B%5D=bar&foo%5B%5D=baz',
             $method->invoke($this->httpClient, [
-                'that'  => 'example',
-                'foo'   => ['bar', 'baz']
+                'that' => 'example',
+                'foo'  => ['bar', 'baz'],
             ])
         );
 
         $this->assertEquals(
             'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1',
             $method->invoke($this->httpClient, [
-                'my'    => 'value',
-                'that'  => [
-                    'your' => ['cheese', 'whiz', null]
+                'my'   => 'value',
+                'that' => [
+                    'your' => ['cheese', 'whiz', null],
                 ],
-                'bar'   => 1,
-                'baz'   => null
+                'bar'  => 1,
+                'baz'  => null
             ])
         );
 
@@ -101,7 +99,7 @@ class HttpClientTest extends StripeTestCase
             'bar=baz',
             $method->invoke($this->httpClient, [
                 'foo' => [],
-                'bar' => 'baz'
+                'bar' => 'baz',
             ])
         );
 

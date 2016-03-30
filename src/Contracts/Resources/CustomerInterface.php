@@ -1,8 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\StripeObject;
-
 /**
  * Interface  CustomerInterface
  *
@@ -16,8 +13,8 @@ interface CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Customer
-     * @link https://stripe.com/docs/api/php#retrieve_customer
+     * Retrieve a Customer.
+     * @link   https://stripe.com/docs/api/php#retrieve_customer
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -28,19 +25,17 @@ interface CustomerInterface
 
     /**
      * List all Customers.
-     *
      * @link   https://stripe.com/docs/api/php#list_customers
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null);
 
     /**
      * Create Customer.
-     *
      * @link   https://stripe.com/docs/api/php#create_customer
      *
      * @param  array|null         $params
@@ -52,7 +47,6 @@ interface CustomerInterface
 
     /**
      * Update/Save Customer.
-     *
      * @link   https://stripe.com/docs/api/php#create_customer
      *
      * @param  array|string|null  $options
@@ -63,14 +57,14 @@ interface CustomerInterface
 
     /**
      * Delete Customer.
-     *
      * @link   https://stripe.com/docs/api/php#delete_customer
      *
-     * @param  array|null $params
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */
-    public function delete($params = []);
+    public function delete($params = [], $options = null);
 
     /* ------------------------------------------------------------------------------------------------
      |  Relationships Functions
@@ -81,7 +75,7 @@ interface CustomerInterface
      *
      * @param  array  $params
      *
-     * @return InvoiceItemInterface|array
+     * @return \Arcanedev\Stripe\Resources\InvoiceItem|array
      */
     public function addInvoiceItem($params = []);
 
@@ -90,7 +84,7 @@ interface CustomerInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function invoices($params = []);
 
@@ -99,7 +93,7 @@ interface CustomerInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function invoiceItems($params = []);
 
@@ -108,32 +102,32 @@ interface CustomerInterface
      *
      * @param  array  $params
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public function charges($params = []);
 
     /**
-     * Update a Subscription
+     * Update a Subscription.
      *
      * @param  array|null  $params
      *
-     * @return SubscriptionInterface
+     * @return \Arcanedev\Stripe\Resources\Subscription
      */
     public function updateSubscription($params = []);
 
     /**
-     * Cancel Subscription
+     * Cancel Subscription.
      *
      * @param  array|null  $params
      *
-     * @return SubscriptionInterface
+     * @return \Arcanedev\Stripe\Resources\Subscription
      */
     public function cancelSubscription($params = []);
 
     /**
-     * Delete Discount
+     * Delete Discount.
      *
-     * @return StripeObject
+     * @return \Arcanedev\Stripe\StripeObject
      */
     public function deleteDiscount();
 }

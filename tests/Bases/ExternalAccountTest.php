@@ -13,6 +13,10 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class ExternalAccountTest extends StripeTestCase
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Test Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /** @test */
     public function it_can_verify()
     {
@@ -29,7 +33,7 @@ class ExternalAccountTest extends StripeTestCase
         $customer        = Customer::create();
         /** @var ExternalAccount $externalAccount */
         $externalAccount = $customer->sources->create([
-            'bank_account' => $bankAccountToken->id
+            'bank_account' => $bankAccountToken->id,
         ]);
         $verifiedAccount = $externalAccount->verify(['amounts' => [32, 45]], null);
 

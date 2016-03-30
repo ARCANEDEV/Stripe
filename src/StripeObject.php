@@ -34,7 +34,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @var RequestOptions|string|array
+     * @var \Arcanedev\Stripe\Http\RequestOptions|string|array
      */
     protected $opts;
 
@@ -44,14 +44,14 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     /**
      * Unsaved Values.
      *
-     * @var UtilSet
+     * @var \Arcanedev\Stripe\Utilities\UtilSet
      */
     protected $unsavedValues;
 
     /**
      * Transient (Deleted) Values.
      *
-     * @var UtilSet
+     * @var \Arcanedev\Stripe\Utilities\UtilSet
      */
     protected $transientValues;
 
@@ -66,7 +66,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * Attributes that should not be sent to the API because
      * they're not updatable (e.g. API key, ID).
      *
-     * @var UtilSet
+     * @var \Arcanedev\Stripe\Utilities\UtilSet
      */
     public static $permanentAttributes;
 
@@ -74,7 +74,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * Attributes that are nested but still updatable from the
      * parent class's URL (e.g. metadata).
      *
-     * @var UtilSet
+     * @var \Arcanedev\Stripe\Utilities\UtilSet
      */
     public static $nestedUpdatableAttributes;
 
@@ -129,7 +129,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @param  array|string|null  $id
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return self
      */
@@ -137,9 +137,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     {
         $this->setIdIfArray($id);
 
-        if ( ! is_null($id)) {
-            $this->id = $id;
-        }
+        if ( ! is_null($id)) $this->id = $id;
 
         return $this;
     }
@@ -149,16 +147,16 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @param  array|string|null  $id
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function setIdIfArray(&$id)
     {
-        if (is_array($id)) {
-            $this->checkIdIsInArray($id);
-            $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
+        if ( ! is_array($id)) return;
 
-            $id = $id['id'];
-        }
+        $this->checkIdIsInArray($id);
+        $this->retrieveParameters = array_diff_key($id, array_flip(['id']));
+
+        $id = $id['id'];
     }
 
     /**
@@ -196,8 +194,6 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @param  string  $key
      * @param  mixed   $value
-     *
-     * @throws InvalidArgumentException
      */
     public function __set($key, $value)
     {
@@ -213,7 +209,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * @param  string  $key
      * @param  mixed   $value
      *
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private function setValue($key, $value)
     {
@@ -397,9 +393,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     /**
      * Refreshes this object using the provided values.
      *
-     * @param  array                             $values
-     * @param  RequestOptions|array|string|null  $opts
-     * @param  boolean                           $partial
+     * @param  array                                                    $values
+     * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $opts
+     * @param  bool                                                     $partial
      */
     public function refreshFrom($values, $opts, $partial = false)
     {
@@ -408,12 +404,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         $this->cleanObject($values, $partial);
 
         foreach ($values as $key => $value) {
-            if (
-                self::$permanentAttributes->includes($key) &&
-                isset($this[$key])
-            ) {
+            if (self::$permanentAttributes->includes($key) && isset($this[$key]))
                 continue;
-            }
 
             $this->values[$key] = $this->constructValue($key, $value, $opts);
 
@@ -438,9 +430,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
             : new UtilSet;
 
         foreach ($removed as $key) {
-            if (self::$permanentAttributes->includes($key)) {
+            if (self::$permanentAttributes->includes($key))
                 continue;
-            }
+
             unset($this->$key);
         }
     }
@@ -452,7 +444,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * @param  mixed   $value
      * @param  array   $opts
      *
-     * @return self|StripeResource|Collection|array
+     * @return self|\Arcanedev\Stripe\StripeResource|\Arcanedev\Stripe\Collection|array
      */
     private function constructValue($key, $value, $opts)
     {
@@ -500,7 +492,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @param  array  $array
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function checkIdIsInArray($array)
     {
@@ -525,7 +517,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * @param  string      $key
      * @param  mixed|null  $value
      *
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private function checkIfAttributeDeletion($key, $value)
     {
@@ -545,7 +537,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * @param  string      $key
      * @param  mixed|null  $value
      *
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private function checkMetadataAttribute($key, $value)
     {
@@ -576,20 +568,32 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      *
      * @param  array  $supported
      *
-     * @throws InvalidArgumentException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     private function checkUnsavedAttributes($supported)
     {
-        if (
-            $this->checkUnsavedAttributes === false ||
-            count($supported) == 0
-        ) {
+        if ($this->checkUnsavedAttributes === false || count($supported) === 0)
             return;
-        }
 
         $this->checkNotFoundAttributesException(
             $this->unsavedValues->diffKeys($supported)
         );
+    }
+
+    /**
+     * Check not found attributes exception.
+     *
+     * @param  array  $notFound
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
+     */
+    private function checkNotFoundAttributesException($notFound)
+    {
+        if (count($notFound)) {
+            throw new InvalidArgumentException(
+                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
+            );
+        }
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -653,15 +657,13 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         $message = "Stripe Notice: Undefined property of $class instance: $key.";
 
         if ($this->transientValues->includes($key)) {
-            $message .= ' HINT: The [' . $key . '] attribute was set in the past, however. ' .
+            $message .= " HINT: The [$key] attribute was set in the past, however. " .
                 'It was then wiped when refreshing the object with the result returned by Stripe\'s API, ' .
                 'probably as a result of a save().' .
                 $this->showUndefinedPropertyMsgAttributes();
         }
 
-        if ( ! is_testing()) {
-            error_log($message);
-        }
+        if ( ! is_testing()) error_log($message);
     }
 
     /**
@@ -674,21 +676,5 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         return count($attributes = $this->keys())
             ? ' The attributes currently available on this object are: ' . join(', ', $attributes)
             : '';
-    }
-
-    /**
-     * Check not found attributes exception.
-     *
-     * @param  array  $notFound
-     *
-     * @throws InvalidArgumentException
-     */
-    private function checkNotFoundAttributesException($notFound)
-    {
-        if (count($notFound)) {
-            throw new InvalidArgumentException(
-                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
-            );
-        }
     }
 }

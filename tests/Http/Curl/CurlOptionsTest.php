@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\Stripe\Tests\Http\Curl;
 
+use Arcanedev\Stripe\Http\Curl\CurlOptions;
 use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
-use Arcanedev\Stripe\Http\Curl\CurlOptions;
 
 /**
  * Class     CurlOptionsTest
@@ -16,7 +16,7 @@ class CurlOptionsTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var CurlOptions */
+    /** @var \Arcanedev\Stripe\Http\Curl\CurlOptions */
     private $curlOptions;
 
     private $url     = '';
@@ -74,12 +74,13 @@ class CurlOptionsTest extends StripeTestCase
         $this->curlOptions->make($method, $this->url, '', $this->headers);
 
         $options = $this->curlOptions->get();
-        $this->assertEquals(8, count($options));
 
-        $this->assertArrayHasKey(CURLOPT_HTTPGET, $options);
-        $this->assertTrue($options[CURLOPT_HTTPGET]);
+        $this->assertCount(8, $options);
 
+        $this->assertArrayHasKey(CURLOPT_HTTPGET,       $options);
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
+
+        $this->assertTrue($options[CURLOPT_HTTPGET]);
         $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
 
         $this->assertDefaultOptions($options);
@@ -94,15 +95,15 @@ class CurlOptionsTest extends StripeTestCase
         $this->curlOptions->make($method, $this->url, '', $this->headers);
 
         $options = $this->curlOptions->get();
-        $this->assertEquals(9, count($options));
 
-        $this->assertArrayHasKey(CURLOPT_HTTPGET, $options);
-        $this->assertTrue($options[CURLOPT_HTTPGET]);
+        $this->assertCount(9, $options);
 
-        $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
-
+        $this->assertArrayHasKey(CURLOPT_HTTPGET,        $options);
+        $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST,  $options);
         $this->assertArrayHasKey(CURLOPT_SSL_VERIFYPEER, $options);
+
+        $this->assertTrue($options[CURLOPT_HTTPGET]);
+        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
         $this->assertFalse($options[CURLOPT_SSL_VERIFYPEER]);
 
         $this->assertDefaultOptions($options);
@@ -117,15 +118,15 @@ class CurlOptionsTest extends StripeTestCase
         $this->curlOptions->make($method, $this->url, $params, $this->headers);
 
         $options = $this->curlOptions->get();
-        $this->assertEquals(9, count($options));
 
-        $this->assertArrayHasKey(CURLOPT_POST, $options);
-        $this->assertTrue($options[CURLOPT_POST]);
+        $this->assertCount(9, $options);
 
+        $this->assertArrayHasKey(CURLOPT_POST,          $options);
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
+        $this->assertArrayHasKey(CURLOPT_POSTFIELDS,    $options);
 
-        $this->assertArrayHasKey(CURLOPT_POSTFIELDS, $options);
+        $this->assertTrue($options[CURLOPT_POST]);
+        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
         $this->assertEquals($params, $options[CURLOPT_POSTFIELDS]);
 
         $this->assertDefaultOptions($options);
@@ -140,9 +141,11 @@ class CurlOptionsTest extends StripeTestCase
         $this->curlOptions->make($method, $this->url, $params, $this->headers);
 
         $options = $this->curlOptions->get();
-        $this->assertEquals(7, count($options));
+
+        $this->assertCount(7, $options);
 
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
+
         $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
 
         $this->assertDefaultOptions($options);
@@ -191,23 +194,20 @@ class CurlOptionsTest extends StripeTestCase
     /**
      * Assert Default options
      *
-     * @param array  $options
+     * @param  array  $options
      */
-    private function assertDefaultOptions($options)
+    private function assertDefaultOptions(array $options)
     {
-        $this->assertArrayHasKey(CURLOPT_URL, $options);
-        $this->assertEquals($this->url, $options[ CURLOPT_URL ]);
-
+        $this->assertArrayHasKey(CURLOPT_URL,            $options);
         $this->assertArrayHasKey(CURLOPT_RETURNTRANSFER, $options);
-        $this->assertTrue($options[ CURLOPT_RETURNTRANSFER ]);
-
         $this->assertArrayHasKey(CURLOPT_CONNECTTIMEOUT, $options);
-        $this->assertEquals(30, $options[ CURLOPT_CONNECTTIMEOUT ]);
+        $this->assertArrayHasKey(CURLOPT_TIMEOUT,        $options);
+        $this->assertArrayHasKey(CURLOPT_HTTPHEADER,     $options);
 
-        $this->assertArrayHasKey(CURLOPT_TIMEOUT, $options);
-        $this->assertEquals(80, $options[ CURLOPT_TIMEOUT ]);
-
-        $this->assertArrayHasKey(CURLOPT_HTTPHEADER, $options);
-        $this->assertEquals($this->headers, $options[ CURLOPT_HTTPHEADER ]);
+        $this->assertEquals($this->url, $options[CURLOPT_URL]);
+        $this->assertTrue($options[CURLOPT_RETURNTRANSFER]);
+        $this->assertEquals(30, $options[CURLOPT_CONNECTTIMEOUT]);
+        $this->assertEquals(80, $options[CURLOPT_TIMEOUT]);
+        $this->assertEquals($this->headers, $options[CURLOPT_HTTPHEADER]);
     }
 }

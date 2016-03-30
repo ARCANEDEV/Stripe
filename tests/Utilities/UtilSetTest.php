@@ -15,7 +15,7 @@ class UtilSetTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var UtilSet */
+    /** @var \Arcanedev\Stripe\Utilities\UtilSet */
     private $utilSet;
 
     /* ------------------------------------------------------------------------------------------------
@@ -50,9 +50,13 @@ class UtilSetTest extends StripeTestCase
     public function it_can_get_count()
     {
         $this->assertEquals(0, $this->utilSet->count());
+        $this->assertEquals(0, count($this->utilSet));
+        $this->assertCount(0,  $this->utilSet);
 
         $this->utilSet->add('hello');
 
         $this->assertEquals(1, $this->utilSet->count());
+        $this->assertEquals(1, count($this->utilSet));
+        $this->assertCount(1,  $this->utilSet);
     }
 }

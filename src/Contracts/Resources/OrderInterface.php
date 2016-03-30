@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  OrderInterface
  *
@@ -15,9 +13,8 @@ interface OrderInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieves the details of an existing order.
-     *
-     * @link   https://stripe.com/docs/api#retrieve_order
+     * Retrieves the details of an existing Order.
+     * @link   https://stripe.com/docs/api/php#retrieve_order
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -27,9 +24,8 @@ interface OrderInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * Creates a new order object.
-     *
-     * @link   https://stripe.com/docs/api#create_order
+     * Create a new Order.
+     * @link   https://stripe.com/docs/api/php#create_order
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -39,9 +35,8 @@ interface OrderInterface
     public static function create($params = null, $options = null);
 
     /**
-     * Update an order.
-     *
-     * @link   https://stripe.com/docs/api#update_order
+     * Update an Order.
+     * @link   https://stripe.com/docs/api/php#update_order
      *
      * @param  array|string|null  $options
      *
@@ -50,21 +45,19 @@ interface OrderInterface
     public function save($options = null);
 
     /**
-     * List all orders.
-     *
-     * @link   https://stripe.com/docs/api#list_orders
+     * List all Orders.
+     * @link   https://stripe.com/docs/api/php#list_orders
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
-     * Pay an order.
-     *
-     * @link   https://stripe.com/docs/api#pay_order
+     * Pay an Order.
+     * @link   https://stripe.com/docs/api/php#pay_order
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

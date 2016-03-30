@@ -8,24 +8,23 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link     https://stripe.com/docs/api/php#coupons
+ * @link     https://stripe.com/docs/api/php#coupon_object
  *
  * @property  string                            id
- * @property  string                            object                // "coupon"
- * @property  bool                              livemode
- * @property  int                               created
- * @property  string                            duration
+ * @property  string                            object              // 'coupon'
  * @property  int                               amount_off
+ * @property  int                               created             // timestamp
  * @property  string                            currency
+ * @property  bool|null                         deleted
+ * @property  string                            duration            // 'forever', 'once' or 'repeating'
  * @property  int                               duration_in_months
+ * @property  bool                              livemode
  * @property  int                               max_redemptions
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
  * @property  int                               percent_off
- * @property  int                               redeem_by
+ * @property  int                               redeem_by           // timestamp
  * @property  int                               times_redeemed
  * @property  bool                              valid
- *
- * @todo:     Update the properties.
  */
 class Coupon extends StripeResource implements CouponInterface
 {
@@ -34,11 +33,11 @@ class Coupon extends StripeResource implements CouponInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Coupon
-     * @link https://stripe.com/docs/api/php#retrieve_coupon
+     * Retrieve a Coupon.
+     * @link   https://stripe.com/docs/api/php#retrieve_coupon
      *
-     * @param  string            $id
-     * @param  array|string|null $options
+     * @param  string             $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -48,13 +47,13 @@ class Coupon extends StripeResource implements CouponInterface
     }
 
     /**
-     * List all Coupons
-     * @link https://stripe.com/docs/api/php#list_coupons
+     * List all Coupons.
+     * @link   https://stripe.com/docs/api/php#list_coupons
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
-     * @return \Arcanedev\Stripe\Collection|self[]
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = [], $options = null)
     {
@@ -62,11 +61,11 @@ class Coupon extends StripeResource implements CouponInterface
     }
 
     /**
-     * Create coupon
-     * @link https://stripe.com/docs/api/php#create_coupon
+     * Create a Coupon.
+     * @link   https://stripe.com/docs/api/php#create_coupon
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self|array
      */
@@ -76,10 +75,10 @@ class Coupon extends StripeResource implements CouponInterface
     }
 
     /**
-     * Update/Save a Coupon
-     * @link https://stripe.com/docs/api/php#update_coupon
+     * Update/Save a Coupon.
+     * @link   https://stripe.com/docs/api/php#update_coupon
      *
-     * @param  array|string|null $options
+     * @param  array|string|null  $options
      *
      * @return self
      */
@@ -89,11 +88,11 @@ class Coupon extends StripeResource implements CouponInterface
     }
 
     /**
-     * Delete a coupon
-     * @link https://stripe.com/docs/api/php#delete_coupon
+     * Delete a Coupon.
+     * @link   https://stripe.com/docs/api/php#delete_coupon
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @return self
      */

@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  ProductInterface
  *
@@ -16,8 +14,7 @@ interface ProductInterface
      */
     /**
      * Retrieve a product.
-     *
-     * @link   https://stripe.com/docs/api#retrieve_product
+     * @link   https://stripe.com/docs/api/php#retrieve_product
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -27,9 +24,8 @@ interface ProductInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * Create a product.
-     *
-     * @link   https://stripe.com/docs/api#create_product
+     * Create a Product.
+     * @link   https://stripe.com/docs/api/php#create_product
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -39,9 +35,8 @@ interface ProductInterface
     public static function create($params = null, $options = null);
 
     /**
-     * Update a product.
-     *
-     * @link   https://stripe.com/docs/api#update_product
+     * Update a Product.
+     * @link   https://stripe.com/docs/api/php#update_product
      *
      * @param  array|string|null  $options
      *
@@ -50,21 +45,19 @@ interface ProductInterface
     public function save($options = null);
 
     /**
-     * List all products.
-     *
-     * @link   https://stripe.com/docs/api#list_products
+     * List all Products.
+     * @link   https://stripe.com/docs/api/php#list_products
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
     public static function all($params = null, $options = null);
 
     /**
-     * Delete a product.
-     *
-     * @link   https://stripe.com/docs/api#delete_product
+     * Delete a Product.
+     * @link   https://stripe.com/docs/api/php#delete_product
      *
      * @param  array|null         $params
      * @param  array|string|null  $options

@@ -11,20 +11,19 @@ use Arcanedev\Stripe\StripeResource;
  * @link     https://stripe.com/docs/api/php#application_fees
  *
  * @property  string                        id
- * @property  string                        object                 // "application_fee"
- * @property  bool                          livemode
+ * @property  string                        object                   // "application_fee"
  * @property  string                        account
  * @property  int                           amount
+ * @property  int                           amount_refunded
  * @property  string                        application
  * @property  string                        balance_transaction
  * @property  string                        charge
- * @property  int                           created               // timestamp
+ * @property  int                           created                  // timestamp
  * @property  string                        currency
+ * @property  bool                          livemode
+ * @property  string                        originating_transaction
  * @property  bool                          refunded
  * @property  \Arcanedev\Stripe\Collection  refunds
- * @property  int                           amount_refunded
- *
- * @todo:    Complete the properties.
  */
 class ApplicationFee extends StripeResource implements ApplicationFeeInterface
 {

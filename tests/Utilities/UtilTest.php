@@ -20,16 +20,12 @@ class UtilTest extends StripeTestCase
     public function it_can_convert_stripe_object_to_array()
     {
         $array = Util::convertStripeObjectToArray([
-            '_'         => 'Hello',
-            'customer'  => new Customer([
-                'id'    => 'cust_kjfhdflsdhfdsjl',
-            ])
+            '_'        => 'Hello',
+            'customer' => new Customer(['id' => 'cust_kjfhdflsdhfdsjl']),
         ]);
 
         $this->assertEquals([
-            'customer' => [
-                'id'    => 'cust_kjfhdflsdhfdsjl',
-            ]
+            'customer' => ['id' => 'cust_kjfhdflsdhfdsjl'],
         ], $array);
     }
 }

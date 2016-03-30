@@ -11,18 +11,16 @@ use Arcanedev\Stripe\StripeResource;
  * @link     https://stripe.com/docs/api/php#refund_object
  *
  * @property  string                            id
- * @property  string                            object                // "refund"
+ * @property  string                            object               // 'refund'
  * @property  int                               amount
- * @property  int                               created
- * @property  string                            currency
  * @property  string                            balance_transaction
  * @property  string                            charge
+ * @property  int                               created              // timestamp
+ * @property  string                            currency
+ * @property  string                            description
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
  * @property  string                            reason
  * @property  string                            receipt_number
- * @property  string                            description
- *
- * @todo:     Complete the properties.
  */
 class Refund extends StripeResource implements RefundInterface
 {
@@ -32,7 +30,6 @@ class Refund extends StripeResource implements RefundInterface
      */
     /**
      * Retrieve a Refund by ID.
-     *
      * @link   https://stripe.com/docs/api/php#retrieve_refund
      *
      * @param  string             $id
@@ -47,7 +44,6 @@ class Refund extends StripeResource implements RefundInterface
 
     /**
      * List all refunds.
-     *
      * @link   https://stripe.com/docs/api/php#list_refunds
      *
      * @param  array|null         $params
@@ -62,7 +58,6 @@ class Refund extends StripeResource implements RefundInterface
 
     /**
      * Create a Refund.
-     *
      * @link   https://stripe.com/docs/api/php#create_refund
      *
      * @param  array|null         $params
@@ -77,7 +72,6 @@ class Refund extends StripeResource implements RefundInterface
 
     /**
      * Update/Save a Refund.
-     *
      * @link   https://stripe.com/docs/api/php#update_refund
      *
      * @param  array|string|null  $options

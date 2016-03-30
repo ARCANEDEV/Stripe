@@ -14,11 +14,13 @@ class TransferReversalTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function testList()
+    /** @test */
+    public function it_can_get_all()
     {
         $transfer = self::createTestTransfer();
         $all      = $transfer->reversals->all();
-        $this->assertSame(false, $all['has_more']);
-        $this->assertSame(0, count($all->data));
+
+        $this->assertFalse($all['has_more']);
+        $this->assertCount(0, $all->data);
     }
 }

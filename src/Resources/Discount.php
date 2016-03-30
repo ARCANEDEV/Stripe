@@ -3,20 +3,21 @@
 use Arcanedev\Stripe\StripeResource;
 
 /**
- * Class Discount
- * @package Arcanedev\Stripe\Resources
+ * Class     Discount
  *
- * @property  string                                         id
- * @property  string                                         object
- * @property  string                                         customer
- * @property  \Arcanedev\Stripe\Resources\Coupon             coupon
- * @property  \Arcanedev\Stripe\Resources\Subscription|null  subscription
- * @property  int                                            start
- * @property  int                                            end
+ * @package  Arcanedev\Stripe\Resources
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @link     https://stripe.com/docs/api/php#discount_object
  *
- * @todo:    Update the implementation.
+ * @property  string                              id
+ * @property  string                              object        // 'discount'
+ * @property  \Arcanedev\Stripe\Resources\Coupon  coupon
+ * @property  string                              customer
+ * @property  int|null                            end           // timestamp
+ * @property  int                                 start         // timestamp
+ * @property  string|null                         subscription
  */
 class Discount extends StripeResource
 {
-    // TODO: Complete Discount Class implementation
+    //
 }

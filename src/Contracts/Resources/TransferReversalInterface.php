@@ -9,11 +9,12 @@
 interface TransferReversalInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Saved the transfer reversal.
+     * @link   https://stripe.com/docs/api/php#update_transfer_reversal
      *
      * @param  array|string|null  $options
      *

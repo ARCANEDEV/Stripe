@@ -8,26 +8,31 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- * @link     https://stripe.com/docs/api/curl#transfer_object
+ * @link     https://stripe.com/docs/api/php#transfer_object
  *
- * @property  string                            id
- * @property  string                            object               // "transfer"
- * @property  bool                              livemode
- * @property  int                               amount
- * @property  int                               created
- * @property  string                            currency
- * @property  int                               date
- * @property  string                            status
- * @property  string                            type
- * @property  string                            balance_transaction
- * @property  string                            description
- * @property  string                            failure_code
- * @property  string                            failure_message
- * @property  \Arcanedev\Stripe\AttachedObject  metadata
- * @property  Object                            bank_account
- * @property  \Arcanedev\Stripe\Resources\Card  card
- * @property  string                            recipient
- * @property  string                            statement_descriptor
+ * @property  string                                   id
+ * @property  string                                   object                // 'transfer'
+ * @property  int                                      amount
+ * @property  int                                      amount_reversed
+ * @property  string                                   application_fee
+ * @property  string                                   balance_transaction
+ * @property  int                                      created               // timestamp
+ * @property  string                                   currency
+ * @property  int                                      date                  // timestamp
+ * @property  string                                   description
+ * @property  string                                   destination
+ * @property  string                                   destination_payment
+ * @property  string                                   failure_code
+ * @property  string                                   failure_message
+ * @property  bool                                     livemode
+ * @property  \Arcanedev\Stripe\AttachedObject         metadata
+ * @property  \Arcanedev\Stripe\Collection             reversals
+ * @property  bool                                     reversed
+ * @property  string                                   source_transaction
+ * @property  string                                   source_type           // 'card', 'bank_account', 'bitcoin_receiver', or 'alipay_account'
+ * @property  string                                   statement_descriptor
+ * @property  string                                   status                // 'paid', 'pending', 'in_transit', 'canceled' or 'failed'
+ * @property  string                                   type                  //  'card', 'bank_account', or 'stripe_account'
  */
 class Transfer extends StripeResource implements TransferInterface
 {
@@ -37,8 +42,7 @@ class Transfer extends StripeResource implements TransferInterface
      */
     /**
      * Retrieve a Transfer.
-     *
-     * @link   https://stripe.com/docs/api/curl#retrieve_transfer
+     * @link   https://stripe.com/docs/api/php#retrieve_transfer
      *
      * @param  string             $id
      * @param  array|string|null  $options
@@ -52,8 +56,7 @@ class Transfer extends StripeResource implements TransferInterface
 
     /**
      * List all Transfers.
-     *
-     * @link   https://stripe.com/docs/api/curl#list_transfers
+     * @link   https://stripe.com/docs/api/php#list_transfers
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -66,14 +69,13 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Create a new transfer.
-     *
-     * @link   https://stripe.com/docs/api/curl#create_transfer
+     * Create a transfer.
+     * @link   https://stripe.com/docs/api/php#create_transfer
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Transfer|array
+     * @return self|array
      */
     public static function create($params = [], $options = null)
     {
@@ -82,8 +84,7 @@ class Transfer extends StripeResource implements TransferInterface
 
     /**
      * Cancel a Transfer.
-     *
-     * @link   https://stripe.com/docs/api/curl#cancel_transfer
+     * @link   https://stripe.com/docs/api/php#cancel_transfer
      *
      * @return self
      */
@@ -101,7 +102,7 @@ class Transfer extends StripeResource implements TransferInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return TransferReversal
+     * @return \Arcanedev\Stripe\Resources\TransferReversal
      */
     public function reverse($params = null, $options = null)
     {
@@ -114,9 +115,8 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
-     * Update/Save a Transfer.
-     *
-     * @link   https://stripe.com/docs/api/curl#update_transfer
+     * Update a Transfer.
+     * @link   https://stripe.com/docs/api/php#update_transfer
      *
      * @param  array|string|null  $options
      *
