@@ -11,7 +11,7 @@ use Arcanedev\Stripe\StripeResource;
  * @link     https://stripe.com/docs/api/php#account_object
  *
  * @property  null                              id
- * @property  string                            object                   // "account"
+ * @property  string                            object                   // 'account'
  * @property  string|null                       business_logo
  * @property  string                            business_name
  * @property  string|null                       business_url
@@ -58,8 +58,7 @@ class Account extends StripeResource implements AccountInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an account.
-     *
+     * Retrieve an Account.
      * @link   https://stripe.com/docs/api/php#retrieve_account
      *
      * @param  string|null        $id
@@ -82,8 +81,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
-     * Create an account.
-     *
+     * Create an Account.
      * @link   https://stripe.com/docs/api/php#create_account
      *
      * @param  array|null         $params
@@ -97,8 +95,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
-     * Save an account.
-     *
+     * Save an Account.
      * @link   https://stripe.com/docs/api/php#update_account
      *
      * @param  array|string|null  $options
@@ -111,8 +108,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
-     * Get all accounts.
-     *
+     * Get all Accounts.
      * @link   https://stripe.com/docs/api/php#list_accounts
      *
      * @param  array|null         $params
@@ -126,8 +122,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
-     * Delete an account.
-     *
+     * Delete an Account.
      * @link   https://stripe.com/docs/api/php#delete_account
      *
      * @param  array|null         $params
@@ -141,8 +136,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /**
-     * Reject an account.
-     *
+     * Reject an Account.
      * @link   https://stripe.com/docs/api/php#reject_account
      *
      * @param  array|null         $params
@@ -152,6 +146,8 @@ class Account extends StripeResource implements AccountInterface
      */
     public function reject($params = null, $options = null)
     {
-        return $this->scopedPostCall($this->instanceUrl() . '/reject', $params, $options);
+        return $this->scopedPostCall(
+            $this->instanceUrl() . '/reject', $params, $options
+        );
     }
 }

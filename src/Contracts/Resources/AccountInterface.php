@@ -13,19 +13,18 @@ interface AccountInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an account.
-     *
+     * Retrieve an Account.
      * @link   https://stripe.com/docs/api/php#retrieve_account
      *
-     * @param  string|null  $apiKey
+     * @param  string|null        $id
+     * @param  array|string|null  $options
      *
      * @return self
      */
-    public static function retrieve($apiKey = null);
+    public static function retrieve($id = null, $options = null);
 
     /**
-     * Create an account.
-     *
+     * Create an Account.
      * @link   https://stripe.com/docs/api/php#create_account
      *
      * @param  array|null         $params
@@ -36,8 +35,7 @@ interface AccountInterface
     public static function create($params = null, $options = null);
 
     /**
-     * Save an account.
-     *
+     * Save an Account.
      * @link   https://stripe.com/docs/api/php#update_account
      *
      * @param  array|string|null  $options
@@ -47,8 +45,7 @@ interface AccountInterface
     public function save($options = null);
 
     /**
-     * Get all accounts.
-     *
+     * Get all Accounts.
      * @link   https://stripe.com/docs/api/php#list_accounts
      *
      * @param  array|null         $params
@@ -59,8 +56,7 @@ interface AccountInterface
     public static function all($params = null, $options = null);
 
     /**
-     * Delete an account.
-     *
+     * Delete an Account.
      * @link   https://stripe.com/docs/api/php#delete_account
      *
      * @param  array|null         $params
@@ -71,8 +67,7 @@ interface AccountInterface
     public function delete($params = null, $options = null);
 
     /**
-     * Reject an account.
-     *
+     * Reject an Account.
      * @link   https://stripe.com/docs/api/php#reject_account
      *
      * @param  array|null         $params
