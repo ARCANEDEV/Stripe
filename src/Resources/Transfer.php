@@ -106,10 +106,10 @@ class Transfer extends StripeResource implements TransferInterface
      */
     public function reverse($params = null, $options = null)
     {
-        list($response, $opts) = $this->request(
+        list($response, $options) = $this->request(
             'post', $this->instanceUrl() . '/reversals', $params, $options
         );
-        $this->refreshFrom($response, $opts);
+        $this->refreshFrom($response, $options);
 
         return $this;
     }
