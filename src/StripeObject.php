@@ -104,6 +104,16 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     public function __construct($id = null, $options = null)
     {
+        $this->init();
+        $this->opts = $options ? $options : new RequestOptions;
+        $this->setId($id);
+    }
+
+    /**
+     * Init the stripe object.
+     */
+    private function init()
+    {
         $this->values                    = [];
         self::$permanentAttributes       = new UtilSet(['opts', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet([
@@ -116,8 +126,6 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         $this->unsavedValues             = new UtilSet;
         $this->transientValues           = new UtilSet;
         $this->retrieveParameters        = [];
-        $this->opts                      = $options ? $options : new RequestOptions;
-        $this->setId($id);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -375,9 +383,9 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
      *
-     * @param  string  $class
-     * @param  array   $values
-     * @param  string  $options
+     * @param  string                                                   $class
+     * @param  array                                                    $values
+     * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      *
      * @return self
      */
@@ -394,12 +402,12 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      * Refreshes this object using the provided values.
      *
      * @param  array                                                    $values
-     * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $opts
+     * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      * @param  bool                                                     $partial
      */
-    public function refreshFrom($values, $opts, $partial = false)
+    public function refreshFrom($values, $options, $partial = false)
     {
-        $this->opts = $opts;
+        $this->opts = is_array($options) ? RequestOptions::parse($options) : $options;
 
         $this->cleanObject($values, $partial);
 
@@ -407,7 +415,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
             if (self::$permanentAttributes->includes($key) && isset($this[$key]))
                 continue;
 
-            $this->values[$key] = $this->constructValue($key, $value, $opts);
+            $this->values[$key] = $this->constructValue($key, $value, $this->opts);
 
             $this->transientValues->discard($key);
             $this->unsavedValues->discard($key);
@@ -440,17 +448,17 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     /**
      * Construct Value.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  array   $opts
+     * @param  string                                                   $key
+     * @param  mixed                                                    $value
+     * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      *
      * @return self|\Arcanedev\Stripe\StripeResource|\Arcanedev\Stripe\Collection|array
      */
-    private function constructValue($key, $value, $opts)
+    private function constructValue($key, $value, $options)
     {
         return (self::$nestedUpdatableAttributes->includes($key) && is_array($value))
-            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $opts)
-            : Util::convertToStripeObject($value, $opts);
+            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $options)
+            : Util::convertToStripeObject($value, $options);
     }
 
     /**
