@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -33,36 +32,51 @@ use Arcanedev\Stripe\StripeResource;
 class Subscription extends StripeResource implements SubscriptionInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get the instance URL.
-     *
-     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
-     *
-     * @return string
-     */
-    public function instanceUrl()
-    {
-        if (is_null($id = $this['id'])) {
-            throw new InvalidRequestException(
-                "Could not determine which URL to request: class instance has invalid ID [null]",
-                null
-            );
-        }
-
-        $base           = self::classUrl('Arcanedev\\Stripe\\Resources\\Customer');
-        $customerId     = urlencode(str_utf8($this['customer']));
-        $subscriptionId = urlencode(str_utf8($id));
-
-        return "$base/$customerId/subscriptions/$subscriptionId";
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  CRUD Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Retrieve a Subscription by id.
+     * @link   https://stripe.com/docs/api/php#retrieve_subscription
+     *
+     * @param  string             $id       The ID of the subscription to retrieve.
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
+     * List all Subscriptions.
+     * @link   https://stripe.com/docs/api/php#list_subscriptions
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
+     * Create a Subscription.
+     * @link   https://stripe.com/docs/api/php#create_subscription
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function create($params = [], $options = null)
+    {
+        return self::scopedCreate($params, $options);
+    }
+
     /**
      * Cancel a Subscription.
      * @link   https://stripe.com/docs/api/php#cancel_subscription
