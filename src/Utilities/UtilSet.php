@@ -116,4 +116,18 @@ class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
     {
         return count($this->items);
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Check if the items are empty.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->items);
+    }
 }

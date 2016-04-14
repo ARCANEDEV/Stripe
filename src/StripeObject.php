@@ -346,7 +346,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     public function keys()
     {
-        return count($this->values) ? array_keys($this->values) : [];
+        return empty($this->values) ? [] : array_keys($this->values);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -664,11 +664,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     {
         $message = "Stripe Notice: Undefined property of $class instance: $key.";
 
-        if ($this->transientValues->includes($key)) {
+        if ( ! $this->transientValues->isEmpty() && $this->transientValues->includes($key)) {
             $message .= " HINT: The [$key] attribute was set in the past, however. " .
                 'It was then wiped when refreshing the object with the result returned by Stripe\'s API, ' .
-                'probably as a result of a save().' .
-                $this->showUndefinedPropertyMsgAttributes();
+                'probably as a result of a save().' . $this->showUndefinedPropertyMsgAttributes();
         }
 
         if ( ! is_testing()) error_log($message);
