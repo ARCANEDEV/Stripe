@@ -50,6 +50,7 @@ abstract class Util implements UtilInterface
         'list'                => 'Collection',                     // List Object
         'order'               => 'Resources\\Order',
         'order_item'          => 'Resources\\OrderItem',
+        'order_return'        => 'Resources\\OrderReturn',
         'plan'                => 'Resources\\Plan',
         'product'             => 'Resources\\Product',
         'recipient'           => 'Resources\\Recipient',

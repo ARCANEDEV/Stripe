@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\Resources\OrderInterface;
 use Arcanedev\Stripe\StripeResource;
+use Arcanedev\Stripe\Utilities\Util;
 
 /**
  * Class     Order
@@ -109,5 +110,23 @@ class Order extends StripeResource implements OrderInterface
         $this->refreshFrom($response, $options);
 
         return $this;
+    }
+
+    /**
+     * Return an order.
+     * @link   https://stripe.com/docs/api/php#return_order
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\OrderReturn
+     */
+    public function returnOrder($params = null, $options = null)
+    {
+        list($response, $options) = $this->request(
+            'post', $this->instanceUrl() . '/returns', $params, $options
+        );
+
+        return Util::convertToStripeObject($response, $options);
     }
 }

@@ -55,21 +55,22 @@ class OrderTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_pay_order()
+    public function it_can_pay_order_and_return()
     {
         $order = $this->createOrder();
         $card  = [
             'object'    => 'card',
             'number'    => '4242424242424242',
             'exp_month' => '05',
-            'exp_year'  => '2017'
+            'exp_year'  => date('Y') + 1
         ];
 
-        $order->pay([
-            'source' => $card,
-        ]);
+        $order->pay(['source' => $card]);
 
         $this->assertEquals($order->status, 'paid');
+
+        $orderReturn = $order->returnOrder();
+        $this->assertEquals($order->id, $orderReturn->order);
     }
 
     /* ------------------------------------------------------------------------------------------------

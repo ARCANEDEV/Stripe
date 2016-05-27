@@ -65,4 +65,15 @@ interface OrderInterface
      * @return self
      */
     public function pay($params = null, $options = null);
+
+    /**
+     * Return an order.
+     * @link   https://stripe.com/docs/api/php#return_order
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\OrderReturn
+     */
+    public function returnOrder($params = null, $options = null);
 }
