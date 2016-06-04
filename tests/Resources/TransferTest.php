@@ -52,7 +52,7 @@ class TransferTest extends StripeTestCase
         $transfers = Transfer::all();
 
         $this->assertTrue($transfers->isList());
-        $this->assertEquals('/v1/transfers', $transfers->url);
+        $this->assertSame('/v1/transfers', $transfers->url);
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class TransferTest extends StripeTestCase
     {
         $this->transfer = self::createTestTransfer();
 
-        $this->assertEquals('pending', $this->transfer->status);
+        $this->assertSame('pending', $this->transfer->status);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class TransferTest extends StripeTestCase
         $this->transfer = self::createTestTransfer();
         $retrievedTrans = Transfer::retrieve($this->transfer->id);
 
-        $this->assertEquals($this->transfer->id, $retrievedTrans->id);
+        $this->assertSame($this->transfer->id, $retrievedTrans->id);
     }
 
     /** @test */
@@ -78,7 +78,7 @@ class TransferTest extends StripeTestCase
         $this->transfer = self::createTestTransfer();
         $retrievedTrans = Transfer::retrieve($this->transfer->id);
 
-        $this->assertEquals($this->transfer->id, $retrievedTrans->id);
+        $this->assertSame($this->transfer->id, $retrievedTrans->id);
 
         if ($retrievedTrans->status !== 'paid')
             $retrievedTrans->cancel();
@@ -93,7 +93,7 @@ class TransferTest extends StripeTestCase
 
         $transfer = Transfer::retrieve($this->transfer->id);
 
-        $this->assertEquals('foo bar', $transfer->metadata['test']);
+        $this->assertSame('foo bar', $transfer->metadata['test']);
     }
 
     /** @test */
@@ -104,6 +104,6 @@ class TransferTest extends StripeTestCase
         $this->transfer->save();
 
         $transfer = Transfer::retrieve($this->transfer->id);
-        $this->assertEquals('foo bar', $transfer->metadata['test']);
+        $this->assertSame('foo bar', $transfer->metadata['test']);
     }
 }

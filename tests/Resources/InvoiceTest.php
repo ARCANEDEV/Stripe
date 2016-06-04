@@ -54,7 +54,7 @@ class InvoiceTest extends StripeTestCase
         $invoices = Invoice::all();
 
         $this->assertTrue($invoices->isList());
-        $this->assertEquals('/v1/invoices', $invoices->url);
+        $this->assertSame('/v1/invoices', $invoices->url);
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class InvoiceTest extends StripeTestCase
         $this->invoice = Invoice::retrieve($invoice->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
-        $this->assertEquals($invoice->id, $this->invoice->id);
+        $this->assertSame($invoice->id, $this->invoice->id);
     }
 
     /** @test */
@@ -117,7 +117,7 @@ class InvoiceTest extends StripeTestCase
         $this->invoice->description = $description;
         $this->invoice->save();
 
-        $this->assertEquals($description, $this->invoice->description);
+        $this->assertSame($description, $this->invoice->description);
     }
 
     /** @test */
@@ -135,8 +135,8 @@ class InvoiceTest extends StripeTestCase
             'customer' => $customer->id,
         ]);
 
-        $this->assertEquals($customer->id, $this->invoice->customer);
-        $this->assertEquals(false, $this->invoice->attempted);
+        $this->assertSame($customer->id, $this->invoice->customer);
+        $this->assertSame(false, $this->invoice->attempted);
     }
 
     /** @test */
@@ -180,7 +180,7 @@ class InvoiceTest extends StripeTestCase
             'limit' => 10,
         ]);
 
-        $this->assertEquals(1, count($lines->data));
-        $this->assertEquals(100, $lines->data[0]->amount);
+        $this->assertSame(1, count($lines->data));
+        $this->assertSame(100, $lines->data[0]->amount);
     }
 }

@@ -59,17 +59,17 @@ class RequestorTest extends StripeTestCase
         if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
             $method = self::getRequestMethod('encodeObjects');
 
-            $this->assertEquals(['customer' => 'abcd'], $method->invoke(null, [
+            $this->assertSame(['customer' => 'abcd'], $method->invoke(null, [
                 'customer' => new Customer('abcd')
             ]));
 
             // Preserves UTF-8
             $value  = ['customer' => "☃"];
-            $this->assertEquals($value, $method->invoke(null, $value));
+            $this->assertSame($value, $method->invoke(null, $value));
 
             // Encodes latin-1 -> UTF-8
             $value  = ['customer' => "\xe9"];
-            $this->assertEquals(['customer' => "\xc3\xa9"], $method->invoke(null, $value));
+            $this->assertSame(['customer' => "\xc3\xa9"], $method->invoke(null, $value));
         }
     }
 
@@ -102,7 +102,7 @@ class RequestorTest extends StripeTestCase
             }
             catch(\Arcanedev\Stripe\Exceptions\ApiException $e) {
                 $thrown = true;
-                $this->assertEquals(
+                $this->assertSame(
                     'Unrecognized method put, must be [get, post, delete].',
                     $e->getMessage()
                 );
@@ -135,7 +135,7 @@ class RequestorTest extends StripeTestCase
         $curl->setTimeout(10);
         Requestor::setHttpClient($curl);
 
-        $this->assertEquals($method->invoke(new Requestor), $curl);
+        $this->assertSame($method->invoke(new Requestor), $curl);
     }
 
     /* ------------------------------------------------------------------------------------------------

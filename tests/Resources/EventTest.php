@@ -55,7 +55,7 @@ class EventTest extends StripeTestCase
         $events = Event::all();
 
         $this->assertTrue($events->isList());
-        $this->assertEquals('/v1/events', $events->url);
+        $this->assertSame('/v1/events', $events->url);
     }
 
     /** @test */
@@ -73,6 +73,6 @@ class EventTest extends StripeTestCase
             'Arcanedev\\Stripe\\Resources\\Event',
             $this->event
         );
-        $this->assertEquals($eventId, $this->event->id);
+        $this->assertSame($eventId, $this->event->id);
     }
 }

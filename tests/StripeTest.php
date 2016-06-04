@@ -19,17 +19,17 @@ class StripeTest extends StripeTestCase
     {
         Stripe::init($this->myApiKey);
 
-        $this->assertEquals($this->myApiKey, Stripe::getApiKey());
+        $this->assertSame($this->myApiKey, Stripe::getApiKey());
     }
 
     /** @test */
     public function it_can_get_and_set_api_key()
     {
-        $this->assertEquals(self::API_KEY, Stripe::getApiKey());
+        $this->assertSame(self::API_KEY, Stripe::getApiKey());
 
         Stripe::setApiKey($this->myApiKey);
 
-        $this->assertEquals($this->myApiKey, Stripe::getApiKey());
+        $this->assertSame($this->myApiKey, Stripe::getApiKey());
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class StripeTest extends StripeTestCase
         Stripe::setAccountId($accountId);
 
         $this->assertTrue(Stripe::hasAccountId());
-        $this->assertEquals($accountId, Stripe::getAccountId());
+        $this->assertSame($accountId, Stripe::getAccountId());
     }
 
     /**
@@ -75,10 +75,10 @@ class StripeTest extends StripeTestCase
         $url     = $baseUrl . '/v2';
 
         Stripe::setApiBaseUrl($url);
-        $this->assertEquals($url, Stripe::getApiBaseUrl());
+        $this->assertSame($url, Stripe::getApiBaseUrl());
 
         Stripe::setApiBaseUrl($baseUrl);
-        $this->assertEquals($baseUrl, Stripe::getApiBaseUrl());
+        $this->assertSame($baseUrl, Stripe::getApiBaseUrl());
     }
 
     /**
@@ -108,12 +108,12 @@ class StripeTest extends StripeTestCase
     {
         $url = 'https://uploads.stripe.com';
 
-        $this->assertEquals($url, Stripe::getUploadBaseUrl());
+        $this->assertSame($url, Stripe::getUploadBaseUrl());
 
         $url .= '/v2';
         Stripe::setUploadBaseUrl($url);
 
-        $this->assertEquals($url, Stripe::getUploadBaseUrl());
+        $this->assertSame($url, Stripe::getUploadBaseUrl());
     }
 
     /**
@@ -146,8 +146,8 @@ class StripeTest extends StripeTestCase
 
         Stripe::setApiVersion($this->myApiVersion);
 
-        $this->assertEquals($this->myApiVersion, Stripe::getApiVersion());
-        $this->assertEquals($this->myApiVersion, Stripe::version());
+        $this->assertSame($this->myApiVersion, Stripe::getApiVersion());
+        $this->assertSame($this->myApiVersion, Stripe::version());
 
         Stripe::setApiVersion(null);
 

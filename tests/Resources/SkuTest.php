@@ -21,9 +21,9 @@ class SkuTest extends StripeTestCase
     {
         $sku = $this->createSku();
 
-        $this->assertEquals(500,      $sku->price);
-        $this->assertEquals(40,       $sku->inventory->quantity);
-        $this->assertEquals('finite', $sku->inventory->type);
+        $this->assertSame(500,      $sku->price);
+        $this->assertSame(40,       $sku->inventory->quantity);
+        $this->assertSame('finite', $sku->inventory->type);
     }
 
     /** @test */
@@ -33,20 +33,20 @@ class SkuTest extends StripeTestCase
         $sku->price = 600;
         $sku->save();
 
-        $this->assertEquals(600,      $sku->price);
-        $this->assertEquals('finite', $sku->inventory->type);
-        $this->assertEquals(40,       $sku->inventory->quantity);
+        $this->assertSame(600,      $sku->price);
+        $this->assertSame('finite', $sku->inventory->type);
+        $this->assertSame(40,       $sku->inventory->quantity);
     }
 
     /** @test */
     public function it_retrieve_sku()
     {
         $sku       = $this->createSku();
-        $stripeSku = SKU::retrieve($sku->id);
+        $stripeSku = Sku::retrieve($sku->id);
 
-        $this->assertEquals($sku->price,               $stripeSku->price);
-        $this->assertEquals($sku->inventory->type,     $stripeSku->inventory->type);
-        $this->assertEquals($sku->inventory->quantity, $stripeSku->inventory->quantity);
+        $this->assertSame($sku->price,               $stripeSku->price);
+        $this->assertSame($sku->inventory->type,     $stripeSku->inventory->type);
+        $this->assertSame($sku->inventory->quantity, $stripeSku->inventory->quantity);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class SkuTest extends StripeTestCase
     {
         $product = $this->createProduct();
 
-        return SKU::create([
+        return Sku::create([
             'price'     => 500,
             'currency'  => 'usd',
             'id'        => 'silver-sku-' . self::generateRandomString(20),

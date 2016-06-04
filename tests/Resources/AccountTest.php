@@ -40,7 +40,7 @@ class AccountTest extends StripeTestCase
         $this->mockRequest('GET', '/v1/account', [], $response);
 
         $this->account = Account::retrieve();
-        $this->assertEquals($this->account->id, 'acct_ABC');
+        $this->assertSame($this->account->id, 'acct_ABC');
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class AccountTest extends StripeTestCase
 
         $this->account = Account::retrieve('acct_DEF');
 
-        $this->assertEquals($this->account->id, 'acct_DEF');
+        $this->assertSame($this->account->id, 'acct_DEF');
     }
 
     /** @test */
@@ -62,7 +62,7 @@ class AccountTest extends StripeTestCase
 
         $account = Account::create(['managed' => true]);
 
-        $this->assertEquals($account->id, 'acct_ABC');
+        $this->assertSame($account->id, 'acct_ABC');
     }
 
     /** @test */
@@ -84,7 +84,7 @@ class AccountTest extends StripeTestCase
         $this->account->legal_entity->first_name = 'Bob';
         $this->account->save();
 
-        $this->assertEquals('Bob', $this->account->legal_entity->first_name);
+        $this->assertSame('Bob', $this->account->legal_entity->first_name);
     }
 
     /** @test */
@@ -122,8 +122,8 @@ class AccountTest extends StripeTestCase
         $respAO   = $response['legal_entity']['additional_owners'];
 
         foreach ($request['legal_entity']['additional_owners'] as $index => $owner) {
-            $this->assertEquals($owner['dob'],        $respAO[$index]['dob']);
-            $this->assertEquals($owner['first_name'], $respAO[$index]['first_name']);
+            $this->assertSame($owner['dob'],        $respAO[$index]['dob']);
+            $this->assertSame($owner['first_name'], $respAO[$index]['first_name']);
         }
     }
 
@@ -219,30 +219,30 @@ class AccountTest extends StripeTestCase
 
         $this->account->save();
 
-        $this->assertEquals(1, count($this->account->legal_entity->additional_owners));
-        $this->assertEquals('Bob', $this->account->legal_entity->additional_owners[0]->first_name);
+        $this->assertSame(1, count($this->account->legal_entity->additional_owners));
+        $this->assertSame('Bob', $this->account->legal_entity->additional_owners[0]->first_name);
 
         $this->account->legal_entity->additional_owners[0]->last_name = 'Smith';
         $this->account->save();
 
-        $this->assertEquals(1, count($this->account->legal_entity->additional_owners));
-        $this->assertEquals('Smith', $this->account->legal_entity->additional_owners[0]->last_name);
+        $this->assertSame(1, count($this->account->legal_entity->additional_owners));
+        $this->assertSame('Smith', $this->account->legal_entity->additional_owners[0]->last_name);
 
         $this->account['legal_entity']['additional_owners'][0]['last_name'] = 'Johnson';
         $this->account->save();
 
-        $this->assertEquals(1, count($this->account->legal_entity->additional_owners));
-        $this->assertEquals('Johnson', $this->account->legal_entity->additional_owners[0]->last_name);
+        $this->assertSame(1, count($this->account->legal_entity->additional_owners));
+        $this->assertSame('Johnson', $this->account->legal_entity->additional_owners[0]->last_name);
 
         $this->account->legal_entity->additional_owners[0]->verification->document = 'file_123';
         $this->account->save();
 
-        $this->assertEquals('file_123', $this->account->legal_entity->additional_owners[0]->verification->document);
+        $this->assertSame('file_123', $this->account->legal_entity->additional_owners[0]->verification->document);
 
         $this->account->legal_entity->additional_owners[1] = array('first_name' => 'Jane');
         $this->account->save();
 
-        $this->assertEquals('Jane', $this->account->legal_entity->additional_owners[1]->first_name);
+        $this->assertSame('Jane', $this->account->legal_entity->additional_owners[1]->first_name);
     }
 
     /** @test */
@@ -258,7 +258,7 @@ class AccountTest extends StripeTestCase
         );
 
         $deleted = $account->delete();
-        $this->assertEquals($deleted->id, $account->id);
+        $this->assertSame($deleted->id, $account->id);
         $this->assertTrue($deleted->deleted);
     }
 
@@ -275,7 +275,7 @@ class AccountTest extends StripeTestCase
         );
 
         $rejected = $account->reject(['reason' => 'fraud']);
-        $this->assertEquals($rejected->id, $account->id);
+        $this->assertSame($rejected->id, $account->id);
     }
 
     /* ------------------------------------------------------------------------------------------------

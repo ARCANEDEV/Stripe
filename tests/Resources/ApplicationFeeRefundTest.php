@@ -58,7 +58,7 @@ class ApplicationFeeRefundTest extends StripeTestCase
         $this->appFeeRefund->id  = $refundId;
         $this->appFeeRefund->fee = $feeId;
 
-        $this->assertEquals(
+        $this->assertSame(
             "/v1/application_fees/$feeId/refunds/$refundId",
             $this->appFeeRefund->instanceUrl()
         );

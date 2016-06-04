@@ -22,9 +22,9 @@ class OrderTest extends StripeTestCase
     {
         $order = $this->createOrder();
 
-        $this->assertEquals('order', $order->object);
-        $this->assertEquals('usd', $order->currency);
-        $this->assertEquals('foo@bar.com', $order->email);
+        $this->assertSame('order', $order->object);
+        $this->assertSame('usd', $order->currency);
+        $this->assertSame('foo@bar.com', $order->email);
 
         foreach ($order->items as $orderItem) {
             /** @var \Arcanedev\Stripe\Resources\OrderItem $orderItem */
@@ -50,8 +50,8 @@ class OrderTest extends StripeTestCase
         $order       = $this->createOrder();
         $stripeOrder = Order::retrieve($order->id);
 
-        $this->assertEquals($stripeOrder->id, $order->id);
-        $this->assertEquals($stripeOrder->object, 'order');
+        $this->assertSame($stripeOrder->id, $order->id);
+        $this->assertSame($stripeOrder->object, 'order');
     }
 
     /** @test */
@@ -67,10 +67,10 @@ class OrderTest extends StripeTestCase
 
         $order->pay(['source' => $card]);
 
-        $this->assertEquals($order->status, 'paid');
+        $this->assertSame($order->status, 'paid');
 
         $orderReturn = $order->returnOrder();
-        $this->assertEquals($order->id, $orderReturn->order);
+        $this->assertSame($order->id, $orderReturn->order);
     }
 
     /* ------------------------------------------------------------------------------------------------

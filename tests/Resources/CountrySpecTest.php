@@ -21,8 +21,8 @@ class CountrySpecTest extends StripeTestCase
         $code    = 'US';
         $country = CountrySpec::retrieve($code);
 
-        $this->assertEquals($country->object, 'country_spec');
-        $this->assertEquals($country->id, $code);
+        $this->assertSame($country->object, 'country_spec');
+        $this->assertSame($country->id, $code);
         $this->assertCountGreaterThan(0, $country->supported_bank_account_currencies);
         $this->assertCountGreaterThan(0, $country->supported_payment_currencies);
         $this->assertCountGreaterThan(0, $country->supported_payment_methods);
@@ -34,12 +34,12 @@ class CountrySpecTest extends StripeTestCase
     {
         $countries = CountrySpec::all();
 
-        $this->assertEquals('list', $countries->object);
+        $this->assertSame('list', $countries->object);
         $this->assertCountGreaterThan(0, count($countries->data));
 
         $country   = $countries->data[0];
 
-        $this->assertEquals('country_spec', $country->object);
+        $this->assertSame('country_spec', $country->object);
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\CountrySpec', $country);
     }
 }

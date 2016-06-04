@@ -26,7 +26,7 @@ class StripeObjectTest extends StripeTestCase
         $object = new StripeObject('object-id', 'my-api-key');
 
         $this->assertInstanceOf(self::OBJECT_CLASS, $object);
-        $this->assertEquals('object-id', $object->id);
+        $this->assertSame('object-id', $object->id);
     }
 
     /** @test */
@@ -41,7 +41,7 @@ class StripeObjectTest extends StripeTestCase
         $method = self::getObjectMethod('getRetrieveParams');
 
         $this->assertTrue($object->hasRetrieveParams());
-        $this->assertEquals([
+        $this->assertSame([
             'param_one' => 'condition-1',
             'param_two' => 'condition-2'
         ], $method->invoke($object));
@@ -64,7 +64,7 @@ class StripeObjectTest extends StripeTestCase
         $object['foo'] = 'a';
 
         $this->assertArrayHasKey('foo', $object);
-        $this->assertEquals('a', $object['foo']);
+        $this->assertSame('a', $object['foo']);
 
         unset($object['foo']);
 
@@ -78,7 +78,7 @@ class StripeObjectTest extends StripeTestCase
         $object->foo = 'a';
 
         $this->assertNotNull(isset($object->foo));
-        $this->assertEquals('a', $object->foo);
+        $this->assertSame('a', $object->foo);
 
         unset($object->foo);
 
@@ -91,7 +91,7 @@ class StripeObjectTest extends StripeTestCase
         $object      = new StripeObject;
         $object->foo = 'a';
 
-        $this->assertEquals(['foo'], $object->keys());
+        $this->assertSame(['foo'], $object->keys());
     }
 
     /** @test */
@@ -110,7 +110,7 @@ class StripeObjectTest extends StripeTestCase
     {
         $object = new StripeObject('foo');
 
-        $this->assertEquals(
+        $this->assertSame(
             "Arcanedev\\Stripe\\StripeObject JSON: {\n    \"id\": \"foo\"\n}",
             (string) $object
         );
@@ -120,7 +120,7 @@ class StripeObjectTest extends StripeTestCase
     public function it_can_convert_object_to_array()
     {
         $object = new StripeObject('foo');
-        $this->assertEquals(['id' => 'foo'], $object->toArray());
+        $this->assertSame(['id' => 'foo'], $object->toArray());
     }
 
     /** @test */
@@ -132,7 +132,7 @@ class StripeObjectTest extends StripeTestCase
         $object['description'] = 'description';
         $method = self::getObjectMethod('serializeParameters');
 
-        $this->assertEquals([
+        $this->assertSame([
             'object'      => 'type',
             'name'        => 'name',
             'description' => 'description',
@@ -142,7 +142,7 @@ class StripeObjectTest extends StripeTestCase
             'date-format' => 'Y-m-d',
         ];
 
-        $this->assertEquals([
+        $this->assertSame([
             'object'      => 'type',
             'name'        => 'name',
             'description' => 'description',
@@ -157,7 +157,7 @@ class StripeObjectTest extends StripeTestCase
         $object->foo = 'a';
 
         $this->assertJson($json = json_encode($object));
-        $this->assertEquals('{"foo":"a"}', $json);
+        $this->assertSame('{"foo":"a"}', $json);
     }
 
     /** @test */
@@ -167,11 +167,11 @@ class StripeObjectTest extends StripeTestCase
 
         $object->metadata = ['foo'];
 
-        $this->assertEquals(['foo'], $object->metadata);
+        $this->assertSame(['foo'], $object->metadata);
 
         $object->metadata = ['bar', 'baz'];
 
-        $this->assertEquals(['bar', 'baz'], $object->metadata);
+        $this->assertSame(['bar', 'baz'], $object->metadata);
     }
 
     /* ------------------------------------------------------------------------------------------------

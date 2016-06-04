@@ -52,7 +52,7 @@ class RefundTest extends StripeTestCase
     {
         $this->refund->id = $refundId = 'refund_random_id';
 
-        $this->assertEquals(
+        $this->assertSame(
             "/v1/refunds/$refundId",
             $this->refund->instanceUrl()
         );
@@ -74,8 +74,8 @@ class RefundTest extends StripeTestCase
         $charge       = self::createTestCharge();
         $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
 
-        $this->assertEquals(100, $this->refund->amount);
-        $this->assertEquals($charge->id, $this->refund->charge);
+        $this->assertSame(100, $this->refund->amount);
+        $this->assertSame($charge->id, $this->refund->charge);
     }
 
     /** @test */
@@ -101,10 +101,10 @@ class RefundTest extends StripeTestCase
 
         $this->assertFalse($all['has_more']);
         $this->assertCount(2, $all->data);
-        $this->assertEquals($all->data[0]->id,     $refundB->id);
-        $this->assertEquals($all->data[0]->amount, $refundB->amount);
-        $this->assertEquals($all->data[1]->id,     $refundA->id);
-        $this->assertEquals($all->data[1]->amount, $refundA->amount);
+        $this->assertSame($all->data[0]->id,     $refundB->id);
+        $this->assertSame($all->data[0]->amount, $refundB->amount);
+        $this->assertSame($all->data[1]->id,     $refundA->id);
+        $this->assertSame($all->data[1]->amount, $refundA->amount);
     }
 
     /** @test */
@@ -114,7 +114,7 @@ class RefundTest extends StripeTestCase
 
         // Fetches all refunds on this test account.
         $this->assertTrue($all['has_more']);
-        $this->assertEquals(10, count($all->data));
+        $this->assertSame(10, count($all->data));
     }
 
     /** @test */
@@ -134,7 +134,7 @@ class RefundTest extends StripeTestCase
             'charge'         => $charge->id
         ]);
 
-        $this->assertEquals($receiver->amount, $this->refund->amount);
+        $this->assertSame($receiver->amount, $this->refund->amount);
         $this->assertNotNull($this->refund->id);
     }
 
@@ -147,8 +147,8 @@ class RefundTest extends StripeTestCase
         $charge       = self::createTestCharge();
         $this->refund = $charge->refunds->create(['amount' => 100]);
 
-        $this->assertEquals(100, $this->refund->amount);
-        $this->assertEquals($charge->id, $this->refund->charge);
+        $this->assertSame(100, $this->refund->amount);
+        $this->assertSame($charge->id, $this->refund->charge);
     }
 
     /** @test */
@@ -161,7 +161,7 @@ class RefundTest extends StripeTestCase
 
         $this->refund = $charge->refunds->retrieve($this->refund->id);
 
-        $this->assertEquals('value', $this->refund->metadata['key'], 'value');
+        $this->assertSame('value', $this->refund->metadata['key'], 'value');
     }
 
     /** @test */
@@ -174,10 +174,10 @@ class RefundTest extends StripeTestCase
 
         $this->assertFalse($all['has_more']);
         $this->assertCount(2, $all->data);
-        $this->assertEquals($all->data[0]->id,     $refundB->id);
-        $this->assertEquals($all->data[0]->amount, $refundB->amount);
-        $this->assertEquals($all->data[1]->id,     $refundA->id);
-        $this->assertEquals($all->data[1]->amount, $refundA->amount);
+        $this->assertSame($all->data[0]->id,     $refundB->id);
+        $this->assertSame($all->data[0]->amount, $refundB->amount);
+        $this->assertSame($all->data[1]->id,     $refundA->id);
+        $this->assertSame($all->data[1]->amount, $refundA->amount);
     }
 
     /** @test */
@@ -197,7 +197,7 @@ class RefundTest extends StripeTestCase
             'refund_address' => 'ABCDEF'
         ]);
 
-        $this->assertEquals($receiver->amount, $refund->amount);
+        $this->assertSame($receiver->amount, $refund->amount);
         $this->assertNotNull($refund->id);
     }
 }

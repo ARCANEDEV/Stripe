@@ -58,11 +58,11 @@ class ChargeTest extends StripeTestCase
     /** @test */
     public function it_can_get_url()
     {
-        $this->assertEquals(Charge::classUrl(), '/v1/charges');
+        $this->assertSame(Charge::classUrl(), '/v1/charges');
 
         $this->charge = new Charge('abcd/efgh');
 
-        $this->assertEquals($this->charge->instanceUrl(), '/v1/charges/abcd%2Fefgh');
+        $this->assertSame($this->charge->instanceUrl(), '/v1/charges/abcd%2Fefgh');
     }
 
     /** @test */
@@ -71,7 +71,7 @@ class ChargeTest extends StripeTestCase
         $charges = Charge::all();
 
         $this->assertTrue($charges->isList());
-        $this->assertEquals('/v1/charges', $charges->url);
+        $this->assertSame('/v1/charges', $charges->url);
     }
 
     /** @test */
@@ -114,7 +114,7 @@ class ChargeTest extends StripeTestCase
 
         $this->assertTrue($this->charge->paid);
         $this->assertFalse($this->charge->refunded);
-        $this->assertEquals(200, $this->charge->getLastResponse()->getStatusCode());
+        $this->assertSame(200, $this->charge->getLastResponse()->getStatusCode());
     }
 
     /** @test */
@@ -124,8 +124,8 @@ class ChargeTest extends StripeTestCase
         $this->charge = Charge::retrieve($charge->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Charge', $this->charge);
-        $this->assertEquals($charge->id, $this->charge->id);
-        $this->assertEquals(200, $this->charge->getLastResponse()->getCode());
+        $this->assertSame($charge->id, $this->charge->id);
+        $this->assertSame(200, $this->charge->getLastResponse()->getCode());
     }
 
     /** @test */
@@ -135,11 +135,11 @@ class ChargeTest extends StripeTestCase
 
         $this->charge->refund();
         $this->assertTrue($this->charge->refunded);
-        $this->assertEquals(1, count($this->charge->refunds->data));
+        $this->assertSame(1, count($this->charge->refunds->data));
 
         $refund = $this->charge->refunds->data[0];
-        $this->assertEquals('refund', $refund->object);
-        $this->assertEquals(100, $refund->amount);
+        $this->assertSame('refund', $refund->object);
+        $this->assertSame(100, $refund->amount);
     }
 
     /** @test */
@@ -149,11 +149,11 @@ class ChargeTest extends StripeTestCase
 
         $this->charge->refund(['amount' => 50,]);
         $this->assertFalse($this->charge->refunded);
-        $this->assertEquals(1, count($this->charge->refunds->data));
+        $this->assertSame(1, count($this->charge->refunds->data));
 
         $this->charge->refund(['amount' => 50,]);
         $this->assertTrue($this->charge->refunded);
-        $this->assertEquals(2, count($this->charge->refunds->data));
+        $this->assertSame(2, count($this->charge->refunds->data));
     }
 
     /** @test */
@@ -182,10 +182,10 @@ class ChargeTest extends StripeTestCase
             'source'   => $receiver->id
         ]);
 
-        $this->assertEquals($receiver->id, $charge->source->id);
-        $this->assertEquals('bitcoin_receiver', $charge->source->object);
-        $this->assertEquals('succeeded', $charge->status);
-        $this->assertEquals('Arcanedev\\Stripe\\Resources\\BitcoinReceiver', get_class($charge->source));
+        $this->assertSame($receiver->id, $charge->source->id);
+        $this->assertSame('bitcoin_receiver', $charge->source->object);
+        $this->assertSame('succeeded', $charge->status);
+        $this->assertSame('Arcanedev\\Stripe\\Resources\\BitcoinReceiver', get_class($charge->source));
     }
 
     /** @test */
@@ -213,7 +213,7 @@ class ChargeTest extends StripeTestCase
         $this->charge->save();
 
         $charge = Charge::retrieve($this->charge->id);
-        $this->assertEquals('foo bar', $charge->metadata['test']);
+        $this->assertSame('foo bar', $charge->metadata['test']);
     }
 
     /** @test */
@@ -226,8 +226,8 @@ class ChargeTest extends StripeTestCase
 
         $charge = Charge::retrieve($this->charge->id);
 
-        $this->assertEquals('foo bar', $charge->metadata['test']);
-        $this->assertEquals(200, $charge->getLastResponse()->getStatusCode());
+        $this->assertSame('foo bar', $charge->metadata['test']);
+        $this->assertSame(200, $charge->getLastResponse()->getStatusCode());
     }
 
     /** @test */
@@ -239,7 +239,7 @@ class ChargeTest extends StripeTestCase
         $charge->markAsFraudulent();
 
         $updatedCharge = Charge::retrieve($charge->id);
-        $this->assertEquals('fraudulent', $updatedCharge['fraud_details']['user_report']);
+        $this->assertSame('fraudulent', $updatedCharge['fraud_details']['user_report']);
     }
 
     /** @test */
@@ -250,6 +250,6 @@ class ChargeTest extends StripeTestCase
         $charge->markAsSafe();
 
         $updatedCharge = Charge::retrieve($charge->id);
-        $this->assertEquals('safe', $updatedCharge['fraud_details']['user_report']);
+        $this->assertSame('safe', $updatedCharge['fraud_details']['user_report']);
     }
 }

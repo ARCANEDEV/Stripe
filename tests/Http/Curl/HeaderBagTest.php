@@ -58,18 +58,18 @@ class HeaderBagTest extends StripeTestCase
         $headers = $this->headerBag->make($this->myApiKey);
 
         $this->assertCount(4, $headers);
-        $this->assertEquals("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
-        $this->assertEquals("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
-        $this->assertEquals('Content-Type: application/x-www-form-urlencoded',         $headers[3]);
+        $this->assertSame("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
+        $this->assertSame("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
+        $this->assertSame('Content-Type: application/x-www-form-urlencoded',         $headers[3]);
 
         Stripe::setApiVersion($this->myApiVersion);
         $headers = $this->headerBag->make($this->myApiKey, [], true);
 
         $this->assertCount(5, $headers);
-        $this->assertEquals("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
-        $this->assertEquals("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
-        $this->assertEquals('Content-Type: multipart/form-data',                       $headers[3]);
-        $this->assertEquals("Stripe-Version: {$this->myApiVersion}",                   $headers[4]);
+        $this->assertSame("User-Agent: Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers[1]);
+        $this->assertSame("Authorization: Bearer {$this->myApiKey}",                 $headers[2]);
+        $this->assertSame('Content-Type: multipart/form-data',                       $headers[3]);
+        $this->assertSame("Stripe-Version: {$this->myApiVersion}",                   $headers[4]);
     }
 
     /** @test */
@@ -77,7 +77,7 @@ class HeaderBagTest extends StripeTestCase
     {
         $this->headerBag->prepare($this->myApiKey);
 
-        $this->assertEquals(4, $this->headerBag->count());
+        $this->assertSame(4, $this->headerBag->count());
     }
 
     /** @test */
@@ -85,15 +85,15 @@ class HeaderBagTest extends StripeTestCase
     {
         $this->headerBag->prepare($this->myApiKey);
 
-        $this->assertEquals(4, $this->headerBag->count());
+        $this->assertSame(4, $this->headerBag->count());
 
         $key   = 'X-Stripe-Client-Info';
         $value = '{"ca":"using Stripe-supplied CA bundle"}';
         $this->headerBag->set($key, $value);
 
-        $this->assertEquals(5, $this->headerBag->count());
+        $this->assertSame(5, $this->headerBag->count());
         $this->assertArrayHasKey($key, $this->headerBag->toArray());
-        $this->assertEquals($key . ': ' . $value, $this->headerBag->get()[4]);
+        $this->assertSame($key . ': ' . $value, $this->headerBag->get()[4]);
     }
 
     /** @test */
@@ -123,6 +123,6 @@ class HeaderBagTest extends StripeTestCase
         $headers = $this->headerBag->make($this->myApiKey, ['Foo' => 'Bar']);
 
         $this->assertCount(5, $headers);
-        $this->assertEquals('Foo: Bar', $headers[4]);
+        $this->assertSame('Foo: Bar', $headers[4]);
     }
 }

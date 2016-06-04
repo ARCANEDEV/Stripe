@@ -21,7 +21,7 @@ class ApiExceptionTest extends StripeTestCase
         try {
             throw new ApiException(
                 // Message
-                "Stripe error message",
+                'Stripe error message',
                 // Status Code
                 500,
                 // Stripe error type
@@ -37,14 +37,14 @@ class ApiExceptionTest extends StripeTestCase
             );
         }
         catch (ApiException $e) {
-            $this->assertEquals("Stripe error message", $e->getMessage());
-            $this->assertEquals(500, $e->getCode());
-            $this->assertEquals(500, $e->getHttpStatus());
-            $this->assertEquals('api_error', $e->getType());
-            $this->assertEquals('api_error_code', $e->getStripeCode());
-            $this->assertEquals("{'foo':'bar'}", $e->getHttpBody());
-            $this->assertEquals(['foo' => 'bar'], $e->getJsonBody());
-            $this->assertEquals(['param'=> 'some-id'], $e->getParams());
+            $this->assertSame('Stripe error message', $e->getMessage());
+            $this->assertSame(500, $e->getCode());
+            $this->assertSame(500, $e->getHttpStatus());
+            $this->assertSame('api_error', $e->getType());
+            $this->assertSame('api_error_code', $e->getStripeCode());
+            $this->assertSame("{'foo':'bar'}", $e->getHttpBody());
+            $this->assertSame(['foo' => 'bar'], $e->getJsonBody());
+            $this->assertSame(['param'=> 'some-id'], $e->getParams());
         }
     }
 }

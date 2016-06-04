@@ -58,7 +58,7 @@ class ProductTest extends StripeTestCase
     {
         $product = $this->createProduct();
 
-        $this->assertEquals($product->url, 'www.stripe.com/gold');
+        $this->assertSame($product->url, 'www.stripe.com/gold');
     }
 
     /** @test */
@@ -68,8 +68,8 @@ class ProductTest extends StripeTestCase
         $product->name = 'A new Product name';
         $product->save();
 
-        $this->assertEquals($product->name, 'A new Product name');
-        $this->assertEquals($product->url, 'www.stripe.com/gold');
+        $this->assertSame($product->name, 'A new Product name');
+        $this->assertSame($product->url, 'www.stripe.com/gold');
     }
 
     /** @test */
@@ -78,8 +78,8 @@ class ProductTest extends StripeTestCase
         $product       = $this->createProduct();
         $stripeProduct = Product::retrieve($this->productId);
 
-        $this->assertEquals($product->name,      $stripeProduct->name);
-        $this->assertEquals($stripeProduct->url, 'www.stripe.com/gold');
+        $this->assertSame($product->name,      $stripeProduct->name);
+        $this->assertSame($stripeProduct->url, 'www.stripe.com/gold');
     }
 
     /** @test */

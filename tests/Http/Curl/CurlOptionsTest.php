@@ -81,7 +81,7 @@ class CurlOptionsTest extends StripeTestCase
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
 
         $this->assertTrue($options[CURLOPT_HTTPGET]);
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
+        $this->assertSame($method, $options[CURLOPT_CUSTOMREQUEST]);
 
         $this->assertDefaultOptions($options);
     }
@@ -103,7 +103,7 @@ class CurlOptionsTest extends StripeTestCase
         $this->assertArrayHasKey(CURLOPT_SSL_VERIFYPEER, $options);
 
         $this->assertTrue($options[CURLOPT_HTTPGET]);
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
+        $this->assertSame($method, $options[CURLOPT_CUSTOMREQUEST]);
         $this->assertFalse($options[CURLOPT_SSL_VERIFYPEER]);
 
         $this->assertDefaultOptions($options);
@@ -126,8 +126,8 @@ class CurlOptionsTest extends StripeTestCase
         $this->assertArrayHasKey(CURLOPT_POSTFIELDS,    $options);
 
         $this->assertTrue($options[CURLOPT_POST]);
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
-        $this->assertEquals($params, $options[CURLOPT_POSTFIELDS]);
+        $this->assertSame($method, $options[CURLOPT_CUSTOMREQUEST]);
+        $this->assertSame($params, $options[CURLOPT_POSTFIELDS]);
 
         $this->assertDefaultOptions($options);
     }
@@ -146,7 +146,7 @@ class CurlOptionsTest extends StripeTestCase
 
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
 
-        $this->assertEquals($method, $options[CURLOPT_CUSTOMREQUEST]);
+        $this->assertSame($method, $options[CURLOPT_CUSTOMREQUEST]);
 
         $this->assertDefaultOptions($options);
     }
@@ -204,10 +204,10 @@ class CurlOptionsTest extends StripeTestCase
         $this->assertArrayHasKey(CURLOPT_TIMEOUT,        $options);
         $this->assertArrayHasKey(CURLOPT_HTTPHEADER,     $options);
 
-        $this->assertEquals($this->url, $options[CURLOPT_URL]);
+        $this->assertSame($this->url, $options[CURLOPT_URL]);
         $this->assertTrue($options[CURLOPT_RETURNTRANSFER]);
-        $this->assertEquals(30, $options[CURLOPT_CONNECTTIMEOUT]);
-        $this->assertEquals(80, $options[CURLOPT_TIMEOUT]);
-        $this->assertEquals($this->headers, $options[CURLOPT_HTTPHEADER]);
+        $this->assertSame(30, $options[CURLOPT_CONNECTTIMEOUT]);
+        $this->assertSame(80, $options[CURLOPT_TIMEOUT]);
+        $this->assertSame($this->headers, $options[CURLOPT_HTTPHEADER]);
     }
 }

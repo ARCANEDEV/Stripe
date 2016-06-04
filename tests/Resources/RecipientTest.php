@@ -54,7 +54,7 @@ class RecipientTest extends StripeTestCase
         $recipients = Recipient::all();
 
         $this->assertTrue($recipients->isList());
-        $this->assertEquals('/v1/recipients', $recipients->url);
+        $this->assertSame('/v1/recipients', $recipients->url);
     }
 
     /** @test */
@@ -66,8 +66,8 @@ class RecipientTest extends StripeTestCase
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $recipient);
 
-        $this->assertEquals($this->recipient->id, $this->recipient->id);
-        $this->assertEquals($this->recipient->name, $this->recipient->name);
+        $this->assertSame($this->recipient->id, $this->recipient->id);
+        $this->assertSame($this->recipient->name, $this->recipient->name);
     }
 
     /** @test */
@@ -78,10 +78,10 @@ class RecipientTest extends StripeTestCase
         $recipient->email = 'gdb@stripe.com';
         $recipient->save();
 
-        $this->assertEquals('gdb@stripe.com', $recipient->email);
+        $this->assertSame('gdb@stripe.com', $recipient->email);
 
         $stripeRecipient = Recipient::retrieve($recipient->id);
-        $this->assertEquals($recipient->email, $stripeRecipient->email);
+        $this->assertSame($recipient->email, $stripeRecipient->email);
     }
 
     /** @test */
@@ -113,7 +113,7 @@ class RecipientTest extends StripeTestCase
         $recipient->save();
 
         $updatedRecipient = Recipient::retrieve($recipient->id);
-        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
+        $this->assertSame('foo bar', $updatedRecipient->metadata['test']);
     }
 
     /** @test */
@@ -125,7 +125,7 @@ class RecipientTest extends StripeTestCase
         $recipient->save();
 
         $updatedRecipient = Recipient::retrieve($recipient->id);
-        $this->assertEquals('foo bar', $updatedRecipient->metadata['test']);
+        $this->assertSame('foo bar', $updatedRecipient->metadata['test']);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ class RecipientTest extends StripeTestCase
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
         $updatedCards       = $updatedRecipient->cards->all();
-        $this->assertEquals('Jane Austen', $updatedCards['data'][0]->name);
+        $this->assertSame('Jane Austen', $updatedCards['data'][0]->name);
     }
 
     /** @test */
@@ -203,7 +203,7 @@ class RecipientTest extends StripeTestCase
         $transfers       = $this->recipient->transfers();
 
         $this->assertTrue($transfers->isList());
-        $this->assertEquals('/v1/transfers', $transfers->url);
+        $this->assertSame('/v1/transfers', $transfers->url);
     }
 
     /* ------------------------------------------------------------------------------------------------

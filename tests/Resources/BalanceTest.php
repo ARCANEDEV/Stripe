@@ -50,7 +50,7 @@ class BalanceTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $this->assertEquals('balance', $this->object->object);
+        $this->assertSame('balance', $this->object->object);
         $this->assertTrue(Util::isList($this->object->available));
         $this->assertTrue(Util::isList($this->object->pending));
     }

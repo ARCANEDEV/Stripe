@@ -31,9 +31,9 @@ class InvoiceItemTest extends StripeTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->invoiceItem);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class InvoiceItemTest extends StripeTestCase
         $invoices = InvoiceItem::all();
 
         $this->assertTrue($invoices->isList());
-        $this->assertEquals('/v1/invoiceitems', $invoices->url);
+        $this->assertSame('/v1/invoiceitems', $invoices->url);
     }
 
     /** @test */
@@ -62,7 +62,7 @@ class InvoiceItemTest extends StripeTestCase
         $this->invoiceItem = self::createInvoiceItem($customer->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\InvoiceItem', $this->invoiceItem);
-        $this->assertEquals($customer->id, $this->invoiceItem->customer);
+        $this->assertSame($customer->id, $this->invoiceItem->customer);
     }
 
     /** @test */
@@ -73,8 +73,8 @@ class InvoiceItemTest extends StripeTestCase
         $this->invoiceItem = InvoiceItem::retrieve($invoiceItem->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\InvoiceItem', $this->invoiceItem);
-        $this->assertEquals($invoiceItem->id, $this->invoiceItem->id);
-        $this->assertEquals($customer->id, $this->invoiceItem->customer);
+        $this->assertSame($invoiceItem->id, $this->invoiceItem->id);
+        $this->assertSame($customer->id, $this->invoiceItem->customer);
     }
 
     /** @test */
@@ -87,7 +87,7 @@ class InvoiceItemTest extends StripeTestCase
         $this->invoiceItem->description = $description;
         $this->invoiceItem->save();
 
-        $this->assertEquals($description, $this->invoiceItem->description);
+        $this->assertSame($description, $this->invoiceItem->description);
     }
 
     /** @test */

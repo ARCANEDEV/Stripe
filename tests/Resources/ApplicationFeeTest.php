@@ -51,13 +51,13 @@ class ApplicationFeeTest extends StripeTestCase
     /** @test */
     public function it_can_get_class_name()
     {
-        $this->assertEquals('application_fee', $this->object->className());
+        $this->assertSame('application_fee', $this->object->className());
     }
 
     /** @test */
     public function it_can_get_url()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '/v1/application_fees/abcd%2Fefgh',
             $this->object->instanceUrl()
         );
@@ -78,6 +78,6 @@ class ApplicationFeeTest extends StripeTestCase
     {
         $fees = ApplicationFee::all();
 
-        $this->assertEquals('/v1/application_fees', $fees->url);
+        $this->assertSame('/v1/application_fees', $fees->url);
     }
 }
