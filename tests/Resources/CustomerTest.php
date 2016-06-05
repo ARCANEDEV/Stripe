@@ -69,17 +69,17 @@ class CustomerTest extends StripeTestCase
 
         $customer->email = 'gdb@stripe.com';
         $customer->save();
-        $this->assertEquals('gdb@stripe.com', $customer->email);
+        $this->assertSame('gdb@stripe.com', $customer->email);
 
         $stripeCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals($customer->email, $stripeCustomer->email);
+        $this->assertSame($customer->email, $stripeCustomer->email);
 
         $customer = Customer::create(null);
         $customer->email = 'gdb@stripe.com';
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals('gdb@stripe.com', $updatedCustomer->email);
+        $this->assertSame('gdb@stripe.com', $updatedCustomer->email);
     }
 
     /** @test */
@@ -123,7 +123,7 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals(null, $updatedCustomer->description);
+        $this->assertSame(null, $updatedCustomer->description);
     }
 
     // TODO: Add Test MustBeNull Exception on description update
@@ -137,7 +137,7 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals('foo bar', $updatedCustomer->metadata['test']);
+        $this->assertSame('foo bar', $updatedCustomer->metadata['test']);
     }
 
     /** @test */
@@ -149,7 +149,7 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals(0, count($updatedCustomer->metadata->keys()));
+        $this->assertSame(0, count($updatedCustomer->metadata->keys()));
     }
 
     /** @test */
@@ -164,8 +164,8 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals('9', $updatedCustomer->metadata['shoe size']);
-        $this->assertEquals('XS', $updatedCustomer->metadata['shirt size']);
+        $this->assertSame('9', $updatedCustomer->metadata['shoe size']);
+        $this->assertSame('XS', $updatedCustomer->metadata['shirt size']);
     }
 
     /** @test */
@@ -180,7 +180,7 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertEquals('XL', $updatedCustomer->metadata['shirt size']);
+        $this->assertSame('XL', $updatedCustomer->metadata['shirt size']);
         $this->assertFalse(isset($updatedCustomer->metadata['shoe size']));
     }
 
@@ -207,7 +207,7 @@ class CustomerTest extends StripeTestCase
             'Arcanedev\\Stripe\\Collection',
             $invoices
         );
-        $this->assertEquals('/v1/invoices', $invoices->url);
+        $this->assertSame('/v1/invoices', $invoices->url);
     }
 
     /** @test */
@@ -223,8 +223,8 @@ class CustomerTest extends StripeTestCase
             'Arcanedev\\Stripe\\Resources\\InvoiceItem',
             $invoiceItem
         );
-        $this->assertEquals(200, $invoiceItem->amount);
-        $this->assertEquals('usd', $invoiceItem->currency);
+        $this->assertSame(200, $invoiceItem->amount);
+        $this->assertSame('usd', $invoiceItem->currency);
     }
 
     /** @test */
@@ -263,7 +263,7 @@ class CustomerTest extends StripeTestCase
             'Arcanedev\\Stripe\\Collection',
             $customer->subscriptions
         );
-        $this->assertEquals(1, $customer->subscriptions->count());
+        $this->assertSame(1, $customer->subscriptions->count());
     }
 
     /** @test */
@@ -279,7 +279,7 @@ class CustomerTest extends StripeTestCase
             'quantity'  => 4,
         ]);
 
-        $this->assertEquals(4, $subscription->quantity);
+        $this->assertSame(4, $subscription->quantity);
     }
 
     /** @test */
@@ -294,12 +294,12 @@ class CustomerTest extends StripeTestCase
             'at_period_end' => true
         ]);
 
-        $this->assertEquals($customer->subscription->status, 'active');
+        $this->assertSame($customer->subscription->status, 'active');
         $this->assertTrue($customer->subscription->cancel_at_period_end);
 
         $customer->cancelSubscription();
 
-        $this->assertEquals($customer->subscription->status, 'canceled');
+        $this->assertSame($customer->subscription->status, 'canceled');
     }
 
     /** @test */
@@ -324,7 +324,7 @@ class CustomerTest extends StripeTestCase
             $discount->coupon
         );
 
-        $this->assertEquals($couponId, $discount->coupon->id);
+        $this->assertSame($couponId, $discount->coupon->id);
     }
 
     /** @test */
@@ -362,7 +362,7 @@ class CustomerTest extends StripeTestCase
 
         $updatedCustomer = Customer::retrieve($customer->id);
         $updatedCards    = $updatedCustomer->sources->all();
-        $this->assertEquals(2, count($updatedCards['data']));
+        $this->assertSame(2, count($updatedCards['data']));
     }
 
     /** @test */
@@ -372,7 +372,7 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $cards = $customer->sources->all();
-        $this->assertEquals(count($cards['data']), 1);
+        $this->assertSame(count($cards['data']), 1);
 
         /** @var \Arcanedev\Stripe\Resources\Card $card */
         $card       = $cards['data'][0];
@@ -381,7 +381,7 @@ class CustomerTest extends StripeTestCase
 
         $updatedCustomer    = Customer::retrieve($customer->id);
         $updatedCards       = $updatedCustomer->sources->all();
-        $this->assertEquals('Jane Austen', $updatedCards['data'][0]->name);
+        $this->assertSame('Jane Austen', $updatedCards['data'][0]->name);
     }
 
     /** @test */
@@ -396,18 +396,18 @@ class CustomerTest extends StripeTestCase
 
         $updatedCustomer = Customer::retrieve($customer->id);
         $updatedCards    = $updatedCustomer->sources->all();
-        $this->assertEquals(2, count($updatedCards['data']));
+        $this->assertSame(2, count($updatedCards['data']));
 
         /** @var Card $card */
         $card = $updatedCustomer->sources->retrieve($createdCard->id);
         $card = $card->delete();
 
-        $this->assertEquals(true, $card->deleted);
+        $this->assertSame(true, $card->deleted);
         $updatedCustomer->save();
 
         $postDeleteCustomer = Customer::retrieve($customer->id);
         $postDeleteCards    = $postDeleteCustomer->sources->all();
-        $this->assertEquals(1, count($postDeleteCards['data']));
+        $this->assertSame(1, count($postDeleteCards['data']));
     }
 
     /* ------------------------------------------------------------------------------------------------

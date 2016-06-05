@@ -19,11 +19,11 @@ class DisputeTest extends StripeTestCase
     /** @test */
     public function it_can_generate_urls()
     {
-        $this->assertEquals('/v1/disputes', Dispute::classUrl());
+        $this->assertSame('/v1/disputes', Dispute::classUrl());
 
         $dispute = new Dispute('dp_123');
 
-        $this->assertEquals('/v1/disputes/dp_123', $dispute->instanceUrl());
+        $this->assertSame('/v1/disputes/dp_123', $dispute->instanceUrl());
     }
 
     /** @test */
@@ -33,7 +33,7 @@ class DisputeTest extends StripeTestCase
             'limit' => 3,
         ]);
 
-        $this->assertEquals(3, count($disputes->data));
+        $this->assertSame(3, count($disputes->data));
     }
 
     /** @test */
@@ -46,8 +46,8 @@ class DisputeTest extends StripeTestCase
 
         $saved = $dispute->save();
 
-        $this->assertEquals($dispute->id, $saved->id);
-        $this->assertEquals($name, $saved->evidence['customer_name']);
+        $this->assertSame($dispute->id, $saved->id);
+        $this->assertSame($name, $saved->evidence['customer_name']);
     }
 
     /** @test */
@@ -56,7 +56,7 @@ class DisputeTest extends StripeTestCase
         $charge  = $this->createDisputedCharge();
         $dispute = $charge->dispute->close();
 
-        $this->assertEquals('lost', $dispute->status);
+        $this->assertSame('lost', $dispute->status);
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class DisputeTest extends StripeTestCase
         $charge  = $this->createDisputedCharge();
         $dispute = Dispute::retrieve($charge->dispute->id);
 
-        $this->assertEquals($charge->dispute->id, $dispute->id);
+        $this->assertSame($charge->dispute->id, $dispute->id);
     }
 
     /* ------------------------------------------------------------------------------------------------

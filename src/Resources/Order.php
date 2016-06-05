@@ -119,7 +119,7 @@ class Order extends StripeResource implements OrderInterface
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return \Arcanedev\Stripe\Resources\OrderReturn
+     * @return \Arcanedev\Stripe\Resources\OrderReturn|array
      */
     public function returnOrder($params = null, $options = null)
     {

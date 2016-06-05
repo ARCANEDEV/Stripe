@@ -17,9 +17,9 @@ class HelpersTest extends TestCase
     {
         $baseUrl = 'http://www.api.com';
 
-        $this->assertEquals($baseUrl, str_parse_url($baseUrl));
-        $this->assertEquals($baseUrl, str_parse_url($baseUrl, []));
-        $this->assertEquals(
+        $this->assertSame($baseUrl, str_parse_url($baseUrl));
+        $this->assertSame($baseUrl, str_parse_url($baseUrl, []));
+        $this->assertSame(
             $baseUrl . '?my=value&that%5Byour%5D=example&bar=1',
             str_parse_url($baseUrl, [
                 'my'   => 'value',
@@ -33,9 +33,9 @@ class HelpersTest extends TestCase
     /** @test */
     public function it_can_encode_queries()
     {
-        $this->assertEquals('?my=value', str_url_queries('?my=value'));
+        $this->assertSame('?my=value', str_url_queries('?my=value'));
 
-        $this->assertEquals(
+        $this->assertSame(
             'my=value&that%5Byour%5D=example&bar=1',
             str_url_queries([
                 'my'   => 'value',
@@ -45,7 +45,7 @@ class HelpersTest extends TestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'that%5Byour%5D=example',
             str_url_queries([
                 'that' => [
@@ -55,7 +55,7 @@ class HelpersTest extends TestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'that=example&foo%5B%5D=bar&foo%5B%5D=baz',
             str_url_queries([
                 [
@@ -65,7 +65,7 @@ class HelpersTest extends TestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1',
             str_url_queries([
                 'my' => 'value',
@@ -82,20 +82,20 @@ class HelpersTest extends TestCase
     public function it_can_convert_to_utf8()
     {
         // UTF-8 string
-        $this->assertEquals("\xc3\xa9", str_utf8("\xc3\xa9"));
+        $this->assertSame("\xc3\xa9", str_utf8("\xc3\xa9"));
 
         // Latin-1 string
-        $this->assertEquals("\xc3\xa9", str_utf8("\xe9"));
+        $this->assertSame("\xc3\xa9", str_utf8("\xe9"));
 
         // Not a string
-        $this->assertEquals(true, str_utf8(true));
+        $this->assertSame(true, str_utf8(true));
     }
 
     /** @test */
     public function it_can_split_camel_case()
     {
         $this->assertNull(str_split_camelcase(null));
-        $this->assertEquals('Camel Case Class', str_split_camelcase('CamelCaseClass'));
+        $this->assertSame('Camel Case Class', str_split_camelcase('CamelCaseClass'));
     }
 
     /* ------------------------------------------------------------------------------------------------

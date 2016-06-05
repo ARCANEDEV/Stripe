@@ -37,12 +37,12 @@ class ExternalAccountTest extends StripeTestCase
         ]);
         $verifiedAccount = $externalAccount->verify(['amounts' => [32, 45]], null);
 
-        $this->assertEquals('verified', $verifiedAccount['status']);
+        $this->assertSame('verified', $verifiedAccount['status']);
 
         $base       = Customer::classUrl();
         $parentExtn = $externalAccount['customer'];
         $extn       = $externalAccount['id'];
 
-        $this->assertEquals("$base/$parentExtn/sources/$extn", $externalAccount->instanceUrl());
+        $this->assertSame("$base/$parentExtn/sources/$extn", $externalAccount->instanceUrl());
     }
 }

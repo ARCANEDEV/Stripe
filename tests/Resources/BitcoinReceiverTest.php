@@ -52,10 +52,10 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_get_urls()
     {
-        $this->assertEquals('/v1/bitcoin/receivers', BitcoinReceiver::classUrl());
+        $this->assertSame('/v1/bitcoin/receivers', BitcoinReceiver::classUrl());
 
         $receiver    = new BitcoinReceiver('abcd/efgh');
-        $this->assertEquals(
+        $this->assertSame(
             '/v1/bitcoin/receivers/abcd%2Fefgh',
             $receiver->instanceUrl()
         );
@@ -75,7 +75,7 @@ class BitcoinReceiverTest extends StripeTestCase
     {
         $receiver = $this->createTestBitcoinReceiver();
 
-        $this->assertEquals(100, $receiver->amount);
+        $this->assertSame(100, $receiver->amount);
         $this->assertNotNull($receiver->id);
     }
 
@@ -91,7 +91,7 @@ class BitcoinReceiverTest extends StripeTestCase
         $receiver = $this->createTestBitcoinReceiver();
         $r        = BitcoinReceiver::retrieve($receiver->id);
 
-        $this->assertEquals($receiver->id, $r->id);
+        $this->assertSame($receiver->id, $r->id);
     }
 
     /** @test */
@@ -117,6 +117,6 @@ class BitcoinReceiverTest extends StripeTestCase
             'refund_address' => $refundAddress
         ]);
 
-        $this->assertEquals($refundAddress, $receiver->refund_address);
+        $this->assertSame($refundAddress, $receiver->refund_address);
     }
 }

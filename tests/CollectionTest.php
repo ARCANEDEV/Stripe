@@ -31,7 +31,7 @@ class CollectionTest extends StripeTestCase
             array_push($seen, $item['id']);
         }
 
-        $this->assertEquals(['pm_123', 'pm_124'], $seen);
+        $this->assertSame(['pm_123', 'pm_124'], $seen);
     }
 
     /** @test */
@@ -72,7 +72,7 @@ class CollectionTest extends StripeTestCase
             array_push($seen, $item['id']);
         }
 
-        $this->assertEquals(['pm_123', 'pm_124', 'pm_125', 'pm_126', 'pm_127'], $seen);
+        $this->assertSame(['pm_123', 'pm_124', 'pm_125', 'pm_126', 'pm_127'], $seen);
     }
 
     /* ------------------------------------------------------------------------------------------------

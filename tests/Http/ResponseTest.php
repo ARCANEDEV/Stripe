@@ -53,25 +53,25 @@ class ResponseTest extends TestCase
     /** @test */
     public function it_can_get_body()
     {
-        $this->assertEquals('response body', $this->response->getBody());
+        $this->assertSame('response body', $this->response->getBody());
     }
 
     /** @test */
     public function it_can_get_status_code()
     {
-        $this->assertEquals(200, $this->response->getCode());
-        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertSame(200, $this->response->getCode());
+        $this->assertSame(200, $this->response->getStatusCode());
     }
 
     /** @test */
     public function it_can_get_headers()
     {
-        $this->assertEquals(['Accept-Charset' => 'utf-8'], $this->response->getHeaders());
+        $this->assertSame(['Accept-Charset' => 'utf-8'], $this->response->getHeaders());
     }
 
     /** @test */
     public function it_can_get_json()
     {
-        $this->assertEquals(['status' => 'success'], $this->response->getJson());
+        $this->assertSame(['status' => 'success'], $this->response->getJson());
     }
 }

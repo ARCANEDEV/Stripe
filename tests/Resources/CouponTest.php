@@ -52,7 +52,7 @@ class CouponTest extends StripeTestCase
         $coupons = Coupon::all();
 
         $this->assertTrue($coupons->isList());
-        $this->assertEquals('/v1/coupons', $coupons->url);
+        $this->assertSame('/v1/coupons', $coupons->url);
     }
 
     /** @test */
@@ -61,8 +61,8 @@ class CouponTest extends StripeTestCase
         $couponId     = $this->getCouponId();
         $this->coupon = $this->createTestCoupon($couponId);
 
-        $this->assertEquals($couponId, $this->coupon->id);
-        $this->assertEquals(25,        $this->coupon->percent_off);
+        $this->assertSame($couponId, $this->coupon->id);
+        $this->assertSame(25,        $this->coupon->percent_off);
 
         $this->coupon->metadata['foo'] = 'bar';
         $this->coupon->save();
@@ -82,7 +82,7 @@ class CouponTest extends StripeTestCase
 
         $this->assertTrue(isset($customer->discount));
         $this->assertTrue(isset($customer->discount->coupon));
-        $this->assertEquals($couponId, $customer->discount->coupon->id);
+        $this->assertSame($couponId, $customer->discount->coupon->id);
 
         $customer->deleteDiscount();
         $this->assertFalse(isset($customer->discount));

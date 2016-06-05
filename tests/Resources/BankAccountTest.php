@@ -32,12 +32,12 @@ class BankAccountTest extends StripeTestCase
             ]
         ]);
 
-        $this->assertEquals('new', $bankAccount->status);
+        $this->assertSame('new', $bankAccount->status);
 
         $bankAccount = $bankAccount->verify([
             'amounts' => [32, 45]
         ]);
 
-        $this->assertEquals('verified', $bankAccount->status);
+        $this->assertSame('verified', $bankAccount->status);
     }
 }

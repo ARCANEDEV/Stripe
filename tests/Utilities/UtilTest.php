@@ -24,7 +24,7 @@ class UtilTest extends StripeTestCase
             'customer' => new Customer(['id' => 'cust_kjfhdflsdhfdsjl']),
         ]);
 
-        $this->assertEquals([
+        $this->assertSame([
             'customer' => ['id' => 'cust_kjfhdflsdhfdsjl'],
         ], $array);
     }

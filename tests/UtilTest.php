@@ -32,7 +32,7 @@ class UtilTest extends StripeTestCase
         $original = $derived = ['php-arrays' => 'value-semantics'];
         $derived['php-arrays'] = 'reference-semantics';
 
-        $this->assertEquals('value-semantics', $original['php-arrays']);
+        $this->assertSame('value-semantics', $original['php-arrays']);
     }
 
     /** @test */

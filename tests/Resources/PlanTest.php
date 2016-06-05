@@ -57,7 +57,7 @@ class PlanTest extends StripeTestCase
         $plans = Plan::all();
 
         $this->assertTrue($plans->isList());
-        $this->assertEquals('/v1/plans', $plans->url);
+        $this->assertSame('/v1/plans', $plans->url);
     }
 
     /** @test */
@@ -65,10 +65,10 @@ class PlanTest extends StripeTestCase
     {
         $this->plan->name = 'A new plan name';
         $this->plan->save();
-        $this->assertEquals($this->plan->name, 'A new plan name');
+        $this->assertSame($this->plan->name, 'A new plan name');
 
         $stripePlan = Plan::retrieve($this->planId);
-        $this->assertEquals($this->plan->name, $stripePlan->name);
+        $this->assertSame($this->plan->name, $stripePlan->name);
     }
 
     /** @test */

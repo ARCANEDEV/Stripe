@@ -55,7 +55,7 @@ class FileUploadTest extends StripeTestCase
     /** @test */
     public function it_can_get_class_name()
     {
-        $this->assertEquals('file', FileUpload::className());
+        $this->assertSame('file', FileUpload::className());
     }
 
     /** @test */
@@ -65,8 +65,8 @@ class FileUploadTest extends StripeTestCase
         $file = $this->createFile($fp);
         fclose($fp);
 
-        $this->assertEquals(95, $file->size);
-        $this->assertEquals('png', $file->type);
+        $this->assertSame(95, $file->size);
+        $this->assertSame('png', $file->type);
     }
 
     /** @test */
@@ -80,8 +80,8 @@ class FileUploadTest extends StripeTestCase
         $file = new CurlFile($this->filePath);
         $file = $this->createFile($file);
 
-        $this->assertEquals(95, $file->size);
-        $this->assertEquals('png', $file->type);
+        $this->assertSame(95, $file->size);
+        $this->assertSame('png', $file->type);
     }
 
     /** @test */
@@ -92,9 +92,9 @@ class FileUploadTest extends StripeTestCase
         fclose($fp);
 
         $this->fileUpload = FileUpload::retrieve($file->id);
-        $this->assertEquals($this->fileUpload->id, $file->id);
-        $this->assertEquals($this->fileUpload->purpose, $file->purpose);
-        $this->assertEquals($this->fileUpload->type, $file->type);
+        $this->assertSame($this->fileUpload->id, $file->id);
+        $this->assertSame($this->fileUpload->purpose, $file->purpose);
+        $this->assertSame($this->fileUpload->type, $file->type);
     }
 
     /* ------------------------------------------------------------------------------------------------

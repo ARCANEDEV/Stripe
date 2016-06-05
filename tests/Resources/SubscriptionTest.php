@@ -35,16 +35,16 @@ class SubscriptionTest extends StripeTestCase
         /** @var \Arcanedev\Stripe\Resources\Subscription $subscription */
         $subscription = $customer->subscriptions->create(['plan' => $plan->id]);
 
-        $this->assertEquals('active',  $subscription->status);
-        $this->assertEquals($plan->id, $subscription->plan->id);
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
 
         $subscription->quantity = 2;
         $subscription->save();
         $subscription = $customer->subscriptions->retrieve($subscription->id);
 
-        $this->assertEquals('active',  $subscription->status);
-        $this->assertEquals($plan->id, $subscription->plan->id);
-        $this->assertEquals(2,         $subscription->quantity);
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
+        $this->assertSame(2,         $subscription->quantity);
 
         $subscriptions = $customer->subscriptions->all(['limit' => 3]);
         $this->assertInstanceOf(
@@ -55,7 +55,7 @@ class SubscriptionTest extends StripeTestCase
         $subscription->cancel(['at_period_end' => true]);
         $subscription = $customer->subscriptions->retrieve($subscription->id);
 
-        $this->assertEquals('active', $subscription->status);
+        $this->assertSame('active', $subscription->status);
         $this->assertTrue($subscription->cancel_at_period_end);
     }
 
@@ -66,16 +66,16 @@ class SubscriptionTest extends StripeTestCase
         $customer     = self::createTestCustomer();
         $subscription = Subscription::create(['plan' => $plan->id, 'customer' => $customer]);
 
-        $this->assertEquals('active',  $subscription->status);
-        $this->assertEquals($plan->id, $subscription->plan->id);
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
 
         $subscription->quantity = 2;
         $subscription->save();
         $subscription = Subscription::retrieve($subscription->id);
 
-        $this->assertEquals('active',  $subscription->status);
-        $this->assertEquals($plan->id, $subscription->plan->id);
-        $this->assertEquals(2,         $subscription->quantity);
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
+        $this->assertSame(2,         $subscription->quantity);
 
         $subscriptions = Subscription::all(['customer' => $customer, 'plan' => $plan->id, 'limit' => 3]);
 
@@ -88,7 +88,7 @@ class SubscriptionTest extends StripeTestCase
 
         $subscription = Subscription::retrieve($subscription->id);
 
-        $this->assertEquals('active', $subscription->status);
+        $this->assertSame('active', $subscription->status);
         $this->assertTrue($subscription->cancel_at_period_end);
     }
 
@@ -107,9 +107,9 @@ class SubscriptionTest extends StripeTestCase
             'coupon' => $couponID,
         ]);
 
-        $this->assertEquals('active',  $subscription->status);
-        $this->assertEquals($plan->id, $subscription->plan->id);
-        $this->assertEquals($couponID, $subscription->discount->coupon->id);
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
+        $this->assertSame($couponID, $subscription->discount->coupon->id);
 
         $subscription->deleteDiscount();
         $subscription = $customer->subscriptions->retrieve($subscription->id);

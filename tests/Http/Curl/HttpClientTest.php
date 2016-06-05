@@ -54,7 +54,7 @@ class HttpClientTest extends StripeTestCase
     {
         $method = $this->getCurlClientMethod('encode');
 
-        $this->assertEquals(
+        $this->assertSame(
             'my=value&that%5Byour%5D=example&bar=1',
             $method->invoke($this->httpClient, [
                 'my'   => 'value',
@@ -64,7 +64,7 @@ class HttpClientTest extends StripeTestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'that%5Byour%5D=example',
             $method->invoke($this->httpClient, [
                 'that' => [
@@ -74,7 +74,7 @@ class HttpClientTest extends StripeTestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'that=example&foo%5B%5D=bar&foo%5B%5D=baz',
             $method->invoke($this->httpClient, [
                 'that' => 'example',
@@ -82,7 +82,7 @@ class HttpClientTest extends StripeTestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'my=value&that%5Byour%5D%5B%5D=cheese&that%5Byour%5D%5B%5D=whiz&bar=1',
             $method->invoke($this->httpClient, [
                 'my'   => 'value',
@@ -95,7 +95,7 @@ class HttpClientTest extends StripeTestCase
         );
 
         // Ignores an empty array
-        $this->assertEquals(
+        $this->assertSame(
             'bar=baz',
             $method->invoke($this->httpClient, [
                 'foo' => [],
@@ -103,7 +103,7 @@ class HttpClientTest extends StripeTestCase
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'foo%5B0%5D%5Bbar%5D=baz&foo%5B1%5D%5Bbar%5D=bin',
             $method->invoke($this->httpClient, [
                 'foo' => [
@@ -119,18 +119,18 @@ class HttpClientTest extends StripeTestCase
     {
         $curl = HttpClient::instance();
 
-        $this->assertEquals($this->timeout,                      $curl->getTimeout());
-        $this->assertEquals(HttpClient::DEFAULT_CONNECT_TIMEOUT, $curl->getConnectTimeout());
+        $this->assertSame($this->timeout,                      $curl->getTimeout());
+        $this->assertSame(HttpClient::DEFAULT_CONNECT_TIMEOUT, $curl->getConnectTimeout());
 
         $curl->setTimeout(10)->setConnectTimeout(1);
 
-        $this->assertEquals(1,  $curl->getConnectTimeout());
-        $this->assertEquals(10, $curl->getTimeout());
+        $this->assertSame(1,  $curl->getConnectTimeout());
+        $this->assertSame(10, $curl->getTimeout());
 
         $curl->setTimeout(-1)->setConnectTimeout(-999);
 
-        $this->assertEquals(0, $curl->getTimeout());
-        $this->assertEquals(0, $curl->getConnectTimeout());
+        $this->assertSame(0, $curl->getTimeout());
+        $this->assertSame(0, $curl->getConnectTimeout());
     }
 
     /* ------------------------------------------------------------------------------------------------

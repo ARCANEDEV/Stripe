@@ -49,8 +49,8 @@ class TokenTest extends StripeTestCase
     /** @test */
     public function it_can_get_urls()
     {
-        $this->assertEquals('/v1/tokens',             Token::classUrl());
-        $this->assertEquals('/v1/tokens/abcd%2Fefgh', $this->token->instanceUrl());
+        $this->assertSame('/v1/tokens',             Token::classUrl());
+        $this->assertSame('/v1/tokens/abcd%2Fefgh', $this->token->instanceUrl());
     }
 
     /** @test */
@@ -59,12 +59,12 @@ class TokenTest extends StripeTestCase
         $this->token = self::createCardToken();
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
-        $this->assertEquals('card', $this->token->type);
+        $this->assertSame('card', $this->token->type);
         $this->assertInstanceOf(
             'Arcanedev\Stripe\Resources\Card',
             $this->token->card
         );
-        $this->assertEquals('Visa', $this->token->card->brand);
+        $this->assertSame('Visa', $this->token->card->brand);
     }
 
     /** @test */
@@ -73,8 +73,8 @@ class TokenTest extends StripeTestCase
         $token       = self::createCardToken();
         $this->token = Token::retrieve($token->id);
 
-        $this->assertEquals($token->id,   $this->token->id);
-        $this->assertEquals($token->type, $this->token->type);
+        $this->assertSame($token->id,   $this->token->id);
+        $this->assertSame($token->type, $this->token->type);
     }
 
     /* ------------------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ class RequestOptionsTest extends StripeTestCase
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Http\\RequestOptions', $opts);
         $this->assertFalse($opts->hasApiKey());
-        $this->assertEquals([], $opts->getHeaders());
+        $this->assertSame([], $opts->getHeaders());
     }
 
     /** @test */
@@ -31,8 +31,8 @@ class RequestOptionsTest extends StripeTestCase
         $opts = RequestOptions::parse('foo');
 
         $this->assertTrue($opts->hasApiKey());
-        $this->assertEquals('foo', $opts->getApiKey());
-        $this->assertEquals([], $opts->getHeaders());
+        $this->assertSame('foo', $opts->getApiKey());
+        $this->assertSame([], $opts->getHeaders());
     }
 
     /** @test */
@@ -40,8 +40,8 @@ class RequestOptionsTest extends StripeTestCase
     {
         $opts = RequestOptions::parse(['api_key' => 'foo']);
 
-        $this->assertEquals('foo', $opts->getApiKey());
-        $this->assertEquals([], $opts->getHeaders());
+        $this->assertSame('foo', $opts->getApiKey());
+        $this->assertSame([], $opts->getHeaders());
     }
 
     /** @test */
@@ -50,7 +50,7 @@ class RequestOptionsTest extends StripeTestCase
         $opts = RequestOptions::parse(null);
 
         $this->assertEmpty($opts->getApiKey());
-        $this->assertEquals([], $opts->getHeaders());
+        $this->assertSame([], $opts->getHeaders());
     }
 
     /** @test */
@@ -59,7 +59,7 @@ class RequestOptionsTest extends StripeTestCase
         $opts = RequestOptions::parse([]);
 
         $this->assertNull($opts->getApiKey());
-        $this->assertEquals([], $opts->getHeaders());
+        $this->assertSame([], $opts->getHeaders());
     }
 
     /** @test */
@@ -68,7 +68,7 @@ class RequestOptionsTest extends StripeTestCase
         $opts = RequestOptions::parse(['idempotency_key' => 'foo']);
 
         $this->assertNull($opts->getApiKey());
-        $this->assertEquals(['Idempotency-Key' => 'foo'], $opts->getHeaders());
+        $this->assertSame(['Idempotency-Key' => 'foo'], $opts->getHeaders());
     }
 
     /** @test */
@@ -79,8 +79,8 @@ class RequestOptionsTest extends StripeTestCase
             'api_key'         => 'api-foo',
         ]);
 
-        $this->assertEquals('api-foo', $opts->getApiKey());
-        $this->assertEquals(['Idempotency-Key' => 'key-foo'], $opts->getHeaders());
+        $this->assertSame('api-foo', $opts->getApiKey());
+        $this->assertSame(['Idempotency-Key' => 'key-foo'], $opts->getHeaders());
     }
 
     /**

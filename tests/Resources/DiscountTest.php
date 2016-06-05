@@ -36,7 +36,7 @@ class DiscountTest extends StripeTestCase
         $this->assertInstanceOf('Arcanedev\Stripe\Resources\Discount', $customer->discount);
         $this->assertNotNull($customer->discount->coupon);
         $this->assertInstanceOf('Arcanedev\Stripe\Resources\Coupon', $customer->discount->coupon);
-        $this->assertEquals($couponId, $customer->discount->coupon->id);
+        $this->assertSame($couponId, $customer->discount->coupon->id);
 
         $customer->deleteDiscount();
 

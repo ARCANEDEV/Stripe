@@ -52,12 +52,12 @@ class BitcoinTransactionTest extends StripeTestCase
     /** @test */
     public function it_can_get_urls()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '/v1/bitcoin/transactions',
             BitcoinTransaction::classUrl()
         );
 
         $instanceUrl = (new BitcoinTransaction('abcd/efgh'))->instanceUrl();
-        $this->assertEquals('/v1/bitcoin/transactions/abcd%2Fefgh', $instanceUrl);
+        $this->assertSame('/v1/bitcoin/transactions/abcd%2Fefgh', $instanceUrl);
     }
 }

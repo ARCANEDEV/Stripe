@@ -12,14 +12,6 @@ use Arcanedev\Stripe\StripeObject;
 abstract class Util implements UtilInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const DEFAULT_NAMESPACE = 'Arcanedev\\Stripe\\';
-
-    const DEFAULT_RESOURCE  = 'StripeObject';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -29,37 +21,37 @@ abstract class Util implements UtilInterface
      * @var array
      */
     private static $resources = [
-        'account'             => 'Resources\\Account',
-        'alipay_account'      => 'Resources\\AlipayAccount',
-        'balance_transaction' => 'Resources\\BalanceTransaction',
-        'bank_account'        => 'Resources\\BankAccount',
-        'bitcoin_receiver'    => 'Resources\\BitcoinReceiver',
-        'bitcoin_transaction' => 'Resources\\BitcoinTransaction',
-        'card'                => 'Resources\\Card',
-        'charge'              => 'Resources\\Charge',
-        'country_spec'        => 'Resources\\CountrySpec',
-        'coupon'              => 'Resources\\Coupon',
-        'customer'            => 'Resources\\Customer',
-        'discount'            => 'Resources\\Discount',
-        'dispute'             => 'Resources\\Dispute',
-        'event'               => 'Resources\\Event',
-        'fee_refund'          => 'Resources\\ApplicationFeeRefund',
-        'file_upload'         => 'Resources\\FileUpload',
-        'invoice'             => 'Resources\\Invoice',
-        'invoiceitem'         => 'Resources\\InvoiceItem',
-        'list'                => 'Collection',                     // List Object
-        'order'               => 'Resources\\Order',
-        'order_item'          => 'Resources\\OrderItem',
-        'order_return'        => 'Resources\\OrderReturn',
-        'plan'                => 'Resources\\Plan',
-        'product'             => 'Resources\\Product',
-        'recipient'           => 'Resources\\Recipient',
-        'refund'              => 'Resources\\Refund',
-        'sku'                 => 'Resources\\Sku',
-        'subscription'        => 'Resources\\Subscription',
-        'token'               => 'Resources\\Token',
-        'transfer'            => 'Resources\\Transfer',
-        'transfer_reversal'   => 'Resources\\TransferReversal',
+        'account'             => 'Arcanedev\\Stripe\\Resources\\Account',
+        'alipay_account'      => 'Arcanedev\\Stripe\\Resources\\AlipayAccount',
+        'balance_transaction' => 'Arcanedev\\Stripe\\Resources\\BalanceTransaction',
+        'bank_account'        => 'Arcanedev\\Stripe\\Resources\\BankAccount',
+        'bitcoin_receiver'    => 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
+        'bitcoin_transaction' => 'Arcanedev\\Stripe\\Resources\\BitcoinTransaction',
+        'card'                => 'Arcanedev\\Stripe\\Resources\\Card',
+        'charge'              => 'Arcanedev\\Stripe\\Resources\\Charge',
+        'country_spec'        => 'Arcanedev\\Stripe\\Resources\\CountrySpec',
+        'coupon'              => 'Arcanedev\\Stripe\\Resources\\Coupon',
+        'customer'            => 'Arcanedev\\Stripe\\Resources\\Customer',
+        'discount'            => 'Arcanedev\\Stripe\\Resources\\Discount',
+        'dispute'             => 'Arcanedev\\Stripe\\Resources\\Dispute',
+        'event'               => 'Arcanedev\\Stripe\\Resources\\Event',
+        'fee_refund'          => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
+        'file_upload'         => 'Arcanedev\\Stripe\\Resources\\FileUpload',
+        'invoice'             => 'Arcanedev\\Stripe\\Resources\\Invoice',
+        'invoiceitem'         => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
+        'list'                => 'Arcanedev\\Stripe\\Collection',                     // List Object
+        'order'               => 'Arcanedev\\Stripe\\Resources\\Order',
+        'order_item'          => 'Arcanedev\\Stripe\\Resources\\OrderItem',
+        'order_return'        => 'Arcanedev\\Stripe\\Resources\\OrderReturn',
+        'plan'                => 'Arcanedev\\Stripe\\Resources\\Plan',
+        'product'             => 'Arcanedev\\Stripe\\Resources\\Product',
+        'recipient'           => 'Arcanedev\\Stripe\\Resources\\Recipient',
+        'refund'              => 'Arcanedev\\Stripe\\Resources\\Refund',
+        'sku'                 => 'Arcanedev\\Stripe\\Resources\\Sku',
+        'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
+        'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
+        'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
+        'transfer_reversal'   => 'Arcanedev\\Stripe\\Resources\\TransferReversal',
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -112,7 +104,7 @@ abstract class Util implements UtilInterface
         }
         elseif (is_array($response)) {
             return StripeObject::scopedConstructFrom(
-                self::DEFAULT_NAMESPACE . self::getClassTypeObject($response),
+                self::getClassTypeObject($response),
                 $response,
                 $options
             );
@@ -130,24 +122,9 @@ abstract class Util implements UtilInterface
      */
     private static function getClassTypeObject($response)
     {
-        if (self::isClassTypeObjectExist($response)) {
-            $object = $response['object'];
-            return self::getClassTypeFromAvailableResources($object);
-        }
-
-        return self::DEFAULT_RESOURCE;
-    }
-
-    /**
-     * Get Class Type from available resources.
-     *
-     * @param  string  $object
-     *
-     * @return string
-     */
-    private static function getClassTypeFromAvailableResources($object)
-    {
-        return self::$resources[$object];
+        return self::isClassTypeObjectExist($response)
+            ? self::$resources[ $response['object'] ]
+            : 'Arcanedev\\Stripe\\StripeObject';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -167,9 +144,7 @@ abstract class Util implements UtilInterface
 
         // TODO: generally incorrect, but it's correct given Stripe's response
         foreach (array_keys($array) as $k) {
-            if ( ! is_numeric($k)) {
-                return false;
-            }
+            if ( ! is_numeric($k)) return false;
         }
 
         return true;
@@ -185,21 +160,9 @@ abstract class Util implements UtilInterface
     private static function isClassTypeObjectExist($response)
     {
         if (isset($response['object']) && is_string($response['object'])) {
-            return self::isInAvailableResources($response['object']);
+            return array_key_exists($response['object'], self::$resources);
         }
 
         return false;
-    }
-
-    /**
-     * Check is an available resource.
-     *
-     * @param  string  $object
-     *
-     * @return bool
-     */
-    private static function isInAvailableResources($object)
-    {
-        return array_key_exists($object, self::$resources);
     }
 }

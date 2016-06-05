@@ -57,7 +57,7 @@ class CardTest extends StripeTestCase
         $this->assertNull($this->card->instanceUrl());
 
         $this->card->customer = $customerId;
-        $this->assertEquals(
+        $this->assertSame(
             "/v1/customers/$customerId/sources/$cardId",
             $this->card->instanceUrl()
         );
@@ -65,7 +65,7 @@ class CardTest extends StripeTestCase
         unset($this->card->customer);
 
         $this->card->recipient = $recipientId;
-        $this->assertEquals(
+        $this->assertSame(
             "/v1/recipients/$recipientId/cards/$cardId",
             $this->card->instanceUrl()
         );

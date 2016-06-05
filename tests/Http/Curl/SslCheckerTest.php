@@ -56,7 +56,7 @@ class SslCheckerTest extends StripeTestCase
 
         $this->sslChecker->setUrl($url);
 
-        $this->assertEquals(
+        $this->assertSame(
             'ssl://www.stripe.com:443',
             $this->sslChecker->getUrl()
         );

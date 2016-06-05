@@ -21,7 +21,7 @@ class BalanceTransactionTest extends StripeTestCase
         $balanceTransactions  = BalanceTransaction::all();
 
         $this->assertTrue($balanceTransactions->isList());
-        $this->assertEquals($balanceTransactions->url, '/v1/balance/history');
+        $this->assertSame($balanceTransactions->url, '/v1/balance/history');
     }
 
     /** @test */
@@ -33,6 +33,6 @@ class BalanceTransactionTest extends StripeTestCase
         $bt   = BalanceTransaction::retrieve($btId);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\BalanceTransaction', $bt);
-        $this->assertEquals($btId, $bt->id);
+        $this->assertSame($btId, $bt->id);
     }
 }
