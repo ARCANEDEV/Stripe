@@ -83,6 +83,40 @@ class ProductTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_create_update_read_sku()
+    {
+        Product::create([
+            'name' => 'Silver Product',
+            'id'   => $this->productId,
+            'url'  => 'www.stripe.com/silver-product'
+        ]);
+
+        $SkuID = 'silver-sku-' . self::generateRandomString(20);
+        $sku   = Sku::create([
+            'price'     => 500,
+            'currency'  => 'usd',
+            'id'        => $SkuID,
+            'inventory' => [
+                'type'     => 'finite',
+                'quantity' => 40,
+            ],
+            'product'   => $this->productId,
+        ]);
+
+        $sku->price = 600;
+        $sku->inventory->quantity = 50;
+        $sku->save();
+
+        $this->assertSame($sku->price, 600);
+        $this->assertSame(50, $sku->inventory->quantity);
+
+        $sku = Sku::retrieve($SkuID);
+        $this->assertSame(600, $sku->price);
+        $this->assertSame('finite', $sku->inventory->type);
+        $this->assertSame(50, $sku->inventory->quantity);
+    }
+
+    /** @test */
     public function it_can_delete_sku_and_product()
     {
         $productId = 'silver-' . self::generateRandomString(20);
