@@ -48,9 +48,8 @@ class HeaderBag implements HeaderBagInterface
             'X-Stripe-Client-User-Agent' => self::getUserAgent(),
             'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
             'Authorization'              => 'Bearer ' . $apiKey,
-            'Content-Type'               => $hasFile
-                ? 'multipart/form-data'
-                : 'application/x-www-form-urlencoded',
+            'Content-Type'               => $hasFile ? 'multipart/form-data' : 'application/x-www-form-urlencoded',
+            'Expect'                     => null,
         ];
 
         if (Stripe::hasApiVersion()) {
