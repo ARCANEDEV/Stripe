@@ -13,6 +13,17 @@ interface RefundInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Refunds.
+     * @link   https://stripe.com/docs/api/php#list_refunds
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null);
+
+    /**
      * Retrieve a Refund by ID.
      *
      * @link   https://stripe.com/docs/api/php#retrieve_refund
@@ -25,17 +36,6 @@ interface RefundInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Refunds.
-     * @link   https://stripe.com/docs/api/php#list_refunds
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null);
-
-    /**
      * Create a Refund.
      * @link   https://stripe.com/docs/api/php#create_refund
      *
@@ -44,7 +44,19 @@ interface RefundInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null);
+    public static function create($params = [], $options = null);
+
+    /**
+     * Update a Refund.
+     * @link   https://stripe.com/docs/api/php#update_refund
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Update/Save a Refund.

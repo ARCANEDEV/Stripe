@@ -18,12 +18,36 @@ class OrderTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_create_order()
+    public function it_can_get_all()
+    {
+        $orders = Order::all(['include' => ['total_count']]);
+
+        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $orders);
+        $this->assertTrue($orders->isList());
+
+        if ($orders->count() > 0) {
+            $this->assertSame($orders->total_count, $orders->count());
+            $this->assertInstanceOf('Arcanedev\Stripe\Resources\Order', $orders->data[0]);
+        }
+    }
+
+    /** @test */
+    public function it_can_retrieve()
+    {
+        $order       = $this->createOrder();
+        $stripeOrder = Order::retrieve($order->id);
+
+        $this->assertSame($order->id, $stripeOrder->id);
+        $this->assertSame('order',    $stripeOrder->object);
+    }
+
+    /** @test */
+    public function it_can_create()
     {
         $order = $this->createOrder();
 
-        $this->assertSame('order', $order->object);
-        $this->assertSame('usd', $order->currency);
+        $this->assertSame('order',       $order->object);
+        $this->assertSame('usd',         $order->currency);
         $this->assertSame('foo@bar.com', $order->email);
 
         foreach ($order->items as $orderItem) {
@@ -34,28 +58,29 @@ class OrderTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_update_order()
+    public function it_can_update()
+    {
+        $order = $this->createOrder();
+        $order = Order::update($order->id, [
+            'metadata' => ['foo' => 'bar'],
+        ]);
+
+        $this->assertSame('bar', $order->metadata->foo);
+    }
+
+    /** @test */
+    public function it_can_save()
     {
         $order = $this->createOrder();
 
         $order->metadata->foo = 'bar';
         $order->save();
 
-        $this->assertSame($order->metadata->foo, 'bar');
+        $this->assertSame('bar', $order->metadata->foo);
     }
 
     /** @test */
-    public function it_can_retrieve_order()
-    {
-        $order       = $this->createOrder();
-        $stripeOrder = Order::retrieve($order->id);
-
-        $this->assertSame($stripeOrder->id, $order->id);
-        $this->assertSame($stripeOrder->object, 'order');
-    }
-
-    /** @test */
-    public function it_can_pay_order_and_return()
+    public function it_can_pay_and_return()
     {
         $order = $this->createOrder();
         $card  = [
@@ -67,9 +92,10 @@ class OrderTest extends StripeTestCase
 
         $order->pay(['source' => $card]);
 
-        $this->assertSame($order->status, 'paid');
+        $this->assertSame('paid', $order->status);
 
         $orderReturn = $order->returnOrder();
+
         $this->assertSame($order->id, $orderReturn->order);
     }
 

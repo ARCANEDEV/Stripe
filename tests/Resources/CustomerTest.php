@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -65,21 +64,43 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_create_and_save()
     {
-        $customer = self::createTestCustomer();
-
+        $customer        = self::createTestCustomer();
         $customer->email = 'gdb@stripe.com';
         $customer->save();
-        $this->assertSame('gdb@stripe.com', $customer->email);
+        $stripeCustomer  = Customer::retrieve($customer->id);
 
-        $stripeCustomer = Customer::retrieve($customer->id);
+        $this->assertSame('gdb@stripe.com', $customer->email);
         $this->assertSame($customer->email, $stripeCustomer->email);
 
-        $customer = Customer::create(null);
+        $customer        = Customer::create(null);
         $customer->email = 'gdb@stripe.com';
         $customer->save();
-
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertSame('gdb@stripe.com', $updatedCustomer->email);
+
+        $this->assertSame('gdb@stripe.com', $customer->email);
+        $this->assertSame($customer->email, $updatedCustomer->email);
+    }
+
+    /** @test */
+    public function it_can_update()
+    {
+        $customer = self::createTestCustomer();
+        $customer = Customer::update($customer->id, [
+            'email' => 'gdb@stripe.com',
+        ]);
+        $stripeCustomer = Customer::retrieve($customer->id);
+
+        $this->assertSame('gdb@stripe.com', $customer->email);
+        $this->assertSame($customer->email, $stripeCustomer->email);
+
+        $customer  = Customer::create(null);
+        $customer  = Customer::update($customer->id, [
+            'email' => 'gdb@stripe.com',
+        ]);
+        $updatedCustomer = Customer::retrieve($customer->id);
+
+        $this->assertSame('gdb@stripe.com', $customer->email);
+        $this->assertSame($customer->email, $updatedCustomer->email);
     }
 
     /** @test */
@@ -398,7 +419,7 @@ class CustomerTest extends StripeTestCase
         $updatedCards    = $updatedCustomer->sources->all();
         $this->assertSame(2, count($updatedCards['data']));
 
-        /** @var Card $card */
+        /** @var \Arcanedev\Stripe\Resources\Card $card */
         $card = $updatedCustomer->sources->retrieve($createdCard->id);
         $card = $card->delete();
 

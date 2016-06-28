@@ -13,6 +13,17 @@ interface OrderInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Orders.
+     * @link   https://stripe.com/docs/api/php#list_orders
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null);
+
+    /**
      * Retrieves the details of an existing Order.
      * @link   https://stripe.com/docs/api/php#retrieve_order
      *
@@ -32,10 +43,22 @@ interface OrderInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Update an Order.
+     * @link   https://stripe.com/docs/api/php#update_order
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
+
+    /**
+     * Update/Save an Order.
      * @link   https://stripe.com/docs/api/php#update_order
      *
      * @param  array|string|null  $options
@@ -43,17 +66,6 @@ interface OrderInterface
      * @return self
      */
     public function save($options = null);
-
-    /**
-     * List all Orders.
-     * @link   https://stripe.com/docs/api/php#list_orders
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null);
 
     /**
      * Pay an Order.
@@ -64,7 +76,7 @@ interface OrderInterface
      *
      * @return self
      */
-    public function pay($params = null, $options = null);
+    public function pay($params = [], $options = null);
 
     /**
      * Return an order.
@@ -75,5 +87,5 @@ interface OrderInterface
      *
      * @return \Arcanedev\Stripe\Resources\OrderReturn|array
      */
-    public function returnOrder($params = null, $options = null);
+    public function returnOrder($params = [], $options = null);
 }

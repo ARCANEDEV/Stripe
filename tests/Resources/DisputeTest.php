@@ -42,6 +42,22 @@ class DisputeTest extends StripeTestCase
         $name    = 'Bob';
         $charge  = $this->createDisputedCharge();
         $dispute = $charge->dispute;
+        $updated = Dispute::update($dispute->id, [
+            'evidence' => [
+                'customer_name' => $name,
+            ],
+        ]);
+
+        $this->assertSame($dispute->id, $updated->id);
+        $this->assertSame($name,        $updated->evidence['customer_name']);
+    }
+
+    /** @test */
+    public function it_can_save()
+    {
+        $name    = 'Bob';
+        $charge  = $this->createDisputedCharge();
+        $dispute = $charge->dispute;
         $dispute->evidence['customer_name'] = $name;
 
         $saved = $dispute->save();

@@ -72,6 +72,23 @@ class CouponTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_update()
+    {
+        $couponId     = $this->getCouponId();
+        $this->coupon = $this->createTestCoupon($couponId);
+
+        $this->assertSame($couponId, $this->coupon->id);
+        $this->assertSame(25,        $this->coupon->percent_off);
+
+        $this->coupon = Coupon::update($couponId, [
+            'metadata' => ['foo' => 'bar'],
+        ]);
+
+        $stripeCoupon = Coupon::retrieve($couponId);
+        $this->assertEquals($stripeCoupon->metadata, $this->coupon->metadata);
+    }
+
+    /** @test */
     public function it_can_delete()
     {
         $couponId     = $this->getCouponId();

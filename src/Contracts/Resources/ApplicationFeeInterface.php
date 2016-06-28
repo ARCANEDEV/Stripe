@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
-use Arcanedev\Stripe\Collection;
-
 /**
  * Interface  ApplicationFeeInterface
  *
@@ -15,6 +13,17 @@ interface ApplicationFeeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Application Fees.
+     * @link   https://stripe.com/docs/api/php#list_application_fees
+     *
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null);
+
+    /**
      * Retrieving an Application Fee.
      *
      * @link   https://stripe.com/docs/api/php#retrieve_application_fee
@@ -27,20 +36,18 @@ interface ApplicationFeeInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * List all Application Fees.
+     * Update an Application Fee.
      *
-     * @link   https://stripe.com/docs/api/php#list_application_fees
-     *
-     * @param  array              $params
+     * @param  string             $id
+     * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Collection|array
+     * @return self
      */
-    public static function all($params = [], $options = null);
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Creating an Application Fee Refund
-     *
      * @link   https://stripe.com/docs/api/php#create_fee_refund
      *
      * @param  array|null         $params

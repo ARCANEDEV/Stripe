@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -17,7 +16,7 @@ class RecipientTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Recipient */
+    /** @var \Arcanedev\Stripe\Resources\Recipient */
     private $recipient;
 
     /* ------------------------------------------------------------------------------------------------
@@ -49,10 +48,11 @@ class RecipientTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_list_all()
+    public function it_can_get_all()
     {
         $recipients = Recipient::all();
 
+        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $recipients);
         $this->assertTrue($recipients->isList());
         $this->assertSame('/v1/recipients', $recipients->url);
     }
@@ -61,13 +61,27 @@ class RecipientTest extends StripeTestCase
     public function it_can_retrieve()
     {
         $this->recipient = self::createTestRecipient();
-
-        $recipient = Recipient::retrieve($this->recipient->id);
+        $recipient       = Recipient::retrieve($this->recipient->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $recipient);
 
-        $this->assertSame($this->recipient->id, $this->recipient->id);
-        $this->assertSame($this->recipient->name, $this->recipient->name);
+        $this->assertSame($this->recipient->id,   $recipient->id);
+        $this->assertSame($this->recipient->name, $recipient->name);
+    }
+
+    /** @test */
+    public function it_can_update()
+    {
+        $recipient = self::createTestRecipient();
+        $recipient = Recipient::update($recipient->id, [
+            'email' => 'gdb@stripe.com',
+        ]);
+
+        $this->assertSame('gdb@stripe.com', $recipient->email);
+
+        $stripeRecipient = Recipient::retrieve($recipient->id);
+
+        $this->assertSame($recipient->email, $stripeRecipient->email);
     }
 
     /** @test */
@@ -81,6 +95,7 @@ class RecipientTest extends StripeTestCase
         $this->assertSame('gdb@stripe.com', $recipient->email);
 
         $stripeRecipient = Recipient::retrieve($recipient->id);
+
         $this->assertSame($recipient->email, $stripeRecipient->email);
     }
 
@@ -113,6 +128,7 @@ class RecipientTest extends StripeTestCase
         $recipient->save();
 
         $updatedRecipient = Recipient::retrieve($recipient->id);
+
         $this->assertSame('foo bar', $updatedRecipient->metadata['test']);
     }
 
@@ -125,6 +141,7 @@ class RecipientTest extends StripeTestCase
         $recipient->save();
 
         $updatedRecipient = Recipient::retrieve($recipient->id);
+
         $this->assertSame('foo bar', $updatedRecipient->metadata['test']);
     }
 
@@ -144,6 +161,7 @@ class RecipientTest extends StripeTestCase
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
         $updatedCards       = $updatedRecipient->cards->all();
+
         $this->assertCount(1, $updatedCards['data']);
 
     }
@@ -159,15 +177,17 @@ class RecipientTest extends StripeTestCase
         $recipient->save();
 
         $createdCards = $recipient->cards->all();
+
         $this->assertCount(1, $createdCards['data']);
 
-        /** @var Card $card */
+        /** @var \Arcanedev\Stripe\Resources\Card $card */
         $card       = $createdCards['data'][0];
         $card->name = 'Jane Austen';
         $card->save();
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
         $updatedCards       = $updatedRecipient->cards->all();
+
         $this->assertSame('Jane Austen', $updatedCards['data'][0]->name);
     }
 
@@ -177,18 +197,23 @@ class RecipientTest extends StripeTestCase
         $token       = $this->createTestToken();
         $recipient   = $this->createTestRecipient();
         $createdCard = $recipient->cards->create(['card' => $token->id]);
+
         $recipient->save();
 
         $updatedRecipient = Recipient::retrieve($recipient->id);
         $updatedCards     = $updatedRecipient->cards->all();
+
         $this->assertCount(1, $updatedCards['data']);
 
         $deleteStatus = $updatedRecipient->cards->retrieve($createdCard->id)->delete();
+
         $this->assertTrue($deleteStatus->deleted);
+
         $updatedRecipient->save();
 
         $postDeleteRecipient = Recipient::retrieve($recipient->id);
         $postDeleteCards     = $postDeleteRecipient->cards->all();
+
         $this->assertCount(0, $postDeleteCards['data']);
     }
 

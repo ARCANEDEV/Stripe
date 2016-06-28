@@ -68,9 +68,7 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $this->invoice = Invoice::create([
-            'customer' => $customer->id
-        ]);
+        $this->invoice = Invoice::create(['customer' => $customer->id]);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
     }
@@ -86,14 +84,32 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $invoice = Invoice::create([
-            'customer' => $customer->id
-        ]);
+        $invoice = Invoice::create(['customer' => $customer->id]);
 
         $this->invoice = Invoice::retrieve($invoice->id);
 
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
         $this->assertSame($invoice->id, $this->invoice->id);
+    }
+
+    /** @test */
+    public function it_can_update()
+    {
+        $customer = parent::createTestCustomer();
+
+        InvoiceItem::create([
+            'customer' => $customer->id,
+            'amount'   => 0,
+            'currency' => 'usd',
+        ]);
+
+        $this->invoice = Invoice::create(['customer' => $customer->id]);
+        $this->invoice = Invoice::update($this->invoice->id, [
+            'description' => $description = 'Invoice Description',
+        ]);
+
+        $this->assertSame($customer->id, $this->invoice->customer);
+        $this->assertSame($description,  $this->invoice->description);
     }
 
     /** @test */
@@ -107,17 +123,15 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $invoice = Invoice::create([
-            'customer' => $customer->id
-        ]);
-
-        $this->invoice = Invoice::retrieve($invoice->id);
+        $this->invoice = Invoice::create(['customer' => $customer->id]);
+        $this->invoice = Invoice::retrieve($this->invoice->id);
 
         $description = 'Invoice Description';
         $this->invoice->description = $description;
         $this->invoice->save();
 
-        $this->assertSame($description, $this->invoice->description);
+        $this->assertSame($customer->id, $this->invoice->customer);
+        $this->assertSame($description,  $this->invoice->description);
     }
 
     /** @test */
@@ -131,12 +145,10 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $this->invoice = Invoice::upcoming([
-            'customer' => $customer->id,
-        ]);
+        $this->invoice = Invoice::upcoming(['customer' => $customer->id]);
 
         $this->assertSame($customer->id, $this->invoice->customer);
-        $this->assertSame(false, $this->invoice->attempted);
+        $this->assertFalse($this->invoice->attempted);
     }
 
     /** @test */
@@ -150,9 +162,7 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $this->invoice = Invoice::create([
-            'customer' => $customer->id
-        ]);
+        $this->invoice = Invoice::create(['customer' => $customer->id]);
 
         $this->assertFalse($this->invoice->paid);
 
@@ -172,15 +182,11 @@ class InvoiceTest extends StripeTestCase
             'currency' => 'usd',
         ]);
 
-        $invoice = Invoice::upcoming([
-            'customer' => $customer->id,
-        ]);
+        $invoice = Invoice::upcoming(['customer' => $customer->id]);
 
-        $lines = $invoice->lines->all([
-            'limit' => 10,
-        ]);
+        $lines = $invoice->lines->all(['limit' => 10]);
 
-        $this->assertSame(1, count($lines->data));
+        $this->assertSame(1,   count($lines->data));
         $this->assertSame(100, $lines->data[0]->amount);
     }
 }

@@ -35,6 +35,20 @@ class Product extends StripeResource implements ProductInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Products.
+     * @link   https://stripe.com/docs/api/php#list_products
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
      * Retrieve a product.
      * @link   https://stripe.com/docs/api/php#retrieve_product
      *
@@ -57,13 +71,28 @@ class Product extends StripeResource implements ProductInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null)
+    public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
     }
 
     /**
      * Update a Product.
+     * @link   https://stripe.com/docs/api/php#update_product
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
+    }
+
+    /**
+     * Update/Save a Product.
      * @link   https://stripe.com/docs/api/php#update_product
      *
      * @param  array|string|null  $options
@@ -76,20 +105,6 @@ class Product extends StripeResource implements ProductInterface
     }
 
     /**
-     * List all Products.
-     * @link   https://stripe.com/docs/api/php#list_products
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null)
-    {
-        return self::scopedAll($params, $options);
-    }
-
-    /**
      * Delete a Product.
      * @link   https://stripe.com/docs/api/php#delete_product
      *
@@ -98,7 +113,7 @@ class Product extends StripeResource implements ProductInterface
      *
      * @return self
      */
-    public function delete($params = null, $options = null)
+    public function delete($params = [], $options = null)
     {
         return $this->scopedDelete($params, $options);
     }

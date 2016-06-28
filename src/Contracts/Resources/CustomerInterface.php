@@ -13,17 +13,6 @@ interface CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Customer.
-     * @link   https://stripe.com/docs/api/php#retrieve_customer
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null);
-
-    /**
      * List all Customers.
      * @link   https://stripe.com/docs/api/php#list_customers
      *
@@ -35,6 +24,17 @@ interface CustomerInterface
     public static function all($params = [], $options = null);
 
     /**
+     * Retrieve a Customer.
+     * @link   https://stripe.com/docs/api/php#retrieve_customer
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null);
+
+    /**
      * Create Customer.
      * @link   https://stripe.com/docs/api/php#create_customer
      *
@@ -44,6 +44,18 @@ interface CustomerInterface
      * @return self|array
      */
     public static function create($params = [], $options = null);
+
+    /**
+     * Update a Customer.
+     * @link   https://stripe.com/docs/api/php#create_customer
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Update/Save Customer.

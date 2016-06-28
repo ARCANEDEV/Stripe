@@ -76,5 +76,5 @@ interface BitcoinReceiverInterface
      *
      * @return self
      */
-    public function refund($params = null, $options = null);
+    public function refund($params = [], $options = null);
 }

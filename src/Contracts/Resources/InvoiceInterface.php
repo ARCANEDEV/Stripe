@@ -13,15 +13,15 @@ interface InvoiceInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create an invoice.
-     * @link   https://stripe.com/docs/api/php#create_invoice
+     * List of all Invoices.
+     * @link   https://stripe.com/docs/api/php#list_customer_invoices
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return self|array
+     * @return \Arcanedev\Stripe\Collection|array
      */
-    public static function create($params = [], $options = null);
+    public static function all($params = [], $options = null);
 
     /**
      * Retrieving an Invoice.
@@ -35,15 +35,27 @@ interface InvoiceInterface
     public static function retrieve($id, $options = null);
 
     /**
-     * List of all Invoices.
-     * @link   https://stripe.com/docs/api/php#list_customer_invoices
+     * Create an invoice.
+     * @link   https://stripe.com/docs/api/php#create_invoice
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return \Arcanedev\Stripe\Collection|array
+     * @return self|array
      */
-    public static function all($params = [], $options = null);
+    public static function create($params = [], $options = null);
+
+    /**
+     * Update an invoice.
+     * @link   https://stripe.com/docs/api/php#update_invoice
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Update/Save an Invoice.

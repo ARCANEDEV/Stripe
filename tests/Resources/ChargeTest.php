@@ -189,6 +189,23 @@ class ChargeTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_update()
+    {
+        $this->charge = Charge::create($this->chargeData);
+
+        $this->assertNull($this->charge->metadata['test']);
+
+        Charge::update($this->charge->id, [
+            'metadata' => [
+                'test' => 'foo bar',
+            ],
+        ]);
+
+        $this->charge = Charge::retrieve($this->charge->id);
+        $this->assertSame('foo bar', $this->charge->metadata['test']);
+    }
+
+    /** @test */
     public function testCanUpdateDispute()
     {
         // TODO: Complete testCanUpdateDispute() implementation

@@ -78,6 +78,19 @@ class InvoiceItemTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_update()
+    {
+        $customer          = parent::createTestCustomer();
+        $this->invoiceItem = self::createInvoiceItem($customer->id);
+        $this->invoiceItem = InvoiceItem::update($this->invoiceItem->id, [
+            'description' => $description = 'Invoice Item Description',
+        ]);
+
+        $this->assertSame($customer->id, $this->invoiceItem->customer);
+        $this->assertSame($description,  $this->invoiceItem->description);
+    }
+
+    /** @test */
     public function it_can_save()
     {
         $customer          = parent::createTestCustomer();

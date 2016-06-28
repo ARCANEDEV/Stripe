@@ -15,7 +15,7 @@ class PlanTest extends StripeTestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Plan */
+    /** @var \Arcanedev\Stripe\Resources\Plan */
     private $plan;
 
     /** @var string */
@@ -61,13 +61,26 @@ class PlanTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_update()
+    {
+        $this->plan = Plan::update($this->planId, [
+            'name' => 'A new plan name'
+        ]);
+        $stripePlan = Plan::retrieve($this->planId);
+
+        $this->assertSame('A new plan name', $this->plan->name);
+        $this->assertSame($this->plan->name, $stripePlan->name);
+    }
+
+    /** @test */
     public function it_can_save()
     {
         $this->plan->name = 'A new plan name';
         $this->plan->save();
-        $this->assertSame($this->plan->name, 'A new plan name');
 
         $stripePlan = Plan::retrieve($this->planId);
+
+        $this->assertSame('A new plan name', $this->plan->name);
         $this->assertSame($this->plan->name, $stripePlan->name);
     }
 

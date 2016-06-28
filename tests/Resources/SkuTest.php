@@ -17,7 +17,33 @@ class SkuTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_create_sku()
+    public function it_can_get_all()
+    {
+        $skus = Sku::all(['include' => ['total_count']]);
+
+        $this->assertSame('/v1/skus', $skus->url);
+        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $skus);
+        $this->assertTrue($skus->isList());
+
+        if ($skus->count() > 0) {
+            $this->assertSame($skus->count(), $skus->total_count);
+            $this->assertInstanceOf('Arcanedev\Stripe\Resources\Sku', $skus->data[0]);
+        }
+    }
+
+    /** @test */
+    public function it_retrieve()
+    {
+        $sku       = $this->createSku();
+        $stripeSku = Sku::retrieve($sku->id);
+
+        $this->assertSame($sku->price,               $stripeSku->price);
+        $this->assertSame($sku->inventory->type,     $stripeSku->inventory->type);
+        $this->assertSame($sku->inventory->quantity, $stripeSku->inventory->quantity);
+    }
+
+    /** @test */
+    public function it_can_create()
     {
         $sku = $this->createSku();
 
@@ -27,7 +53,20 @@ class SkuTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_update_sku()
+    public function it_can_update()
+    {
+        $sku = $this->createSku();
+        $sku = Sku::update($sku->id, [
+            'price' => 600
+        ]);
+
+        $this->assertSame(600,      $sku->price);
+        $this->assertSame('finite', $sku->inventory->type);
+        $this->assertSame(40,       $sku->inventory->quantity);
+    }
+
+    /** @test */
+    public function it_can_save()
     {
         $sku = $this->createSku();
         $sku->price = 600;
@@ -39,14 +78,13 @@ class SkuTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_retrieve_sku()
+    public function it_can_delete()
     {
-        $sku       = $this->createSku();
-        $stripeSku = Sku::retrieve($sku->id);
+        $sku        = $this->createSku();
+        $deletedSku = $sku->delete();
 
-        $this->assertSame($sku->price,               $stripeSku->price);
-        $this->assertSame($sku->inventory->type,     $stripeSku->inventory->type);
-        $this->assertSame($sku->inventory->quantity, $stripeSku->inventory->quantity);
+        $this->assertSame($sku->id, $deletedSku->id);
+        $this->assertTrue($deletedSku->deleted);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -83,7 +121,7 @@ class SkuTest extends StripeTestCase
     {
         return Product::create([
             'name' => 'Silver Product',
-            'id'   => 'silver-' . self::generateRandomString(20),
+            'id'   => 'silver-'.self::generateRandomString(20),
             'url'  => 'www.stripe.com/silver'
         ]);
     }

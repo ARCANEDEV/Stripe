@@ -41,6 +41,29 @@ class ProductTest extends StripeTestCase
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /** @test */
+    public function it_can_retrieve()
+    {
+        $product       = $this->createProduct();
+        $stripeProduct = Product::retrieve($this->productId);
+
+        $this->assertSame($product->name,        $stripeProduct->name);
+        $this->assertSame('www.stripe.com/gold', $stripeProduct->url);
+    }
+
+    /** @test */
+    public function it_can_get_all()
+    {
+        $products = Product::all(['include' => ['total_count']]);
+
+        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $products);
+        $this->assertTrue($products->isList());
+
+        if ($products->count() > 0) {
+            $this->assertSame($products->count(), $products->total_count);
+        }
+    }
+
     /**
      * @test
      *
@@ -54,36 +77,38 @@ class ProductTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_create_product()
+    public function it_can_create()
     {
         $product = $this->createProduct();
 
-        $this->assertSame($product->url, 'www.stripe.com/gold');
+        $this->assertSame('www.stripe.com/gold', $product->url);
     }
 
     /** @test */
-    public function it_can_update_product()
+    public function it_can_update()
+    {
+        $product = $this->createProduct();
+        $product = Product::update($product->id, [
+            'name' => 'A new Product name',
+        ]);
+
+        $this->assertSame('A new Product name',  $product->name);
+        $this->assertSame('www.stripe.com/gold', $product->url);
+    }
+
+    /** @test */
+    public function it_can_save()
     {
         $product       = $this->createProduct();
         $product->name = 'A new Product name';
         $product->save();
 
-        $this->assertSame($product->name, 'A new Product name');
-        $this->assertSame($product->url, 'www.stripe.com/gold');
+        $this->assertSame('A new Product name',  $product->name);
+        $this->assertSame('www.stripe.com/gold', $product->url);
     }
 
     /** @test */
-    public function it_can_retrieve_product()
-    {
-        $product       = $this->createProduct();
-        $stripeProduct = Product::retrieve($this->productId);
-
-        $this->assertSame($product->name,      $stripeProduct->name);
-        $this->assertSame($stripeProduct->url, 'www.stripe.com/gold');
-    }
-
-    /** @test */
-    public function it_can_create_update_read_sku()
+    public function it_can_create_edit_read_sku()
     {
         Product::create([
             'name' => 'Silver Product',
@@ -107,13 +132,14 @@ class ProductTest extends StripeTestCase
         $sku->inventory->quantity = 50;
         $sku->save();
 
-        $this->assertSame($sku->price, 600);
-        $this->assertSame(50, $sku->inventory->quantity);
+        $this->assertSame(600, $sku->price);
+        $this->assertSame(50,  $sku->inventory->quantity);
 
         $sku = Sku::retrieve($SkuID);
-        $this->assertSame(600, $sku->price);
+
+        $this->assertSame(600,      $sku->price);
         $this->assertSame('finite', $sku->inventory->type);
-        $this->assertSame(50, $sku->inventory->quantity);
+        $this->assertSame(50,       $sku->inventory->quantity);
     }
 
     /** @test */
@@ -138,10 +164,12 @@ class ProductTest extends StripeTestCase
             'product'   => $productId,
         ]);
 
-        $deletedSku = $sku->delete();
+        $deletedSku     = $sku->delete();
+
         $this->assertTrue($deletedSku->deleted);
 
         $deletedProduct = $product->delete();
+
         $this->assertTrue($deletedProduct->deleted);
     }
 

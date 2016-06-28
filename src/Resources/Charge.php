@@ -49,7 +49,6 @@ class Charge extends StripeResource implements ChargeInterface
      | ------------------------------------------------------------------------------------------------
      */
     const SAFE       = 'safe';
-
     const FRAUDULENT = 'fraudulent';
 
     /* ------------------------------------------------------------------------------------------------
@@ -109,6 +108,21 @@ class Charge extends StripeResource implements ChargeInterface
     public function save($options = null)
     {
         return self::scopedSave($options);
+    }
+
+    /**
+     * Update a Charge.
+     * @link   https://stripe.com/docs/api/php#update_charge
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**

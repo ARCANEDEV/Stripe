@@ -50,20 +50,6 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve an Invoice Item.
-     * @link   https://stripe.com/docs/api/php#retrieve_invoiceitem
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null)
-    {
-        return self::scopedRetrieve($id, $options);
-    }
-
-    /**
      * List all Invoice Items.
      * @link   https://stripe.com/docs/api/php#list_invoiceitems
      *
@@ -78,6 +64,20 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     }
 
     /**
+     * Retrieve an Invoice Item.
+     * @link   https://stripe.com/docs/api/php#retrieve_invoiceitem
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
      * Create an Invoice Item.
      * @link https://stripe.com/docs/api/php#create_invoiceitem
      *
@@ -89,6 +89,21 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
+    }
+
+    /**
+     * Update an Invoice Item.
+     * @link   https://stripe.com/docs/api/php#update_invoiceitem
+     *         
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**

@@ -49,6 +49,20 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Application Fees.
+     * @link   https://stripe.com/docs/api/php#list_application_fees
+     *
+     * @param  array              $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
      * Retrieving an Application Fee.
      *
      * @link   https://stripe.com/docs/api/php#retrieve_application_fee
@@ -64,18 +78,17 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
     }
 
     /**
-     * List all Application Fees.
+     * Update an Application Fee.
      *
-     * @link   https://stripe.com/docs/api/php#list_application_fees
-     *
-     * @param  array              $params
+     * @param  string             $id
+     * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return \Arcanedev\Stripe\Collection|array
+     * @return self
      */
-    public static function all($params = [], $options = null)
+    public static function update($id, $params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**
