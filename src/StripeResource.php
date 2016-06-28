@@ -100,7 +100,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     public static function classUrl($class = '')
     {
-        $base   = self::className($class);
+        $base = self::className($class);
 
         return "/v1/${base}s";
     }
@@ -114,19 +114,31 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     public function instanceUrl()
     {
-        $id     = $this['id'];
-        $class  = get_class($this);
+        return static::resourceUrl($this['id']);
+    }
 
-        if (is_null($id)) {
+    /**
+     * Get the instance endpoint URL for the given class.
+     *
+     * @param  string  $id
+     *
+     * @return string
+     *
+     * @throws Exceptions\InvalidRequestException
+     */
+    public static function resourceUrl($id)
+    {
+        if ($id === null) {
+            $class = get_called_class();
             throw new Exceptions\InvalidRequestException(
                 "Could not determine which URL to request: $class instance has invalid ID: $id", null
             );
         }
 
-        $base   = $this->lsb('classUrl', $class);
-        $extn   = urlencode(str_utf8($id));
+        $base     = static::classUrl();
+        $endpoint = urlencode(str_utf8($id));
 
-        return "$base/$extn";
+        return "$base/$endpoint";
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -195,11 +207,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     protected static function scopedRetrieve($id, $options = null)
     {
-        $opts     = RequestOptions::parse($options);
         $class    = get_called_class();
 
         /** @var self $resource */
-        $resource = new $class($id, $opts);
+        $resource = new $class($id, RequestOptions::parse($options));
         $resource->refresh();
 
         return $resource;
@@ -218,13 +229,13 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     protected static function scopedAll($params = [], $options = null)
     {
         self::checkArguments($params, $options);
+
         $url = static::classUrl();
 
         /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest('get', $url, $params, $options);
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
-
 
         self::checkIsCollectionObject($object);
 
@@ -253,6 +264,32 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
 
         /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest('post', $url, $params, $options);
+
+        $object = Util::convertToStripeObject($response->getJson(), $opts);
+        $object->setLastResponse($response);
+
+        return $object;
+    }
+
+    /**
+     * Update scope.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
+     */
+    protected static function scopedUpdate($id, $params = null, $options = null)
+    {
+        self::checkArguments($params, $options);
+
+        $url = static::resourceUrl($id);
+
+        /** @var \Arcanedev\Stripe\Http\Response $response */
+        list($response, $opts) = static::staticRequest('post', $url, $params, $options);
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
         $object->setLastResponse($response);
@@ -296,7 +333,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         self::checkArguments($params, $options);
 
-        list($response, $opts) = $this->request('delete', $this->instanceUrl(), $params, $options);
+        $url = $this->instanceUrl();
+
+        list($response, $opts) = $this->request('delete', $url, $params, $options);
         $this->refreshFrom($response, $opts);
 
         return $this;
