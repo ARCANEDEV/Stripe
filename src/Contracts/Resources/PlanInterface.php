@@ -13,17 +13,6 @@ interface PlanInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Plan.
-     * @link   https://stripe.com/docs/api/php#retrieve_plan
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null);
-
-    /**
      * List all Plans.
      * @link   https://stripe.com/docs/api/php#list_plans
      *
@@ -35,6 +24,17 @@ interface PlanInterface
     public static function all($params = [], $options = null);
 
     /**
+     * Retrieve a Plan.
+     * @link   https://stripe.com/docs/api/php#retrieve_plan
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null);
+
+    /**
      * Create a Plan.
      * @link   https://stripe.com/docs/api/php#create_plan
      *
@@ -44,6 +44,18 @@ interface PlanInterface
      * @return self|array
      */
     public static function create($params = [], $options = null);
+
+    /**
+     * Update a Plan.
+     * @link   https://stripe.com/docs/api/php#update_plan
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Update/Save a Plan.

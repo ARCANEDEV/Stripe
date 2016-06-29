@@ -39,6 +39,20 @@ class Order extends StripeResource implements OrderInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Orders.
+     * @link   https://stripe.com/docs/api/php#list_orders
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
      * Retrieves the details of an existing Order.
      * @link   https://stripe.com/docs/api/php#retrieve_order
      *
@@ -61,13 +75,28 @@ class Order extends StripeResource implements OrderInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null)
+    public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
     }
 
     /**
      * Update an Order.
+     * @link   https://stripe.com/docs/api/php#update_order
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
+    }
+
+    /**
+     * Update/Save an Order.
      * @link   https://stripe.com/docs/api/php#update_order
      *
      * @param  array|string|null  $options
@@ -80,20 +109,6 @@ class Order extends StripeResource implements OrderInterface
     }
 
     /**
-     * List all Orders.
-     * @link   https://stripe.com/docs/api/php#list_orders
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null)
-    {
-        return self::scopedAll($params, $options);
-    }
-
-    /**
      * Pay an Order.
      * @link   https://stripe.com/docs/api/php#pay_order
      *
@@ -102,7 +117,7 @@ class Order extends StripeResource implements OrderInterface
      *
      * @return self
      */
-    public function pay($params = null, $options = null)
+    public function pay($params = [], $options = null)
     {
         list($response, $options) = $this->request(
             'post', $this->instanceUrl() . '/pay', $params, $options
@@ -121,7 +136,7 @@ class Order extends StripeResource implements OrderInterface
      *
      * @return \Arcanedev\Stripe\Resources\OrderReturn|array
      */
-    public function returnOrder($params = null, $options = null)
+    public function returnOrder($params = [], $options = null)
     {
         list($response, $options) = $this->request(
             'post', $this->instanceUrl() . '/returns', $params, $options

@@ -77,6 +77,14 @@ class SubscriptionTest extends StripeTestCase
         $this->assertSame($plan->id, $subscription->plan->id);
         $this->assertSame(2,         $subscription->quantity);
 
+        $subscription = Subscription::update($subscription->id, [
+            'quantity' => 3,
+        ]);
+
+        $this->assertSame('active',  $subscription->status);
+        $this->assertSame($plan->id, $subscription->plan->id);
+        $this->assertSame(3,         $subscription->quantity);
+
         $subscriptions = Subscription::all(['customer' => $customer, 'plan' => $plan->id, 'limit' => 3]);
 
         $this->assertInstanceOf(

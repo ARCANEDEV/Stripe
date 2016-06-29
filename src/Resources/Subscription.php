@@ -36,20 +36,6 @@ class Subscription extends StripeResource implements SubscriptionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Subscription by id.
-     * @link   https://stripe.com/docs/api/php#retrieve_subscription
-     *
-     * @param  string             $id       The ID of the subscription to retrieve.
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null)
-    {
-        return self::scopedRetrieve($id, $options);
-    }
-
-    /**
      * List all Subscriptions.
      * @link   https://stripe.com/docs/api/php#list_subscriptions
      *
@@ -64,6 +50,20 @@ class Subscription extends StripeResource implements SubscriptionInterface
     }
 
     /**
+     * Retrieve a Subscription by id.
+     * @link   https://stripe.com/docs/api/php#retrieve_subscription
+     *
+     * @param  string             $id       The ID of the subscription to retrieve.
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
      * Create a Subscription.
      * @link   https://stripe.com/docs/api/php#create_subscription
      *
@@ -75,6 +75,21 @@ class Subscription extends StripeResource implements SubscriptionInterface
     public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
+    }
+
+    /**
+     * Updated a subscription.
+     * @link   https://stripe.com/docs/api/php#update_subscription
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**

@@ -44,20 +44,6 @@ class Recipient extends StripeResource implements RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Recipient.
-     * @link   https://stripe.com/docs/api/php#retrieve_recipient
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null)
-    {
-        return self::scopedRetrieve($id, $options);
-    }
-
-    /**
      * List all Recipients.
      * @link   https://stripe.com/docs/api/php#list_recipients
      *
@@ -72,6 +58,20 @@ class Recipient extends StripeResource implements RecipientInterface
     }
 
     /**
+     * Retrieve a Recipient.
+     * @link   https://stripe.com/docs/api/php#retrieve_recipient
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
      * Create a new Recipient.
      * @link   https://stripe.com/docs/api/php#create_recipient
      *
@@ -83,6 +83,21 @@ class Recipient extends StripeResource implements RecipientInterface
     public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
+    }
+
+    /**
+     * Update a Recipient.
+     * @link   https://stripe.com/docs/api/php#update_recipient
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**

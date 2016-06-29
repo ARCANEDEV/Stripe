@@ -44,6 +44,22 @@ class AccountTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_get_all()
+    {
+        $response = $this->managedAccountsListResponse('acct_ABC');
+        $this->mockRequest('GET', '/v1/accounts', [], $response);
+
+        $accounts = Account::all();
+
+        $this->assertTrue($accounts->isList());
+        $this->assertSame(1, $accounts->count());
+
+        $this->account = $accounts->data[0];
+
+        $this->assertSame('acct_ABC', $this->account->id);
+    }
+
+    /** @test */
     public function it_can_retrieve_by_Id()
     {
         $response = $this->managedAccountResponse('acct_DEF');
@@ -66,16 +82,14 @@ class AccountTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_update_legal_entity()
+    public function it_can_save_legal_entity()
     {
         $response = $this->managedAccountResponse('acct_ABC');
         $this->mockRequest('POST', '/v1/accounts', ['managed' => 'true'], $response);
 
         $response['legal_entity']['first_name'] = 'Bob';
         $params = [
-            'legal_entity' => [
-                'first_name' => 'Bob',
-            ],
+            'legal_entity' => ['first_name' => 'Bob'],
         ];
 
         $this->mockRequest('POST', '/v1/accounts/acct_ABC', $params, $response);
@@ -83,6 +97,27 @@ class AccountTest extends StripeTestCase
         $this->account = Account::create(['managed' => true]);
         $this->account->legal_entity->first_name = 'Bob';
         $this->account->save();
+
+        $this->assertSame('Bob', $this->account->legal_entity->first_name);
+    }
+
+    /** @test */
+    public function it_can_update_legal_entity()
+    {
+        $response = $this->managedAccountResponse('acct_ABC');
+        $this->mockRequest('POST', '/v1/accounts', ['managed' => 'true'], $response);
+
+        $response['legal_entity']['first_name'] = 'Bob';
+        $params = [
+            'legal_entity' => ['first_name' => 'Bob'],
+        ];
+
+        $this->mockRequest('POST', '/v1/accounts/acct_ABC', $params, $response);
+
+        $this->account = Account::create(['managed' => true]);
+        $this->account = Account::update($this->account->id, [
+            'legal_entity' => ['first_name' => 'Bob'],
+        ]);
 
         $this->assertSame('Bob', $this->account->legal_entity->first_name);
     }
@@ -292,20 +327,20 @@ class AccountTest extends StripeTestCase
     private function managedAccountResponse($id)
     {
         return [
-            'id'            => $id,
+            'id'                   => $id,
             'currencies_supported' => [
                 'usd', 'aed', 'afn', '...',
             ],
-            'object'        => 'account',
-            'business_name' => 'Stripe.com',
-            'bank_accounts' => [
+            'object'               => 'account',
+            'business_name'        => 'Stripe.com',
+            'bank_accounts'        => [
                 'object'        => 'list',
                 'total_count'   => 0,
                 'has_more'      => false,
                 'url'           => '/v1/accounts/' . $id . '/bank_accounts',
                 'data'          => [],
             ],
-            'verification'  => [
+            'verification'         => [
                 'fields_needed' => [
                     'product_description',
                     'business_url',
@@ -317,12 +352,12 @@ class AccountTest extends StripeTestCase
                 'due_by'        => null,
                 'contacted'     => false,
             ],
-            'tos_acceptance' => [
+            'tos_acceptance'       => [
                 'ip'         => null,
                 'date'       => null,
                 'user_agent' => null,
             ],
-            'legal_entity' => [
+            'legal_entity'         => [
                 'type'          => null,
                 'business_name' => null,
                 'address'       => [
@@ -342,6 +377,28 @@ class AccountTest extends StripeTestCase
                     'details'   => null,
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Get a accounts list response
+     *
+     * @param  string  $id
+     *
+     * @return array
+     */
+    private function managedAccountsListResponse($id)
+    {
+        $accounts = [
+            $this->managedAccountResponse($id),
+        ];
+
+        return [
+            'object'      => 'list',
+            'url'         => '/v1/accounts',
+            'has_more'    => false,
+            'total_count' => count($accounts),
+            'data'        => $accounts
         ];
     }
 

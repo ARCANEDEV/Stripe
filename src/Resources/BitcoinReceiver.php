@@ -122,7 +122,7 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      *
      * @return self
      */
-    public function refund($params = null, $options = null)
+    public function refund($params = [], $options = null)
     {
         list($response, $opts) = $this->request(
             'post', $this->instanceUrl() . '/refund', $params, $options

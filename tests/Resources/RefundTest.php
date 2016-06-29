@@ -52,10 +52,7 @@ class RefundTest extends StripeTestCase
     {
         $this->refund->id = $refundId = 'refund_random_id';
 
-        $this->assertSame(
-            "/v1/refunds/$refundId",
-            $this->refund->instanceUrl()
-        );
+        $this->assertSame("/v1/refunds/$refundId", $this->refund->instanceUrl());
     }
 
     /**
@@ -69,26 +66,13 @@ class RefundTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_create()
+    public function it_can_get_all()
     {
-        $charge       = self::createTestCharge();
-        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
+        $refunds = Refund::all();
 
-        $this->assertSame(100, $this->refund->amount);
-        $this->assertSame($charge->id, $this->refund->charge);
-    }
-
-    /** @test */
-    public function it_can_update_and_retrieve()
-    {
-        $charge       = self::createTestCharge();
-        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
-
-        $this->refund->metadata['key'] = 'value';
-        $this->refund->save();
-
-        $this->refund = Refund::retrieve($this->refund->id);
-        $this->assertSame('value', $this->refund->metadata['key'], 'value');
+        // Fetches all refunds on this test account.
+        $this->assertTrue($refunds['has_more']);
+        $this->assertSame(10, count($refunds->data));
     }
 
     /** @test */
@@ -108,13 +92,41 @@ class RefundTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_list_all()
+    public function it_can_create()
     {
-        $all = Refund::all();
+        $charge       = self::createTestCharge();
+        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
 
-        // Fetches all refunds on this test account.
-        $this->assertTrue($all['has_more']);
-        $this->assertSame(10, count($all->data));
+        $this->assertSame(100, $this->refund->amount);
+        $this->assertSame($charge->id, $this->refund->charge);
+    }
+
+    /** @test */
+    public function it_can_update_and_retrieve()
+    {
+        $charge       = self::createTestCharge();
+        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
+        $this->refund = Refund::update($this->refund->id, [
+            'metadata' => ['key' => 'value']
+        ]);
+
+        $this->refund = Refund::retrieve($this->refund->id);
+
+        $this->assertSame('value', $this->refund->metadata['key']);
+    }
+
+    /** @test */
+    public function it_can_save_and_retrieve()
+    {
+        $charge       = self::createTestCharge();
+        $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
+
+        $this->refund->metadata['key'] = 'value';
+        $this->refund->save();
+
+        $this->refund = Refund::retrieve($this->refund->id);
+
+        $this->assertSame('value', $this->refund->metadata['key']);
     }
 
     /** @test */
@@ -165,7 +177,7 @@ class RefundTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_list_all_via_charge()
+    public function it_can_get_all_via_charge()
     {
         $charge  = self::createTestCharge();
         $refundA = $charge->refunds->create(['amount' => 50]);

@@ -81,20 +81,6 @@ class Customer extends StripeResource implements CustomerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Customer.
-     * @link   https://stripe.com/docs/api/php#retrieve_customer
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null)
-    {
-        return self::scopedRetrieve($id, $options);
-    }
-
-    /**
      * List all Customers.
      * @link   https://stripe.com/docs/api/php#list_customers
      *
@@ -106,6 +92,20 @@ class Customer extends StripeResource implements CustomerInterface
     public static function all($params = [], $options = null)
     {
         return self::scopedAll($params, $options);
+    }
+
+    /**
+     * Retrieve a Customer.
+     * @link   https://stripe.com/docs/api/php#retrieve_customer
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
     }
 
     /**
@@ -123,7 +123,22 @@ class Customer extends StripeResource implements CustomerInterface
     }
 
     /**
-     * Update/Save Customer.
+     * Update a Customer.
+     * @link   https://stripe.com/docs/api/php#create_customer
+     *         
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
+    }
+
+    /**
+     * Update/Save a Customer.
      * @link   https://stripe.com/docs/api/php#create_customer
      *
      * @param  array|string|null  $options

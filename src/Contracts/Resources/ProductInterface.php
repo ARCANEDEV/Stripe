@@ -13,6 +13,17 @@ interface ProductInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all Products.
+     * @link   https://stripe.com/docs/api/php#list_products
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null);
+
+    /**
      * Retrieve a product.
      * @link   https://stripe.com/docs/api/php#retrieve_product
      *
@@ -21,7 +32,7 @@ interface ProductInterface
      *
      * @return self
      */
-    public static function retrieve($id, $options = null);
+    public static function retrieve($id, $options = []);
 
     /**
      * Create a Product.
@@ -32,10 +43,22 @@ interface ProductInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Update a Product.
+     * @link   https://stripe.com/docs/api/php#update_product
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
+
+    /**
+     * Update/Save a Product.
      * @link   https://stripe.com/docs/api/php#update_product
      *
      * @param  array|string|null  $options
@@ -43,17 +66,6 @@ interface ProductInterface
      * @return self
      */
     public function save($options = null);
-
-    /**
-     * List all Products.
-     * @link   https://stripe.com/docs/api/php#list_products
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null);
 
     /**
      * Delete a Product.
@@ -64,5 +76,5 @@ interface ProductInterface
      *
      * @return self
      */
-    public function delete($params = null, $options = null);
+    public function delete($params = [], $options = null);
 }

@@ -13,6 +13,17 @@ interface SkuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * List all SKUs.
+     * @link   https://stripe.com/docs/api/php#list_skus
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null);
+
+    /**
      * Retrieve a SKU.
      * @link   https://stripe.com/docs/api/php#retrieve_sku
      *
@@ -32,10 +43,22 @@ interface SkuInterface
      *
      * @return self
      */
-    public static function create($params = null, $options = null);
+    public static function create($params = [], $options = null);
 
     /**
      * Update a SKU.
+     * @link   https://stripe.com/docs/api/php#update_sku
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
+
+    /**
+     * Update/Save a SKU.
      * @link   https://stripe.com/docs/api/php#update_sku
      *
      * @param  array|string|null  $options
@@ -43,17 +66,6 @@ interface SkuInterface
      * @return self
      */
     public function save($options = null);
-
-    /**
-     * List all SKUs.
-     * @link   https://stripe.com/docs/api/php#list_skus
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = null, $options = null);
 
     /**
      * Delete a SKU.
@@ -64,5 +76,5 @@ interface SkuInterface
      *
      * @return self
      */
-    public function delete($params = null, $options = null);
+    public function delete($params = [], $options = null);
 }

@@ -39,7 +39,7 @@ class BankAccount extends ExternalAccount implements BankAccountInterface
      *
      * @return self
      */
-    public function verify($params = null, $options = null)
+    public function verify($params = [], $options = null)
     {
         return $this->scopedPostCall(
             $this->instanceUrl() . '/verify', $params, $options

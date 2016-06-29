@@ -41,20 +41,6 @@ class Transfer extends StripeResource implements TransferInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Transfer.
-     * @link   https://stripe.com/docs/api/php#retrieve_transfer
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null)
-    {
-        return self::scopedRetrieve($id, $options);
-    }
-
-    /**
      * List all Transfers.
      * @link   https://stripe.com/docs/api/php#list_transfers
      *
@@ -69,6 +55,20 @@ class Transfer extends StripeResource implements TransferInterface
     }
 
     /**
+     * Retrieve a Transfer.
+     * @link   https://stripe.com/docs/api/php#retrieve_transfer
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
      * Create a transfer.
      * @link   https://stripe.com/docs/api/php#create_transfer
      *
@@ -80,6 +80,34 @@ class Transfer extends StripeResource implements TransferInterface
     public static function create($params = [], $options = null)
     {
         return self::scopedCreate($params, $options);
+    }
+
+    /**
+     * Update a Transfer.
+     * @link   https://stripe.com/docs/api/php#update_transfer
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
+    }
+
+    /**
+     * Update/Save a Transfer.
+     * @link   https://stripe.com/docs/api/php#update_transfer
+     *
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function save($options = null)
+    {
+        return self::scopedSave($options);
     }
 
     /**
@@ -104,7 +132,7 @@ class Transfer extends StripeResource implements TransferInterface
      *
      * @return \Arcanedev\Stripe\Resources\TransferReversal
      */
-    public function reverse($params = null, $options = null)
+    public function reverse($params = [], $options = null)
     {
         list($response, $options) = $this->request(
             'post', $this->instanceUrl() . '/reversals', $params, $options
@@ -112,18 +140,5 @@ class Transfer extends StripeResource implements TransferInterface
         $this->refreshFrom($response, $options);
 
         return $this;
-    }
-
-    /**
-     * Update a Transfer.
-     * @link   https://stripe.com/docs/api/php#update_transfer
-     *
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public function save($options = null)
-    {
-        return self::scopedSave($options);
     }
 }

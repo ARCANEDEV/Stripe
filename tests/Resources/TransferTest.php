@@ -47,7 +47,7 @@ class TransferTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_list_all()
+    public function it_can_get_all()
     {
         $transfers = Transfer::all();
 
@@ -73,19 +73,22 @@ class TransferTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_cancel()
+    public function it_can_update()
     {
         $this->transfer = self::createTestTransfer();
-        $retrievedTrans = Transfer::retrieve($this->transfer->id);
+        $this->transfer = Transfer::update($this->transfer->id, [
+            'metadata' => [
+                'test' => 'foo bar'
+            ],
+        ]);
 
-        $this->assertSame($this->transfer->id, $retrievedTrans->id);
+        $transfer = Transfer::retrieve($this->transfer->id);
 
-        if ($retrievedTrans->status !== 'paid')
-            $retrievedTrans->cancel();
+        $this->assertSame('foo bar', $transfer->metadata['test']);
     }
 
     /** @test */
-    public function it_can_update_one_metadata()
+    public function it_can_save()
     {
         $this->transfer = self::createTestTransfer();
         $this->transfer->metadata['test'] = 'foo bar';
@@ -105,5 +108,24 @@ class TransferTest extends StripeTestCase
 
         $transfer = Transfer::retrieve($this->transfer->id);
         $this->assertSame('foo bar', $transfer->metadata['test']);
+    }
+
+    /** @test */
+    public function it_can_cancel()
+    {
+        $this->transfer = self::createTestTransfer();
+        $retrievedTrans = Transfer::retrieve($this->transfer->id);
+
+        $this->assertSame($this->transfer->id, $retrievedTrans->id);
+
+        if ($retrievedTrans->status !== 'paid') {
+            $retrievedTrans->cancel();
+        }
+    }
+
+    /** @test */
+    public function it_can_reverse()
+    {
+        // TODO: Add the Transfer reverse test
     }
 }

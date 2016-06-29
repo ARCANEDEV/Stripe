@@ -56,6 +56,18 @@ interface ChargeInterface
     public function save($options = null);
 
     /**
+     * Update a Charge.
+     * @link   https://stripe.com/docs/api/php#update_charge
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
+
+    /**
      * Creating a new refund
      * @link   https://stripe.com/docs/api/php#create_refund
      *

@@ -32,6 +32,20 @@ class Dispute extends StripeResource implements DisputeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get all Disputes.
+     * @link   https://stripe.com/docs/api/php#list_disputes
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection|array
+     */
+    public static function all($params = [], $options = null)
+    {
+        return self::scopedAll($params, $options);
+    }
+
+    /**
      * Get a Dispute by id.
      * @link   https://stripe.com/docs/api/php#retrieve_dispute
      *
@@ -46,17 +60,18 @@ class Dispute extends StripeResource implements DisputeInterface
     }
 
     /**
-     * Get all Disputes.
-     * @link   https://stripe.com/docs/api/php#list_disputes
-     *
+     * Update a Dispute.
+     * @link   https://stripe.com/docs/api/php#update_dispute
+     *         
+     * @param  string             $id
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return \Arcanedev\Stripe\Collection|array
+     * @return self
      */
-    public static function all($params = null, $options = null)
+    public static function update($id, $params = [], $options = null)
     {
-        return self::scopedAll($params, $options);
+        return self::scopedUpdate($id, $params, $options);
     }
 
     /**

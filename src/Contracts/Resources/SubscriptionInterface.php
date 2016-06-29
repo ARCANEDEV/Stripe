@@ -13,17 +13,6 @@ interface SubscriptionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Subscription by id.
-     * @link   https://stripe.com/docs/api/php#retrieve_subscription
-     *
-     * @param  string             $id       The ID of the subscription to retrieve.
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null);
-
-    /**
      * List all Subscriptions.
      * @link   https://stripe.com/docs/api/php#list_subscriptions
      *
@@ -35,6 +24,17 @@ interface SubscriptionInterface
     public static function all($params = [], $options = null);
 
     /**
+     * Retrieve a Subscription by id.
+     * @link   https://stripe.com/docs/api/php#retrieve_subscription
+     *
+     * @param  string             $id       The ID of the subscription to retrieve.
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null);
+
+    /**
      * Create a Subscription.
      * @link   https://stripe.com/docs/api/php#create_subscription
      *
@@ -44,6 +44,18 @@ interface SubscriptionInterface
      * @return self
      */
     public static function create($params = [], $options = null);
+
+    /**
+     * Updated a subscription.
+     * @link   https://stripe.com/docs/api/php#update_subscription
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Cancel a Subscription.

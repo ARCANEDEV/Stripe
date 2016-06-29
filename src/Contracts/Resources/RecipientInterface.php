@@ -13,17 +13,6 @@ interface RecipientInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Retrieve a Recipient.
-     * @link   https://stripe.com/docs/api/php#retrieve_recipient
-     *
-     * @param  string             $id
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function retrieve($id, $options = null);
-
-    /**
      * List all Recipients.
      * @link   https://stripe.com/docs/api/php#list_recipients
      *
@@ -35,6 +24,17 @@ interface RecipientInterface
     public static function all($params = [], $options = null);
 
     /**
+     * Retrieve a Recipient.
+     * @link   https://stripe.com/docs/api/php#retrieve_recipient
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null);
+
+    /**
      * Create a new Recipient.
      * @link   https://stripe.com/docs/api/php#create_recipient
      *
@@ -44,6 +44,18 @@ interface RecipientInterface
      * @return self|array
      */
     public static function create($params = [], $options = null);
+
+    /**
+     * Update a Recipient.
+     * @link   https://stripe.com/docs/api/php#update_recipient
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = [], $options = null);
 
     /**
      * Update/Save a Recipient.

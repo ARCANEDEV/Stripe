@@ -73,7 +73,7 @@ abstract class ExternalAccount extends StripeResource
      *
      * @return self
      */
-    public function delete($params = null, $options = null)
+    public function delete($params = [], $options = null)
     {
         return $this->scopedDelete($params, $options);
     }
@@ -99,7 +99,7 @@ abstract class ExternalAccount extends StripeResource
      * @return self
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function verify($params = null, $options = null)
+    public function verify($params = [], $options = null)
     {
         if ( ! $this['customer']) {
             throw new ApiException(

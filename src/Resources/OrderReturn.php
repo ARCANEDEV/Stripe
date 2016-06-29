@@ -49,7 +49,7 @@ class OrderReturn extends StripeResource implements OrderReturnInterface
      *
      * @return \Arcanedev\Stripe\Collection|array
      */
-    public static function all($params = null, $options = null)
+    public static function all($params = [], $options = null)
     {
         return self::scopedAll($params, $options);
     }
