@@ -36,7 +36,7 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
 class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -69,7 +69,7 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

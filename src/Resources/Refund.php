@@ -25,7 +25,7 @@ use Arcanedev\Stripe\StripeResource;
 class Refund extends StripeResource implements RefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

@@ -28,7 +28,7 @@ use Arcanedev\Stripe\StripeResource;
 class ApplicationFee extends StripeResource implements ApplicationFeeInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -45,7 +45,7 @@ class ApplicationFee extends StripeResource implements ApplicationFeeInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

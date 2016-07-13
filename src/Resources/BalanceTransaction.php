@@ -28,7 +28,7 @@ use Arcanedev\Stripe\StripeResource;
 class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -45,7 +45,7 @@ class BalanceTransaction extends StripeResource implements BalanceTransactionInt
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
