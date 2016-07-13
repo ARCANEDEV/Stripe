@@ -18,7 +18,7 @@ use Arcanedev\Stripe\SingletonResource;
 class Balance extends SingletonResource implements BalanceInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

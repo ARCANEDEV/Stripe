@@ -52,7 +52,7 @@ class Charge extends StripeResource implements ChargeInterface
     const FRAUDULENT = 'fraudulent';
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

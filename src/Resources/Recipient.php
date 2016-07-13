@@ -40,7 +40,7 @@ class Recipient extends StripeResource implements RecipientInterface
     protected $checkUnsavedAttributes = true;
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

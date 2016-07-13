@@ -28,7 +28,7 @@ use Arcanedev\Stripe\Contracts\Resources\BankAccountInterface;
 class BankAccount extends ExternalAccount implements BankAccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

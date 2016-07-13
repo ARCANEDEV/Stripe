@@ -37,7 +37,7 @@ use Arcanedev\Stripe\StripeResource;
 class Transfer extends StripeResource implements TransferInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

@@ -28,7 +28,7 @@ use Arcanedev\Stripe\StripeResource;
 class Dispute extends StripeResource implements DisputeInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -62,7 +62,7 @@ class Dispute extends StripeResource implements DisputeInterface
     /**
      * Update a Dispute.
      * @link   https://stripe.com/docs/api/php#update_dispute
-     *         
+     *
      * @param  string             $id
      * @param  array|null         $params
      * @param  array|string|null  $options

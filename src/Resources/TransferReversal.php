@@ -23,7 +23,7 @@ use Arcanedev\Stripe\StripeResource;
 class TransferReversal extends StripeResource implements TransferReversalInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -51,7 +51,7 @@ class TransferReversal extends StripeResource implements TransferReversalInterfa
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

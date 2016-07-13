@@ -47,7 +47,7 @@ use Arcanedev\Stripe\Utilities\Util;
 class Invoice extends StripeResource implements InvoiceInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

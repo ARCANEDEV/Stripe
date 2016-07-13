@@ -40,7 +40,7 @@ use Arcanedev\Stripe\StripeResource;
 class Account extends StripeResource implements AccountInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -54,7 +54,7 @@ class Account extends StripeResource implements AccountInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

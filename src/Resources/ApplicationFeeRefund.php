@@ -29,7 +29,7 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
     const BASE_CLASS = 'Arcanedev\\Stripe\\Resources\\ApplicationFee';
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -49,7 +49,7 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

@@ -29,7 +29,7 @@ use Arcanedev\Stripe\StripeResource;
 class Coupon extends StripeResource implements CouponInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

@@ -23,7 +23,7 @@ use Arcanedev\Stripe\StripeResource;
 class Token extends StripeResource implements TokenInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

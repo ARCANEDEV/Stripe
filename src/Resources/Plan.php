@@ -26,7 +26,7 @@ use Arcanedev\Stripe\StripeResource;
 class Plan extends StripeResource implements PlanInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

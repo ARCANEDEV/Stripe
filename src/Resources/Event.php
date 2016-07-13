@@ -24,7 +24,7 @@ use Arcanedev\Stripe\StripeResource;
 class Event extends StripeResource implements EventInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

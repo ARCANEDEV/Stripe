@@ -32,7 +32,7 @@ use Arcanedev\Stripe\StripeResource;
 class Subscription extends StripeResource implements SubscriptionInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**

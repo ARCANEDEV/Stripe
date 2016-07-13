@@ -12,7 +12,7 @@ use Arcanedev\Stripe\StripeResource;
 class BitcoinTransaction extends StripeResource implements BitcoinTransactionInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**

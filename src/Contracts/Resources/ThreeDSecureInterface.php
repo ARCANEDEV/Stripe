@@ -1,24 +1,24 @@
 <?php namespace Arcanedev\Stripe\Contracts\Resources;
 
 /**
- * Interface  BankAccountInterface
+ * Interface  ThreeDSecureInterface
  *
  * @package   Arcanedev\Stripe\Contracts\Resources
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface BankAccountInterface
+interface ThreeDSecureInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the verified bank account.
+     * Create the 3D Secure object.
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
      * @return self
      */
-    public function verify($params = [], $options = null);
+    public static function create($params = [], $options = null);
 }

@@ -30,7 +30,7 @@ use Arcanedev\Stripe\StripeResource;
 class InvoiceItem extends StripeResource implements InvoiceItemInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -46,7 +46,7 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  CRUD Functions
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -94,7 +94,7 @@ class InvoiceItem extends StripeResource implements InvoiceItemInterface
     /**
      * Update an Invoice Item.
      * @link   https://stripe.com/docs/api/php#update_invoiceitem
-     *         
+     *
      * @param  string             $id
      * @param  array|null         $params
      * @param  array|string|null  $options
