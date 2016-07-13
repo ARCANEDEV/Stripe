@@ -49,6 +49,7 @@ abstract class Util implements UtilInterface
         'refund'              => 'Arcanedev\\Stripe\\Resources\\Refund',
         'sku'                 => 'Arcanedev\\Stripe\\Resources\\Sku',
         'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
+        'three_d_secure'      => 'Arcanedev\\Stripe\\Resources\\ThreeDSecure',
         'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
         'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
         'transfer_reversal'   => 'Arcanedev\\Stripe\\Resources\\TransferReversal',
