@@ -75,6 +75,38 @@ class CollectionTest extends StripeTestCase
         $this->assertSame(['pm_123', 'pm_124', 'pm_125', 'pm_126', 'pm_127'], $seen);
     }
 
+    /** @test */
+    public function it_can_convert_iterator_to_array()
+    {
+        $collection = Collection::scopedConstructFrom(
+            'Arcanedev\Stripe\Collection',
+            $this->pageableModelResponse(['pm_123', 'pm_124'], true),
+            new RequestOptions
+        );
+
+        $this->mockRequest(
+            'GET',
+            '/v1/pageablemodels',
+            ['starting_after' => 'pm_124'],
+            $this->pageableModelResponse(['pm_125', 'pm_126'], true)
+        );
+
+        $this->mockRequest(
+            'GET',
+            '/v1/pageablemodels',
+            ['starting_after' => 'pm_126'],
+            $this->pageableModelResponse(['pm_127'], false)
+        );
+
+        $seen = [];
+
+        foreach (iterator_to_array($collection->autoPagingIterator()) as $item) {
+            array_push($seen, $item['id']);
+        }
+
+        $this->assertSame($seen, ['pm_123', 'pm_124', 'pm_125', 'pm_126', 'pm_127']);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
