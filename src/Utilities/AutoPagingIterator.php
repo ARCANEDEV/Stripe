@@ -20,6 +20,9 @@ class AutoPagingIterator implements Iterator
     /** @var \Arcanedev\Stripe\Collection  */
     private $page   = null;
 
+    /** @var int */
+    private $pageOffset = 0;
+
     /** @var array */
     private $params = [];
 
@@ -73,8 +76,6 @@ class AutoPagingIterator implements Iterator
     /**
      * Move forward to next element.
      * @link  http://php.net/manual/en/iterator.next.php
-     *
-     * @return void
      */
     public function next()
     {
@@ -82,6 +83,9 @@ class AutoPagingIterator implements Iterator
 
         if ($item === false) {
             // If we've run out of data on the current page, try to fetch another one
+            // and increase the offset the new page would start at
+            $this->pageOffset += count($this->page->data);
+
             if ($this->page['has_more']) {
                 $this->params = array_merge(
                     $this->params ? $this->params : [],
@@ -90,9 +94,7 @@ class AutoPagingIterator implements Iterator
 
                 $this->page   = $this->page->all($this->params);
             }
-            else {
-                return false;
-            }
+            else return;
         }
     }
 
@@ -104,7 +106,7 @@ class AutoPagingIterator implements Iterator
      */
     public function key()
     {
-        return key($this->page->data);
+        return key($this->page->data) + $this->pageOffset;
     }
 
     /**
@@ -123,8 +125,6 @@ class AutoPagingIterator implements Iterator
     /**
      * Rewind the Iterator to the first element.
      * @link  http://php.net/manual/en/iterator.rewind.php
-     *
-     * @return void
      */
     public function rewind()
     {
