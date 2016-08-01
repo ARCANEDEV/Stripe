@@ -102,7 +102,10 @@ class CurlOptions implements CurlOptionsInterface
             $this->setOption(CURLOPT_SSL_VERIFYPEER, false);
         }
 
-        $this->setOption(CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1);
+        $this->setOption(
+            CURLOPT_SSLVERSION,
+            OPENSSL_VERSION_NUMBER >= 0x1000100f ? CURL_SSLVERSION_TLSv1_2 : CURL_SSLVERSION_TLSv1
+        );
 
         return $this;
     }
