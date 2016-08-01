@@ -71,6 +71,7 @@ If you discover any security related issues, please email arcanedev.maroc@gmail.
 
 ## Credits
 
+- Thanks to [stripe/stripe-php](https://github.com/stripe/stripe-php) team and their contributors.
 - [ARCANEDEV][link-author]
 - [All Contributors][link-contributors]
 
