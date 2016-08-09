@@ -26,6 +26,9 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     private $respCode;
 
     /** @var array */
+    protected $respHeaders;
+
+    /** @var array */
     private $response   = [];
 
     /** @var array */
@@ -66,6 +69,20 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
     private function setRespCode($respCode)
     {
         $this->respCode = $respCode;
+
+        return $this;
+    }
+
+    /**
+     * Set Response Headers.
+     *
+     * @param  array  $respHeaders
+     *
+     * @return self
+     */
+    private function setRespHeaders($respHeaders)
+    {
+        $this->respHeaders = $respHeaders;
 
         return $this;
     }
@@ -119,6 +136,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      *
      * @param  string  $respBody
      * @param  int     $respCode
+     * @param  array   $respHeaders
      * @param  array   $response
      *
      * @throws ApiException
@@ -127,7 +145,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      * @throws InvalidRequestException
      * @throws RateLimitException
      */
-    public function handle($respBody, $respCode, $response)
+    public function handle($respBody, $respCode, $respHeaders, $response)
     {
         if ($respCode >= 200 && $respCode < 300) {
             return;
@@ -135,6 +153,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
         $this->setRespBody($respBody);
         $this->setRespCode($respCode);
+        $this->setRespHeaders($respHeaders);
         $this->setResponse($response);
 
         list($message, $type, $stripeCode, $params) = $this->parseResponseError();
@@ -153,7 +172,8 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
             $stripeCode,
             $this->respBody,
             $this->response,
-            $params
+            $params,
+            $this->respHeaders
         );
     }
 

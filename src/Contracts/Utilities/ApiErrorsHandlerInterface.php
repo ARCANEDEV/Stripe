@@ -17,7 +17,8 @@ interface ApiErrorsHandlerInterface
      *
      * @param  string  $respBody
      * @param  int     $respCode
+     * @param  array   $respHeaders
      * @param  array   $response
      */
-    public function handle($respBody, $respCode, $response);
+    public function handle($respBody, $respCode, $respHeaders, $response);
 }

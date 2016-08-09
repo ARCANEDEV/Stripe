@@ -33,7 +33,7 @@ class ApiExceptionTest extends StripeTestCase
                 // Response Body array
                 ['foo'  => 'bar'],
                 // Params
-                ['param'=> 'some-id']
+                ['param' => 'some-id']
             );
         }
         catch (ApiException $e) {
@@ -45,6 +45,34 @@ class ApiExceptionTest extends StripeTestCase
             $this->assertSame("{'foo':'bar'}", $e->getHttpBody());
             $this->assertSame(['foo' => 'bar'], $e->getJsonBody());
             $this->assertSame(['param'=> 'some-id'], $e->getParams());
+        }
+    }
+
+    public function it_can_be_thrown_with_response_headers()
+    {
+        try {
+            throw new ApiException(
+                // Message
+                'Stripe error message',
+                // Status Code
+                500,
+                // Stripe error type
+                'api_error',
+                // Stripe error code
+                'api_error_code',
+                // Response Body json
+                "{'foo':'bar'}",
+                // Response Body array
+                ['foo'  => 'bar'],
+                // Params
+                ['param' => 'some-id'],
+                // Headers
+                ['Request-Id' => 'req_bar']
+            );
+        }
+        catch (ApiException $e) {
+            $this->assertSame(['Request-Id' => 'req_bar'], $e->getHeaders());
+            $this->assertSame('req_bar', $e->getRequestId());
         }
     }
 }
