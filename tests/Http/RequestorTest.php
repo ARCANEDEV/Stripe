@@ -123,7 +123,7 @@ class RequestorTest extends StripeTestCase
     {
         $method = self::getRequestMethod('interpretResponse');
 
-        $method->invokeArgs(new Requestor, ['{bad: data}', 200]);
+        $method->invokeArgs(new Requestor, ['{bad: data}', 200, []]);
     }
 
     /** @test */

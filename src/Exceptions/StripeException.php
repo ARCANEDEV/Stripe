@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\Stripe\Bases;
+<?php namespace Arcanedev\Stripe\Exceptions;
+
+use Exception;
 
 /**
  * Class     StripeException
@@ -6,7 +8,7 @@
  * @package  Arcanedev\Stripe\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class StripeException extends \Exception
+abstract class StripeException extends Exception
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -47,6 +49,20 @@ abstract class StripeException extends \Exception
      */
     protected $params = [];
 
+    /**
+     * Headers.
+     *
+     * @var array
+     */
+    protected $headers;
+
+    /**
+     * Request ID.
+     *
+     * @var string
+     */
+    protected $requestId;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -54,13 +70,14 @@ abstract class StripeException extends \Exception
     /**
      * Create Stripe Exception instance.
      *
-     * @param string      $message
-     * @param int         $code
-     * @param string|null $type
-     * @param string|null $stripeCode
-     * @param string|null $httpBody
-     * @param array       $jsonBody
-     * @param array       $params
+     * @param  string       $message
+     * @param  int          $code
+     * @param  string|null  $type
+     * @param  string|null  $stripeCode
+     * @param  string|null  $httpBody
+     * @param  array        $jsonBody
+     * @param  array        $params
+     * @param  array        $headers
      */
     public function __construct(
         $message,
@@ -69,7 +86,8 @@ abstract class StripeException extends \Exception
         $stripeCode = null,
         $httpBody = null,
         $jsonBody = [],
-        $params = []
+        $params = [],
+        $headers = []
     ) {
         parent::__construct($message, $code);
 
@@ -80,6 +98,8 @@ abstract class StripeException extends \Exception
         $this->setHttpBody($httpBody);
         $this->setJsonBody($jsonBody);
         $this->setParams($params);
+        $this->setHeaders($headers);
+        $this->setRequestId(isset($headers['Request-Id']) ? $headers['Request-Id'] : null);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -212,6 +232,54 @@ abstract class StripeException extends \Exception
     private function setParams($params)
     {
         $this->params = $params;
+
+        return $this;
+    }
+
+    /**
+     * Get the response headers.
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Set the response headers.
+     *
+     * @param  array  $headers
+     *
+     * @return self
+     */
+    private function setHeaders($headers)
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
+    /**
+     * Get the Request ID.
+     *
+     * @return string|null
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * Set the Request ID.
+     *
+     * @param  string  $requestId
+     *
+     * @return $this
+     */
+    private function setRequestId($requestId)
+    {
+        $this->requestId = $requestId;
 
         return $this;
     }

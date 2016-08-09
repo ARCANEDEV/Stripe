@@ -55,7 +55,7 @@ class ErrorsHandlerTest extends StripeTestCase
     /** @test */
     public function it_must_skip_handling_if_status_code_is_ok()
     {
-        $this->errorHandler->handle('{"error":{"message":"Error"}}', 202, null);
+        $this->errorHandler->handle('{"error":{"message":"Error"}}', 202, [], null);
     }
 
     /**
@@ -67,7 +67,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_must_throw_api_exception_on_null_response()
     {
-        $this->errorHandler->handle('{"error":{"message":"Error"}}', 500, null);
+        $this->errorHandler->handle('{"error":{"message":"Error"}}', 500, [], null);
     }
 
     /**
@@ -79,7 +79,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_can_handle_api_exception()
     {
-        $this->errorHandler->handle('{"error":{"message":"Error"}}', 500, [
+        $this->errorHandler->handle('{"error":{"message":"Error"}}', 500, [], [
             'error' => [
                 'message' => 'API Error Message'
             ],
@@ -95,7 +95,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_can_handle_rate_limit_exception()
     {
-        $this->errorHandler->handle('{"error":{"message":"Rate Limit Error"}}', 400, [
+        $this->errorHandler->handle('{"error":{"message":"Rate Limit Error"}}', 400, [], [
             'error' => [
                 'message' => 'Rate Limit Error',
                 'code'    => 'rate_limit',
@@ -112,7 +112,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_can_handle_authentication_exception()
     {
-        $this->errorHandler->handle('{"error":{"message":"Authentication Error"}}', 401, [
+        $this->errorHandler->handle('{"error":{"message":"Authentication Error"}}', 401, [], [
             'error' => [
                 'message' => 'Authentication Error',
             ],
@@ -128,7 +128,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_can_handle_card_exception()
     {
-        $this->errorHandler->handle('{"error":{"message":"Card Error"}}', 402, [
+        $this->errorHandler->handle('{"error":{"message":"Card Error"}}', 402, [], [
             'error' => [
                 'message' => 'Card Error',
             ],
@@ -144,7 +144,7 @@ class ErrorsHandlerTest extends StripeTestCase
      */
     public function it_can_handle_invalid_request_exception()
     {
-        $this->errorHandler->handle('{"error":{"message":"Invalid Request Error"}}', 404, [
+        $this->errorHandler->handle('{"error":{"message":"Invalid Request Error"}}', 404, [], [
             'error' => [
                 'message' => 'Invalid Request Error',
                 'type'    => 'invalid_request_error',

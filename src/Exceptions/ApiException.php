@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\Stripe\Exceptions;
 
-use Arcanedev\Stripe\Bases\StripeException;
-
 /**
  * Class     ApiException
  *
@@ -24,6 +22,7 @@ class ApiException extends StripeException
      * @param  string|null  $httpBody
      * @param  array        $jsonBody
      * @param  array        $params
+     * @param  array        $headers
      */
     public function __construct(
         $message,
@@ -32,16 +31,11 @@ class ApiException extends StripeException
         $stripeCode = null,
         $httpBody = null,
         $jsonBody = [],
-        $params = []
+        $params = [],
+        $headers = []
     ) {
         parent::__construct(
-            $message,
-            $code,
-            $type,
-            $stripeCode,
-            $httpBody,
-            $jsonBody,
-            $params
+            $message, $code, $type, $stripeCode, $httpBody, $jsonBody, $params, $headers
         );
     }
 }

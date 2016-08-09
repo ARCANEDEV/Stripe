@@ -272,6 +272,9 @@ class HttpClient implements HttpClientInterface
             CURLOPT_TIMEOUT        => $this->timeout,
         ]);
 
+        $respHeaders = [];
+        $this->prepareResponseHeaders($respHeaders);
+
         $this->init();
         $this->setOptionArray($this->options->get());
         $this->execute();
@@ -282,7 +285,7 @@ class HttpClient implements HttpClientInterface
         $statusCode = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         $this->close();
 
-        return [$this->response, $statusCode];
+        return [$this->response, $statusCode, $respHeaders];
     }
 
     /**
@@ -391,5 +394,24 @@ class HttpClient implements HttpClientInterface
         $msg .= "\n\n(Network error [errno {$this->errorCode}]: {$this->errorMessage})";
 
         throw new ApiConnectionException($msg);
+    }
+
+    /**
+     * Prepare Response Headers.
+     *
+     * @return array
+     */
+    private function prepareResponseHeaders(array &$respHeaders)
+    {
+        $this->options->setOption(CURLOPT_HEADERFUNCTION, function ($curl, $header_line) use (&$respHeaders) {
+            // Ignore the HTTP request line (HTTP/1.1 200 OK)
+            if (strpos($header_line, ":") === false) {
+                return strlen($header_line);
+            }
+
+            list($key, $value) = explode(":", trim($header_line), 2);
+            $respHeaders[trim($key)] = trim($value);
+            return strlen($header_line);
+        });
     }
 }

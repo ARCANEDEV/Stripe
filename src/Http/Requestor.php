@@ -9,6 +9,7 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use CURLFile;
+use Exception;
 
 /**
  * Class     Requestor
@@ -223,9 +224,9 @@ class Requestor implements RequestorInterface
         if (is_null($params))  $params  = [];
         if (is_null($headers)) $headers = [];
 
-        list($respBody, $respCode, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
+        list($respBody, $respCode, $respHeaders, $apiKey) = $this->requestRaw($method, $url, $params, $headers);
 
-        $json     = $this->interpretResponse($respBody, $respCode);
+        $json     = $this->interpretResponse($respBody, $respCode, $respHeaders);
         $response = new Response($respBody, $respCode, $headers, $json);
 
         return [$response, $apiKey];
@@ -256,10 +257,10 @@ class Requestor implements RequestorInterface
 
         $hasFile = self::processResourceParams($params);
 
-        list($respBody, $respCode) = $this->httpClient()
+        list($respBody, $respCode, $respHeaders) = $this->httpClient()
             ->request($method, $this->apiBaseUrl . $url, $params, $headers, $hasFile);
 
-        return [$respBody, $respCode, $this->getApiKey()];
+        return [$respBody, $respCode, $respHeaders, $this->getApiKey()];
     }
 
     /**
@@ -267,6 +268,7 @@ class Requestor implements RequestorInterface
      *
      * @param  string  $respBody
      * @param  int     $respCode
+     * @param  array   $respHeaders
      *
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      * @throws \Arcanedev\Stripe\Exceptions\AuthenticationException
@@ -276,26 +278,22 @@ class Requestor implements RequestorInterface
      *
      * @return array
      */
-    private function interpretResponse($respBody, $respCode)
+    private function interpretResponse($respBody, $respCode, $respHeaders)
     {
         try {
             $response = json_decode($respBody, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception;
+                throw new Exception;
             }
         }
-        catch (\Exception $e) {
-            throw new ApiException(
-                'Invalid response body from API: ' . $respBody . ' (HTTP response code was ' . $respCode .')',
-                500,
-                'api_error',
-                null,
-                $respBody
-            );
+        catch (Exception $e) {
+            $message = "Invalid response body from API: $respBody (HTTP response code was $respCode)";
+
+            throw new ApiException($message, 500, 'api_error', null, $respBody);
         }
 
-        $this->errorsHandler->handle($respBody, $respCode, $response);
+        $this->errorsHandler->handle($respBody, $respCode, $respHeaders, $response);
 
         return $response;
     }
