@@ -35,6 +35,13 @@ interface HeaderBagInterface
     public function prepare($apiKey, array $headers = [], $hasFile = false);
 
     /**
+     * Get all the headers.
+     *
+     * @return array
+     */
+    public function all();
+
+    /**
      * Get all headers.
      *
      * @return array

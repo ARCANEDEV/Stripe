@@ -117,16 +117,26 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
+     * Get all the headers.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->headers;
+    }
+
+    /**
      * Get all headers.
      *
      * @return array
      */
     public function get()
     {
-        $headers = $this->headers;
+        $headers = $this->all();
 
         array_walk($headers, function(&$value, $header) {
-            $value = $this->format($header, $value);
+            $value = "$header: $value";
         });
 
         return array_values($headers);
@@ -154,7 +164,7 @@ class HeaderBag implements HeaderBagInterface
      */
     public function toArray()
     {
-        return $this->headers;
+        return $this->all();
     }
 
     /**
@@ -164,23 +174,6 @@ class HeaderBag implements HeaderBagInterface
      */
     public function count()
     {
-        return count($this->headers);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Format header.
-     *
-     * @param  string  $header
-     * @param  string  $value
-     *
-     * @return string
-     */
-    private function format($header, $value)
-    {
-        return $header . ': ' . $value;
+        return count($this->all());
     }
 }
