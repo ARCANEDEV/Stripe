@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Source;
+use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -18,6 +19,8 @@ class SourceTest extends StripeTestCase
     /** @test */
     public function it_can_create_and_retrieve()
     {
+        Stripe::setApiKey('sk_test_JieJALRz7rPz7boV17oMma7a');
+
         $s = Source::create([
             'type'         => 'bitcoin',
             'currency'     => 'usd',
