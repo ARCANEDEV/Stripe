@@ -42,11 +42,20 @@ class HeaderBag implements HeaderBagInterface
      *
      * @return array
      */
-    private function getDefaults($apiKey, $hasFile)
+    private function getDefaults($apiKey, $hasFile = false)
     {
+        $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
+        $ua       = self::getUserAgent();
+        $appInfo  = Stripe::getAppInfo();
+
+        if ( ! empty($appInfo)) {
+            $uaString         .= ' ' . self::formatAppInfo($appInfo);
+            $ua['application'] = $appInfo;
+        }
+
         $defaults = [
-            'X-Stripe-Client-User-Agent' => self::getUserAgent(),
-            'User-Agent'                 => 'Stripe/v1 PhpBindings/' . Stripe::VERSION,
+            'X-Stripe-Client-User-Agent' => json_encode($ua),
+            'User-Agent'                 => $uaString,
             'Authorization'              => 'Bearer ' . $apiKey,
             'Content-Type'               => $hasFile ? 'multipart/form-data' : 'application/x-www-form-urlencoded',
             'Expect'                     => null,
@@ -62,19 +71,40 @@ class HeaderBag implements HeaderBagInterface
     }
 
     /**
-     * Get User Agent (JSON format).
+     * Get User Agent.
      *
-     * @return string
+     * @return array
      */
     private static function getUserAgent()
     {
-        return json_encode([
+        return [
             'bindings_version' => Stripe::VERSION,
             'lang'             => 'php',
             'lang_version'     => phpversion(),
             'publisher'        => 'stripe',
             'uname'            => php_uname(),
-        ]);
+        ];
+    }
+
+    /**
+     * Format the Application's information.
+     *
+     * @param  array  $appInfo
+     *
+     * @return string|null
+     */
+    private static function formatAppInfo(array $appInfo)
+    {
+        $string = $appInfo['name'];
+
+        if ($appInfo['version'] !== null) {
+            $string .= '/' . $appInfo['version'];
+        }
+        if ($appInfo['url'] !== null) {
+            $string .= ' (' . $appInfo['url'] . ')';
+        }
+
+        return $string;
     }
 
     /* ------------------------------------------------------------------------------------------------
