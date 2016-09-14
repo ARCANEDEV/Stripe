@@ -189,4 +189,20 @@ class StripeTest extends StripeTestCase
 
         $this->assertTrue(Stripe::getVerifySslCerts());
     }
+
+    /** @test */
+    public function it_can_set_and_get_app_info()
+    {
+        $appInfo = Stripe::getAppInfo();
+
+        $this->assertInternalType('array', $appInfo);
+
+        Stripe::setAppInfo($name = 'ARCANEDEV', $version = '1.0.0', $url = 'http://www.arcanedev.net');
+
+        $appInfo = Stripe::getAppInfo();
+
+        $this->assertSame($name,    $appInfo['name']);
+        $this->assertSame($version, $appInfo['version']);
+        $this->assertSame($url,     $appInfo['url']);
+    }
 }
