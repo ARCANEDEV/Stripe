@@ -21,7 +21,7 @@ abstract class Stripe implements StripeInterface
      *
      * @var string
      */
-    const VERSION = '3.18.0';
+    const VERSION = '3.19.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -68,6 +68,13 @@ abstract class Stripe implements StripeInterface
      * @var bool
      */
     public static $verifySslCerts = true;
+
+    /**
+     * The application's information (name, version, URL)
+     *
+     * @var array
+     */
+    public static $appInfo = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -217,6 +224,28 @@ abstract class Stripe implements StripeInterface
     public static function setVerifySslCerts($verify)
     {
         self::$verifySslCerts = validate_bool($verify);
+    }
+
+    /**
+     * Get the Application's information.
+     *
+     * @return array
+     */
+    public static function getAppInfo()
+    {
+        return self::$appInfo;
+    }
+
+    /**
+     * Set the Application's information.
+     *
+     * @param  string  $name     The application's name
+     * @param  string  $version  The application's version
+     * @param  string  $url      The application's URL
+     */
+    public static function setAppInfo($name, $version = null, $url = null)
+    {
+        self::$appInfo = compact('name', 'version', 'url');
     }
 
     /* ------------------------------------------------------------------------------------------------

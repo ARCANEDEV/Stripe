@@ -76,6 +76,57 @@ class HeaderBagTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_get_defaults()
+    {
+        $method = (new \ReflectionClass('Arcanedev\Stripe\Http\Curl\HeaderBag'))
+            ->getMethod('getDefaults');
+        $method->setAccessible(true);
+
+        $headers = $method->invokeArgs($this->headerBag, [$this->myApiKey]);
+
+        $this->assertCount(5, $headers);
+
+        $this->assertSame("Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers['User-Agent']);
+        $this->assertSame("Bearer {$this->myApiKey}",                    $headers['Authorization']);
+        $this->assertSame('application/x-www-form-urlencoded',           $headers['Content-Type']);
+        $this->assertNull($headers['Expect']);
+
+        Stripe::setApiVersion($this->myApiVersion);
+        $headers = $method->invokeArgs($this->headerBag, [$this->myApiKey, true]);
+
+        $this->assertCount(6, $headers);
+        $this->assertSame("Stripe/v1 PhpBindings/{$this->myApiVersion}", $headers['User-Agent']);
+        $this->assertSame("Bearer {$this->myApiKey}",                    $headers['Authorization']);
+        $this->assertSame('multipart/form-data',                         $headers['Content-Type']);
+        $this->assertSame($this->myApiVersion,                           $headers['Stripe-Version']);
+        $this->assertNull($headers['Expect']);
+    }
+
+    /** @test */
+    public function it_can_get_defaults_with_app_info()
+    {
+        $method = (new \ReflectionClass('Arcanedev\Stripe\Http\Curl\HeaderBag'))
+            ->getMethod('getDefaults');
+        $method->setAccessible(true);
+
+        // no way to stub static methods with PHPUnit 4.x :(
+        Stripe::setAppInfo('MyTestApp', '1.2.34', 'https://mytestapp.example');
+        $headers = $method->invokeArgs($this->headerBag, [$this->myApiKey, true]);
+
+        $ua = json_decode($headers['X-Stripe-Client-User-Agent']);
+        $this->assertSame('MyTestApp', $ua->application->name);
+        $this->assertSame('1.2.34', $ua->application->version);
+        $this->assertSame('https://mytestapp.example', $ua->application->url);
+
+        $this->assertSame(
+            'Stripe/v1 PhpBindings/' . Stripe::VERSION . ' MyTestApp/1.2.34 (https://mytestapp.example)',
+            $headers['User-Agent']
+        );
+
+        $this->assertSame('Bearer ' . $this->myApiKey, $headers['Authorization']);
+    }
+
+    /** @test */
     public function it_can_count_headers()
     {
         $this->headerBag->prepare($this->myApiKey);
