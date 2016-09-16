@@ -23,6 +23,7 @@ abstract class Util implements UtilInterface
     private static $resources = [
         'account'             => 'Arcanedev\\Stripe\\Resources\\Account',
         'alipay_account'      => 'Arcanedev\\Stripe\\Resources\\AlipayAccount',
+        'apple_pay_domain'    => 'Arcanedev\\Stripe\\Resources\\ApplePayDomain',
         'balance_transaction' => 'Arcanedev\\Stripe\\Resources\\BalanceTransaction',
         'bank_account'        => 'Arcanedev\\Stripe\\Resources\\BankAccount',
         'bitcoin_receiver'    => 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
