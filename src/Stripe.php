@@ -17,11 +17,11 @@ abstract class Stripe implements StripeInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Library Version
+     * Library Version.
      *
      * @var string
      */
-    const VERSION = '3.19.0';
+    const VERSION = '3.20.0';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -63,14 +63,14 @@ abstract class Stripe implements StripeInterface
     public static $accountId     = null;
 
     /**
-     * Verify SSL Certs
+     * Verify SSL Certs.
      *
      * @var bool
      */
     public static $verifySslCerts = true;
 
     /**
-     * The application's information (name, version, URL)
+     * The application's information (name, version, URL).
      *
      * @var array
      */
@@ -94,9 +94,6 @@ abstract class Stripe implements StripeInterface
      * Sets the API key to be used for requests.
      *
      * @param  string  $apiKey
-     *
-     * @throws ApiException
-     * @throws ApiKeyNotSetException
      */
     public static function setApiKey($apiKey)
     {
@@ -119,8 +116,6 @@ abstract class Stripe implements StripeInterface
      * Set API Base URL.
      *
      * @param  string  $apiBaseUrl
-     *
-     * @throws ApiException
      */
     public static function setApiBaseUrl($apiBaseUrl)
     {
@@ -139,13 +134,10 @@ abstract class Stripe implements StripeInterface
         return self::$uploadBaseUrl;
     }
 
-
     /**
      * Set Upload Base URL.
      *
      * @param  string  $uploadBaseUrl
-     *
-     * @throws ApiException
      */
     public static function setUploadBaseUrl($uploadBaseUrl)
     {
@@ -271,8 +263,8 @@ abstract class Stripe implements StripeInterface
      *
      * @param  string  $apiKey
      *
-     * @throws ApiException
-     * @throws ApiKeyNotSetException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
      */
     private static function checkApiKey(&$apiKey)
     {
@@ -297,7 +289,7 @@ abstract class Stripe implements StripeInterface
      *
      * @param  string  $apiBaseUrl
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private static function checkApiBaseUrl($apiBaseUrl)
     {
@@ -321,7 +313,7 @@ abstract class Stripe implements StripeInterface
      *
      * @param  string  $uploadBaseUrl
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private static function checkUploadBaseUrl($uploadBaseUrl)
     {
@@ -345,7 +337,7 @@ abstract class Stripe implements StripeInterface
      *
      * @param  string|null  $apiVersion
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private static function checkApiVersion(&$apiVersion)
     {
