@@ -51,6 +51,7 @@ abstract class Util implements UtilInterface
         'sku'                 => 'Arcanedev\\Stripe\\Resources\\Sku',
         'source'              => 'Arcanedev\\Stripe\\Resources\\Source',
         'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
+        'subscription_item'   => 'Arcanedev\\Stripe\\Resources\\SubscriptionItem',
         'three_d_secure'      => 'Arcanedev\\Stripe\\Resources\\ThreeDSecure',
         'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
         'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
