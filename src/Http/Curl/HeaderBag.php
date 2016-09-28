@@ -77,12 +77,16 @@ class HeaderBag implements HeaderBagInterface
      */
     private static function getUserAgent()
     {
+        $curlVersion = curl_version();
+
         return [
             'bindings_version' => Stripe::VERSION,
             'lang'             => 'php',
             'lang_version'     => phpversion(),
             'publisher'        => 'stripe',
             'uname'            => php_uname(),
+            'httplib'          => 'curl ' . $curlVersion['version'],
+            'ssllib'           => $curlVersion['ssl_version'],
         ];
     }
 

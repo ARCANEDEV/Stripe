@@ -133,6 +133,16 @@ class HttpClientTest extends StripeTestCase
         $this->assertSame(0, $curl->getConnectTimeout());
     }
 
+    /** @test */
+    public function it_can_set_ssl_option()
+    {
+        $this->httpClient = HttpClient::make($optionsArray = [
+            CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1
+        ]);
+
+        $this->assertSame($optionsArray, $this->httpClient->getOptions());
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------

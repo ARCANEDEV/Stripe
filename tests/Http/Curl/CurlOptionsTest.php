@@ -75,7 +75,7 @@ class CurlOptionsTest extends StripeTestCase
 
         $options = $this->curlOptions->get();
 
-        $this->assertCount(8, $options);
+        $this->assertCount(7, $options);
 
         $this->assertArrayHasKey(CURLOPT_HTTPGET,       $options);
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
@@ -96,7 +96,7 @@ class CurlOptionsTest extends StripeTestCase
 
         $options = $this->curlOptions->get();
 
-        $this->assertCount(9, $options);
+        $this->assertCount(8, $options);
 
         $this->assertArrayHasKey(CURLOPT_HTTPGET,        $options);
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST,  $options);
@@ -119,7 +119,7 @@ class CurlOptionsTest extends StripeTestCase
 
         $options = $this->curlOptions->get();
 
-        $this->assertCount(9, $options);
+        $this->assertCount(8, $options);
 
         $this->assertArrayHasKey(CURLOPT_POST,          $options);
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
@@ -142,7 +142,7 @@ class CurlOptionsTest extends StripeTestCase
 
         $options = $this->curlOptions->get();
 
-        $this->assertCount(7, $options);
+        $this->assertCount(6, $options);
 
         $this->assertArrayHasKey(CURLOPT_CUSTOMREQUEST, $options);
 
