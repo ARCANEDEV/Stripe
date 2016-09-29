@@ -30,10 +30,67 @@ interface HttpClientInterface
      */
     public function setApiBaseUrl($apiBaseUrl);
 
+    /**
+     * Get the timeout.
+     *
+     * @return int
+     */
+    public function getTimeout();
+
+    /**
+     * Set the timeout.
+     *
+     * @param  int  $seconds
+     *
+     * @return self
+     */
+    public function setTimeout($seconds);
+
+    /**
+     * Get the connect timeout.
+     *
+     * @return int
+     */
+    public function getConnectTimeout();
+
+    /**
+     * Set the connect timeout.
+     *
+     * @param  int  $seconds
+     *
+     * @return self
+     */
+    public function setConnectTimeout($seconds);
+
+    /**
+     * Get array options.
+     *
+     * @return array
+     */
+    public function getOptions();
+
+    /**
+     * Set array options.
+     *
+     * @param  array  $options
+     *
+     * @return self
+     */
+    public function setOptionArray(array $options);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Make the HTTP Client with options.
+     *
+     * @param  array  $options
+     *
+     * @return static
+     */
+    public static function make(array $options = []);
+
     /**
      * Curl the request.
      *

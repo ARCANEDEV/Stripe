@@ -182,6 +182,16 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
+     * Get array options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options->get();
+    }
+
+    /**
      * Set array options.
      *
      * @param  array  $options
@@ -190,7 +200,7 @@ class HttpClient implements HttpClientInterface
      */
     public function setOptionArray(array $options)
     {
-        curl_setopt_array($this->curl, $options);
+        $this->options->setOptions($options);
 
         return $this;
     }
@@ -212,6 +222,7 @@ class HttpClient implements HttpClientInterface
      */
     private function execute()
     {
+        curl_setopt_array($this->curl, $this->getOptions());
         $this->response     = curl_exec($this->curl);
         $this->errorCode    = curl_errno($this->curl);
         $this->errorMessage = curl_error($this->curl);
@@ -231,6 +242,18 @@ class HttpClient implements HttpClientInterface
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Make the HTTP Client with options.
+     *
+     * @param  array  $options
+     *
+     * @return static
+     */
+    public static function make(array $options = [])
+    {
+        return (new static)->setOptionArray($options);
+    }
+
     /**
      * Get the HTTP.
      *
@@ -267,7 +290,7 @@ class HttpClient implements HttpClientInterface
 
         $this->headers->prepare($this->apiKey, $headers, $hasFile);
         $this->options->make($method, $url, $params, $this->headers->get(), $hasFile);
-        $this->options->setOptions([
+        $this->setOptionArray([
             CURLOPT_CONNECTTIMEOUT => $this->connectTimeout,
             CURLOPT_TIMEOUT        => $this->timeout,
         ]);
@@ -276,9 +299,7 @@ class HttpClient implements HttpClientInterface
         $this->prepareResponseHeaders($respHeaders);
 
         $this->init();
-        $this->setOptionArray($this->options->get());
         $this->execute();
-
         $this->checkCertErrors();
         $this->checkResponse();
 

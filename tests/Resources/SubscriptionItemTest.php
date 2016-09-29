@@ -36,23 +36,16 @@ class SubscriptionItemTest extends StripeTestCase
         $this->assertSame($subItem->plan->id, $plan->id);
 
         // Save
-        $subItem->quantity     = 2;
-        $subItem->subscription = $subscription->id;
+        $subItem->quantity = 2;
         $subItem->save();
 
         // Retrieve
-        $subItem = SubscriptionItem::retrieve([
-            'id'           => $subItem->id,
-            'subscription' => $subscription->id,
-        ]);
+        $subItem = SubscriptionItem::retrieve(['id' => $subItem->id]);
 
         $this->assertSame($subItem->quantity, 2);
 
         // Update
-        $subItem = SubscriptionItem::update($subItem->id, [
-            'quantity'     => 3,
-            'subscription' => $subscription->id,
-        ]);
+        $subItem = SubscriptionItem::update($subItem->id, ['quantity' => 3]);
 
         $this->assertSame($subItem->quantity, 3);
 
@@ -65,8 +58,8 @@ class SubscriptionItemTest extends StripeTestCase
         $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $subItems->data[0]);
         $this->assertSame(2, count($subItems->data));
 
-        // Delete / Cancel
-        $subItem->delete(['subscription' => $subscription->id]);
+        // Delete
+        $subItem->delete();
 
         $this->assertTrue($subItem->deleted);
     }
