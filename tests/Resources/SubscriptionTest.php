@@ -101,6 +101,39 @@ class SubscriptionTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_create_update_list_cancel_with_items()
+    {
+        $plan         = self::retrieveOrCreatePlan();
+        $customer     = self::createTestCustomer();
+        $subscription = Subscription::create([
+            'customer' => $customer->id,
+            'items'    => [
+                ['plan' => $plan->id],
+            ],
+        ]);
+
+        $this->assertSame(count($subscription->items->data), 1);
+
+        $item = $subscription->items->data[0];
+
+        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $item);
+        $this->assertSame($item->plan->id, $plan->id);
+
+        $subscription = Subscription::update($subscription->id, [
+            'items' => [
+                ['plan' => $plan->id],
+            ],
+        ]);
+
+        $this->assertSame(count($subscription->items->data), 2);
+
+        foreach ($subscription->items as $item) {
+            $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $item);
+            $this->assertSame($item->plan->id, $plan->id);
+        }
+    }
+
+    /** @test */
     public function it_can_delete_discount()
     {
         $customer = self::createTestCustomer();

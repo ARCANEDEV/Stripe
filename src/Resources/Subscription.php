@@ -20,6 +20,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                customer
  * @property  \Arcanedev\Stripe\Resources\Discount  discount
  * @property  int                                   ended_at                 // timestamp
+ * @property  \Arcanedev\Stripe\Collection          items
  * @property  \Arcanedev\Stripe\AttachedObject      metadata
  * @property  \Arcanedev\Stripe\Resources\Plan      plan
  * @property  int                                   quantity
