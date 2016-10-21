@@ -91,7 +91,7 @@ abstract class StripeTestCase extends TestCase
         $mock = $this->setUpMockRequest();
 
         $mock->setApiKey(self::API_KEY)->willReturn($mock);
-        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, [], false)
+        $mock->request(strtolower($method), 'https://api.stripe.com'.$path, $params, [], false)
              ->willReturn([
                  json_encode($return), $rcode, []
              ]);
@@ -105,9 +105,7 @@ abstract class StripeTestCase extends TestCase
     protected function setUpMockRequest()
     {
         if ( ! $this->mock) {
-            $this->mock = $this->prophesize(
-                'Arcanedev\\Stripe\\Contracts\\Http\\Curl\\HttpClientInterface'
-            );
+            $this->mock = $this->prophesize(HttpClientInterface::class);
 
             Requestor::setHttpClient($this->mock->reveal());
         }
@@ -182,7 +180,7 @@ abstract class StripeTestCase extends TestCase
             'bank_account' => [
                 'country'        => 'US',
                 'routing_number' => '110000000',
-                'account_number' => '000123456789'
+                'account_number' => '000123456789',
             ],
         ]);
     }
@@ -200,7 +198,7 @@ abstract class StripeTestCase extends TestCase
             'amount'      => 100,
             'currency'    => 'usd',
             'description' => 'some details',
-            'email'       => $email
+            'email'       => $email,
         ]);
     }
 
@@ -261,7 +259,7 @@ abstract class StripeTestCase extends TestCase
             'amount'      => 100,
             'currency'    => 'usd',
             'description' => 'Transfer to test@example.com',
-            'recipient'   => self::createTestRecipient()->id
+            'recipient'   => self::createTestRecipient()->id,
         ]);
     }
 

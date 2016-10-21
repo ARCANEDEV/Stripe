@@ -44,7 +44,7 @@ class InvoiceTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
+        $this->assertInstanceOf(Invoice::class, $this->invoice);
     }
 
     /** @test */
@@ -70,7 +70,7 @@ class InvoiceTest extends StripeTestCase
 
         $this->invoice = Invoice::create(['customer' => $customer->id]);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
+        $this->assertInstanceOf(Invoice::class, $this->invoice);
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class InvoiceTest extends StripeTestCase
 
         $this->invoice = Invoice::retrieve($invoice->id);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Invoice', $this->invoice);
+        $this->assertInstanceOf(Invoice::class, $this->invoice);
         $this->assertSame($invoice->id, $this->invoice->id);
     }
 

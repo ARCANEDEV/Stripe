@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Product;
 use Arcanedev\Stripe\Resources\Sku;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -22,12 +23,12 @@ class SkuTest extends StripeTestCase
         $skus = Sku::all(['include' => ['total_count']]);
 
         $this->assertSame('/v1/skus', $skus->url);
-        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $skus);
+        $this->assertInstanceOf(Collection::class, $skus);
         $this->assertTrue($skus->isList());
 
         if ($skus->count() > 0) {
             $this->assertSame($skus->count(), $skus->total_count);
-            $this->assertInstanceOf('Arcanedev\Stripe\Resources\Sku', $skus->data[0]);
+            $this->assertInstanceOf(Sku::class, $skus->data[0]);
         }
     }
 
@@ -103,12 +104,12 @@ class SkuTest extends StripeTestCase
         return Sku::create([
             'price'     => 500,
             'currency'  => 'usd',
-            'id'        => 'silver-sku-' . self::generateRandomString(20),
+            'id'        => 'silver-sku-'.self::generateRandomString(20),
             'inventory' => [
                 'type'     => 'finite',
-                'quantity' => 40
+                'quantity' => 40,
             ],
-            'product'   => $product->id
+            'product'   => $product->id,
         ]);
     }
 
@@ -122,7 +123,7 @@ class SkuTest extends StripeTestCase
         return Product::create([
             'name' => 'Silver Product',
             'id'   => 'silver-'.self::generateRandomString(20),
-            'url'  => 'www.stripe.com/silver'
+            'url'  => 'www.stripe.com/silver',
         ]);
     }
 }

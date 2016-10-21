@@ -38,9 +38,7 @@ class SingletonResource extends StripeResource
      */
     public static function classUrl($class = '')
     {
-        $base = self::className($class);
-
-        return "/v1/${base}";
+        return '/v1/'.self::className($class);
     }
 
     /**
@@ -52,9 +50,6 @@ class SingletonResource extends StripeResource
      */
     public function instanceUrl($class = '')
     {
-        $class  = get_class($this);
-        $base   = self::classUrl($class);
-
-        return (string) $base;
+        return (string) self::classUrl(get_class($this));
     }
 }

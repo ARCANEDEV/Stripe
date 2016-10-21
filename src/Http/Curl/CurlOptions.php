@@ -98,9 +98,8 @@ class CurlOptions implements CurlOptionsInterface
             CURLOPT_HTTPHEADER     => $headers,
         ]);
 
-        if ( ! Stripe::$verifySslCerts) {
+        if ( ! Stripe::$verifySslCerts)
             $this->setOption(CURLOPT_SSL_VERIFYPEER, false);
-        }
 
         return $this;
     }
@@ -116,11 +115,8 @@ class CurlOptions implements CurlOptionsInterface
      */
     private function prepareMethodOptions($method, $params, $hasFile)
     {
-        if ($method === 'GET' && $hasFile) {
-            throw new ApiException(
-                'Issuing a GET request with a file parameter'
-            );
-        }
+        if ($method === 'GET' && $hasFile)
+            throw new ApiException('Issuing a GET request with a file parameter');
 
         $options = [
             'GET'  => [
@@ -164,20 +160,15 @@ class CurlOptions implements CurlOptionsInterface
      */
     private function checkMethod(&$method)
     {
-        if (! is_string($method)) {
+        if ( ! is_string($method))
             throw new InvalidArgumentException(
-                'The method must be a string value, ' . gettype($method) . ' given',
-                500
+                'The method must be a string value, '.gettype($method).' given', 500
             );
-        }
 
         $method = strtoupper(trim($method));
 
-        if (! in_array($method, ['GET', 'POST', 'DELETE'])) {
-            throw new BadMethodCallException(
-                'The method [' . $method . '] is not allowed',
-                405
-            );
+        if ( ! in_array($method, ['GET', 'POST', 'DELETE'])) {
+            throw new BadMethodCallException("The method [{$method}] is not allowed", 405);
         }
     }
 }

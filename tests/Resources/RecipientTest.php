@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Recipient;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -44,7 +45,7 @@ class RecipientTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $this->recipient);
+        $this->assertInstanceOf(Recipient::class, $this->recipient);
     }
 
     /** @test */
@@ -52,7 +53,7 @@ class RecipientTest extends StripeTestCase
     {
         $recipients = Recipient::all();
 
-        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $recipients);
+        $this->assertInstanceOf(Collection::class, $recipients);
         $this->assertTrue($recipients->isList());
         $this->assertSame('/v1/recipients', $recipients->url);
     }
@@ -63,7 +64,7 @@ class RecipientTest extends StripeTestCase
         $this->recipient = self::createTestRecipient();
         $recipient       = Recipient::retrieve($this->recipient->id);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Recipient', $recipient);
+        $this->assertInstanceOf(Recipient::class, $recipient);
 
         $this->assertSame($this->recipient->id,   $recipient->id);
         $this->assertSame($this->recipient->name, $recipient->name);
@@ -247,7 +248,7 @@ class RecipientTest extends StripeTestCase
                 'number'    => '4000056655665556',
                 'exp_month' => 5,
                 'exp_year'  => date('Y') + 3,
-                'cvc'       => '314'
+                'cvc'       => '314',
             ],
         ]);
     }

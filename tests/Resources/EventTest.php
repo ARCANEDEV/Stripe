@@ -43,10 +43,7 @@ class EventTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Event',
-            $this->event
-        );
+        $this->assertInstanceOf(Event::class, $this->event);
     }
 
     /** @test */
@@ -69,10 +66,7 @@ class EventTest extends StripeTestCase
 
         $this->event = Event::retrieve($eventId);
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Event',
-            $this->event
-        );
+        $this->assertInstanceOf(Event::class, $this->event);
         $this->assertSame($eventId, $this->event->id);
     }
 }

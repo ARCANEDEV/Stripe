@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Order;
+use Arcanedev\Stripe\Resources\OrderItem;
 use Arcanedev\Stripe\Resources\Product;
 use Arcanedev\Stripe\Resources\Sku;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -22,12 +24,12 @@ class OrderTest extends StripeTestCase
     {
         $orders = Order::all(['include' => ['total_count']]);
 
-        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $orders);
+        $this->assertInstanceOf(Collection::class, $orders);
         $this->assertTrue($orders->isList());
 
         if ($orders->count() > 0) {
             $this->assertSame($orders->total_count, $orders->count());
-            $this->assertInstanceOf('Arcanedev\Stripe\Resources\Order', $orders->data[0]);
+            $this->assertInstanceOf(Order::class, $orders->data[0]);
         }
     }
 
@@ -52,7 +54,7 @@ class OrderTest extends StripeTestCase
 
         foreach ($order->items as $orderItem) {
             /** @var \Arcanedev\Stripe\Resources\OrderItem $orderItem */
-            $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\OrderItem', $orderItem);
+            $this->assertInstanceOf(OrderItem::class, $orderItem);
             $this->assertTrue(in_array($orderItem->type, ['sku', 'tax', 'shipping', 'discount']));
         }
     }
@@ -87,7 +89,7 @@ class OrderTest extends StripeTestCase
             'object'    => 'card',
             'number'    => '4242424242424242',
             'exp_month' => '05',
-            'exp_year'  => date('Y') + 1
+            'exp_year'  => date('Y') + 1,
         ];
 
         $order->pay(['source' => $card]);
@@ -144,7 +146,7 @@ class OrderTest extends StripeTestCase
             'id'        => 'silver-sku-' . self::generateRandomString(20),
             'inventory' => [
                 'type'     => 'finite',
-                'quantity' => 40
+                'quantity' => 40,
             ],
             'product'   => $product->id
         ]);

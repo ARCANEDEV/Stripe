@@ -133,7 +133,7 @@ class Invoice extends StripeResource implements InvoiceInterface
     {
         /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $opts) = self::staticRequest(
-            'get', self::classUrl(get_class()) . '/upcoming', $params, $options
+            'get', self::classUrl(get_class()).'/upcoming', $params, $options
         );
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
@@ -153,7 +153,7 @@ class Invoice extends StripeResource implements InvoiceInterface
     public function pay($options = null)
     {
         list($response, $opts) = $this->request('post',
-            $this->instanceUrl() . '/pay', [], $options
+            $this->instanceUrl().'/pay', [], $options
         );
         $this->refreshFrom($response, $opts);
 

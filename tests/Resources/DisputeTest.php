@@ -29,9 +29,7 @@ class DisputeTest extends StripeTestCase
     /** @test */
     public function it_can_get_all()
     {
-        $disputes = Dispute::all([
-            'limit' => 3,
-        ]);
+        $disputes = Dispute::all(['limit' => 3]);
 
         $this->assertSame(3, count($disputes->data));
     }
@@ -103,7 +101,7 @@ class DisputeTest extends StripeTestCase
             'card'      => [
                 'number'    => '4000000000000259',
                 'exp_month' => 5,
-                'exp_year'  => date('Y') + 1
+                'exp_year'  => date('Y') + 1,
             ]
         ]);
 
@@ -111,9 +109,8 @@ class DisputeTest extends StripeTestCase
         $attempts = 0;
 
         while ($charge->dispute === null) {
-            if ($attempts > 5) {
+            if ($attempts > 5)
                 throw new \Exception('Charge is taking too long to be disputed');
-            }
 
             sleep(1);
 

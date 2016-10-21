@@ -82,15 +82,14 @@ class Requestor implements RequestorInterface
      */
     public function getApiKey()
     {
-        if ( ! $this->apiKey) {
+        if ( ! $this->apiKey)
             $this->setApiKey(Stripe::getApiKey());
-        }
 
         return trim($this->apiKey);
     }
 
     /**
-     * Set API Key
+     * Set API Key.
      *
      * @param  string  $apiKey
      *
@@ -104,7 +103,7 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Set API Base URL
+     * Set API Base URL.
      *
      * @param  string|null  $apiBaseUrl
      *
@@ -112,9 +111,8 @@ class Requestor implements RequestorInterface
      */
     private function setApiBase($apiBaseUrl)
     {
-        if (empty($apiBaseUrl)) {
+        if (empty($apiBaseUrl))
             $apiBaseUrl = Stripe::getApiBaseUrl();
-        }
 
         $this->apiBaseUrl = $apiBaseUrl;
 
@@ -122,23 +120,22 @@ class Requestor implements RequestorInterface
     }
 
     /**
-     * Get the HTTP client
+     * Get the HTTP client.
      *
      * @return \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface
      */
     private function httpClient()
     {
         // @codeCoverageIgnoreStart
-        if ( ! self::$httpClient) {
+        if ( ! self::$httpClient)
             self::$httpClient = HttpClient::instance();
-        }
         // @codeCoverageIgnoreEnd
 
         return self::$httpClient;
     }
 
     /**
-     * Set the HTTP client
+     * Set the HTTP client.
      *
      * @param  \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface  $client
      */
@@ -215,8 +212,6 @@ class Requestor implements RequestorInterface
      * @param  array|null  $params
      * @param  array|null  $headers
      *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     *
      * @return array
      */
     public function request($method, $url, $params = null, $headers = null)
@@ -240,10 +235,6 @@ class Requestor implements RequestorInterface
      * @param  array   $params
      * @param  array   $headers
      *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiConnectionException
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     * @throws \Arcanedev\Stripe\Exceptions\ApiKeyNotSetException
-     *
      * @return array
      */
     private function requestRaw($method, $url, $params, $headers)
@@ -251,14 +242,13 @@ class Requestor implements RequestorInterface
         $this->checkApiKey();
         $this->checkMethod($method);
 
-        $params = self::encodeObjects($params);
-
         $this->httpClient()->setApiKey($this->getApiKey());
 
+        $params  = self::encodeObjects($params);
         $hasFile = self::processResourceParams($params);
 
         list($respBody, $respCode, $respHeaders) = $this->httpClient()
-            ->request($method, $this->apiBaseUrl . $url, $params, $headers, $hasFile);
+            ->request($method, $this->apiBaseUrl.$url, $params, $headers, $hasFile);
 
         return [$respBody, $respCode, $respHeaders, $this->getApiKey()];
     }
@@ -270,27 +260,22 @@ class Requestor implements RequestorInterface
      * @param  int     $respCode
      * @param  array   $respHeaders
      *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     * @throws \Arcanedev\Stripe\Exceptions\AuthenticationException
-     * @throws \Arcanedev\Stripe\Exceptions\CardException
-     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
-     * @throws \Arcanedev\Stripe\Exceptions\RateLimitException
-     *
      * @return array
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function interpretResponse($respBody, $respCode, $respHeaders)
     {
         try {
             $response = json_decode($respBody, true);
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception;
-            }
+            if (json_last_error() !== JSON_ERROR_NONE) throw new Exception;
         }
         catch (Exception $e) {
-            $message = "Invalid response body from API: $respBody (HTTP response code was $respCode)";
-
-            throw new ApiException($message, 500, 'api_error', null, $respBody);
+            throw new ApiException(
+                "Invalid response body from API: $respBody (HTTP response code was $respCode)",
+                500, 'api_error', null, $respBody
+            );
         }
 
         $this->errorsHandler->handle($respBody, $respCode, $respHeaders, $response);
@@ -309,9 +294,8 @@ class Requestor implements RequestorInterface
      */
     private function checkApiKey()
     {
-        if ( ! $this->isApiKeyExists()) {
+        if ( ! $this->isApiKeyExists())
             throw new ApiKeyNotSetException('The Stripe API Key is required !');
-        }
     }
 
     /**
@@ -321,9 +305,7 @@ class Requestor implements RequestorInterface
      */
     private function isApiKeyExists()
     {
-        $apiKey = $this->getApiKey();
-
-        return ! empty($apiKey);
+        return ! empty($this->getApiKey());
     }
 
     /**
@@ -335,14 +317,11 @@ class Requestor implements RequestorInterface
      */
     private function checkMethod(&$method)
     {
-        $method = strtolower($method);
-
-        if ( ! in_array($method, self::$allowedMethods)) {
+        if ( ! in_array($method = strtolower($method), self::$allowedMethods))
             throw new ApiException(
-                "Unrecognized method $method, must be [" . implode(', ', self::$allowedMethods) . '].',
+                "Unrecognized method $method, must be [".implode(', ', self::$allowedMethods).'].',
                 500
             );
-        }
     }
 
     /**
@@ -354,11 +333,8 @@ class Requestor implements RequestorInterface
      */
     private static function checkResourceType($resource)
     {
-        if (get_resource_type($resource) !== 'stream') {
-            throw new ApiException(
-                'Attempted to upload a resource that is not a stream'
-            );
-        }
+        if (get_resource_type($resource) !== 'stream')
+            throw new ApiException('Attempted to upload a resource that is not a stream');
     }
 
     /**
@@ -370,11 +346,8 @@ class Requestor implements RequestorInterface
      */
     private static function checkResourceMetaData(array $metaData)
     {
-        if ($metaData['wrapper_type'] !== 'plainfile') {
-            throw new ApiException(
-                'Only plainfile resource streams are supported'
-            );
-        }
+        if ($metaData['wrapper_type'] !== 'plainfile')
+            throw new ApiException('Only plainfile resource streams are supported');
     }
 
     /**
@@ -400,8 +373,6 @@ class Requestor implements RequestorInterface
      *
      * @param  array|string  $params
      *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     *
      * @return bool
      */
     private static function processResourceParams(&$params)
@@ -415,9 +386,8 @@ class Requestor implements RequestorInterface
         foreach ($params as $key => $resource) {
             $hasFile = self::checkHasResourceFile($resource);
 
-            if (is_resource($resource)) {
+            if (is_resource($resource))
                 $params[$key] = self::processResourceParam($resource);
-            }
         }
 
         return $hasFile;
@@ -427,8 +397,6 @@ class Requestor implements RequestorInterface
      * Process Resource Parameter.
      *
      * @param  resource  $resource
-     *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
      * @return \CURLFile|string
      */
@@ -441,9 +409,7 @@ class Requestor implements RequestorInterface
         self::checkResourceMetaData($metaData);
 
         // We don't have the filename or mimetype, but the API doesn't care
-        return class_exists('CURLFile')
-            ? new CURLFile($metaData['uri'])
-            : '@' . $metaData['uri'];
+        return class_exists('CURLFile') ? new CURLFile($metaData['uri']) : '@'.$metaData['uri'];
     }
 
     /**
@@ -457,19 +423,16 @@ class Requestor implements RequestorInterface
      */
     private static function encodeObjects($obj)
     {
-        if ($obj instanceof StripeResource) {
+        if ($obj instanceof StripeResource)
             return str_utf8($obj->id);
-        }
 
-        if (is_bool($obj)) {
+        if (is_bool($obj))
             return $obj ? 'true' : 'false';
-        }
 
-        if (is_array($obj)) {
+        if (is_array($obj))
             return array_map(function($v) {
                 return self::encodeObjects($v);
             }, $obj);
-        }
 
         return str_utf8($obj);
     }

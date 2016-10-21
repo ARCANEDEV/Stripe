@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Product;
 use Arcanedev\Stripe\Resources\Sku;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -27,7 +28,7 @@ class ProductTest extends StripeTestCase
     {
         parent::setUp();
 
-        $this->productId = 'gold-' . self::generateRandomString(20);
+        $this->productId = 'gold-'.self::generateRandomString(20);
     }
 
     public function tearDown()
@@ -56,7 +57,7 @@ class ProductTest extends StripeTestCase
     {
         $products = Product::all(['include' => ['total_count']]);
 
-        $this->assertInstanceOf('Arcanedev\Stripe\Collection', $products);
+        $this->assertInstanceOf(Collection::class, $products);
         $this->assertTrue($products->isList());
 
         if ($products->count() > 0) {
@@ -113,7 +114,7 @@ class ProductTest extends StripeTestCase
         Product::create([
             'name' => 'Silver Product',
             'id'   => $this->productId,
-            'url'  => 'www.stripe.com/silver-product'
+            'url'  => 'www.stripe.com/silver-product',
         ]);
 
         $SkuID = 'silver-sku-' . self::generateRandomString(20);
@@ -185,9 +186,9 @@ class ProductTest extends StripeTestCase
     protected function createProduct()
     {
         return Product::create([
-            'name'  => 'Gold Product',
-            'id'    => $this->productId,
-            'url'   => 'www.stripe.com/gold'
+            'name' => 'Gold Product',
+            'id'   => $this->productId,
+            'url'  => 'www.stripe.com/gold',
         ]);
     }
 }

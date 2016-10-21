@@ -42,7 +42,7 @@ class ListObjectTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $this->collection);
+        $this->assertInstanceOf(Collection::class, $this->collection);
     }
 
     /**

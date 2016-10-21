@@ -21,7 +21,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /** @var array */
     private static $persistedHeaders = [
         'Stripe-Account' => true,
-        'Stripe-Version' => true
+        'Stripe-Version' => true,
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -45,10 +45,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     public function refresh()
     {
-        $url    = $this->instanceUrl();
-
         list($response, $this->opts->apiKey) = Requestor::make($this->opts->apiKey, self::baseUrl())
-            ->get($url, $this->retrieveParameters);
+            ->get($this->instanceUrl(), $this->retrieveParameters);
 
 
         /** @var \Arcanedev\Stripe\Http\Response $response */
@@ -82,9 +80,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     protected static function getShortNameClass($class = '')
     {
-        if (empty($class)) {
+        if (empty($class))
             $class = get_called_class();
-        }
 
         $class = new ReflectionClass($class);
 
@@ -135,10 +132,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
             );
         }
 
-        $base     = static::classUrl();
-        $endpoint = urlencode(str_utf8($id));
-
-        return "$base/$endpoint";
+        return static::classUrl().'/'.urlencode(str_utf8($id));
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -185,9 +179,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
             $requestor->request($method, $url, $params, $opts->headers);
 
         foreach ($opts->headers as $k => $v) {
-            if ( ! array_key_exists($k, self::$persistedHeaders)) {
+            if ( ! array_key_exists($k, self::$persistedHeaders))
                 unset($opts->headers[$k]);
-            }
         }
 
         return [$response, $opts];
@@ -219,8 +212,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     /**
      * List scope.
      *
-     * @param  array|null        $params
-     * @param  array|string|null $options
+     * @param  array|null         $params
+     * @param  array|string|null  $options
      *
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      *
@@ -260,10 +253,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         self::checkArguments($params, $options);
 
-        $url = static::classUrl();
-
         /** @var \Arcanedev\Stripe\Http\Response $response */
-        list($response, $opts) = self::staticRequest('post', $url, $params, $options);
+        list($response, $opts) = static::staticRequest('post', static::classUrl(), $params, $options);
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
         $object->setLastResponse($response);
@@ -286,10 +277,8 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         self::checkArguments($params, $options);
 
-        $url = static::resourceUrl($id);
-
         /** @var \Arcanedev\Stripe\Http\Response $response */
-        list($response, $opts) = static::staticRequest('post', $url, $params, $options);
+        list($response, $opts) = static::staticRequest('post', static::resourceUrl($id), $params, $options);
 
         $object = Util::convertToStripeObject($response->getJson(), $opts);
         $object->setLastResponse($response);
@@ -308,9 +297,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     protected function scopedSave($options = null)
     {
-        $params = $this->serializeParameters();
-
-        if (count($params) > 0) {
+        if (count($params = $this->serializeParameters()) > 0) {
             self::checkArguments(null, $options);
             list($response, $opts) = $this->request('post', $this->instanceUrl(), $params, $options);
             $this->refreshFrom($response, $opts);
@@ -333,9 +320,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     {
         self::checkArguments($params, $options);
 
-        $url = $this->instanceUrl();
-
-        list($response, $opts) = $this->request('delete', $url, $params, $options);
+        list($response, $opts) = $this->request('delete', $this->instanceUrl(), $params, $options);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -356,11 +341,9 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {
-        $opts      = RequestOptions::parse($options);
-        $requestor = Requestor::make($opts->getApiKey(), static::baseUrl());
-
         /** @var \Arcanedev\Stripe\Http\Response $response */
-        list($response, $options) = $requestor->post($url, $params);
+        list($response, $options) = Requestor::make(RequestOptions::parse($options)->getApiKey(), static::baseUrl())
+            ->post($url, $params);
 
         $this->refreshFrom($response->getJson(), $options);
         $this->setLastResponse($response);
@@ -398,13 +381,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
     private static function checkParameters($params)
     {
         if ($params && ! is_array($params)) {
-            $message = 'You must pass an array as the first argument to Stripe API method calls.  '
+            throw new Exceptions\InvalidArgumentException(
+                'You must pass an array as the first argument to Stripe API method calls.  '
                 . '(HINT: an example call to create a charge would be: '
                 . 'StripeCharge::create([\'amount\' => 100, \'currency\' => \'usd\', '
                 . '\'card\' => [\'number\' => 4242424242424242, \'exp_month\' => 5, '
-                . '\'exp_year\' => 2015]]))';
-
-            throw new Exceptions\InvalidArgumentException($message);
+                . '\'exp_year\' => 2015]]))');
         }
     }
 
@@ -423,11 +405,12 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
                 ! is_array($options)
             )
         ) {
-            $message = 'The second argument to Stripe API method calls is an '
+            throw new Exceptions\ApiException(
+                'The second argument to Stripe API method calls is an '
                 . 'optional per-request apiKey, which must be a string.  '
-                . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")';
-
-            throw new Exceptions\ApiException($message, 500);
+                . '(HINT: you can set a global apiKey by "Stripe::setApiKey(<apiKey>)")',
+                500
+            );
         }
     }
 
@@ -440,11 +423,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceInte
      */
     private static function checkIsCollectionObject($object)
     {
-        if ( ! is_a($object, 'Arcanedev\\Stripe\\Collection')) {
-            $class   = get_class($object);
-            $message = 'Expected type "Arcanedev\Stripe\Collection", got "' . $class . '" instead';
-
-            throw new Exceptions\ApiException($message);
+        if ( ! is_a($object, Collection::class)) {
+            throw new Exceptions\ApiException(
+                'Expected type "Arcanedev\Stripe\Collection", got "'.get_class($object).'" instead'
+            );
         }
     }
 }

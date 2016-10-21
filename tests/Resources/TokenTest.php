@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Resources\Card;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
@@ -43,7 +44,7 @@ class TokenTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
+        $this->assertInstanceOf(Token::class, $this->token);
     }
 
     /** @test */
@@ -58,12 +59,9 @@ class TokenTest extends StripeTestCase
     {
         $this->token = self::createCardToken();
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Token', $this->token);
+        $this->assertInstanceOf(Token::class, $this->token);
         $this->assertSame('card', $this->token->type);
-        $this->assertInstanceOf(
-            'Arcanedev\Stripe\Resources\Card',
-            $this->token->card
-        );
+        $this->assertInstanceOf(Card::class, $this->token->card);
         $this->assertSame('Visa', $this->token->card->brand);
     }
 
@@ -93,7 +91,7 @@ class TokenTest extends StripeTestCase
                 'number'    => '4242424242424242',
                 'exp_month' => date('n'),
                 'exp_year'  => date('Y') + 1,
-                'cvc'       => '314'
+                'cvc'       => '314',
             ]
         ]);
     }

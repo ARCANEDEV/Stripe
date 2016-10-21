@@ -118,7 +118,7 @@ class Transfer extends StripeResource implements TransferInterface
      */
     public function cancel()
     {
-        list($response, $opts) = $this->request('post', $this->instanceUrl() . '/cancel');
+        list($response, $opts) = $this->request('post', $this->instanceUrl().'/cancel');
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -134,10 +134,10 @@ class Transfer extends StripeResource implements TransferInterface
      */
     public function reverse($params = [], $options = null)
     {
-        list($response, $options) = $this->request(
-            'post', $this->instanceUrl() . '/reversals', $params, $options
+        list($response, $opts) = $this->request(
+            'post', $this->instanceUrl().'/reversals', $params, $options
         );
-        $this->refreshFrom($response, $options);
+        $this->refreshFrom($response, $opts);
 
         return $this;
     }

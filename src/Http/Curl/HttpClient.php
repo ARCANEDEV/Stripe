@@ -233,9 +233,8 @@ class HttpClient implements HttpClientInterface
      */
     private function close()
     {
-        if (is_resource($this->curl)) {
+        if (is_resource($this->curl))
             curl_close($this->curl);
-        }
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -261,9 +260,8 @@ class HttpClient implements HttpClientInterface
      */
     public static function instance()
     {
-        if ( ! self::$instance) {
+        if ( ! self::$instance)
             self::$instance = new self;
-        }
 
         return self::$instance;
     }
@@ -281,12 +279,10 @@ class HttpClient implements HttpClientInterface
      */
     public function request($method, $url, $params, $headers, $hasFile)
     {
-        if ($method !== 'post') {
+        if ($method !== 'post')
             $url    = str_parse_url($url, $params);
-        }
-        else {
+        else
             $params = $hasFile ? $params : self::encode($params);
-        }
 
         $this->headers->prepare($this->apiKey, $headers, $hasFile);
         $this->options->make($method, $url, $params, $this->headers->get(), $hasFile);
@@ -348,11 +344,10 @@ class HttpClient implements HttpClientInterface
         foreach ($array as $key => $value) {
             if (is_null($value)) continue;
 
-            if ($prefix) {
+            if ($prefix)
                 $key = ($key !== null && (! is_int($key) || is_array($value)))
-                    ? $prefix . "[" . $key . "]"
-                    : $prefix . "[]";
-            }
+                    ? "{$prefix}[{$key}]"
+                    : "{$prefix}[]";
 
             if ( ! is_array($value)) {
                 $result[] = urlencode($key) . '=' . urlencode($value);
@@ -420,18 +415,18 @@ class HttpClient implements HttpClientInterface
     /**
      * Prepare Response Headers.
      *
-     * @return array
+     * @param  array  $respHeaders
      */
     private function prepareResponseHeaders(array &$respHeaders)
     {
         $this->options->setOption(CURLOPT_HEADERFUNCTION, function ($curl, $header_line) use (&$respHeaders) {
             // Ignore the HTTP request line (HTTP/1.1 200 OK)
-            if (strpos($header_line, ":") === false) {
+            if (strpos($header_line, ":") === false)
                 return strlen($header_line);
-            }
 
             list($key, $value) = explode(":", trim($header_line), 2);
             $respHeaders[trim($key)] = trim($value);
+
             return strlen($header_line);
         });
     }

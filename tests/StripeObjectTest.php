@@ -11,12 +11,6 @@ use Arcanedev\Stripe\StripeObject;
 class StripeObjectTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const OBJECT_CLASS = 'Arcanedev\\Stripe\\StripeObject';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -25,7 +19,7 @@ class StripeObjectTest extends StripeTestCase
     {
         $object = new StripeObject('object-id', 'my-api-key');
 
-        $this->assertInstanceOf(self::OBJECT_CLASS, $object);
+        $this->assertInstanceOf(StripeObject::class, $object);
         $this->assertSame('object-id', $object->id);
     }
 
@@ -43,7 +37,7 @@ class StripeObjectTest extends StripeTestCase
         $this->assertTrue($object->hasRetrieveParams());
         $this->assertSame([
             'param_one' => 'condition-1',
-            'param_two' => 'condition-2'
+            'param_two' => 'condition-2',
         ], $method->invoke($object));
     }
 
@@ -146,7 +140,7 @@ class StripeObjectTest extends StripeTestCase
             'object'      => 'type',
             'name'        => 'name',
             'description' => 'description',
-            'metadata'    => $object->metadata
+            'metadata'    => $object->metadata,
         ], $method->invoke($object));
     }
 
@@ -187,6 +181,6 @@ class StripeObjectTest extends StripeTestCase
      */
     protected static function getObjectMethod($method)
     {
-        return parent::getMethod(self::OBJECT_CLASS, $method);
+        return parent::getMethod(StripeObject::class, $method);
     }
 }

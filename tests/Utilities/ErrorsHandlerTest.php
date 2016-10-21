@@ -12,12 +12,6 @@ use Arcanedev\Stripe\Utilities\ErrorsHandler;
 class ErrorsHandlerTest extends StripeTestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const API_ERRORS_HANDLER_CLASS = 'Arcanedev\\Stripe\\Utilities\\ErrorsHandler';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -49,7 +43,7 @@ class ErrorsHandlerTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::API_ERRORS_HANDLER_CLASS, $this->errorHandler);
+        $this->assertInstanceOf(ErrorsHandler::class, $this->errorHandler);
     }
 
     /** @test */

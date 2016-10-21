@@ -26,11 +26,9 @@ class ResponseTest extends TestCase
     {
         parent::setUp();
 
-        $this->response = new Response('response body', 200, [
-            'Accept-Charset' => 'utf-8'
-        ], [
-            'status' => 'success'
-        ]);
+        $this->response = new Response(
+            'response body', 200, ['Accept-Charset' => 'utf-8'], ['status' => 'success']
+        );
     }
 
     public function tearDown()
@@ -47,7 +45,7 @@ class ResponseTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Http\\Response', $this->response);
+        $this->assertInstanceOf(Response::class, $this->response);
     }
 
     /** @test */

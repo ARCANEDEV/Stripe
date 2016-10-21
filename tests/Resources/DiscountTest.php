@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
+use Arcanedev\Stripe\Resources\Discount;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -29,13 +30,13 @@ class DiscountTest extends StripeTestCase
         ]);
 
         $customer = self::createTestCustomer([
-            'coupon' => $couponId
+            'coupon' => $couponId,
         ]);
 
         $this->assertNotNull($customer->discount);
-        $this->assertInstanceOf('Arcanedev\Stripe\Resources\Discount', $customer->discount);
+        $this->assertInstanceOf(Discount::class, $customer->discount);
         $this->assertNotNull($customer->discount->coupon);
-        $this->assertInstanceOf('Arcanedev\Stripe\Resources\Coupon', $customer->discount->coupon);
+        $this->assertInstanceOf(Coupon::class, $customer->discount->coupon);
         $this->assertSame($couponId, $customer->discount->coupon->id);
 
         $customer->deleteDiscount();

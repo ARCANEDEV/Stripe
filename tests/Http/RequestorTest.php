@@ -45,32 +45,25 @@ class RequestorTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Http\\Requestor',
-            $this->requestor
-        );
+        $this->assertInstanceOf(Requestor::class, $this->requestor);
     }
 
     /** @test */
     public function it_can_encode_objects()
     {
-        // We have to do some work here because this is normally private.
-        // This is just for testing! Also it only works on PHP >= 5.3.2
-        if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
-            $method = self::getRequestMethod('encodeObjects');
+        $method = self::getRequestMethod('encodeObjects');
 
-            $this->assertSame(['customer' => 'abcd'], $method->invoke(null, [
-                'customer' => new Customer('abcd')
-            ]));
+        $this->assertSame(['customer' => 'abcd'], $method->invoke(null, [
+            'customer' => new Customer('abcd'),
+        ]));
 
-            // Preserves UTF-8
-            $value  = ['customer' => "☃"];
-            $this->assertSame($value, $method->invoke(null, $value));
+        // Preserves UTF-8
+        $value  = ['customer' => "☃"];
+        $this->assertSame($value, $method->invoke(null, $value));
 
-            // Encodes latin-1 -> UTF-8
-            $value  = ['customer' => "\xe9"];
-            $this->assertSame(['customer' => "\xc3\xa9"], $method->invoke(null, $value));
-        }
+        // Encodes latin-1 -> UTF-8
+        $value  = ['customer' => "\xe9"];
+        $this->assertSame(['customer' => "\xc3\xa9"], $method->invoke(null, $value));
     }
 
     /**
@@ -151,6 +144,6 @@ class RequestorTest extends StripeTestCase
      */
     private function getRequestMethod($method)
     {
-        return parent::getMethod('Arcanedev\\Stripe\\Http\\Requestor', $method);
+        return parent::getMethod(Requestor::class, $method);
     }
 }

@@ -66,9 +66,8 @@ class SslChecker implements SslCheckerInterface
      */
     public function checkCert($url)
     {
-        if ( ! $this->hasStreamExtensions()) {
+        if ( ! $this->hasStreamExtensions())
             return $this->showStreamExtensionWarning();
-        }
 
         $this->setUrl($url);
 
@@ -76,10 +75,10 @@ class SslChecker implements SslCheckerInterface
 
         $this->checkResult($result, $errorNo, $errorStr);
 
-        $params = stream_context_get_params($result);
-        $cert   = $params['options']['ssl']['peer_certificate'];
-
-        openssl_x509_export($cert, $pemCert);
+        openssl_x509_export(
+            stream_context_get_params($result)['options']['ssl']['peer_certificate'],
+            $pemCert
+        );
 
         $this->checkBlackList($pemCert);
 
@@ -101,10 +100,9 @@ class SslChecker implements SslCheckerInterface
     {
         if ($this->isBlackListed($pemCert)) {
             throw new ApiConnectionException(
-                'Invalid server certificate. You tried to connect to a server that '.
-                'has a revoked SSL certificate, which means we cannot securely send '.
-                'data to that server.  Please email support@stripe.com if you need '.
-                'help connecting to the correct API server.'
+                'Invalid server certificate. You tried to connect to a server that has a revoked SSL certificate, '.
+                'which means we cannot securely send data to that server. '.
+                'Please email support@stripe.com if you need help connecting to the correct API server.'
             );
         }
     }
@@ -124,8 +122,7 @@ class SslChecker implements SslCheckerInterface
         array_shift($lines);
         array_pop($lines);
 
-        $derCert     = base64_decode(implode('', $lines));
-        $fingerprint = sha1($derCert);
+        $fingerprint = sha1(base64_decode(implode('', $lines)));
 
         return in_array($fingerprint, [
             '05c0b3643694470a888c6e7feb5c9e24e823dc53',
@@ -157,17 +154,13 @@ class SslChecker implements SslCheckerInterface
     private function checkResult($result, $errorNo, $errorStr)
     {
         if (
-            ($errorNo !== 0 && $errorNo !== null) ||
-            $result === false
-        ) {
-            $stripeStatus = 'https://twitter.com/stripestatus';
-
+            ($errorNo !== 0 && $errorNo !== null) || $result === false
+        )
             throw new ApiConnectionException(
-                'Could not connect to Stripe (' . $this->getUrl() . ').  Please check your internet connection and try again.  '.
-                'If this problem persists, you should check Stripe\'s service status at ' . $stripeStatus . '.  '.
+                'Could not connect to Stripe ('.$this->getUrl().').  Please check your internet connection and try again. ' .
+                'If this problem persists, you should check Stripe\'s service status at https://twitter.com/stripestatus. ' .
                 'Reason was: ' . $errorStr
             );
-        }
     }
 
     /**
@@ -200,9 +193,8 @@ class SslChecker implements SslCheckerInterface
     private function prepareUrl($url)
     {
         $url  = parse_url($url);
-        $port = isset($url['port']) ? $url['port'] : 443;
 
-        return "ssl://{$url['host']}:{$port}";
+        return "ssl://{$url['host']}:" . (isset($url['port']) ? $url['port'] : 443);
     }
 
     /**
@@ -223,7 +215,7 @@ class SslChecker implements SslCheckerInterface
                     'capture_peer_cert' => true,
                     'verify_peer'       => true,
                     'cafile'            => self::caBundle(),
-                ]
+                ],
             ])
         );
 
@@ -237,9 +229,7 @@ class SslChecker implements SslCheckerInterface
      */
     public static function caBundle()
     {
-        $basePath = __DIR__ . '/../../..';
-
-        return realpath($basePath . '/data/ca-certificates.crt');
+        return realpath(__DIR__.'/../../../data/ca-certificates.crt');
     }
 
     /**
@@ -249,13 +239,12 @@ class SslChecker implements SslCheckerInterface
      */
     private function showStreamExtensionWarning()
     {
-        $message = 'Warning: ' . (is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP') .
-            ' does not support checking SSL certificates Stripe cannot guarantee that the server has a ' .
-            'certificate which is not blacklisted.';
-
-        if ( ! is_testing()) {
-            error_log($message);
-        }
+        if ( ! is_testing())
+            error_log(
+                'Warning: ' . (is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP') .
+                ' does not support checking SSL certificates Stripe cannot guarantee that the server has a ' .
+                'certificate which is not blacklisted.'
+            );
 
         return true;
     }

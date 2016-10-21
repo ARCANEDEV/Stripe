@@ -23,12 +23,6 @@ use Arcanedev\Stripe\StripeResource;
 class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefundInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const BASE_CLASS = 'Arcanedev\\Stripe\\Resources\\ApplicationFee';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
@@ -41,11 +35,12 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
     {
         $this->checkId($this['id']);
 
-        $base    = self::classUrl(self::BASE_CLASS);
-        $feeExtn = urlencode(str_utf8($this['fee']));
-        $extn    = urlencode(str_utf8($this['id']));
-
-        return "$base/$feeExtn/refunds/$extn";
+        return implode('/', [
+            self::classUrl(ApplicationFee::class),
+            urlencode(str_utf8($this['fee'])),
+            'refunds',
+            urlencode(str_utf8($this['id']))
+        ]);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -79,11 +74,9 @@ class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefun
      */
     protected function checkId($id)
     {
-        if ( ! $id) {
+        if ( ! $id)
             throw new InvalidRequestException(
-                "Could not determine which URL to request: class instance has invalid ID: $id",
-                400
+                "Could not determine which URL to request: class instance has invalid ID: {$id}", 400
             );
-        }
     }
 }

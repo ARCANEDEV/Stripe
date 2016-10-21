@@ -23,11 +23,9 @@ class PermissionExceptionTest extends StripeTestCase
      */
     public function it_must_throw_Permission_exception()
     {
-        $return = [
+        $this->mockRequest('GET', '/v1/accounts/acct_DEF', [], [
             'error' => [],
-        ];
-
-        $this->mockRequest('GET', '/v1/accounts/acct_DEF', [], $return, 403);
+        ], 403);
 
         Account::retrieve('acct_DEF');
     }

@@ -35,11 +35,10 @@ class RateLimitExceptionTest extends StripeTestCase
      */
     public function testRateLimit()
     {
-        $return = [
+        $this->mockRequest('GET', '/v1/accounts/acct_DEF', [], [
             'error' => [],
-        ];
+        ], 429);
 
-        $this->mockRequest('GET', '/v1/accounts/acct_DEF', [], $return, 429);
         Account::retrieve('acct_DEF');
     }
 }

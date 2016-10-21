@@ -43,10 +43,7 @@ class ApplicationFeeRefundTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-            $this->appFeeRefund
-        );
+        $this->assertInstanceOf(ApplicationFeeRefund::class, $this->appFeeRefund);
     }
 
     /** @test */

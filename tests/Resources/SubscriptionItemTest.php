@@ -55,7 +55,7 @@ class SubscriptionItemTest extends StripeTestCase
             'limit'        => 3,
         ]);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $subItems->data[0]);
+        $this->assertInstanceOf(SubscriptionItem::class, $subItems->data[0]);
         $this->assertSame(2, count($subItems->data));
 
         // Delete

@@ -60,9 +60,8 @@ class RequestOptions implements RequestOptionsInterface
      */
     public function setApiKey($apiKey)
     {
-        if ( ! is_null($apiKey)) {
+        if ( ! is_null($apiKey))
             $this->apiKey = trim($apiKey);
-        }
 
         return $this;
     }
@@ -125,21 +124,17 @@ class RequestOptions implements RequestOptionsInterface
     {
         self::checkOptions($options);
 
-        if ($options instanceof self) return $options;
+        if ($options instanceof self)
+            return $options;
 
-        if (is_null($options) || is_string($options)) {
+        if (is_null($options) || is_string($options))
             return new self($options, []);
-        }
 
         // $options is array
-        $key     = null;
-        if (isset($options['api_key'])) {
-            $key = $options['api_key'];
-        }
-
-        $headers = self::prepareHeaders($options);
-
-        return new self($key, $headers);
+        return new self(
+            isset($options['api_key']) ? $options['api_key'] : null,
+            self::prepareHeaders($options)
+        );
     }
 
     /**
@@ -196,7 +191,7 @@ class RequestOptions implements RequestOptionsInterface
             ! is_array($options)
         ) {
             throw new ApiException(
-                'Options must be a string, an array, or null, ' . gettype($options) . ' given.'
+                'Options must be a string, an array, or null, '.gettype($options).' given.'
             );
         }
     }

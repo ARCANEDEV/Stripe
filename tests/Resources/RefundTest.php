@@ -44,7 +44,7 @@ class RefundTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Refund', $this->refund);
+        $this->assertInstanceOf(Refund::class, $this->refund);
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class RefundTest extends StripeTestCase
         $charge       = self::createTestCharge();
         $this->refund = Refund::create(['charge' => $charge->id, 'amount' => 100]);
         $this->refund = Refund::update($this->refund->id, [
-            'metadata' => ['key' => 'value']
+            'metadata' => ['key' => 'value'],
         ]);
 
         $this->refund = Refund::retrieve($this->refund->id);
@@ -137,13 +137,13 @@ class RefundTest extends StripeTestCase
             'amount'      => $receiver->amount,
             'currency'    => $receiver->currency,
             'description' => $receiver->description,
-            'source'      => $receiver->id
+            'source'      => $receiver->id,
         ]);
 
         $this->refund = Refund::create([
             'amount'         => $receiver->amount,
             'refund_address' => 'ABCDEF',
-            'charge'         => $charge->id
+            'charge'         => $charge->id,
         ]);
 
         $this->assertSame($receiver->amount, $this->refund->amount);
@@ -200,13 +200,13 @@ class RefundTest extends StripeTestCase
             'amount'      => $receiver->amount,
             'currency'    => $receiver->currency,
             'description' => $receiver->description,
-            'source'      => $receiver->id
+            'source'      => $receiver->id,
         ]);
 
         /** @var \Arcanedev\Stripe\Resources\Refund $refund */
         $refund   = $charge->refunds->create([
             'amount'         => $receiver->amount,
-            'refund_address' => 'ABCDEF'
+            'refund_address' => 'ABCDEF',
         ]);
 
         $this->assertSame($receiver->amount, $refund->amount);

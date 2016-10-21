@@ -51,7 +51,7 @@ class CardExceptionTest extends StripeTestCase
                 'card'     => [
                     'number' => '4000000000000002',
                     'exp_month' => '3',
-                    'exp_year' => '2020'
+                    'exp_year' => '2020',
                 ]
             ]);
         }
@@ -66,7 +66,7 @@ class CardExceptionTest extends StripeTestCase
                         'type'    => 'card_error',
                         'code'    => 'card_declined',
                         'charge'  => $actual['error']['charge'],
-                    ]
+                    ],
                 ],
                 $actual
             );

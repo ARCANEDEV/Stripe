@@ -14,9 +14,7 @@ class AttachedObject extends StripeObject implements AttachedObjectInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $checkUnsavedAttributes = false;
 
     /* ------------------------------------------------------------------------------------------------
@@ -26,19 +24,15 @@ class AttachedObject extends StripeObject implements AttachedObjectInterface
     /**
      * Updates this object.
      *
-     * @param array $properties - A mapping of properties to update on this object.
+     * @param  array  $properties  -  A mapping of properties to update on this object.
      */
     public function replaceWith($properties)
     {
         $removed = array_diff(array_keys($this->values), array_keys($properties));
 
         // Don't unset, but rather set to null so we send up '' for deletion.
-        foreach ($removed as $k) {
-            $this->$k = null;
-        }
+        foreach ($removed as $k) { $this->$k = null; }
 
-        foreach ($properties as $k => $v) {
-            $this->$k = $v;
-        }
+        foreach ($properties as $k => $v) { $this->$k = $v; }
     }
 }
