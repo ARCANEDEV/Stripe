@@ -2,10 +2,6 @@
 
 use Arcanedev\Stripe\Contracts\Utilities\ApiErrorsHandlerInterface;
 use Arcanedev\Stripe\Exceptions\ApiException;
-use Arcanedev\Stripe\Exceptions\AuthenticationException;
-use Arcanedev\Stripe\Exceptions\CardException;
-use Arcanedev\Stripe\Exceptions\InvalidRequestException;
-use Arcanedev\Stripe\Exceptions\RateLimitException;
 
 /**
  * Class     ErrorsHandler
@@ -36,6 +32,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
         400 => 'InvalidRequestException',
         401 => 'AuthenticationException',
         402 => 'CardException',
+        403 => 'PermissionException',
         404 => 'InvalidRequestException',
         429 => 'RateLimitException',
         500 => 'ApiException',
@@ -139,11 +136,12 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      * @param  array   $respHeaders
      * @param  array   $response
      *
-     * @throws ApiException
-     * @throws AuthenticationException
-     * @throws CardException
-     * @throws InvalidRequestException
-     * @throws RateLimitException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\AuthenticationException
+     * @throws \Arcanedev\Stripe\Exceptions\CardException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     * @throws \Arcanedev\Stripe\Exceptions\PermissionException
+     * @throws \Arcanedev\Stripe\Exceptions\RateLimitException
      */
     public function handle($respBody, $respCode, $respHeaders, $response)
     {
@@ -186,7 +184,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      *
      * @param  mixed  $response
      *
-     * @throws ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     private function checkResponse($response)
     {
