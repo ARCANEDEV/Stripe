@@ -17,7 +17,7 @@ You can sign up for a Stripe account at https://stripe.com.
 
 ### Requirements
 
-    - PHP >= 5.4.0
+    - PHP >= 5.6.0
     - ext-curl: *
     - ext-json: *
     - ext-mbstring: *
@@ -56,10 +56,6 @@ var_dump($charge);
 ## Documentation
 
 Please see [Stripe API Reference](https://stripe.com/docs/api) for up-to-date documentation.
-
-### TODOS
-
-  - [ ] More tests and code coverage
 
 ## Contribution
 
