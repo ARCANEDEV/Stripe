@@ -1,7 +1,6 @@
 # PHP library for Stripe [![Packagist License][badge_license]](LICENSE.md) [![For PHP][badge_php]][link-github-repo]
 
 [![Travis Status][badge_build]][link-travis]
-[![HHVM Status][badge_hhvm]][link-hhvm]
 [![Coverage Status][badge_coverage]][link-scrutinizer]
 [![Scrutinizer Code Quality][badge_quality]][link-scrutinizer]
 [![SensioLabs Insight][badge_insight]][link-insight]
@@ -74,7 +73,6 @@ If you discover any security related issues, please email arcanedev.maroc@gmail.
 [badge_license]:      https://img.shields.io/packagist/l/arcanedev/stripe.svg?style=flat-square
 [badge_php]:          https://img.shields.io/badge/PHP-Framework%20agnostic-4F5B93.svg?style=flat-square
 [badge_build]:        https://img.shields.io/travis/ARCANEDEV/Stripe.svg?style=flat-square
-[badge_hhvm]:         https://img.shields.io/hhvm/arcanedev/stripe.svg?style=flat-square
 [badge_coverage]:     https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/Stripe.svg?style=flat-square
 [badge_quality]:      https://img.shields.io/scrutinizer/g/ARCANEDEV/Stripe.svg?style=flat-square
 [badge_insight]:      https://img.shields.io/sensiolabs/i/b9a40bba-bf68-4dc6-90f8-1978dcf6435a.svg?style=flat-square
@@ -89,6 +87,5 @@ If you discover any security related issues, please email arcanedev.maroc@gmail.
 [link-contributors]:  https://github.com/ARCANEDEV/Stripe/graphs/contributors
 [link-packagist]:     https://packagist.org/packages/arcanedev/stripe
 [link-travis]:        https://travis-ci.org/ARCANEDEV/Stripe
-[link-hhvm]:          http://hhvm.h4cc.de/package/arcanedev/stripe
 [link-scrutinizer]:   https://scrutinizer-ci.com/g/ARCANEDEV/Stripe/?branch=master
 [link-insight]:       https://insight.sensiolabs.com/projects/b9a40bba-bf68-4dc6-90f8-1978dcf6435a
