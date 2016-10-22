@@ -43,10 +43,7 @@ class BitcoinReceiverTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
-            $this->object
-        );
+        $this->assertInstanceOf(BitcoinReceiver::class, $this->object);
     }
 
     /** @test */
@@ -114,7 +111,7 @@ class BitcoinReceiverTest extends StripeTestCase
 
         $refundAddress = '007, Real refund address, Earth.';
         $receiver->refund([
-            'refund_address' => $refundAddress
+            'refund_address' => $refundAddress,
         ]);
 
         $this->assertSame($refundAddress, $receiver->refund_address);

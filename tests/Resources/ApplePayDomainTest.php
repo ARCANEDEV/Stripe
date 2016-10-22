@@ -31,7 +31,7 @@ class ApplePayDomainTest extends StripeTestCase
         $domain = ApplePayDomain::create(['domain_name' => 'test.com']);
 
         $this->assertSame('apwc_create', $domain->id);
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\ApplePayDomain', $domain);
+        $this->assertInstanceOf(ApplePayDomain::class, $domain);
     }
 
     /** @test */
@@ -49,7 +49,7 @@ class ApplePayDomainTest extends StripeTestCase
         $domain = ApplePayDomain::retrieve('apwc_retrieve');
 
         $this->assertSame('apwc_retrieve', $domain->id);
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\ApplePayDomain', $domain);
+        $this->assertInstanceOf(ApplePayDomain::class, $domain);
     }
 
     /** @test */
@@ -57,7 +57,7 @@ class ApplePayDomainTest extends StripeTestCase
     {
         $domain = ApplePayDomain::create(['domain_name' => 'jackshack.website']);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\ApplePayDomain', $domain);
+        $this->assertInstanceOf(ApplePayDomain::class, $domain);
 
         $this->mockRequest(
             'DELETE',

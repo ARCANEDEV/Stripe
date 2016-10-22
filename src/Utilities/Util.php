@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
+use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
+use Arcanedev\Stripe\Resources;
 use Arcanedev\Stripe\StripeObject;
 
 /**
@@ -21,41 +23,41 @@ abstract class Util implements UtilInterface
      * @var array
      */
     private static $resources = [
-        'account'             => 'Arcanedev\\Stripe\\Resources\\Account',
-        'alipay_account'      => 'Arcanedev\\Stripe\\Resources\\AlipayAccount',
-        'apple_pay_domain'    => 'Arcanedev\\Stripe\\Resources\\ApplePayDomain',
-        'balance_transaction' => 'Arcanedev\\Stripe\\Resources\\BalanceTransaction',
-        'bank_account'        => 'Arcanedev\\Stripe\\Resources\\BankAccount',
-        'bitcoin_receiver'    => 'Arcanedev\\Stripe\\Resources\\BitcoinReceiver',
-        'bitcoin_transaction' => 'Arcanedev\\Stripe\\Resources\\BitcoinTransaction',
-        'card'                => 'Arcanedev\\Stripe\\Resources\\Card',
-        'charge'              => 'Arcanedev\\Stripe\\Resources\\Charge',
-        'country_spec'        => 'Arcanedev\\Stripe\\Resources\\CountrySpec',
-        'coupon'              => 'Arcanedev\\Stripe\\Resources\\Coupon',
-        'customer'            => 'Arcanedev\\Stripe\\Resources\\Customer',
-        'discount'            => 'Arcanedev\\Stripe\\Resources\\Discount',
-        'dispute'             => 'Arcanedev\\Stripe\\Resources\\Dispute',
-        'event'               => 'Arcanedev\\Stripe\\Resources\\Event',
-        'fee_refund'          => 'Arcanedev\\Stripe\\Resources\\ApplicationFeeRefund',
-        'file_upload'         => 'Arcanedev\\Stripe\\Resources\\FileUpload',
-        'invoice'             => 'Arcanedev\\Stripe\\Resources\\Invoice',
-        'invoiceitem'         => 'Arcanedev\\Stripe\\Resources\\InvoiceItem',
-        'list'                => 'Arcanedev\\Stripe\\Collection',                     // List Object
-        'order'               => 'Arcanedev\\Stripe\\Resources\\Order',
-        'order_item'          => 'Arcanedev\\Stripe\\Resources\\OrderItem',
-        'order_return'        => 'Arcanedev\\Stripe\\Resources\\OrderReturn',
-        'plan'                => 'Arcanedev\\Stripe\\Resources\\Plan',
-        'product'             => 'Arcanedev\\Stripe\\Resources\\Product',
-        'recipient'           => 'Arcanedev\\Stripe\\Resources\\Recipient',
-        'refund'              => 'Arcanedev\\Stripe\\Resources\\Refund',
-        'sku'                 => 'Arcanedev\\Stripe\\Resources\\Sku',
-        'source'              => 'Arcanedev\\Stripe\\Resources\\Source',
-        'subscription'        => 'Arcanedev\\Stripe\\Resources\\Subscription',
-        'subscription_item'   => 'Arcanedev\\Stripe\\Resources\\SubscriptionItem',
-        'three_d_secure'      => 'Arcanedev\\Stripe\\Resources\\ThreeDSecure',
-        'token'               => 'Arcanedev\\Stripe\\Resources\\Token',
-        'transfer'            => 'Arcanedev\\Stripe\\Resources\\Transfer',
-        'transfer_reversal'   => 'Arcanedev\\Stripe\\Resources\\TransferReversal',
+        'account'             => Resources\Account::class,
+        'alipay_account'      => Resources\AlipayAccount::class,
+        'apple_pay_domain'    => Resources\ApplePayDomain::class,
+        'balance_transaction' => Resources\BalanceTransaction::class,
+        'bank_account'        => Resources\BankAccount::class,
+        'bitcoin_receiver'    => Resources\BitcoinReceiver::class,
+        'bitcoin_transaction' => Resources\BitcoinTransaction::class,
+        'card'                => Resources\Card::class,
+        'charge'              => Resources\Charge::class,
+        'country_spec'        => Resources\CountrySpec::class,
+        'coupon'              => Resources\Coupon::class,
+        'customer'            => Resources\Customer::class,
+        'discount'            => Resources\Discount::class,
+        'dispute'             => Resources\Dispute::class,
+        'event'               => Resources\Event::class,
+        'fee_refund'          => Resources\ApplicationFeeRefund::class,
+        'file_upload'         => Resources\FileUpload::class,
+        'invoice'             => Resources\Invoice::class,
+        'invoiceitem'         => Resources\InvoiceItem::class,
+        'list'                => Collection::class,                      // List Object
+        'order'               => Resources\Order::class,
+        'order_item'          => Resources\OrderItem::class,
+        'order_return'        => Resources\OrderReturn::class,
+        'plan'                => Resources\Plan::class,
+        'product'             => Resources\Product::class,
+        'recipient'           => Resources\Recipient::class,
+        'refund'              => Resources\Refund::class,
+        'sku'                 => Resources\Sku::class,
+        'source'              => Resources\Source::class,
+        'subscription'        => Resources\Subscription::class,
+        'subscription_item'   => Resources\SubscriptionItem::class,
+        'three_d_secure'      => Resources\ThreeDSecure::class,
+        'token'               => Resources\Token::class,
+        'transfer'            => Resources\Transfer::class,
+        'transfer_reversal'   => Resources\TransferReversal::class,
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -128,7 +130,7 @@ abstract class Util implements UtilInterface
     {
         return self::isClassTypeObjectExist($response)
             ? self::$resources[ $response['object'] ]
-            : 'Arcanedev\\Stripe\\StripeObject';
+            : StripeObject::class;
     }
 
     /* ------------------------------------------------------------------------------------------------

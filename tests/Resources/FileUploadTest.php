@@ -49,7 +49,7 @@ class FileUploadTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\FileUpload', $this->fileUpload);
+        $this->assertInstanceOf(FileUpload::class, $this->fileUpload);
     }
 
     /** @test */

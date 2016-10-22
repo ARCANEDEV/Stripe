@@ -26,7 +26,7 @@ class ExternalAccountTest extends StripeTestCase
                 'routing_number'      => '110000000',
                 'account_number'      => '000123456789',
                 'account_holder_name' => 'Jane Austen',
-                'account_holder_type' => 'company'
+                'account_holder_type' => 'company',
             ]
         ]);
 

@@ -137,7 +137,7 @@ class Charge extends StripeResource implements ChargeInterface
     public function refund($params = [], $options = null)
     {
         return self::scopedPostCall(
-            $this->instanceUrl() . '/refund', $params, $options
+            $this->instanceUrl().'/refund', $params, $options
         );
     }
 
@@ -153,7 +153,7 @@ class Charge extends StripeResource implements ChargeInterface
     public function capture($params = [], $options = null)
     {
         return self::scopedPostCall(
-            $this->instanceUrl() . '/capture', $params, $options
+            $this->instanceUrl().'/capture', $params, $options
         );
     }
 
@@ -193,12 +193,10 @@ class Charge extends StripeResource implements ChargeInterface
      */
     private function updateFraudDetails($safe = false, $options = null)
     {
-        $params = [
+        return $this->scopedPostCall($this->instanceUrl(), [
             'fraud_details' => [
                 'user_report' => $safe ? self::SAFE : self::FRAUDULENT,
             ],
-        ];
-
-        return $this->scopedPostCall($this->instanceUrl(), $params, $options);
+        ], $options);
     }
 }

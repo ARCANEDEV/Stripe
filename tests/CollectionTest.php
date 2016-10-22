@@ -20,7 +20,7 @@ class CollectionTest extends StripeTestCase
     {
         /** @var Collection $collection */
         $collection = Collection::scopedConstructFrom(
-            'Arcanedev\Stripe\Collection',
+            Collection::class,
             $this->pageableModelResponse(['pm_123', 'pm_124'], false),
             new RequestOptions
         );
@@ -39,7 +39,7 @@ class CollectionTest extends StripeTestCase
     {
         /** @var Collection $collection */
         $collection = Collection::scopedConstructFrom(
-            'Arcanedev\Stripe\Collection',
+            Collection::class,
             $this->pageableModelResponse(['pm_123', 'pm_124'], true),
             new RequestOptions
         );
@@ -79,7 +79,7 @@ class CollectionTest extends StripeTestCase
     public function it_can_convert_iterator_to_array()
     {
         $collection = Collection::scopedConstructFrom(
-            'Arcanedev\Stripe\Collection',
+            Collection::class,
             $this->pageableModelResponse(['pm_123', 'pm_124'], true),
             new RequestOptions
         );

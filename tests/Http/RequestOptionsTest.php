@@ -20,7 +20,7 @@ class RequestOptionsTest extends StripeTestCase
     {
         $opts = new RequestOptions('', []);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Http\\RequestOptions', $opts);
+        $this->assertInstanceOf(RequestOptions::class, $opts);
         $this->assertFalse($opts->hasApiKey());
         $this->assertSame([], $opts->getHeaders());
     }

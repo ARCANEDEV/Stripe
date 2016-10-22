@@ -43,18 +43,13 @@ class SslCheckerTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Http\\Curl\\SslChecker',
-            $this->sslChecker
-        );
+        $this->assertInstanceOf(SslChecker::class, $this->sslChecker);
     }
 
     /** @test */
     public function it_can_set_and_get_url()
     {
-        $url = 'http://www.stripe.com';
-
-        $this->sslChecker->setUrl($url);
+        $this->sslChecker->setUrl('http://www.stripe.com');
 
         $this->assertSame(
             'ssl://www.stripe.com:443',
@@ -122,7 +117,7 @@ class SslCheckerTest extends StripeTestCase
     {
         $method = self::getSslCheckerMethod('checkResult');
 
-        $method->invoke(new SslChecker(), false, 0, 'Unknown');
+        $method->invoke(new SslChecker, false, 0, 'Unknown');
     }
 
     /**
@@ -158,7 +153,7 @@ class SslCheckerTest extends StripeTestCase
      */
     private function getSslCheckerMethod($method)
     {
-        return parent::getMethod('Arcanedev\\Stripe\\Http\\Curl\\SslChecker', $method);
+        return parent::getMethod(SslChecker::class, $method);
     }
 
     /**
@@ -169,8 +164,8 @@ class SslCheckerTest extends StripeTestCase
     private function getBlackListedCert()
     {
         // {{{ Revoked certificate from api.stripe.com }}}
-        $path = realpath(__DIR__ . '/../../data/bad-ca-cert.crt');
-
-        return file_get_contents($path);
+        return file_get_contents(
+            realpath(__DIR__ . '/../../data/bad-ca-cert.crt')
+        );
     }
 }

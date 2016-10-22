@@ -30,14 +30,6 @@ use Arcanedev\Stripe\StripeResource;
 class Customer extends StripeResource implements CustomerInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const END_POINT_SUBSCRIPTION = 'subscription';
-
-    const END_POINT_DISCOUNT     = 'discount';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -61,7 +53,7 @@ class Customer extends StripeResource implements CustomerInterface
      */
     private function getSubscriptionUrl()
     {
-        return $this->instanceUrl() . '/' . self::END_POINT_SUBSCRIPTION;
+        return $this->instanceUrl().'/subscription';
     }
 
     /**
@@ -73,7 +65,7 @@ class Customer extends StripeResource implements CustomerInterface
      */
     private function getDiscountUrl()
     {
-        return $this->instanceUrl() . '/' . self::END_POINT_DISCOUNT;
+        return $this->instanceUrl().'/discount';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -125,7 +117,7 @@ class Customer extends StripeResource implements CustomerInterface
     /**
      * Update a Customer.
      * @link   https://stripe.com/docs/api/php#create_customer
-     *         
+     *
      * @param  string             $id
      * @param  array|null         $params
      * @param  array|string|null  $options
@@ -262,8 +254,8 @@ class Customer extends StripeResource implements CustomerInterface
     public function deleteDiscount()
     {
         list($response, $opts) = $this->request('delete', $this->getDiscountUrl());
-
         $this->refreshFrom(['discount' => null], $opts, true);
+
         unset($response);
 
         return $this;

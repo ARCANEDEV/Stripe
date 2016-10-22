@@ -165,6 +165,6 @@ class HelpersTest extends TestCase
 
         array_map(function($false) {
             $this->assertFalse(validate_bool($false));
-        }, [null, false, 0, '0', 'Off', 'OFf', 'OFf', 'no', 'No', 'NO', array()]);
+        }, [null, false, 0, '0', 'Off', 'OFf', 'OFf', 'no', 'No', 'NO', []]);
     }
 }

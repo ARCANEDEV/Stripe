@@ -120,7 +120,7 @@ class Order extends StripeResource implements OrderInterface
     public function pay($params = [], $options = null)
     {
         list($response, $options) = $this->request(
-            'post', $this->instanceUrl() . '/pay', $params, $options
+            'post', $this->instanceUrl().'/pay', $params, $options
         );
         $this->refreshFrom($response, $options);
 
@@ -139,7 +139,7 @@ class Order extends StripeResource implements OrderInterface
     public function returnOrder($params = [], $options = null)
     {
         list($response, $options) = $this->request(
-            'post', $this->instanceUrl() . '/returns', $params, $options
+            'post', $this->instanceUrl().'/returns', $params, $options
         );
 
         return Util::convertToStripeObject($response, $options);

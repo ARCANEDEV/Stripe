@@ -25,12 +25,6 @@ use Arcanedev\Stripe\StripeResource;
 class FileUpload extends StripeResource implements FileUploadInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const END_POINT = '/v1/files';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -65,7 +59,7 @@ class FileUpload extends StripeResource implements FileUploadInterface
      */
     public static function classUrl($class = '')
     {
-        return self::END_POINT;
+        return '/v1/files';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -85,12 +79,12 @@ class FileUpload extends StripeResource implements FileUploadInterface
      */
     public static function retrieve($id, $options = null)
     {
-        $apiKey  = RequestOptions::parse($options)->getApiKey();
-        $file    = new self($id, $apiKey);
+        $apiKey = RequestOptions::parse($options)->getApiKey();
+        $file   = new self($id, $apiKey);
 
         /** @var \Arcanedev\Stripe\Http\Response $response */
         list($response, $apiKey) = Requestor::make($apiKey, self::baseUrl())
-            ->get(self::END_POINT . '/' . $id, $file->retrieveParameters);
+            ->get("/v1/files/{$id}", $file->retrieveParameters);
 
         $file->refreshFrom($response->getJson(), $apiKey);
         $file->setLastResponse($response);

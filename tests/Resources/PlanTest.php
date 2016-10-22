@@ -48,7 +48,7 @@ class PlanTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Plan', $this->plan);
+        $this->assertInstanceOf(Plan::class, $this->plan);
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class PlanTest extends StripeTestCase
     public function it_can_update()
     {
         $this->plan = Plan::update($this->planId, [
-            'name' => 'A new plan name'
+            'name' => 'A new plan name',
         ]);
         $stripePlan = Plan::retrieve($this->planId);
 

@@ -77,7 +77,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     protected static function generateRandomEmail($domain = 'bar.com')
     {
-        return self::generateRandomString() . '@' . $domain;
+        return self::generateRandomString().'@'.$domain;
     }
 
     /* ------------------------------------------------------------------------------------------------

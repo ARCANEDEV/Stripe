@@ -43,10 +43,7 @@ class HttpClientTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Http\\Curl\\HttpClient',
-            $this->httpClient
-        );
+        $this->assertInstanceOf(HttpClient::class, $this->httpClient);
     }
 
     /** @test */
@@ -60,7 +57,7 @@ class HttpClientTest extends StripeTestCase
                 'my'   => 'value',
                 'that' => ['your' => 'example'],
                 'bar'  => 1,
-                'baz'  => null
+                'baz'  => null,
             ])
         );
 
@@ -90,7 +87,7 @@ class HttpClientTest extends StripeTestCase
                     'your' => ['cheese', 'whiz', null],
                 ],
                 'bar'  => 1,
-                'baz'  => null
+                'baz'  => null,
             ])
         );
 
@@ -156,6 +153,6 @@ class HttpClientTest extends StripeTestCase
      */
     private function getCurlClientMethod($method)
     {
-        return parent::getMethod('Arcanedev\\Stripe\\Http\\Curl\\HttpClient', $method);
+        return parent::getMethod(HttpClient::class, $method);
     }
 }

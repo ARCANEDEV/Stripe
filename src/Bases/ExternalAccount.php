@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
+use Arcanedev\Stripe\Resources;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -30,19 +31,19 @@ abstract class ExternalAccount extends StripeResource
 
         if ( ! $id) {
             $class = get_class($this);
-            $msg   = "Could not determine which URL to request: $class instance has invalid ID: $id";
-
-            throw new InvalidRequestException($msg, null);
+            throw new InvalidRequestException(
+                "Could not determine which URL to request: $class instance has invalid ID: $id", null
+            );
         }
 
         if ($this['account']) {
             $parent = $this['account'];
-            $class  = 'Arcanedev\\Stripe\\Resources\\Account';
+            $class  = Resources\Account::class;
             $path   = 'external_accounts';
         }
         elseif ($this['customer']) {
             $parent = $this['customer'];
-            $class  = 'Arcanedev\\Stripe\\Resources\\Customer';
+            $class  = Resources\Customer::class;
             $path   = 'sources';
         }
         elseif ($this['recipient']) {
@@ -54,11 +55,12 @@ abstract class ExternalAccount extends StripeResource
             return null;
         }
 
-        $base       = self::classUrl($class);
-        $parentExtn = urlencode(str_utf8($parent));
-        $extn       = str_utf8($id);
-
-        return "$base/$parentExtn/$path/$extn";
+        return implode('/', [
+            self::classUrl($class),
+            urlencode(str_utf8($parent)),
+            $path,
+            str_utf8($id),
+        ]);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -97,15 +99,13 @@ abstract class ExternalAccount extends StripeResource
      * @param  array|string|null  $options
      *
      * @return self
+     *
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      */
     public function verify($params = [], $options = null)
     {
-        if ( ! $this['customer']) {
-            throw new ApiException(
-                'Only customer external accounts can be verified in this manner.'
-            );
-        }
+        if ( ! $this['customer'])
+            throw new ApiException('Only customer external accounts can be verified in this manner.');
 
         $url = $this->instanceUrl() . '/verify';
         list($response, $options) = $this->request('post', $url, $params, $options);

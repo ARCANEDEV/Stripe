@@ -32,7 +32,7 @@ class BalanceTransactionTest extends StripeTestCase
         $btId = $bts->data[0]->id;
         $bt   = BalanceTransaction::retrieve($btId);
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\BalanceTransaction', $bt);
+        $this->assertInstanceOf(BalanceTransaction::class, $bt);
         $this->assertSame($btId, $bt->id);
     }
 }

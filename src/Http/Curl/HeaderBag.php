@@ -101,12 +101,11 @@ class HeaderBag implements HeaderBagInterface
     {
         $string = $appInfo['name'];
 
-        if ($appInfo['version'] !== null) {
-            $string .= '/' . $appInfo['version'];
-        }
-        if ($appInfo['url'] !== null) {
-            $string .= ' (' . $appInfo['url'] . ')';
-        }
+        if ($appInfo['version'] !== null)
+            $string .= '/'.$appInfo['version'];
+
+        if ($appInfo['url'] !== null)
+            $string .= ' ('.$appInfo['url'].')';
 
         return $string;
     }
@@ -140,12 +139,8 @@ class HeaderBag implements HeaderBagInterface
      */
     public function prepare($apiKey, array $headers = [], $hasFile = false)
     {
-        $this->headers = [];
-
-        $this->headers = array_merge(
-            self::getDefaults($apiKey, $hasFile),
-            $headers
-        );
+        $this->headers = []; // RESET
+        $this->headers = array_merge(self::getDefaults($apiKey, $hasFile), $headers);
 
         return $this;
     }

@@ -88,8 +88,7 @@ class Collection extends StripeResource implements CollectionInterface
     public function retrieve($id, $params = [], $options = null)
     {
         list($url, $params)    = $this->extractPathAndUpdateParams($params);
-        $extn                  = urlencode(str_utf8($id));
-        list($response, $opts) = $this->request('get', "$url/$extn", $params);
+        list($response, $opts) = $this->request('get', $url.'/'.urlencode(str_utf8($id)), $params);
 
         $this->setRequestParams($params);
 
@@ -150,11 +149,8 @@ class Collection extends StripeResource implements CollectionInterface
      */
     private function checkPath(array $url)
     {
-        if ( ! isset($url['path']) || empty($url['path'])) {
-            throw new ApiException(
-                'Could not parse list url into parts: ' . $this->url
-            );
-        }
+        if ( ! isset($url['path']) || empty($url['path']))
+            throw new ApiException("Could not parse list url into parts: {$this->url}");
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -162,23 +158,19 @@ class Collection extends StripeResource implements CollectionInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get items Count.
+     * Get items count.
      *
      * @return int
      */
     public function count()
     {
-        return ($this->isList() && isset($this->total_count))
-            ? $this->total_count
-            : 0;
+        return ($this->isList() && isset($this->total_count)) ? $this->total_count : 0;
     }
 
     /**
      * Extract Path And Update Parameters.
      *
-     * @param  array|null $params
-     *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @param  array|null  $params
      *
      * @return array
      */
@@ -186,9 +178,8 @@ class Collection extends StripeResource implements CollectionInterface
     {
         $url = parse_url($this->url);
 
-        if ($url === false) {
+        if ($url === false)
             $url = [];
-        }
 
         $this->checkPath($url);
 

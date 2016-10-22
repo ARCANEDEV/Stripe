@@ -45,14 +45,10 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
      */
     public function instanceUrl()
     {
-        if ( ! is_null($result = parent::instanceUrl())) {
+        if ( ! is_null($result = parent::instanceUrl()))
             return $result;
-        }
 
-        $base   = self::classUrl();
-        $extn   = urlencode(str_utf8($this['id']));
-
-        return "$base/$extn";
+        return self::classUrl().'/'.urlencode(str_utf8($this['id']));
     }
 
     /**
@@ -125,7 +121,7 @@ class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterfac
     public function refund($params = [], $options = null)
     {
         list($response, $opts) = $this->request(
-            'post', $this->instanceUrl() . '/refund', $params, $options
+            'post', $this->instanceUrl().'/refund', $params, $options
         );
 
         $this->refreshFrom($response, $opts);

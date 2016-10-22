@@ -128,9 +128,9 @@ class Subscription extends StripeResource implements SubscriptionInterface
      */
     public function deleteDiscount()
     {
-        list($response, $opts) = $this->request('delete', $this->instanceUrl() . '/discount');
-
+        list($response, $opts) = $this->request('delete', $this->instanceUrl().'/discount');
         $this->refreshFrom(['discount' => null], $opts, true);
+
         unset($response);
 
         return $this;

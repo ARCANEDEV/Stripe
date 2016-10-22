@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
 use Arcanedev\Stripe\Contracts\Utilities\ApiErrorsHandlerInterface;
-use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Exceptions;
 
 /**
  * Class     ErrorsHandler
@@ -29,13 +29,13 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
 
     /** @var array */
     private static $exceptions = [
-        400 => 'InvalidRequestException',
-        401 => 'AuthenticationException',
-        402 => 'CardException',
-        403 => 'PermissionException',
-        404 => 'InvalidRequestException',
-        429 => 'RateLimitException',
-        500 => 'ApiException',
+        400 => Exceptions\InvalidRequestException::class,
+        401 => Exceptions\AuthenticationException::class,
+        402 => Exceptions\CardException::class,
+        403 => Exceptions\PermissionException::class,
+        404 => Exceptions\InvalidRequestException::class,
+        429 => Exceptions\RateLimitException::class,
+        500 => Exceptions\ApiException::class,
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      */
     private function getExceptionByCode($code)
     {
-        return '\\Arcanedev\\Stripe\\Exceptions\\' . self::$exceptions[$code];
+        return self::$exceptions[$code];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -145,9 +145,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
      */
     public function handle($respBody, $respCode, $respHeaders, $response)
     {
-        if ($respCode >= 200 && $respCode < 300) {
-            return;
-        }
+        if ($respCode >= 200 && $respCode < 300) return;
 
         $this->setRespBody($respBody);
         $this->setRespCode($respCode);
@@ -197,7 +195,7 @@ class ErrorsHandler implements ApiErrorsHandlerInterface
                 $this->respCode,
             ], 'Invalid response object from API: {resp-body} (HTTP response code was {resp-code})');
 
-            throw new ApiException($msg, $this->respCode, $this->respBody, $response);
+            throw new Exceptions\ApiException($msg, $this->respCode, $this->respBody, $response);
         }
     }
 

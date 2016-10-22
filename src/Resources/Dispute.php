@@ -97,8 +97,6 @@ class Dispute extends StripeResource implements DisputeInterface
      */
     public function close($options = null)
     {
-        $url = $this->instanceUrl() . '/close';
-
-        return self::scopedPostCall($url, [], $options);
+        return self::scopedPostCall($this->instanceUrl().'/close', [], $options);
     }
 }

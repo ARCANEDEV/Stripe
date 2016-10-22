@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Subscription;
+use Arcanedev\Stripe\Resources\SubscriptionItem;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -47,10 +48,7 @@ class SubscriptionTest extends StripeTestCase
         $this->assertSame(2,         $subscription->quantity);
 
         $subscriptions = $customer->subscriptions->all(['limit' => 3]);
-        $this->assertInstanceOf(
-            'Arcanedev\Stripe\Resources\Subscription',
-            $subscriptions->data[0]
-        );
+        $this->assertInstanceOf(Subscription::class, $subscriptions->data[0]);
 
         $subscription->cancel(['at_period_end' => true]);
         $subscription = $customer->subscriptions->retrieve($subscription->id);
@@ -87,10 +85,7 @@ class SubscriptionTest extends StripeTestCase
 
         $subscriptions = Subscription::all(['customer' => $customer, 'plan' => $plan->id, 'limit' => 3]);
 
-        $this->assertInstanceOf(
-            'Arcanedev\Stripe\Resources\Subscription',
-            $subscriptions->data[0]
-        );
+        $this->assertInstanceOf(Subscription::class, $subscriptions->data[0]);
 
         $subscription->cancel(['at_period_end' => true]);
 
@@ -116,7 +111,7 @@ class SubscriptionTest extends StripeTestCase
 
         $item = $subscription->items->data[0];
 
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $item);
+        $this->assertInstanceOf(SubscriptionItem::class, $item);
         $this->assertSame($item->plan->id, $plan->id);
 
         $subscription = Subscription::update($subscription->id, [
@@ -128,7 +123,7 @@ class SubscriptionTest extends StripeTestCase
         $this->assertSame(count($subscription->items->data), 2);
 
         foreach ($subscription->items as $item) {
-            $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\SubscriptionItem', $item);
+            $this->assertInstanceOf(SubscriptionItem::class, $item);
             $this->assertSame($item->plan->id, $plan->id);
         }
     }
@@ -139,7 +134,7 @@ class SubscriptionTest extends StripeTestCase
         $customer = self::createTestCustomer();
         $plan     = self::retrieveOrCreatePlan();
         self::retrieveOrCreateCoupon(
-            $couponID = '25off-' . self::generateRandomString(20)
+            $couponID = '25off-'.self::generateRandomString(20)
         );
 
         /** @var Subscription $subscription */

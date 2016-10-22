@@ -46,10 +46,7 @@ class HeaderBagTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Http\\Curl\\HeaderBag',
-            $this->headerBag
-        );
+        $this->assertInstanceOf(HeaderBag::class, $this->headerBag);
     }
 
     /** @test */

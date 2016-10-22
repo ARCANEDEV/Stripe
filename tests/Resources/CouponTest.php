@@ -43,7 +43,7 @@ class CouponTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Coupon', $this->coupon);
+        $this->assertInstanceOf(Coupon::class, $this->coupon);
     }
 
     /** @test */
@@ -94,7 +94,7 @@ class CouponTest extends StripeTestCase
         $couponId     = $this->getCouponId();
         $this->coupon = $this->createTestCoupon($couponId);
         $customer     = self::createTestCustomer([
-            'coupon' => $couponId
+            'coupon' => $couponId,
         ]);
 
         $this->assertTrue(isset($customer->discount));
@@ -119,7 +119,7 @@ class CouponTest extends StripeTestCase
      */
     protected function getCouponId()
     {
-        return 'test_coupon-' . self::generateRandomString(20);
+        return 'test_coupon-'.self::generateRandomString(20);
     }
 
     /**

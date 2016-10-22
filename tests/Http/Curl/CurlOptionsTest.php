@@ -59,10 +59,7 @@ class CurlOptionsTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Http\\Curl\\CurlOptions',
-            $this->curlOptions
-        );
+        $this->assertInstanceOf(CurlOptions::class, $this->curlOptions);
         $this->assertEmpty($this->curlOptions->get());
     }
 

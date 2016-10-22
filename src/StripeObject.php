@@ -24,12 +24,6 @@ use JsonSerializable;
 class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constants
-     | ------------------------------------------------------------------------------------------------
-     */
-    const ATTACHED_OBJECT_CLASS       = 'Arcanedev\\Stripe\\AttachedObject';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
@@ -189,9 +183,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     {
         $nullVal = null;
 
-        if (in_array($key, $this->keys())) {
+        if (in_array($key, $this->keys()))
             return $this->values[$key];
-        }
 
         $this->showUndefinedPropertyMsg(get_class($this), $key);
 
@@ -297,7 +290,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     public function __toString()
     {
-        return get_class($this) . ' JSON: ' . $this->toJson();
+        return get_class($this).' JSON: '.$this->toJson();
     }
 
     /**
@@ -333,9 +326,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     public function toJson($options = 0)
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if ($options === 0 && defined('JSON_PRETTY_PRINT'))
             $options = JSON_PRETTY_PRINT;
-        }
 
         return json_encode($this->toArray(true), $options);
     }
@@ -458,7 +450,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     private function constructValue($key, $value, $options)
     {
         return (self::$nestedUpdatableAttributes->includes($key) && is_array($value))
-            ? self::scopedConstructFrom(self::ATTACHED_OBJECT_CLASS, $value, $options)
+            ? self::scopedConstructFrom(AttachedObject::class, $value, $options)
             : Util::convertToStripeObject($value, $options);
     }
 
@@ -471,10 +463,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     protected function lsb($method)
     {
-        $class  = get_class($this);
-        $args   = array_slice(func_get_args(), 1);
-
-        return call_user_func_array([$class, $method], $args);
+        return call_user_func_array(
+            [get_class($this), $method],
+            array_slice(func_get_args(), 1)
+        );
     }
 
     /**
@@ -487,9 +479,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     protected static function scopedLsb($class, $method)
     {
-        $args = array_slice(func_get_args(), 2);
-
-        return call_user_func_array([$class, $method], $args);
+        return call_user_func_array(
+            [$class, $method],
+            array_slice(func_get_args(), 2)
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -505,9 +498,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     private function checkIdIsInArray($array)
     {
-        if ( ! array_key_exists('id', $array)) {
+        if ( ! array_key_exists('id', $array))
             throw new ApiException('The attribute id must be included.');
-        }
     }
 
     /**
@@ -531,13 +523,12 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     private function checkIfAttributeDeletion($key, $value)
     {
         // Don't use empty($value) instead of ($value === '')
-        if ( ! is_null($value) && $value === '') {
+        if ( ! is_null($value) && $value === '')
             throw new InvalidArgumentException(
-                "You cannot set '$key' to an empty string. "
+                "You cannot set '{$key}' to an empty string. "
                 . 'We interpret empty strings as \'null\' in requests. '
-                . "You may set obj->$key = null to delete the property"
+                . "You may set obj->{$key} = null to delete the property"
             );
-        }
     }
 
     /**
@@ -553,11 +544,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
         if (
             $key === 'metadata' &&
             ( ! is_array($value) && ! is_null($value))
-        ) {
+        )
             throw new InvalidArgumentException(
-                'The metadata value must be an array or null, ' . gettype($value) . ' is given'
+                'The metadata value must be an array or null, '.gettype($value).' is given'
             );
-        }
     }
 
     /**
@@ -567,9 +557,8 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     private function checkPermanentAttributes($key)
     {
-        if ( ! self::$permanentAttributes->includes($key)) {
+        if ( ! self::$permanentAttributes->includes($key))
             $this->unsavedValues->add($key);
-        }
     }
 
     /**
@@ -598,11 +587,10 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     private function checkNotFoundAttributesException($notFound)
     {
-        if (count($notFound)) {
+        if (count($notFound))
             throw new InvalidArgumentException(
-                'The attributes [' . implode(', ', $notFound) . '] are not supported.'
+                'The attributes ['.implode(', ', $notFound).'] are not supported.'
             );
-        }
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -663,15 +651,16 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
      */
     private function showUndefinedPropertyMsg($class, $key)
     {
-        $message = "Stripe Notice: Undefined property of $class instance: $key.";
+        $message = "Stripe Notice: Undefined property of {$class} instance: {$key}.";
 
         if ( ! $this->transientValues->isEmpty() && $this->transientValues->includes($key)) {
-            $message .= " HINT: The [$key] attribute was set in the past, however. " .
+            $message .= " HINT: The [{$key}] attribute was set in the past, however. " .
                 'It was then wiped when refreshing the object with the result returned by Stripe\'s API, ' .
-                'probably as a result of a save().' . $this->showUndefinedPropertyMsgAttributes();
+                'probably as a result of a save().'.$this->showUndefinedPropertyMsgAttributes();
         }
 
-        if ( ! is_testing()) error_log($message);
+        if ( ! is_testing())
+            error_log($message);
     }
 
     /**
@@ -682,7 +671,7 @@ class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Ar
     private function showUndefinedPropertyMsgAttributes()
     {
         return count($attributes = $this->keys())
-            ? ' The attributes currently available on this object are: ' . join(', ', $attributes)
+            ? ' The attributes currently available on this object are: '.implode(', ', $attributes)
             : '';
     }
 }

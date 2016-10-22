@@ -1,6 +1,10 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
+use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
+use Arcanedev\Stripe\Resources\Discount;
+use Arcanedev\Stripe\Resources\InvoiceItem;
 use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
@@ -44,10 +48,7 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Customer',
-            $this->customer
-        );
+        $this->assertInstanceOf(Customer::class, $this->customer);
     }
 
     /** @test */
@@ -55,10 +56,7 @@ class CustomerTest extends StripeTestCase
     {
         $customers = Customer::all();
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Collection',
-            $customers
-        );
+        $this->assertInstanceOf(Collection::class, $customers);
     }
 
     /** @test */
@@ -224,10 +222,7 @@ class CustomerTest extends StripeTestCase
         $customer   = self::createTestCustomer();
         $invoices   = $customer->invoices();
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Collection',
-            $invoices
-        );
+        $this->assertInstanceOf(Collection::class, $invoices);
         $this->assertSame('/v1/invoices', $invoices->url);
     }
 
@@ -236,14 +231,11 @@ class CustomerTest extends StripeTestCase
     {
         $customer    = self::createTestCustomer();
         $invoiceItem = $customer->addInvoiceItem([
-            'amount'    => 200,
-            'currency'  => 'usd'
+            'amount'   => 200,
+            'currency' => 'usd',
         ]);
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\InvoiceItem',
-            $invoiceItem
-        );
+        $this->assertInstanceOf(InvoiceItem::class, $invoiceItem);
         $this->assertSame(200, $invoiceItem->amount);
         $this->assertSame('usd', $invoiceItem->currency);
     }
@@ -253,12 +245,12 @@ class CustomerTest extends StripeTestCase
     {
         $customer    = self::createTestCustomer();
         $customer->addInvoiceItem([
-            'amount'    => 200,
-            'currency'  => 'usd'
+            'amount'   => 200,
+            'currency' => 'usd',
         ]);
 
         $invoiceItems = $customer->invoiceItems();
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $invoiceItems);
+        $this->assertInstanceOf(Collection::class, $invoiceItems);
     }
 
     /** @test */
@@ -267,7 +259,7 @@ class CustomerTest extends StripeTestCase
         $customer   = self::createTestCustomer();
 
         $charges    = $customer->charges();
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Collection', $charges);
+        $this->assertInstanceOf(Collection::class, $charges);
     }
 
     /** @test */
@@ -280,10 +272,7 @@ class CustomerTest extends StripeTestCase
 
         $customer = Customer::retrieve($customer->id);
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Collection',
-            $customer->subscriptions
-        );
+        $this->assertInstanceOf(Collection::class, $customer->subscriptions);
         $this->assertSame(1, $customer->subscriptions->count());
     }
 
@@ -296,8 +285,8 @@ class CustomerTest extends StripeTestCase
         ]);
 
         $subscription = $customer->updateSubscription([
-            'plan'      => $plan->id,
-            'quantity'  => 4,
+            'plan'     => $plan->id,
+            'quantity' => 4,
         ]);
 
         $this->assertSame(4, $subscription->quantity);
@@ -312,7 +301,7 @@ class CustomerTest extends StripeTestCase
         ]);
 
         $customer->cancelSubscription([
-            'at_period_end' => true
+            'at_period_end' => true,
         ]);
 
         $this->assertSame($customer->subscription->status, 'active');
@@ -336,14 +325,8 @@ class CustomerTest extends StripeTestCase
 
         $discount = $customer->discount;
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Discount',
-            $discount
-        );
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Coupon',
-            $discount->coupon
-        );
+        $this->assertInstanceOf(Discount::class, $discount);
+        $this->assertInstanceOf(Coupon::class, $discount->coupon);
 
         $this->assertSame($couponId, $discount->coupon->id);
     }
@@ -355,14 +338,11 @@ class CustomerTest extends StripeTestCase
         parent::retrieveOrCreateCoupon($couponId);
 
         $customer = Customer::create([
-            'card'      => self::getValidCardData(),
-            'coupon'    => $couponId,
+            'card'   => self::getValidCardData(),
+            'coupon' => $couponId,
         ]);
 
-        $this->assertInstanceOf(
-            'Arcanedev\\Stripe\\Resources\\Discount',
-            $customer->discount
-        );
+        $this->assertInstanceOf(Discount::class, $customer->discount);
 
         $customer->deleteDiscount();
 
@@ -372,12 +352,10 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_add_card()
     {
-        $token       = $this->createToken();
-        $customer    = $this->createTestCustomer();
+        $token    = $this->createToken();
+        $customer = $this->createTestCustomer();
 
-        $customer->sources->create([
-            'card' => $token->id
-        ]);
+        $customer->sources->create(['card' => $token->id]);
 
         $customer->save();
 

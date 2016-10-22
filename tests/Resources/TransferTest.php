@@ -43,7 +43,7 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\Stripe\\Resources\\Transfer', $this->transfer);
+        $this->assertInstanceOf(Transfer::class, $this->transfer);
     }
 
     /** @test */
@@ -78,7 +78,7 @@ class TransferTest extends StripeTestCase
         $this->transfer = self::createTestTransfer();
         $this->transfer = Transfer::update($this->transfer->id, [
             'metadata' => [
-                'test' => 'foo bar'
+                'test' => 'foo bar',
             ],
         ]);
 
