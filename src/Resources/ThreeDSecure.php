@@ -35,6 +35,19 @@ class ThreeDSecure extends StripeResource implements ThreeDSecureInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Retrieve the 3D Secure object by id.
+     *
+     * @param  string             $id
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::scopedRetrieve($id, $options);
+    }
+
+    /**
      * Create the 3D Secure object.
      *
      * @param  array|null         $params
