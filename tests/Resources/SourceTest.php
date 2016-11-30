@@ -17,21 +17,65 @@ class SourceTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_create_and_retrieve()
+    public function it_can_retrieve()
     {
-        Stripe::setApiKey('sk_test_JieJALRz7rPz7boV17oMma7a');
-
-        $s = Source::create([
-            'type'         => 'bitcoin',
-            'currency'     => 'usd',
-            'amount'       => '100',
-            'owner[email]' => 'gdb@stripe.com',
+        $this->mockRequest('GET', '/v1/sources/src_foo', [], [
+            'id'     => 'src_foo',
+            'object' => 'source',
         ]);
 
-        $this->assertSame('bitcoin', $s->type);
+        $source = Source::retrieve('src_foo');
 
-        $source = Source::retrieve($s->id);
+        $this->assertSame($source->id, 'src_foo');
+    }
 
-        $this->assertSame(100, $source->amount);
+    /** @test */
+    public function it_can_create()
+    {
+        $this->mockRequest('POST', '/v1/sources',
+            [
+                'type'     => 'bitcoin',
+                'amount'   => 1000,
+                'currency' => 'usd',
+                'owner'    => ['email' => 'jenny.rosen@example.com'],
+            ],[
+                'id'     => 'src_foo',
+                'object' => 'source'
+            ]);
+
+        $source = Source::create([
+            'type'     => 'bitcoin',
+            'amount'   => 1000,
+            'currency' => 'usd',
+            'owner'    => ['email' => 'jenny.rosen@example.com'],
+        ]);
+
+        $this->assertSame($source->id, 'src_foo');
+    }
+
+    /** @test */
+    public function it_can_verify()
+    {
+        $response = [
+            'id' => 'src_foo',
+            'object' => 'source',
+            'verification' => ['status' => 'pending'],
+        ];
+
+        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
+
+        $response['verification']['status'] = 'succeeded';
+
+        $this->mockRequest('POST', '/v1/sources/src_foo/verify', ['values' => [32, 45]], $response);
+
+        $source = Source::retrieve('src_foo');
+
+        $this->assertSame($source->verification->status, 'pending');
+
+        $source->verify([
+            'values' => [32, 45],
+        ]);
+
+        $this->assertSame($source->verification->status, 'succeeded');
     }
 }

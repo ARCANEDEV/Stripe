@@ -55,4 +55,20 @@ class Source extends StripeResource implements SourceInterface
     {
         return self::scopedCreate($params, $options);
     }
+
+    /**
+     * Verify the bank account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function verify($params = null, $options = null)
+    {
+        list($response, $opts) = $this->request('post', $this->instanceUrl() . '/verify', $params, $options);
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
 }

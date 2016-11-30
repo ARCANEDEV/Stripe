@@ -76,7 +76,7 @@ abstract class Util implements UtilInterface
         $results = [];
 
         foreach ($values as $k => $v) {
-            // FIXME: this is an encapsulation violation
+            // TODO: Fix the encapsulation violation
             if ($k[0] == '_') continue;
 
             if ($v instanceof StripeObject) {

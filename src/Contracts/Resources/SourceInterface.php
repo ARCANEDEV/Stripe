@@ -41,4 +41,14 @@ interface SourceInterface
      * @return self
      */
     public static function create($params = null, $options = null);
+
+    /**
+     * Verify the bank account.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function verify($params = null, $options = null);
 }
