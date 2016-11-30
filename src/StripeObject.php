@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\ObjectInterface;
+use Arcanedev\Stripe\Contracts\StripeObject as StripObjectContract;
 use Arcanedev\Stripe\Contracts\Utilities\Arrayable;
 use Arcanedev\Stripe\Contracts\Utilities\Jsonable;
 use Arcanedev\Stripe\Exceptions\ApiException;
@@ -21,7 +21,7 @@ use JsonSerializable;
  * @property  string  id
  * @property  string  object
  */
-class StripeObject implements ObjectInterface, ArrayAccess, JsonSerializable, Arrayable, Jsonable
+class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

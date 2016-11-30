@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\TransferReversalInterface;
+use Arcanedev\Stripe\Contracts\Resources\TransferReversal as TransferReversalContract;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
  * @property  string                            transfer
  */
-class TransferReversal extends StripeResource implements TransferReversalInterface
+class TransferReversal extends StripeResource implements TransferReversalContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

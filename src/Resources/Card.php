@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Bases\ExternalAccount;
-use Arcanedev\Stripe\Contracts\Resources\CardInterface;
+use Arcanedev\Stripe\Contracts\Resources\Card as CardContract;
 
 /**
  * Class     Card
@@ -38,7 +38,7 @@ use Arcanedev\Stripe\Contracts\Resources\CardInterface;
  * @property  string                            recipient
  * @property  string|null                       tokenization_method
  */
-class Card extends ExternalAccount implements CardInterface
+class Card extends ExternalAccount implements CardContract
 {
     //
 }

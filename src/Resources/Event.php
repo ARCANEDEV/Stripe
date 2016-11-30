@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\EventInterface;
+use Arcanedev\Stripe\Contracts\Resources\Event as EventContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -21,7 +21,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                          request
  * @property  string                          type
  */
-class Event extends StripeResource implements EventInterface
+class Event extends StripeResource implements EventContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

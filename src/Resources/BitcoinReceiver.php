@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Bases\ExternalAccount;
-use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
+use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiver as BitcoinReceiverContract;
 
 /**
  * Class     BitcoinReceiver
@@ -33,7 +33,7 @@ use Arcanedev\Stripe\Contracts\Resources\BitcoinReceiverInterface;
  * @property  bool                              uncaptured_funds
  * @property  bool                              used_for_payment
  */
-class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverInterface
+class BitcoinReceiver extends ExternalAccount implements BitcoinReceiverContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

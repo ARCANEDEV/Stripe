@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\SubscriptionItemInterface;
+use Arcanedev\Stripe\Contracts\Resources\SubscriptionItem as SubscriptionItemContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -15,7 +15,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  \Arcanedev\Stripe\Resources\Plan  plan
  * @property  int                               quantity
  */
-class SubscriptionItem extends StripeResource implements SubscriptionItemInterface
+class SubscriptionItem extends StripeResource implements SubscriptionItemContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

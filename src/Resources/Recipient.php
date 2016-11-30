@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\RecipientInterface;
+use Arcanedev\Stripe\Contracts\Resources\Recipient as RecipientContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -26,7 +26,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                        name
  * @property  string                                        type            // 'individual' or 'corporation'
  */
-class Recipient extends StripeResource implements RecipientInterface
+class Recipient extends StripeResource implements RecipientContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

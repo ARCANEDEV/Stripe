@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\TransferInterface;
+use Arcanedev\Stripe\Contracts\Resources\Transfer as TransferContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -34,7 +34,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                   status                // 'paid', 'pending', 'in_transit', 'canceled' or 'failed'
  * @property  string                                   type                  //  'card', 'bank_account', or 'stripe_account'
  */
-class Transfer extends StripeResource implements TransferInterface
+class Transfer extends StripeResource implements TransferContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\CouponInterface;
+use Arcanedev\Stripe\Contracts\Resources\Coupon as CouponContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -26,7 +26,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  int                               times_redeemed
  * @property  bool                              valid
  */
-class Coupon extends StripeResource implements CouponInterface
+class Coupon extends StripeResource implements CouponContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

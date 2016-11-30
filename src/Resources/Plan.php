@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\PlanInterface;
+use Arcanedev\Stripe\Contracts\Resources\Plan as PlanContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -23,7 +23,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  int                               trial_period_days
  * @property  string                            statement_descriptor
  */
-class Plan extends StripeResource implements PlanInterface
+class Plan extends StripeResource implements PlanContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

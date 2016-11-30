@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\FileUploadInterface;
+use Arcanedev\Stripe\Contracts\Resources\FileUpload as FileUploadContract;
 use Arcanedev\Stripe\Http\RequestOptions;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Stripe;
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string  type      // [pdf|jpeg|png]
  * @property  string  url
  */
-class FileUpload extends StripeResource implements FileUploadInterface
+class FileUpload extends StripeResource implements FileUploadContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\DisputeInterface;
+use Arcanedev\Stripe\Contracts\Resources\Dispute as DisputeContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                       reason
  * @property  string                                       status
  */
-class Dispute extends StripeResource implements DisputeInterface
+class Dispute extends StripeResource implements DisputeContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

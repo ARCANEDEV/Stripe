@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\BitcoinTransactionInterface;
+use Arcanedev\Stripe\Contracts\Resources\BitcoinTransaction as BitcoinTransactionContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\StripeResource;
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class BitcoinTransaction extends StripeResource implements BitcoinTransactionInterface
+class BitcoinTransaction extends StripeResource implements BitcoinTransactionContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

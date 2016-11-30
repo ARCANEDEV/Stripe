@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\CountrySpecInterface;
+use Arcanedev\Stripe\Contracts\Resources\CountrySpec as CountrySpecContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -17,7 +17,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  array                           supported_payment_methods
  * @property  \Arcanedev\Stripe\StripeObject  verification_fields
  */
-class CountrySpec extends StripeResource implements CountrySpecInterface
+class CountrySpec extends StripeResource implements CountrySpecContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

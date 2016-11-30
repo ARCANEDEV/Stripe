@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\CollectionInterface;
+use Arcanedev\Stripe\Contracts\Collection as CollectionContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Utilities\AutoPagingIterator;
 use Arcanedev\Stripe\Utilities\Util;
@@ -17,7 +17,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property  bool    has_more
  * @property  string  url
  */
-class Collection extends StripeResource implements CollectionInterface
+class Collection extends StripeResource implements CollectionContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

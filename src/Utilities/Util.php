@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
 use Arcanedev\Stripe\Collection;
-use Arcanedev\Stripe\Contracts\Utilities\UtilInterface;
+use Arcanedev\Stripe\Contracts\Utilities\Util as UtilContract;
 use Arcanedev\Stripe\Resources;
 use Arcanedev\Stripe\StripeObject;
 
@@ -11,7 +11,7 @@ use Arcanedev\Stripe\StripeObject;
  * @package  Arcanedev\Stripe\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class Util implements UtilInterface
+abstract class Util implements UtilContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

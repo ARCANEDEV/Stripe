@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\TokenInterface;
+use Arcanedev\Stripe\Contracts\Resources\Token as TokenContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                   type       // 'card' or 'bank_account'
  * @property  bool                                     used
  */
-class Token extends StripeResource implements TokenInterface
+class Token extends StripeResource implements TokenContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

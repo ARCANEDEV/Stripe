@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\OrderInterface;
+use Arcanedev\Stripe\Contracts\Resources\Order as OrderContract;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\Util;
 
@@ -32,7 +32,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property  mixed                                    status_transitions
  * @property  int                                      updated                   // timestamp
  */
-class Order extends StripeResource implements OrderInterface
+class Order extends StripeResource implements OrderContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

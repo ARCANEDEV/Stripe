@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\SourceInterface;
+use Arcanedev\Stripe\Contracts\Resources\Source as SourceContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -11,7 +11,7 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @property  string  type
  */
-class Source extends StripeResource implements SourceInterface
+class Source extends StripeResource implements SourceContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

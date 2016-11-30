@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Bases\ExternalAccount;
-use Arcanedev\Stripe\Contracts\Resources\BankAccountInterface;
+use Arcanedev\Stripe\Contracts\Resources\BankAccount as BankAccountContract;
 
 /**
  * Class     BankAccount
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\Contracts\Resources\BankAccountInterface;
  * @property  string                            routing_number
  * @property  string                            status                // 'new', 'validated', 'verified', or 'errored'
  */
-class BankAccount extends ExternalAccount implements BankAccountInterface
+class BankAccount extends ExternalAccount implements BankAccountContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

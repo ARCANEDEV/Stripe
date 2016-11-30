@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Stripe\Http;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
-use Arcanedev\Stripe\Contracts\Http\RequestorInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HttpClient as HttpClientContract;
+use Arcanedev\Stripe\Contracts\Http\Requestor as RequestorContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
 use Arcanedev\Stripe\Http\Curl\HttpClient;
@@ -17,7 +17,7 @@ use Exception;
  * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Requestor implements RequestorInterface
+class Requestor implements RequestorContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -38,7 +38,7 @@ class Requestor implements RequestorInterface
     private $apiBaseUrl;
 
     /**
-     * @var \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface
+     * @var \Arcanedev\Stripe\Contracts\Http\Curl\HttpClient
      */
     private static $httpClient;
 
@@ -122,7 +122,7 @@ class Requestor implements RequestorInterface
     /**
      * Get the HTTP client.
      *
-     * @return \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface
+     * @return \Arcanedev\Stripe\Contracts\Http\Curl\HttpClient
      */
     private function httpClient()
     {
@@ -137,9 +137,9 @@ class Requestor implements RequestorInterface
     /**
      * Set the HTTP client.
      *
-     * @param  \Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface  $client
+     * @param  \Arcanedev\Stripe\Contracts\Http\Curl\HttpClient $client
      */
-    public static function setHttpClient(HttpClientInterface $client)
+    public static function setHttpClient(HttpClientContract $client)
     {
         self::$httpClient = $client;
     }

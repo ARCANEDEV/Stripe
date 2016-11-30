@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\SslCheckerInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\SslChecker as SslCheckerContract;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
  * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class SslChecker implements SslCheckerInterface
+class SslChecker implements SslCheckerContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

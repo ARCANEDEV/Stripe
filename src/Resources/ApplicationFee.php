@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeInterface;
+use Arcanedev\Stripe\Contracts\Resources\ApplicationFee as ApplicationFeeContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  bool                          refunded
  * @property  \Arcanedev\Stripe\Collection  refunds
  */
-class ApplicationFee extends StripeResource implements ApplicationFeeInterface
+class ApplicationFee extends StripeResource implements ApplicationFeeContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

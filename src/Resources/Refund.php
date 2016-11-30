@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\RefundInterface;
+use Arcanedev\Stripe\Contracts\Resources\Refund as RefundContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -22,7 +22,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                            reason
  * @property  string                            receipt_number
  */
-class Refund extends StripeResource implements RefundInterface
+class Refund extends StripeResource implements RefundContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
