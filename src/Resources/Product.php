@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ProductInterface;
+use Arcanedev\Stripe\Contracts\Resources\Product as ProductContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -28,7 +28,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  int                               updated
  * @property  string                            url
  */
-class Product extends StripeResource implements ProductInterface
+class Product extends StripeResource implements ProductContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

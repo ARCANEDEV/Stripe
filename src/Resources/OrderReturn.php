@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\OrderReturnInterface;
+use Arcanedev\Stripe\Contracts\Resources\OrderReturn as OrderReturnContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                                  order
  * @property  string                                  refund
  */
-class OrderReturn extends StripeResource implements OrderReturnInterface
+class OrderReturn extends StripeResource implements OrderReturnContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

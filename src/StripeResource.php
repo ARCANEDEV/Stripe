@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\StripeResourceInterface;
+use Arcanedev\Stripe\Contracts\StripeResource as StripeResourceContract;
 use Arcanedev\Stripe\Http\RequestOptions;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Utilities\Util;
@@ -12,7 +12,7 @@ use ReflectionClass;
  * @package  Arcanedev\Stripe
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class StripeResource extends StripeObject implements StripeResourceInterface
+abstract class StripeResource extends StripeObject implements StripeResourceContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

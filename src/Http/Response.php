@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http;
 
-use Arcanedev\Stripe\Contracts\Http\ResponseInterface;
+use Arcanedev\Stripe\Contracts\Http\Response as ResponseContract;
 
 /**
  * Class     Response
@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Contracts\Http\ResponseInterface;
  * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Response implements ResponseInterface
+class Response implements ResponseContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

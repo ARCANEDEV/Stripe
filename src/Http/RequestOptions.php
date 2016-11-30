@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http;
 
-use Arcanedev\Stripe\Contracts\Http\RequestOptionsInterface;
+use Arcanedev\Stripe\Contracts\Http\RequestOptions as RequestOptionsContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Exceptions\ApiException;
  * @package  Arcanedev\Stripe\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class RequestOptions implements RequestOptionsInterface
+class RequestOptions implements RequestOptionsContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

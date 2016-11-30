@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HttpClient as HttpClientContract;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Arcanedev\Stripe\Http\Requestor;
@@ -39,7 +39,7 @@ abstract class StripeTestCase extends TestCase
     /** @var string */
     protected $myApiVersion = '';
 
-    /** @var HttpClientInterface|ObjectProphecy */
+    /** @var HttpClientContract|ObjectProphecy */
     protected $mock;
 
     /** @var int */
@@ -100,12 +100,12 @@ abstract class StripeTestCase extends TestCase
     /**
      * Setup mock Request
      *
-     * @return HttpClientInterface|ObjectProphecy
+     * @return HttpClientContract|ObjectProphecy
      */
     protected function setUpMockRequest()
     {
         if ( ! $this->mock) {
-            $this->mock = $this->prophesize(HttpClientInterface::class);
+            $this->mock = $this->prophesize(HttpClientContract::class);
 
             Requestor::setHttpClient($this->mock->reveal());
         }

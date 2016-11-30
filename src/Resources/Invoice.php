@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\InvoiceInterface;
+use Arcanedev\Stripe\Contracts\Resources\Invoice as InvoiceContract;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\Util;
 
@@ -44,7 +44,7 @@ use Arcanedev\Stripe\Utilities\Util;
  * @property  int                                          total
  * @property  int                                          webhooks_delivered_at        // timestamp
  */
-class Invoice extends StripeResource implements InvoiceInterface
+class Invoice extends StripeResource implements InvoiceContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

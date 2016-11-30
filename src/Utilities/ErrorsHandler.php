@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
-use Arcanedev\Stripe\Contracts\Utilities\ApiErrorsHandlerInterface;
+use Arcanedev\Stripe\Contracts\Utilities\ApiErrorsHandler as ApiErrorsHandlerContract;
 use Arcanedev\Stripe\Exceptions;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Exceptions;
  * @package  Arcanedev\Stripe\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class ErrorsHandler implements ApiErrorsHandlerInterface
+class ErrorsHandler implements ApiErrorsHandlerContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

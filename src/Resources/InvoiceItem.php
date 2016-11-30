@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\InvoiceItemInterface;
+use Arcanedev\Stripe\Contracts\Resources\InvoiceItem as InvoiceItemContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -27,7 +27,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  int                               quantity
  * @property  string                            subscription
  */
-class InvoiceItem extends StripeResource implements InvoiceItemInterface
+class InvoiceItem extends StripeResource implements InvoiceItemContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

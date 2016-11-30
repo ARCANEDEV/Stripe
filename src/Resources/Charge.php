@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ChargeInterface;
+use Arcanedev\Stripe\Contracts\Resources\Charge as ChargeContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -42,7 +42,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                               status
  * @property  string                               transfer
  */
-class Charge extends StripeResource implements ChargeInterface
+class Charge extends StripeResource implements ChargeContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

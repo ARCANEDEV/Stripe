@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\SkuInterface;
+use Arcanedev\Stripe\Contracts\Resources\Sku as SkuContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                            product
  * @property  int                               updated             // timestamp
  */
-class Sku extends StripeResource implements SkuInterface
+class Sku extends StripeResource implements SkuContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

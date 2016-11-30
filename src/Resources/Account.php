@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\AccountInterface;
+use Arcanedev\Stripe\Contracts\Resources\Account as AccountContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -37,7 +37,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  bool                              transfers_enabled
  * @property  \Arcanedev\Stripe\AttachedObject  verification
  */
-class Account extends StripeResource implements AccountInterface
+class Account extends StripeResource implements AccountContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

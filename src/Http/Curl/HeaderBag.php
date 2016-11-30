@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\HeaderBagInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HeaderBag as HeaderBagContract;
 use Arcanedev\Stripe\Stripe;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Stripe;
  * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class HeaderBag implements HeaderBagInterface
+class HeaderBag implements HeaderBagContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

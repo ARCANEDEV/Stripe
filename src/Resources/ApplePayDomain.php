@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ApplePayDomainInterface;
+use Arcanedev\Stripe\Contracts\Resources\ApplePayDomain as ApplePayDomainContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\StripeResource;
  * @package  Arcanedev\Stripe\Resources
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class ApplePayDomain extends StripeResource implements ApplePayDomainInterface
+class ApplePayDomain extends StripeResource implements ApplePayDomainContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

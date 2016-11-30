@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeRefundInterface;
+use Arcanedev\Stripe\Contracts\Resources\ApplicationFeeRefund as ApplicationFeeRefundContract;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
@@ -20,7 +20,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                            fee
  * @property  \Arcanedev\Stripe\AttachedObject  metadata
  */
-class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefundInterface
+class ApplicationFeeRefund extends StripeResource implements ApplicationFeeRefundContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

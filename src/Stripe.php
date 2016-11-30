@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\StripeInterface;
+use Arcanedev\Stripe\Contracts\Stripe as StripeContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
 
@@ -10,7 +10,7 @@ use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
  * @package  Arcanedev\Stripe
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class Stripe implements StripeInterface
+abstract class Stripe implements StripeContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

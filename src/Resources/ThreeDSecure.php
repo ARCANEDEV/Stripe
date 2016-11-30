@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\ThreeDSecureInterface;
+use Arcanedev\Stripe\Contracts\Resources\ThreeDSecure as ThreeDSecureContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -12,7 +12,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string  id
  * @property  string  object  // 'three_d_secure'
  */
-class ThreeDSecure extends StripeResource implements ThreeDSecureInterface
+class ThreeDSecure extends StripeResource implements ThreeDSecureContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getter and Setters

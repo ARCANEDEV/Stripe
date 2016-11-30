@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\HttpClientInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\HttpClient as HttpClientContract;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
 
 /**
@@ -9,7 +9,7 @@ use Arcanedev\Stripe\Exceptions\ApiConnectionException;
  * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class HttpClient implements HttpClientInterface
+class HttpClient implements HttpClientContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants

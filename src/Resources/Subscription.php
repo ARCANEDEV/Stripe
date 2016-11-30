@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\SubscriptionInterface;
+use Arcanedev\Stripe\Contracts\Resources\Subscription as SubscriptionContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -30,7 +30,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  int                                   trial_end                // timestamp
  * @property  int                                   trial_start              // timestamp
  */
-class Subscription extends StripeResource implements SubscriptionInterface
+class Subscription extends StripeResource implements SubscriptionContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

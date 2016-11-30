@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Http\Curl;
 
-use Arcanedev\Stripe\Contracts\Http\Curl\CurlOptionsInterface;
+use Arcanedev\Stripe\Contracts\Http\Curl\CurlOptions as CurlOptionsContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\BadMethodCallException;
 use Arcanedev\Stripe\Exceptions\InvalidArgumentException;
@@ -12,7 +12,7 @@ use Arcanedev\Stripe\Stripe;
  * @package  Arcanedev\Stripe\Http\Curl
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class CurlOptions implements CurlOptionsInterface
+class CurlOptions implements CurlOptionsContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

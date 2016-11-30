@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Utilities;
 
-use Arcanedev\Stripe\Contracts\Utilities\UtilSetInterface;
+use Arcanedev\Stripe\Contracts\Utilities\UtilSet as UtilSetContract;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
@@ -11,7 +11,7 @@ use IteratorAggregate;
  * @package  Arcanedev\Stripe\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UtilSet implements UtilSetInterface, IteratorAggregate, Countable
+class UtilSet implements UtilSetContract, IteratorAggregate, Countable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

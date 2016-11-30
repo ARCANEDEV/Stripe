@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\BalanceInterface;
+use Arcanedev\Stripe\Contracts\Resources\Balance as BalanceContract;
 use Arcanedev\Stripe\SingletonResource;
 
 /**
@@ -15,7 +15,7 @@ use Arcanedev\Stripe\SingletonResource;
  * @property  bool    livemode
  * @property  array   pending
  */
-class Balance extends SingletonResource implements BalanceInterface
+class Balance extends SingletonResource implements BalanceContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

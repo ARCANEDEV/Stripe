@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\CustomerInterface;
+use Arcanedev\Stripe\Contracts\Resources\Customer as CustomerContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -27,7 +27,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  \Arcanedev\Stripe\Collection                   subscriptions
  * @property  \Arcanedev\Stripe\Resources\Subscription|null  subscription    // It's for updateSubscription and cancelSubscription
  */
-class Customer extends StripeResource implements CustomerInterface
+class Customer extends StripeResource implements CustomerContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe;
 
-use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
+use Arcanedev\Stripe\Contracts\AttachedObject as AttachedObjectContract;
 
 /**
  * Class     AttachedObject
@@ -8,7 +8,7 @@ use Arcanedev\Stripe\Contracts\AttachedObjectInterface;
  * @package  Arcanedev\Stripe
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class AttachedObject extends StripeObject implements AttachedObjectInterface
+class AttachedObject extends StripeObject implements AttachedObjectContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
-use Arcanedev\Stripe\Contracts\Resources\BalanceTransactionInterface;
+use Arcanedev\Stripe\Contracts\Resources\BalanceTransaction as BalanceTransactionContract;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -25,7 +25,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                        status
  * @property  string                        type
  */
-class BalanceTransaction extends StripeResource implements BalanceTransactionInterface
+class BalanceTransaction extends StripeResource implements BalanceTransactionContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
