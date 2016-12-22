@@ -62,10 +62,11 @@ class CardExceptionTest extends StripeTestCase
             $this->assertSame(
                 [
                     'error' => [
-                        'message' => 'Your card was declined.',
-                        'type'    => 'card_error',
-                        'code'    => 'card_declined',
-                        'charge'  => $actual['error']['charge'],
+                        'message'      => 'Your card was declined.',
+                        'type'         => 'card_error',
+                        'code'         => 'card_declined',
+                        'decline_code' => 'generic_decline',
+                        'charge'       => $actual['error']['charge'],
                     ],
                 ],
                 $actual
