@@ -98,12 +98,14 @@ class SubscriptionTest extends StripeTestCase
     /** @test */
     public function it_can_create_update_list_cancel_with_items()
     {
-        $plan         = self::retrieveOrCreatePlan();
+        $plan         = self::retrieveOrCreatePlan(
+            $planOneID = 'gold-'.self::generateRandomString(20)
+        );
         $customer     = self::createTestCustomer();
         $subscription = Subscription::create([
             'customer' => $customer->id,
             'items'    => [
-                ['plan' => $plan->id],
+                ['plan' => $planOneID],
             ],
         ]);
 
@@ -112,11 +114,15 @@ class SubscriptionTest extends StripeTestCase
         $item = $subscription->items->data[0];
 
         $this->assertInstanceOf(SubscriptionItem::class, $item);
-        $this->assertSame($item->plan->id, $plan->id);
+        $this->assertSame($item->plan->id, $planOneID);
+
+        self::retrieveOrCreatePlan(
+            $planTwoID = 'gold-'.self::generateRandomString(20)
+        );
 
         $subscription = Subscription::update($subscription->id, [
             'items' => [
-                ['plan' => $plan->id],
+                ['plan' => $planTwoID],
             ],
         ]);
 
@@ -124,7 +130,7 @@ class SubscriptionTest extends StripeTestCase
 
         foreach ($subscription->items as $item) {
             $this->assertInstanceOf(SubscriptionItem::class, $item);
-            $this->assertSame($item->plan->id, $plan->id);
+            $this->assertSame($planTwoID, $item->plan->id);
         }
     }
 

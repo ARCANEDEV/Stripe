@@ -19,21 +19,27 @@ class SubscriptionItemTest extends StripeTestCase
     /** @test */
     public function it_can_create_update_retrieve_list_delete()
     {
-        $plan     = self::retrieveOrCreatePlan();
+        self::retrieveOrCreatePlan(
+            $planOneID = 'gold-'.self::generateRandomString(20)
+        );
         $customer = self::createTestCustomer();
 
         $subscription = Subscription::create([
-            'plan'     => $plan->id,
+            'plan'     => $planOneID,
             'customer' => $customer->id,
         ]);
 
+        self::retrieveOrCreatePlan(
+            $planTwoID = 'gold-'.self::generateRandomString(20)
+        );
+
         // Create
         $subItem = SubscriptionItem::create([
-            'plan'         => $plan->id,
+            'plan'         => $planTwoID,
             'subscription' => $subscription->id,
         ]);
 
-        $this->assertSame($subItem->plan->id, $plan->id);
+        $this->assertSame($planTwoID, $subItem->plan->id);
 
         // Save
         $subItem->quantity = 2;
