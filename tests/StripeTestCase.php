@@ -205,11 +205,14 @@ abstract class StripeTestCase extends TestCase
     /**
      * Verify that a plan with a given ID exists, or create a new one if it does not.
      *
+     * @param  string|null  $id
+     *
      * @return \Arcanedev\Stripe\Resources\Plan
      */
-    protected static function retrieveOrCreatePlan()
+    protected static function retrieveOrCreatePlan($id = null)
     {
-        $id = 'gold-' . self::generateRandomString(20);
+        if (is_null($id))
+            $id = 'gold-' . self::generateRandomString(20);
 
         try {
             return Plan::retrieve($id);
