@@ -51,4 +51,24 @@ interface Source
      * @return self
      */
     public function verify($params = null, $options = null);
+
+    /**
+     * Update a source.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = null, $options = null);
+
+    /**
+     * Save a source.
+     *
+     * @param array|string|null $options
+     *
+     * @return self
+     */
+    public function save($options = null);
 }

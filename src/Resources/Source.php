@@ -71,4 +71,30 @@ class Source extends StripeResource implements SourceContract
 
         return $this;
     }
+
+    /**
+     * Update a source.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::scopedUpdate($id, $params, $options);
+    }
+
+    /**
+     * Save a source.
+     *
+     * @param array|string|null $options
+     *
+     * @return self
+     */
+    public function save($options = null)
+    {
+        return $this->scopedSave($options);
+    }
 }
