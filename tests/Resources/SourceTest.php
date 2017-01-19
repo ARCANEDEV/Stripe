@@ -78,4 +78,38 @@ class SourceTest extends StripeTestCase
 
         $this->assertSame($source->verification->status, 'succeeded');
     }
+
+    /** @test */
+    public function it_can_save()
+    {
+        $response = [
+            'id'       => 'src_foo',
+            'object'   => 'source',
+            'metadata' => [],
+        ];
+
+        $this->mockRequest(
+            'GET',
+            '/v1/sources/src_foo',
+            [],
+            $response
+        );
+
+        $response['metadata'] = ['foo' => 'bar'];
+
+        $this->mockRequest(
+            'POST',
+            '/v1/sources/src_foo',
+            [
+                'metadata' => ['foo' => 'bar'],
+            ],
+            $response
+        );
+
+        $source = Source::retrieve('src_foo');
+        $source->metadata['foo'] = 'bar';
+        $source->save();
+
+        $this->assertSame('bar', $source->metadata['foo']);
+    }
 }
