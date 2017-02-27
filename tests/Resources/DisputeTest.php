@@ -39,15 +39,23 @@ class DisputeTest extends StripeTestCase
     {
         $name    = 'Bob';
         $charge  = $this->createDisputedCharge();
-        $dispute = $charge->dispute;
-        $updated = Dispute::update($dispute->id, [
+        $updated = Dispute::update($charge->dispute, [
             'evidence' => [
                 'customer_name' => $name,
             ],
         ]);
 
-        $this->assertSame($dispute->id, $updated->id);
-        $this->assertSame($name,        $updated->evidence['customer_name']);
+        $this->assertSame($charge->dispute, $updated->id);
+        $this->assertSame($name,            $updated->evidence['customer_name']);
+    }
+
+    /** @test */
+    public function it_can_retrieve()
+    {
+        $charge  = $this->createDisputedCharge();
+        $dispute = Dispute::retrieve($charge->dispute);
+
+        $this->assertSame($charge->dispute, $dispute->id);
     }
 
     /** @test */
@@ -55,7 +63,7 @@ class DisputeTest extends StripeTestCase
     {
         $name    = 'Bob';
         $charge  = $this->createDisputedCharge();
-        $dispute = $charge->dispute;
+        $dispute = Dispute::retrieve($charge->dispute);
         $dispute->evidence['customer_name'] = $name;
 
         $saved = $dispute->save();
@@ -68,18 +76,13 @@ class DisputeTest extends StripeTestCase
     public function it_can_close()
     {
         $charge  = $this->createDisputedCharge();
-        $dispute = $charge->dispute->close();
+        $dispute = Dispute::retrieve($charge->dispute);
+
+        $this->assertNotSame('lost', $dispute->status);
+
+        $dispute = $dispute->close();
 
         $this->assertSame('lost', $dispute->status);
-    }
-
-    /** @test */
-    public function it_can_retrieve()
-    {
-        $charge  = $this->createDisputedCharge();
-        $dispute = Dispute::retrieve($charge->dispute->id);
-
-        $this->assertSame($charge->dispute->id, $dispute->id);
     }
 
     /* ------------------------------------------------------------------------------------------------

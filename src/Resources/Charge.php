@@ -22,7 +22,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                               customer
  * @property  string                               description
  * @property  string                               destination
- * @property  \Arcanedev\Stripe\Resources\Dispute  dispute
+ * @property  string|null                          dispute
  * @property  string                               failure_code
  * @property  string                               failure_message
  * @property  array                                fraud_details
