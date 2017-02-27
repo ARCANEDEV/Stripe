@@ -9,7 +9,6 @@ use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\StripeResource;
 use Arcanedev\Stripe\Utilities\ErrorsHandler;
 use CURLFile;
-use Exception;
 
 /**
  * Class     Requestor
@@ -266,19 +265,20 @@ class Requestor implements RequestorContract
      */
     private function interpretResponse($respBody, $respCode, $respHeaders)
     {
-        try {
-            $response = json_decode($respBody, true);
+        $response  = json_decode($respBody, true);
+        $jsonError = json_last_error();
 
-            if (json_last_error() !== JSON_ERROR_NONE) throw new Exception;
-        }
-        catch (Exception $e) {
+        if ($response === null && $jsonError !== JSON_ERROR_NONE) {
             throw new ApiException(
-                "Invalid response body from API: $respBody (HTTP response code was $respCode)",
+                "Invalid response body from API: $respBody ".
+                "(HTTP response code was $respCode, json_last_error() was $jsonError)",
                 500, 'api_error', null, $respBody
             );
         }
 
-        $this->errorsHandler->handle($respBody, $respCode, $respHeaders, $response);
+        if ($respCode < 200 || $respCode >= 300) {
+            $this->errorsHandler->handle($respBody, $respCode, $respHeaders, $response);
+        }
 
         return $response;
     }
