@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Source;
-use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -111,5 +110,67 @@ class SourceTest extends StripeTestCase
         $source->save();
 
         $this->assertSame('bar', $source->metadata['foo']);
+    }
+
+    /** @test */
+    public function it_can_save_owner()
+    {
+        $response = [
+            'id'     => 'src_foo',
+            'object' => 'source',
+            'owner'  => [
+                'name' => null, 'address' => null,
+            ],
+        ];
+
+        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
+
+        $response['owner'] = [
+            'name'    => 'Stripey McStripe',
+            'address' => [
+                'line1'       => 'Test Address',
+                'city'        => 'Test City',
+                'postal_code' => '12345',
+                'state'       => 'Test State',
+                'country'     => 'Test Country',
+            ]
+        ];
+
+        $this->mockRequest(
+            'POST',
+            '/v1/sources/src_foo',
+            [
+                'owner' => [
+                    'name'    => 'Stripey McStripe',
+                    'address' => [
+                        'line1'       => 'Test Address',
+                        'city'        => 'Test City',
+                        'postal_code' => '12345',
+                        'state'       => 'Test State',
+                        'country'     => 'Test Country',
+                    ],
+                ],
+            ],
+            $response
+        );
+
+        $source = Source::retrieve('src_foo');
+
+        $source->owner['name']    = 'Stripey McStripe';
+        $source->owner['address'] = [
+            'line1'       => 'Test Address',
+            'city'        => 'Test City',
+            'postal_code' => '12345',
+            'state'       => 'Test State',
+            'country'     => 'Test Country',
+        ];
+        $source->save();
+
+        $this->assertSame($source->owner['name'],                   'Stripey McStripe');
+        $this->assertSame($source->owner['address']['line1'],       'Test Address');
+        $this->assertSame($source->owner['address']['city'],        'Test City');
+        $this->assertSame($source->owner['address']['postal_code'], '12345');
+        $this->assertSame($source->owner['address']['state'],       'Test State');
+        $this->assertSame($source->owner['address']['country'],     'Test Country');
     }
 }
