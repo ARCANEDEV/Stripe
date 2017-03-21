@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\Source as SourceContract;
+use Arcanedev\Stripe\Exceptions\ApiException;
+use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -96,5 +98,46 @@ class Source extends StripeResource implements SourceContract
     public function save($options = null)
     {
         return $this->scopedSave($options);
+    }
+
+    /**
+     * Delete a source.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return Source
+     *
+     * @throws \Arcanedev\Stripe\Exceptions\ApiException
+     * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
+     */
+    public function delete($params = null, $options = null)
+    {
+        static::checkArguments($params, $options);
+
+        $id = $this['id'];
+        if ( ! $id) {
+            $class = get_class($this);
+
+            throw new InvalidRequestException(
+                "Could not determine which URL to request: {$class} instance has invalid ID: {$id}", null
+            );
+        }
+
+        if ($this['customer']) {
+            $base       = Customer::classUrl();
+            $parentExtn = urlencode(str_utf8($this['customer']));
+            $extn       = urlencode(str_utf8($id));
+
+            list($response, $opts) = $this->request('delete', "{$base}/{$parentExtn}/sources/{$extn}", $params, $options);
+            $this->refreshFrom($response, $opts);
+
+            return $this;
+        }
+
+        throw new ApiException(
+            'Source objects cannot be deleted, they can only be detached from customer objects. '.
+            'This source object does not appear to be currently attached to a customer object.'
+        );
     }
 }

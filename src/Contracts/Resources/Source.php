@@ -71,4 +71,14 @@ interface Source
      * @return self
      */
     public function save($options = null);
+
+    /**
+     * Delete a source.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null);
 }

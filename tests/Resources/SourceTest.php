@@ -173,4 +173,40 @@ class SourceTest extends StripeTestCase
         $this->assertSame($source->owner['address']['state'],       'Test State');
         $this->assertSame($source->owner['address']['country'],     'Test Country');
     }
+
+    /** @test */
+    public function it_can_delete_attached_source()
+    {
+        $response = [
+            'id'       => 'src_foo',
+            'object'   => 'source',
+            'customer' => 'cus_bar',
+        ];
+        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
+
+        unset($response['customer']);
+        $this->mockRequest('DELETE', '/v1/customers/cus_bar/sources/src_foo', [], $response);
+
+        $source = Source::retrieve('src_foo');
+        $source->delete();
+
+        $this->assertFalse(array_key_exists('customer', $source));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
+     */
+    public function it_can_not_delete_unattached()
+    {
+        $response = [
+            'id'     => 'src_foo',
+            'object' => 'source',
+        ];
+        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
+
+        $source = Source::retrieve('src_foo');
+        $source->delete();
+    }
 }
