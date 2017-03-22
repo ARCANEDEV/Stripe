@@ -77,7 +77,14 @@ class HeaderBag implements HeaderBagContract
      */
     private static function getUserAgent()
     {
-        $curlVersion = curl_version();
+        $httplib = 'unknown';
+        $ssllib  = 'unknown';
+
+        if (function_exists('curl_version')) {
+            $curlVersion = curl_version();
+            $httplib     = 'curl '.$curlVersion['version'];
+            $ssllib      = $curlVersion['ssl_version'];
+        }
 
         return [
             'bindings_version' => Stripe::VERSION,
@@ -85,8 +92,8 @@ class HeaderBag implements HeaderBagContract
             'lang_version'     => phpversion(),
             'publisher'        => 'stripe',
             'uname'            => php_uname(),
-            'httplib'          => 'curl ' . $curlVersion['version'],
-            'ssllib'           => $curlVersion['ssl_version'],
+            'httplib'          => $httplib,
+            'ssllib'           => $ssllib,
         ];
     }
 
