@@ -11,17 +11,27 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class TransferTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var \Arcanedev\Stripe\Resources\Transfer */
     private $transfer;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /**
+     * The resource that was traditionally called "transfer" became a "payout" in API version 2017-04-06.
+     * We're testing traditional transfers here, so we force the API version just prior anywhere that we need to.
+     *
+     * @var array
      */
+    protected $options = ['stripe_version' => '2017-02-14'];
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
     public function setUp()
     {
         parent::setUp();
@@ -36,10 +46,11 @@ class TransferTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -58,7 +69,7 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_create()
     {
-        $this->transfer = self::createTestTransfer();
+        $this->transfer = self::createTestTransfer([], $this->options);
 
         $this->assertSame('pending', $this->transfer->status);
     }
@@ -66,66 +77,35 @@ class TransferTest extends StripeTestCase
     /** @test */
     public function it_can_retrieve()
     {
-        $this->transfer = self::createTestTransfer();
-        $retrievedTrans = Transfer::retrieve($this->transfer->id);
+        $transfer = self::createTestTransfer([], $this->options);
+        $reloaded = Transfer::retrieve($transfer->id, $this->options);
 
-        $this->assertSame($this->transfer->id, $retrievedTrans->id);
+        $this->assertSame($reloaded->id, $transfer->id);
     }
 
     /** @test */
-    public function it_can_update()
+    public function it_can_update_metadata()
     {
-        $this->transfer = self::createTestTransfer();
-        $this->transfer = Transfer::update($this->transfer->id, [
-            'metadata' => [
-                'test' => 'foo bar',
-            ],
-        ]);
+        $transfer = self::createTestTransfer([], $this->options);
 
-        $transfer = Transfer::retrieve($this->transfer->id);
+        $transfer->metadata['test'] = 'foo bar';
+        $transfer->save();
 
-        $this->assertSame('foo bar', $transfer->metadata['test']);
-    }
+        $updatedTransfer = Transfer::retrieve($transfer->id, $this->options);
 
-    /** @test */
-    public function it_can_save()
-    {
-        $this->transfer = self::createTestTransfer();
-        $this->transfer->metadata['test'] = 'foo bar';
-        $this->transfer->save();
-
-        $transfer = Transfer::retrieve($this->transfer->id);
-
-        $this->assertSame('foo bar', $transfer->metadata['test']);
+        $this->assertSame('foo bar', $updatedTransfer->metadata['test']);
     }
 
     /** @test */
     public function it_can_update_all_metadata()
     {
-        $this->transfer = self::createTestTransfer();
-        $this->transfer->metadata = ['test' => 'foo bar'];
-        $this->transfer->save();
+        $transfer = self::createTestTransfer([], $this->options);
 
-        $transfer = Transfer::retrieve($this->transfer->id);
-        $this->assertSame('foo bar', $transfer->metadata['test']);
-    }
+        $transfer->metadata = ['test' => 'foo bar'];
+        $transfer->save();
 
-    /** @test */
-    public function it_can_cancel()
-    {
-        $this->transfer = self::createTestTransfer();
-        $retrievedTrans = Transfer::retrieve($this->transfer->id);
+        $updatedTransfer = Transfer::retrieve($transfer->id, $this->options);
 
-        $this->assertSame($this->transfer->id, $retrievedTrans->id);
-
-        if ($retrievedTrans->status !== 'paid') {
-            $retrievedTrans->cancel();
-        }
-    }
-
-    /** @test */
-    public function it_can_reverse()
-    {
-        // TODO: Add the Transfer reverse test
+        $this->assertSame('foo bar', $updatedTransfer->metadata['test']);
     }
 }
