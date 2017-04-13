@@ -110,7 +110,7 @@ class RequestorTest extends StripeTestCase
      *
      * @expectedException         \Arcanedev\Stripe\Exceptions\ApiException
      * @expectedExceptionCode     500
-     * @expectedExceptionMessage  Invalid response body from API: {bad: data} (HTTP response code was 200)
+     * @expectedExceptionMessage  Invalid response body from API: {bad: data} (HTTP response code was 200, json_last_error() was 4)
      */
     public function it_must_throw_api_exception_on_invalid_response()
     {

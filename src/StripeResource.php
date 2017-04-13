@@ -365,7 +365,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      * @throws \Arcanedev\Stripe\Exceptions\BadMethodCallException
      * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
-    private static function checkArguments($params = [], $options = null)
+    protected static function checkArguments($params = [], $options = null)
     {
         self::checkParameters($params);
         self::checkOptions($options);
