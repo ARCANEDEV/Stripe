@@ -48,7 +48,7 @@ class PayoutTest extends StripeTestCase
     public function it_can_update_metadata()
     {
         $account = self::createAccountWithBalance();
-        $payout  =  self::createPayoutFromManagedAccount($account->id);
+        $payout  = self::createPayoutFromManagedAccount($account->id);
 
         $payout->metadata['test'] = 'foo bar';
         $payout->save();
@@ -62,7 +62,7 @@ class PayoutTest extends StripeTestCase
     public function it_can_update_all_metadata()
     {
         $account = self::createAccountWithBalance();
-        $payout  =  self::createPayoutFromManagedAccount($account->id);
+        $payout  = self::createPayoutFromManagedAccount($account->id);
 
         $payout->metadata = ['test' => 'foo bar'];
         $payout->save();
@@ -84,7 +84,7 @@ class PayoutTest extends StripeTestCase
     private function createAccountWithBalance()
     {
         if ($this->managedAccount === null) {
-            $account = self::createTestManagedAccount();
+            $this->managedAccount = self::createTestManagedAccount();
 
             Charge::create([
                 'currency'    => 'usd',
@@ -96,11 +96,9 @@ class PayoutTest extends StripeTestCase
                     'exp_year' => date('Y') + 3,
                 ],
                 'destination' => [
-                    'account' => $account->id
+                    'account' => $this->managedAccount->id
                 ],
             ]);
-
-            $this->managedAccount = $account;
         }
 
         return $this->managedAccount;

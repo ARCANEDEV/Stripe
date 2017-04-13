@@ -40,13 +40,13 @@ class Payout extends StripeResource implements PayoutContract
      * Retrieve a payout.
      *
      * @param  string             $id
-     * @param  array|string|null  $opts
+     * @param  array|string|null  $options
      *
      * @return self
      */
-    public static function retrieve($id, $opts = null)
+    public static function retrieve($id, $options = null)
     {
-        return self::scopedRetrieve($id, $opts);
+        return self::scopedRetrieve($id, $options);
     }
 
     /**

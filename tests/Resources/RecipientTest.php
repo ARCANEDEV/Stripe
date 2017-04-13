@@ -223,14 +223,14 @@ class RecipientTest extends StripeTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_list_all_recipient_transfers()
-    {
-        $this->recipient = self::createTestRecipient();
-        $transfers       = $this->recipient->transfers();
-
-        $this->assertTrue($transfers->isList());
-        $this->assertSame('/v1/transfers', $transfers->url);
-    }
+//    public function it_can_list_all_recipient_transfers()
+//    {
+//        $this->recipient = self::createTestRecipient();
+//        $transfers       = $this->recipient->transfers();
+//
+//        $this->assertTrue($transfers->isList());
+//        $this->assertSame('/v1/transfers', $transfers->url);
+//    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
