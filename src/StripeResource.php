@@ -46,8 +46,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     public function refresh()
     {
         list($response, $this->opts->apiKey) = Requestor::make($this->opts->apiKey, self::baseUrl())
-            ->get($this->instanceUrl(), $this->retrieveParameters);
-
+            ->get($this->instanceUrl(), $this->retrieveParameters, $this->opts->headers);
 
         /** @var \Arcanedev\Stripe\Http\Response $response */
         $this->setLastResponse($response);

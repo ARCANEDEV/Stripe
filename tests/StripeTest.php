@@ -141,8 +141,8 @@ class StripeTest extends StripeTestCase
     /** @test */
     public function it_can_get_and_set_api_version()
     {
-        $this->assertFalse(Stripe::hasApiVersion());
-        $this->assertNull(Stripe::getApiVersion());
+        $this->assertTrue(Stripe::hasApiVersion());
+        $this->assertSame('2017-04-06', Stripe::getApiVersion());
 
         Stripe::setApiVersion($this->myApiVersion);
 

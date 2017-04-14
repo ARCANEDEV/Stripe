@@ -10,14 +10,28 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class TransferReversalTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
      */
+
+    /**
+     * The resource that was traditionally called "transfer" became a "payout" in API version 2017-04-06.
+     * We're testing traditional transfers here, so we force the API version just prior anywhere that we need to.
+     *
+     * @var array
+     */
+    protected $options = ['stripe_version' => '2017-02-14'];
+
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
+     */
+
     /** @test */
     public function it_can_get_all()
     {
-        $transfer = self::createTestTransfer();
+        $transfer = self::createTestTransfer([], $this->options);
         $all      = $transfer->reversals->all();
 
         $this->assertFalse($all['has_more']);

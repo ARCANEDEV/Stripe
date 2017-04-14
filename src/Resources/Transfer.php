@@ -10,29 +10,21 @@ use Arcanedev\Stripe\StripeResource;
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  * @link     https://stripe.com/docs/api/php#transfer_object
  *
- * @property  string                                   id
- * @property  string                                   object                // 'transfer'
- * @property  int                                      amount
- * @property  int                                      amount_reversed
- * @property  string                                   application_fee
- * @property  string                                   balance_transaction
- * @property  int                                      created               // timestamp
- * @property  string                                   currency
- * @property  int                                      date                  // timestamp
- * @property  string                                   description
- * @property  string                                   destination
- * @property  string                                   destination_payment
- * @property  string                                   failure_code
- * @property  string                                   failure_message
- * @property  bool                                     livemode
- * @property  \Arcanedev\Stripe\AttachedObject         metadata
- * @property  \Arcanedev\Stripe\Collection             reversals
- * @property  bool                                     reversed
- * @property  string                                   source_transaction
- * @property  string                                   source_type           // 'card', 'bank_account', 'bitcoin_receiver', or 'alipay_account'
- * @property  string                                   statement_descriptor
- * @property  string                                   status                // 'paid', 'pending', 'in_transit', 'canceled' or 'failed'
- * @property  string                                   type                  //  'card', 'bank_account', or 'stripe_account'
+ * @property  string                            id
+ * @property  string                            object                // 'transfer'
+ * @property  int                               amount
+ * @property  int                               amount_reversed
+ * @property  string                            balance_transaction
+ * @property  int                               created               // timestamp
+ * @property  string                            currency
+ * @property  int                               date                  // timestamp
+ * @property  string                            destination
+ * @property  string                            destination_payment
+ * @property  bool                              livemode
+ * @property  \Arcanedev\Stripe\AttachedObject  metadata
+ * @property  \Arcanedev\Stripe\Collection      reversals
+ * @property  bool                              reversed
+ * @property  string                            source_transaction
  */
 class Transfer extends StripeResource implements TransferContract
 {

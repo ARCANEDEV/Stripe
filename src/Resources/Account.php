@@ -26,6 +26,9 @@ use Arcanedev\Stripe\StripeResource;
  * @property  \Arcanedev\Stripe\Collection      external_accounts        // managed accounts only
  * @property  \Arcanedev\Stripe\AttachedObject  legal_entity             // managed accounts only
  * @property  bool                              managed
+ * @property  mixed                             payout_schedule
+ * @property  mixed                             payout_statement_descriptor
+ * @property  bool                              payouts_enabled
  * @property  string|null                       product_description      // managed accounts only
  * @property  string|null                       statement_descriptor
  * @property  string|null                       support_email
