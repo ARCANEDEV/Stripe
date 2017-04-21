@@ -3,6 +3,7 @@
 use Arcanedev\Stripe\Contracts\Stripe as StripeContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\ApiKeyNotSetException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class     Stripe
@@ -75,6 +76,13 @@ abstract class Stripe implements StripeContract
      * @var array
      */
     public static $appInfo = [];
+
+    /**
+     * The logger instance.
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    public static $logger = null;
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -238,6 +246,29 @@ abstract class Stripe implements StripeContract
     public static function setAppInfo($name, $version = null, $url = null)
     {
         self::$appInfo = compact('name', 'version', 'url');
+    }
+
+    /**
+     * Get the logger instance.
+     *
+     * @return \Psr\Log\LoggerInterface
+     */
+    public static function getLogger()
+    {
+        if (is_null(self::$logger))
+            return new Utilities\DefaultLogger;
+
+        return self::$logger;
+    }
+
+    /**
+     * Set the logger instance.
+     *
+     * @param  \Psr\Log\LoggerInterface  $logger
+     */
+    public static function setLogger(LoggerInterface $logger)
+    {
+        self::$logger = $logger;
     }
 
     /* ------------------------------------------------------------------------------------------------
