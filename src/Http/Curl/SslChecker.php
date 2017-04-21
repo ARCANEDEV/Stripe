@@ -241,9 +241,8 @@ class SslChecker implements SslCheckerContract
     {
         if ( ! is_testing())
             error_log(
-                'Warning: ' . (is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP') .
-                ' does not support checking SSL certificates Stripe cannot guarantee that the server has a ' .
-                'certificate which is not blacklisted.'
+                'Warning: This version of PHP does not support checking SSL certificates Stripe '.
+                'cannot guarantee that the server has a certificate which is not blacklisted.'
             );
 
         return true;

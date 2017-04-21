@@ -16,18 +16,6 @@ if ( ! function_exists('is_testing')) {
     }
 }
 
-if ( ! function_exists('is_hhvm')) {
-    /**
-     * Check if running on HHVM env.
-     *
-     * @return bool
-     */
-    function is_hhvm()
-    {
-        return defined('HHVM_VERSION');
-    }
-}
-
 /* ------------------------------------------------------------------------------------------------
  |  STRINGS
  | ------------------------------------------------------------------------------------------------
