@@ -2,6 +2,7 @@
 
 use Arcanedev\Stripe\Contracts\Http\Curl\SslChecker as SslCheckerContract;
 use Arcanedev\Stripe\Exceptions\ApiConnectionException;
+use Arcanedev\Stripe\Stripe;
 
 /**
  * Class     SslChecker
@@ -240,10 +241,9 @@ class SslChecker implements SslCheckerContract
     private function showStreamExtensionWarning()
     {
         if ( ! is_testing())
-            error_log(
-                'Warning: ' . (is_hhvm() ? 'The HHVM (HipHop VM)' : 'This version of PHP') .
-                ' does not support checking SSL certificates Stripe cannot guarantee that the server has a ' .
-                'certificate which is not blacklisted.'
+            Stripe::getLogger()->error(
+                'Warning: This version of PHP does not support checking SSL certificates Stripe '.
+                'cannot guarantee that the server has a certificate which is not blacklisted.'
             );
 
         return true;

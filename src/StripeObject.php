@@ -661,7 +661,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
         }
 
         if ( ! is_testing())
-            error_log($message);
+            Stripe::getLogger()->error($message);
     }
 
     /**
