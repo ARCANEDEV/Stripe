@@ -13,10 +13,11 @@ use Arcanedev\Stripe\StripeObject;
  */
 abstract class Util implements UtilContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Available Resources.
      *
@@ -62,10 +63,13 @@ abstract class Util implements UtilContract
         'transfer_reversal'   => Resources\TransferReversal::class,
     ];
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    private static $isHashEqualsAvailable = null;
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Recursively converts the PHP Stripe object to an array.
      *
@@ -135,10 +139,43 @@ abstract class Util implements UtilContract
             : StripeObject::class;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /**
+     * Compares two strings for equality. The time taken is independent of the
+     * number of characters that match.
+     *
+     * @param  string  $one
+     * @param  string  $two
+     *
+     * @return bool
      */
+    public static function secureCompare($one, $two)
+    {
+        if (self::$isHashEqualsAvailable === null) {
+            self::$isHashEqualsAvailable = function_exists('hash_equals');
+        }
+
+        if (self::$isHashEqualsAvailable) {
+            return hash_equals($one, $two);
+        }
+
+        if (strlen($one) != strlen($two)) {
+            return false;
+        }
+
+        $result = 0;
+
+        for ($i = 0; $i < strlen($one); $i++) {
+            $result |= ord($one[$i]) ^ ord($two[$i]);
+        }
+
+        return ($result == 0);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
