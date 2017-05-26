@@ -44,6 +44,7 @@ abstract class Util implements UtilContract
         'invoice'             => Resources\Invoice::class,
         'invoiceitem'         => Resources\InvoiceItem::class,
         'list'                => Collection::class,                      // List Object
+        'login_link'          => Resources\LoginLink::class,
         'order'               => Resources\Order::class,
         'order_item'          => Resources\OrderItem::class,
         'order_return'        => Resources\OrderReturn::class,

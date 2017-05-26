@@ -11,17 +11,19 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class AccountTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Account */
+
+    /** @var \Arcanedev\Stripe\Resources\Account */
     private $account;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function tearDown()
     {
         parent::tearDown();
@@ -29,10 +31,11 @@ class AccountTest extends StripeTestCase
         unset($this->account);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_retrieve()
     {
@@ -313,10 +316,39 @@ class AccountTest extends StripeTestCase
         $this->assertSame($rejected->id, $account->id);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /** @test */
+    public function it_can_create_login_link_object()
+    {
+        $accountId = 'acct_EXPRESS';
+
+        $this->mockRequest('GET', "/v1/accounts/$accountId", [], [
+            'id'          => $accountId,
+            'object'      => 'account',
+            'login_links' => [
+                'object'   => 'list',
+                'data'     => [],
+                'has_more' => false,
+                'url'      =>  "/v1/accounts/$accountId/login_links"
+            ]
+        ]);
+        $this->mockRequest('POST', "/v1/accounts/$accountId/login_links", [], [
+            'object'  => 'login_link',
+            'created' => 1493820886,
+            'url'     => "https://connect.stripe.com/$accountId/AAAAAAAA"
+        ]);
+
+        $account   = Account::retrieve($accountId);
+        $loginLink = $account->login_links->create();
+
+        $this->assertSame('login_link', $loginLink->object);
+        $this->assertInstanceOf(\Arcanedev\Stripe\Resources\LoginLink::class, $loginLink);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get an account response
      *
