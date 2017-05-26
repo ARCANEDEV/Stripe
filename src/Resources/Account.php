@@ -25,6 +25,7 @@ use Arcanedev\Stripe\StripeResource;
  * @property  string                            email
  * @property  \Arcanedev\Stripe\Collection      external_accounts        // managed accounts only
  * @property  \Arcanedev\Stripe\AttachedObject  legal_entity             // managed accounts only
+ * @property  \Arcanedev\Stripe\Collection      login_links
  * @property  bool                              managed
  * @property  mixed                             payout_schedule
  * @property  mixed                             payout_statement_descriptor
