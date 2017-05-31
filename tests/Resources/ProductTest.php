@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Collection;
+use Arcanedev\Stripe\Resources\Order;
 use Arcanedev\Stripe\Resources\Product;
 use Arcanedev\Stripe\Resources\Sku;
 use Arcanedev\Stripe\Tests\StripeTestCase;
@@ -13,17 +14,19 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class ProductTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var string  */
     protected $productId = '';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -38,10 +41,11 @@ class ProductTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_retrieve()
     {
@@ -146,18 +150,18 @@ class ProductTest extends StripeTestCase
     /** @test */
     public function it_can_delete_sku_and_product()
     {
-        $productId = 'silver-' . self::generateRandomString(20);
+        $productId = 'silver-'.self::generateRandomString(20);
         $product   = Product::create([
             'name' => 'Silver Product',
             'id'   => $productId,
             'url'  => 'stripe.com/silver',
         ]);
 
-        $SkuID = 'silver-sku-' . self::generateRandomString(20);
+        $skuID = 'silver-sku-'.self::generateRandomString(20);
         $sku   = Sku::create([
             'price'     => 500,
             'currency'  => 'usd',
-            'id'        => $SkuID,
+            'id'        => $skuID,
             'inventory' => [
                 'type'     => 'finite',
                 'quantity' => 40,
@@ -174,10 +178,61 @@ class ProductTest extends StripeTestCase
         $this->assertTrue($deletedProduct->deleted);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /** @test */
+    public function it_can_create_update_retrieve_pay_and_return()
+    {
+        $productId = 'silver-'.self::generateRandomString(20);
+        Product::create([
+            'name'      => 'Silver Product',
+            'id'        => $productId,
+            'url'       => 'www.stripe.com/silver',
+            'shippable' => false,
+        ]);
+
+        $skuID = 'silver-sku-'.self::generateRandomString(20);
+        SKU::create([
+            'price'     => 500,
+            'currency'  => 'usd',
+            'id'        => $skuID,
+            'inventory' => [
+                'type'     => 'finite',
+                'quantity' => 40
+            ],
+            'product'   => $productId
+        ]);
+
+        $order = Order::create([
+            'items'    => [
+                [
+                    'type'   => 'sku',
+                    'parent' => $skuID,
+                ],
+            ],
+            'currency' => 'usd',
+            'email'    => 'foo@bar.com',
+        ]);
+
+        $order->metadata->foo = 'bar';
+        $order->save();
+
+        $stripeOrder = Order::retrieve($order->id);
+
+        $this->assertSame('bar', $stripeOrder->metadata->foo);
+
+        $stripeOrder->pay(['source' => 'tok_visa']);
+
+        $this->assertSame('paid', $stripeOrder->status);
+
+        $orderReturn = $stripeOrder->returnOrder();
+
+        $this->assertSame($orderReturn->order, $stripeOrder->id);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a product for tests.
      *

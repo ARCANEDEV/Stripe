@@ -12,10 +12,11 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class DisputeTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_generate_urls()
     {
@@ -85,10 +86,11 @@ class DisputeTest extends StripeTestCase
         $this->assertSame('lost', $dispute->status);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a disputed charge
      *
@@ -99,13 +101,9 @@ class DisputeTest extends StripeTestCase
     private function createDisputedCharge()
     {
         $charge = Charge::create([
-            'amount'    => 100,
-            'currency'  => 'usd',
-            'card'      => [
-                'number'    => '4000000000000259',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 1,
-            ]
+            'amount'   => 100,
+            'currency' => 'usd',
+            'source'   => 'tok_createDispute',
         ]);
 
         $charge   = Charge::retrieve($charge->id);

@@ -14,20 +14,22 @@ use ReflectionClass;
  */
 abstract class StripeResource extends StripeObject implements StripeResourceContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var array */
     private static $persistedHeaders = [
         'Stripe-Account' => true,
         'Stripe-Version' => true,
     ];
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the base url.
      *
@@ -82,9 +84,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
         if (empty($class))
             $class = get_called_class();
 
-        $class = new ReflectionClass($class);
-
-        return $class->getShortName();
+        return (new ReflectionClass($class))->getShortName();
     }
 
     /**
@@ -185,10 +185,11 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
         return [$response, $opts];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  CRUD Scope Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  CRUD Scope Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Retrieve scope.
      *
@@ -199,7 +200,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      */
     protected static function scopedRetrieve($id, $options = null)
     {
-        $class    = get_called_class();
+        $class = get_called_class();
 
         /** @var self $resource */
         $resource = new $class($id, RequestOptions::parse($options));
@@ -325,10 +326,11 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Custom Scope Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Custom Scope Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Custom Post Call.
      *
@@ -350,19 +352,16 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Check Arguments.
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
-     *
-     * @throws \Arcanedev\Stripe\Exceptions\ApiException
-     * @throws \Arcanedev\Stripe\Exceptions\BadMethodCallException
-     * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
     protected static function checkArguments($params = [], $options = null)
     {
@@ -381,11 +380,10 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         if ($params && ! is_array($params)) {
             throw new Exceptions\InvalidArgumentException(
-                'You must pass an array as the first argument to Stripe API method calls.  '
-                . '(HINT: an example call to create a charge would be: '
-                . 'StripeCharge::create([\'amount\' => 100, \'currency\' => \'usd\', '
-                . '\'card\' => [\'number\' => 4242424242424242, \'exp_month\' => 5, '
-                . '\'exp_year\' => 2015]]))');
+                'You must pass an array as the first argument to Stripe API method calls.  '.
+                '(HINT: an example call to create a charge would be: '.
+                "StripeCharge::create(['amount' => 100, 'currency' => 'usd', 'source' => 'tok_1234']))"
+            );
         }
     }
 

@@ -12,20 +12,22 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class ChargeTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Charge */
+
+    /** @var \Arcanedev\Stripe\Resources\Charge */
     private $charge;
 
     /** @var array */
     private $chargeData = [];
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -34,7 +36,7 @@ class ChargeTest extends StripeTestCase
         $this->chargeData = [
             'amount'    => 100,
             'currency'  => 'usd',
-            'card'      => static::getValidCardData(),
+            'card'      => 'tok_visa',
         ];
     }
 
@@ -46,10 +48,11 @@ class ChargeTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -93,16 +96,15 @@ class ChargeTest extends StripeTestCase
      */
     public function it_must_throw_card_error_on_declined_card()
     {
-        $declinedCard = [
-            'number'    => '4000000000000002',
-            'exp_month' => '3',
-            'exp_year'  => '2020',
-        ];
-
         Charge::create([
             'amount'    => 100,
             'currency'  => 'usd',
-            'card'      => $declinedCard,
+            'card'      => [
+                // Declined card
+                'number'    => '4000000000000002',
+                'exp_month' => '3',
+                'exp_year'  => '2020',
+            ],
         ]);
     }
 
@@ -163,7 +165,7 @@ class ChargeTest extends StripeTestCase
         $this->charge = Charge::create([
             'amount'    => 100,
             'currency'  => 'usd',
-            'card'      => self::getValidCardData(),
+            'card'      => 'tok_visa',
             'capture'   => false,
         ]);
 
@@ -218,10 +220,11 @@ class ChargeTest extends StripeTestCase
         // TODO: Complete testCanCloseDispute() implementation
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Metadata Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Metadata Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_update_one_metadata()
     {

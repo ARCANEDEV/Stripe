@@ -12,10 +12,11 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class CardExceptionTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_get_code()
     {
@@ -48,11 +49,7 @@ class CardExceptionTest extends StripeTestCase
             Charge::create([
                 'amount'   => 100,
                 'currency' => 'usd',
-                'card'     => [
-                    'number' => '4000000000000002',
-                    'exp_month' => '3',
-                    'exp_year' => '2020',
-                ]
+                'source'   => 'tok_chargeDeclined',
             ]);
         }
         catch (CardException $e) {
