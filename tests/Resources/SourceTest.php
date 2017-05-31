@@ -11,10 +11,11 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class SourceTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_retrieve()
     {
@@ -56,8 +57,8 @@ class SourceTest extends StripeTestCase
     public function it_can_verify()
     {
         $response = [
-            'id' => 'src_foo',
-            'object' => 'source',
+            'id'           => 'src_foo',
+            'object'       => 'source',
             'verification' => ['status' => 'pending'],
         ];
 

@@ -2,7 +2,6 @@
 
 use Arcanedev\Stripe\Collection;
 use Arcanedev\Stripe\Resources\Recipient;
-use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -13,17 +12,19 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class RecipientTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var \Arcanedev\Stripe\Resources\Recipient */
     private $recipient;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -38,10 +39,11 @@ class RecipientTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Test Methods
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -146,18 +148,16 @@ class RecipientTest extends StripeTestCase
         $this->assertSame('foo bar', $updatedRecipient->metadata['test']);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Cards Tests
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_add_card_to_recipient()
     {
-        $token     = $this->createTestToken();
         $recipient = $this->createTestRecipient();
-        $recipient->cards->create([
-            'card' => $token->id
-        ]);
+        $recipient->cards->create(['card' => 'tok_visa_debit']);
         $recipient->save();
 
         $updatedRecipient   = Recipient::retrieve($recipient->id);
@@ -170,11 +170,8 @@ class RecipientTest extends StripeTestCase
     /** @test */
     public function it_can_update_recipient_card()
     {
-        $token     = $this->createTestToken();
         $recipient = $this->createTestRecipient();
-        $recipient->cards->create([
-            'card' => $token->id
-        ]);
+        $recipient->cards->create(['card' => 'tok_visa_debit']);
         $recipient->save();
 
         $createdCards = $recipient->cards->all();
@@ -195,9 +192,8 @@ class RecipientTest extends StripeTestCase
     /** @test */
     public function it_can_delete_recipient_card()
     {
-        $token       = $this->createTestToken();
         $recipient   = $this->createTestRecipient();
-        $createdCard = $recipient->cards->create(['card' => $token->id]);
+        $createdCard = $recipient->cards->create(['card' => 'tok_visa_debit']);
 
         $recipient->save();
 
@@ -216,40 +212,5 @@ class RecipientTest extends StripeTestCase
         $postDeleteCards     = $postDeleteRecipient->cards->all();
 
         $this->assertCount(0, $postDeleteCards['data']);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Transfer Tests
-     | ------------------------------------------------------------------------------------------------
-     */
-    /** @test */
-//    public function it_can_list_all_recipient_transfers()
-//    {
-//        $this->recipient = self::createTestRecipient();
-//        $transfers       = $this->recipient->transfers();
-//
-//        $this->assertTrue($transfers->isList());
-//        $this->assertSame('/v1/transfers', $transfers->url);
-//    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Create token.
-     *
-     * @return \Arcanedev\Stripe\Resources\Token|array
-     */
-    private function createTestToken()
-    {
-        return Token::create([
-            'card' => [
-                'number'    => '4000056655665556',
-                'exp_month' => 5,
-                'exp_year'  => date('Y') + 3,
-                'cvc'       => '314',
-            ],
-        ]);
     }
 }

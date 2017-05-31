@@ -89,12 +89,7 @@ class PayoutTest extends StripeTestCase
             Charge::create([
                 'currency'    => 'usd',
                 'amount'      => '10000',
-                'source'      => [
-                    'object' => 'card',
-                    'number' => '4000000000000077',
-                    'exp_month' => '09',
-                    'exp_year' => date('Y') + 3,
-                ],
+                'source'      => 'tok_bypassPending',
                 'destination' => [
                     'account' => $this->managedAccount->id
                 ],

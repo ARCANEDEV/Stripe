@@ -5,7 +5,6 @@ use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
 use Arcanedev\Stripe\Resources\Discount;
 use Arcanedev\Stripe\Resources\InvoiceItem;
-use Arcanedev\Stripe\Resources\Token;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -16,17 +15,19 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class CustomerTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Customer */
+
+    /** @var  \Arcanedev\Stripe\Resources\Customer */
     private $customer;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -41,10 +42,11 @@ class CustomerTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -256,9 +258,9 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_list_all_charges()
     {
-        $customer   = self::createTestCustomer();
+        $customer = self::createTestCustomer();
 
-        $charges    = $customer->charges();
+        $charges  = $customer->charges();
         $this->assertInstanceOf(Collection::class, $charges);
     }
 
@@ -281,7 +283,7 @@ class CustomerTest extends StripeTestCase
     {
         $plan     = self::retrieveOrCreatePlan();
         $customer = self::createTestCustomer([
-            'plan'  => $plan->id,
+            'plan' => $plan->id,
         ]);
 
         $subscription = $customer->updateSubscription([
@@ -315,12 +317,11 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_create_discount()
     {
-        $couponId = '25OFF';
-        parent::retrieveOrCreateCoupon($couponId);
+        parent::retrieveOrCreateCoupon($couponId = '25OFF');
 
         $customer = Customer::create([
-            'card'      => self::getValidCardData(),
-            'coupon'    => $couponId,
+            'card'   => self::getValidCardData(),
+            'coupon' => $couponId,
         ]);
 
         $discount = $customer->discount;
@@ -334,8 +335,7 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_delete_discount()
     {
-        $couponId = '25OFF';
-        parent::retrieveOrCreateCoupon($couponId);
+        parent::retrieveOrCreateCoupon($couponId = '25OFF');
 
         $customer = Customer::create([
             'card'   => self::getValidCardData(),
@@ -352,10 +352,9 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_add_card()
     {
-        $token    = $this->createToken();
         $customer = $this->createTestCustomer();
 
-        $customer->sources->create(['card' => $token->id]);
+        $customer->sources->create(['card' => 'tok_visa']);
 
         $customer->save();
 
@@ -373,7 +372,7 @@ class CustomerTest extends StripeTestCase
         $cards = $customer->sources->all();
         $this->assertSame(count($cards['data']), 1);
 
-        /** @var \Arcanedev\Stripe\Resources\Card $card */
+        /** @var  \Arcanedev\Stripe\Resources\Card  $card */
         $card       = $cards['data'][0];
         $card->name = 'Jane Austen';
         $card->save();
@@ -386,11 +385,8 @@ class CustomerTest extends StripeTestCase
     /** @test */
     public function it_can_delete_card()
     {
-        $token       = $this->createToken();
         $customer    = $this->createTestCustomer();
-        $createdCard = $customer->sources->create([
-            'card' => $token->id
-        ]);
+        $createdCard = $customer->sources->create(['card' => 'tok_visa']);
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
@@ -406,22 +402,66 @@ class CustomerTest extends StripeTestCase
 
         $postDeleteCustomer = Customer::retrieve($customer->id);
         $postDeleteCards    = $postDeleteCustomer->sources->all();
-        $this->assertSame(1, count($postDeleteCards['data']));
+        $this->assertCount(1, $postDeleteCards['data']);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Create Token fo tests
-     *
-     * @return \Arcanedev\Stripe\Resources\Token
-     */
-    private function createToken()
+    /** @test */
+    public function it_can_add_source()
     {
-        return Token::create([
-            'card'  => self::getValidCardData('314'),
-        ]);
+        $customer = $this->createTestCustomer();
+        $sources  = $customer->sources->all();
+
+        $this->assertCount(1, $sources['data']);
+
+        $customer->sources->create(['source' => 'tok_visa']);
+        $customer->save();
+
+        $updatedCustomer = Customer::retrieve($customer->id);
+        $updatedSources  = $updatedCustomer->sources->all();
+
+        $this->assertCount(2, $updatedSources['data']);
+    }
+
+    /** @test */
+    public function it_can_update_source()
+    {
+        $customer = $this->createTestCustomer();
+        $customer->save();
+
+        $sources = $customer->sources->all();
+        $this->assertCount(1, $sources['data']);
+
+        /** @var  \Arcanedev\Stripe\Resources\Card  $source */
+        $source = $sources['data'][0];
+        $source->name = 'Jane Austen';
+        $source->save();
+
+        $updatedCustomer = Customer::retrieve($customer->id);
+        $updatedSources = $updatedCustomer->sources->all();
+
+        $this->assertSame($source->name, $updatedSources['data'][0]->name);
+    }
+
+    /** @test */
+    public function it_can_delete_source()
+    {
+        $customer = $this->createTestCustomer();
+        $source   = $customer->sources->create(['source' => 'tok_visa']);
+        $customer->save();
+
+        $updatedCustomer = Customer::retrieve($customer->id);
+        $updatedSources  = $updatedCustomer->sources->all();
+
+        $this->assertCount(2, $updatedSources['data']);
+
+        $deleteStatus = $updatedCustomer->sources->retrieve($source->id)->delete();
+
+        $this->assertTrue($deleteStatus->deleted);
+
+        $updatedCustomer->save();
+
+        $postDeleteSources = Customer::retrieve($customer->id)->sources->all();
+
+        $this->assertCount(1, $postDeleteSources['data']);
     }
 }
