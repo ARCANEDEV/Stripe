@@ -154,11 +154,15 @@ class CustomerTest extends StripeTestCase
     {
         $customer = self::createTestCustomer();
 
-        $customer->metadata['test'] = 'foo bar';
+        $customer->metadata['test_1'] = 'foo';
+        $customer->metadata['test_2'] = 'bar';
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertSame('foo bar', $updatedCustomer->metadata['test']);
+
+        $this->assertCount(2, $updatedCustomer->metadata);
+        $this->assertSame('foo', $updatedCustomer->metadata['test_1']);
+        $this->assertSame('bar', $updatedCustomer->metadata['test_2']);
     }
 
     /** @test */
@@ -170,7 +174,8 @@ class CustomerTest extends StripeTestCase
         $customer->save();
 
         $updatedCustomer = Customer::retrieve($customer->id);
-        $this->assertSame(0, count($updatedCustomer->metadata->keys()));
+
+        $this->assertCount(0, $updatedCustomer->metadata);
     }
 
     /** @test */

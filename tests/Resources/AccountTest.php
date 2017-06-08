@@ -280,6 +280,7 @@ class AccountTest extends StripeTestCase
         $this->account->legal_entity->additional_owners[1] = array('first_name' => 'Jane');
         $this->account->save();
 
+        $this->assertSame(2, count($this->account->legal_entity->additional_owners));
         $this->assertSame('Jane', $this->account->legal_entity->additional_owners[1]->first_name);
     }
 
