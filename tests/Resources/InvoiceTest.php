@@ -172,6 +172,25 @@ class InvoiceTest extends StripeTestCase
     }
 
     /** @test */
+    public function it_can_pay_with_params()
+    {
+        $this->mockRequest('GET', '/v1/invoices/in_foo', [], $response = [
+            'id'     => 'in_foo',
+            'object' => 'invoice',
+            'paid'   => false,
+        ]);
+
+        $response['paid'] = true;
+
+        $this->mockRequest('POST', '/v1/invoices/in_foo/pay', ['source' => 'src_bar'], $response);
+
+        $invoice = Invoice::retrieve('in_foo');
+        $invoice->pay(['source' => 'src_bar']);
+
+        $this->assertTrue($invoice->paid);
+    }
+
+    /** @test */
     public function it_can_access_items_with_parameters()
     {
         $customer = parent::createTestCustomer();

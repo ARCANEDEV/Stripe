@@ -146,14 +146,15 @@ class Invoice extends StripeResource implements InvoiceContract
      * Pay an Invoice.
      * @link   https://stripe.com/docs/api/php#pay_invoice
      *
+     * @param  array|null         $params
      * @param  array|string|null  $options
      *
      * @return self
      */
-    public function pay($options = null)
+    public function pay($params = [], $options = null)
     {
         list($response, $opts) = $this->request('post',
-            $this->instanceUrl().'/pay', [], $options
+            $this->instanceUrl().'/pay', $params, $options
         );
         $this->refreshFrom($response, $opts);
 
