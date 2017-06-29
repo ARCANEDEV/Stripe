@@ -10,17 +10,19 @@ use Arcanedev\Stripe\Contracts\AttachedObject as AttachedObjectContract;
  */
 class AttachedObject extends StripeObject implements AttachedObjectContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var bool */
     protected $checkUnsavedAttributes = false;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Updates this object.
      *
@@ -31,8 +33,22 @@ class AttachedObject extends StripeObject implements AttachedObjectContract
         $removed = array_diff(array_keys($this->values), array_keys($properties));
 
         // Don't unset, but rather set to null so we send up '' for deletion.
-        foreach ($removed as $k) { $this->$k = null; }
+        foreach ($removed as $k) {
+            $this->$k = null;
+        }
 
-        foreach ($properties as $k => $v) { $this->$k = $v; }
+        foreach ($properties as $k => $v) {
+            $this->$k = $v;
+        }
+    }
+
+    /**
+     * Counts the number of elements.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->values);
     }
 }
