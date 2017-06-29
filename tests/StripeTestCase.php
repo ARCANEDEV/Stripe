@@ -93,11 +93,11 @@ abstract class StripeTestCase extends TestCase
     /**
      * Mock request
      *
-     * @param  string $method
-     * @param  string $path
-     * @param  array $params
-     * @param  array $return
-     * @param  int $rcode
+     * @param  string  $method
+     * @param  string  $path
+     * @param  array   $params
+     * @param  array   $return
+     * @param  int     $rcode
      */
     protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200)
     {

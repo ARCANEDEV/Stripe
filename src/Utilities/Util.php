@@ -39,6 +39,7 @@ abstract class Util implements UtilContract
         'discount'            => Resources\Discount::class,
         'dispute'             => Resources\Dispute::class,
         'event'               => Resources\Event::class,
+        'ephemeral_key'       => Resources\EphemeralKey::class,
         'fee_refund'          => Resources\ApplicationFeeRefund::class,
         'file_upload'         => Resources\FileUpload::class,
         'invoice'             => Resources\Invoice::class,
