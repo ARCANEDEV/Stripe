@@ -82,9 +82,10 @@ interface Invoice
      * Pay an Invoice.
      * @link   https://stripe.com/docs/api/php#pay_invoice
      *
+     * @param  array|null         $params
      * @param  array|string|null  $options
      *
      * @return self
      */
-    public function pay($options = null);
+    public function pay($params = [], $options = null);
 }
