@@ -22,10 +22,24 @@ use Arcanedev\Stripe\StripeResource;
  */
 class OrderReturn extends StripeResource implements OrderReturnContract
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
+    /**
+     * This is a special case because the order returns endpoint has an underscore in it.
+     * The parent `className` function strips underscores.
+     *
+     * @param  string  $class
+     *
+     * @return string
+     */
+    public static function className($class = '')
+    {
+        return 'order_return';
+    }
+
     /**
      * Retrieve an order return.
      * @link   https://stripe.com/docs/api/php#retrieve_order_return
