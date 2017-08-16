@@ -23,10 +23,11 @@ use JsonSerializable;
  */
 class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable, Arrayable, Jsonable
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * @var \Arcanedev\Stripe\Http\RequestOptions|string|array
      */
@@ -86,10 +87,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
      */
     protected $lastResponse;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Make a Stripe object instance.
      *
@@ -112,7 +114,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
         self::$permanentAttributes       = new UtilSet(['opts', 'id']);
         self::$nestedUpdatableAttributes = new UtilSet([
             'metadata', 'legal_entity', 'address', 'dob', 'payout_schedule', 'transfer_schedule',
-            'verification', 'tos_acceptance', 'personal_address',
+            'verification', 'tos_acceptance', 'personal_address', 'address_kana', 'address_kanji',
             // will make the array into an AttachedObject: weird, but works for now
             'additional_owners', 0, 1, 2, 3, 4, // Max 3, but leave the 4th so errors work properly
             'inventory',
@@ -124,10 +126,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
         $this->retrieveParameters        = [];
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters (+Magics)
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Set the Id.
      *
@@ -343,10 +346,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
         return empty($this->values) ? [] : array_keys($this->values);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  ArrayAccess methods
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     public function offsetSet($key, $value)
     {
         $this->$key = $value;
@@ -369,10 +373,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
             : null;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
@@ -486,10 +491,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
         );
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Check if array has id.
      *
@@ -594,10 +600,11 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
             );
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * A recursive mapping of attributes to values for this object,
      * including the proper value for deleted attributes.
