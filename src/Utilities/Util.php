@@ -29,7 +29,6 @@ abstract class Util implements UtilContract
         'apple_pay_domain'    => Resources\ApplePayDomain::class,
         'balance_transaction' => Resources\BalanceTransaction::class,
         'bank_account'        => Resources\BankAccount::class,
-        'bitcoin_receiver'    => Resources\BitcoinReceiver::class,
         'bitcoin_transaction' => Resources\BitcoinTransaction::class,
         'card'                => Resources\Card::class,
         'charge'              => Resources\Charge::class,

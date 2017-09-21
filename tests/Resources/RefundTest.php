@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Refund;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
@@ -12,17 +11,19 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class RefundTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var \Arcanedev\Stripe\Resources\Refund */
     private $refund;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -37,10 +38,11 @@ class RefundTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -129,27 +131,6 @@ class RefundTest extends StripeTestCase
         $this->assertSame('value', $this->refund->metadata['key']);
     }
 
-    /** @test */
-    public function it_can_create_refund_for_bitcoin()
-    {
-        $receiver = $this->createTestBitcoinReceiver();
-        $charge   = Charge::create([
-            'amount'      => $receiver->amount,
-            'currency'    => $receiver->currency,
-            'description' => $receiver->description,
-            'source'      => $receiver->id,
-        ]);
-
-        $this->refund = Refund::create([
-            'amount'         => $receiver->amount,
-            'refund_address' => 'ABCDEF',
-            'charge'         => $charge->id,
-        ]);
-
-        $this->assertSame($receiver->amount, $this->refund->amount);
-        $this->assertNotNull($this->refund->id);
-    }
-
     // Deprecated charge endpoints:
     //================================================================>
 
@@ -190,26 +171,5 @@ class RefundTest extends StripeTestCase
         $this->assertSame($all->data[0]->amount, $refundB->amount);
         $this->assertSame($all->data[1]->id,     $refundA->id);
         $this->assertSame($all->data[1]->amount, $refundA->amount);
-    }
-
-    /** @test */
-    public function it_can_create_for_bitcoin_via_charge()
-    {
-        $receiver = $this->createTestBitcoinReceiver();
-        $charge   = Charge::create([
-            'amount'      => $receiver->amount,
-            'currency'    => $receiver->currency,
-            'description' => $receiver->description,
-            'source'      => $receiver->id,
-        ]);
-
-        /** @var \Arcanedev\Stripe\Resources\Refund $refund */
-        $refund   = $charge->refunds->create([
-            'amount'         => $receiver->amount,
-            'refund_address' => 'ABCDEF',
-        ]);
-
-        $this->assertSame($receiver->amount, $refund->amount);
-        $this->assertNotNull($refund->id);
     }
 }
