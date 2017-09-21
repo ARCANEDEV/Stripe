@@ -117,7 +117,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
             'verification', 'tos_acceptance', 'personal_address', 'address_kana', 'address_kanji',
             // will make the array into an AttachedObject: weird, but works for now
             'additional_owners', 0, 1, 2, 3, 4, // Max 3, but leave the 4th so errors work properly
-            'inventory',
+            'shipping', 'inventory',
             'owner',
         ]);
 
