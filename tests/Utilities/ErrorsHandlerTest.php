@@ -50,6 +50,8 @@ class ErrorsHandlerTest extends StripeTestCase
     public function it_must_skip_handling_if_status_code_is_ok()
     {
         $this->errorHandler->handle('{"error":{"message":"Error"}}', 202, [], null);
+
+        $this->assertTrue(true);
     }
 
     /**

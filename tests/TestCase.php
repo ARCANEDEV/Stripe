@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use ReflectionClass;
 
 /**
@@ -9,7 +9,7 @@ use ReflectionClass;
  * @package  Arcanedev\Stripe\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
     /* -----------------------------------------------------------------
      |  Custom Assertions

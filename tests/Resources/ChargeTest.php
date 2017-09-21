@@ -190,17 +190,17 @@ class ChargeTest extends StripeTestCase
         $this->assertSame('foo bar', $this->charge->metadata['test']);
     }
 
-    /** @test */
-    public function testCanUpdateDispute()
-    {
-        // TODO: Complete testCanUpdateDispute() implementation
-    }
+//    /** @test */
+//    public function testCanUpdateDispute()
+//    {
+//        // TODO: Complete testCanUpdateDispute() implementation
+//    }
 
-    /** @test */
-    public function testCanCloseDispute()
-    {
-        // TODO: Complete testCanCloseDispute() implementation
-    }
+//    /** @test */
+//    public function testCanCloseDispute()
+//    {
+//        // TODO: Complete testCanCloseDispute() implementation
+//    }
 
     /* -----------------------------------------------------------------
      |  Metadata Tests

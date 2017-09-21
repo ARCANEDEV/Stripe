@@ -11,6 +11,11 @@ use Arcanedev\Stripe\Utilities\DefaultLogger;
  */
 class DefaultLoggerTest extends TestCase
 {
+    /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
+     */
+
     /** @var  \Arcanedev\Stripe\Utilities\DefaultLogger */
     private $logger;
 
@@ -26,6 +31,13 @@ class DefaultLoggerTest extends TestCase
         $this->logger = new DefaultLogger;
     }
 
+    protected function tearDown()
+    {
+        unset($this->logger);
+
+        parent::tearDown();
+    }
+
     /* -----------------------------------------------------------------
      |  Tests
      | -----------------------------------------------------------------
@@ -35,6 +47,6 @@ class DefaultLoggerTest extends TestCase
     public function it_can_log_error()
     {
         $this->logger->error('Error message');
+        $this->assertTrue(true);
     }
-
 }
