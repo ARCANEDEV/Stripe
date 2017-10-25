@@ -469,4 +469,88 @@ class CustomerTest extends StripeTestCase
 
         $this->assertCount(1, $postDeleteSources['data']);
     }
+
+    /** @test */
+    public function it_can_create_source()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/customers/cus_123/sources',
+            array('source' => 'tok_123'),
+            array('id' => 'card_123', 'object' => 'card')
+        );
+
+        $source = Customer::createSource('cus_123', ['source' => 'tok_123']);
+
+        $this->assertSame('card_123', $source->id);
+        $this->assertSame('card', $source->object);
+    }
+
+    /** @test */
+    public function it_can_retrieve_source()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/customers/cus_123/sources/card_123',
+            [],
+            ['id' => 'card_123', 'object' => 'card']
+        );
+
+        $source = Customer::retrieveSource('cus_123', 'card_123');
+
+        $this->assertSame('card_123', $source->id);
+        $this->assertSame('card', $source->object);
+    }
+
+    /** @test */
+    public function it_can_update_source_bis()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/customers/cus_123/sources/card_123',
+            ['metadata' => ['foo' => 'bar']],
+            ['id' => 'card_123', 'object' => 'card']
+        );
+
+        $source = Customer::updateSource(
+            'cus_123',
+            'card_123',
+            ['metadata' => ['foo' => 'bar']]
+        );
+
+        $this->assertSame('card_123', $source->id);
+        $this->assertSame('card', $source->object);
+    }
+
+    /** @test */
+    public function it_can_delete_source_bis()
+    {
+        $this->mockRequest(
+            'DELETE',
+            '/v1/customers/cus_123/sources/card_123',
+            [],
+            ['id' => 'card_123', 'deleted' => true]
+        );
+
+        $source = Customer::deleteSource('cus_123', 'card_123');
+
+        $this->assertSame('card_123', $source->id);
+        $this->assertSame(true, $source->deleted);
+    }
+
+    /** @test */
+    public function it_can_list_all_sources()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/customers/cus_123/sources',
+            [],
+            ['object' => 'list', 'data' => []]
+        );
+
+        $sources = Customer::allsources('cus_123');
+
+        $this->assertSame('list', $sources->object);
+        $this->assertEmpty($sources->data);
+    }
 }

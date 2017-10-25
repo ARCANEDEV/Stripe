@@ -108,4 +108,72 @@ class TransferTest extends StripeTestCase
 
         $this->assertSame('foo bar', $updatedTransfer->metadata['test']);
     }
+
+    /** @test */
+    public function it_can_create_reversal()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/transfers/tr_123/reversals',
+            [],
+            ['id' => 'trr_123', 'object' => 'transfer_reversal']
+        );
+
+        $reversal = Transfer::createReversal('tr_123');
+
+        $this->assertSame('trr_123', $reversal->id);
+        $this->assertSame('transfer_reversal', $reversal->object);
+    }
+
+    /** @test */
+    public function it_can_retrieve_reversal()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/transfers/tr_123/reversals/trr_123',
+            [],
+            ['id' => 'trr_123', 'object' => 'transfer_reversal']
+        );
+
+        $reversal = Transfer::retrieveReversal('tr_123', 'trr_123');
+
+        $this->assertSame('trr_123', $reversal->id);
+        $this->assertSame('transfer_reversal', $reversal->object);
+    }
+
+    /** @test */
+    public function it_can_update_reversal()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/transfers/tr_123/reversals/trr_123',
+            ['metadata' => ['foo' => 'bar']],
+            ['id' => 'trr_123', 'object' => 'transfer_reversal']
+        );
+
+        $reversal = Transfer::updateReversal(
+            'tr_123',
+            'trr_123',
+            ['metadata' => ['foo' => 'bar']]
+        );
+
+        $this->assertSame('trr_123', $reversal->id);
+        $this->assertSame('transfer_reversal', $reversal->object);
+    }
+
+    /** @test */
+    public function it_can_list_all_reversals()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/transfers/tr_123/reversals',
+            [],
+            ['object' => 'list', 'data' => []]
+        );
+
+        $reversals = Transfer::allReversals('tr_123');
+
+        $this->assertSame('list', $reversals->object);
+        $this->assertEmpty($reversals->data);
+    }
 }

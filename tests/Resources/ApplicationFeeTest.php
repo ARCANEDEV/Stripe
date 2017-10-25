@@ -96,4 +96,72 @@ class ApplicationFeeTest extends StripeTestCase
 //    {
 //        // TODO: Complete the refund test
 //    }
+
+    /** @test */
+    public function it_can_create_refund()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/application_fees/fee_123/refunds',
+            array(),
+            array('id' => 'fr_123', 'object' => 'fee_refund')
+        );
+
+        $feeRefund = ApplicationFee::createRefund(
+            'fee_123'
+        );
+
+        $this->assertSame('fr_123', $feeRefund->id);
+        $this->assertSame('fee_refund', $feeRefund->object);
+    }
+
+    /** @test */
+    public function it_can_retrieve_refund()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/application_fees/fee_123/refunds/fr_123',
+            [],
+            ['id' => 'fr_123', 'object' => 'fee_refund']
+        );
+
+        $feeRefund = ApplicationFee::retrieveRefund('fee_123', 'fr_123');
+
+        $this->assertSame('fr_123', $feeRefund->id);
+        $this->assertSame('fee_refund', $feeRefund->object);
+    }
+
+    /** @test */
+    public function it_can_update_refund()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/application_fees/fee_123/refunds/fr_123',
+            ['metadata' => ['foo' => 'bar']],
+            ['id' => 'fr_123', 'object' => 'fee_refund']
+        );
+
+        $feeRefund = ApplicationFee::updateRefund('fee_123', 'fr_123', [
+            'metadata' => ['foo' => 'bar']
+        ]);
+
+        $this->assertSame('fr_123', $feeRefund->id);
+        $this->assertSame('fee_refund', $feeRefund->object);
+    }
+
+    /** @test */
+    public function it_can_list_all_refunds()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/application_fees/fee_123/refunds',
+            [],
+            ['object' => 'list', 'data' => []]
+        );
+
+        $feeRefunds = ApplicationFee::allRefunds('fee_123');
+
+        $this->assertSame('list', $feeRefunds->object);
+        $this->assertEmpty($feeRefunds->data);
+    }
 }

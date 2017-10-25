@@ -10,6 +10,9 @@ use Arcanedev\Stripe\StripeResource;
  *
  * @package  Arcanedev\Stripe\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @property  string     id
+ * @property  bool|null  deleted
  */
 abstract class ExternalAccount extends StripeResource
 {

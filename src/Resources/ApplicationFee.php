@@ -27,10 +27,18 @@ use Arcanedev\Stripe\StripeResource;
  */
 class ApplicationFee extends StripeResource implements ApplicationFeeContract
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Constants
+     | -----------------------------------------------------------------
      */
+
+    const PATH_REFUNDS = '/refunds';
+
+    /* -----------------------------------------------------------------
+     |  Getters & Setters
+     | -----------------------------------------------------------------
+     */
+
     /**
      * This is a special case because the application fee endpoint has an
      *    underscore in it. The parent `className` function strips underscores.
@@ -44,10 +52,11 @@ class ApplicationFee extends StripeResource implements ApplicationFeeContract
         return parent::className();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * List all Application Fees.
      * @link   https://stripe.com/docs/api/php#list_application_fees
@@ -107,5 +116,63 @@ class ApplicationFee extends StripeResource implements ApplicationFeeContract
         $this->refresh();
 
         return $this;
+    }
+
+    /**
+     * Create a refund.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\ApplicationFeeRefund
+     */
+    public static function createRefund($id, $params = null, $options = null)
+    {
+        return self::createNestedResource($id, static::PATH_REFUNDS, $params, $options);
+    }
+
+    /**
+     * Retrieve a refund.
+     *
+     * @param  string             $id
+     * @param  string             $refundId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\ApplicationFeeRefund
+     */
+    public static function retrieveRefund($id, $refundId, $params = null, $options = null)
+    {
+        return self::retrieveNestedResource($id, static::PATH_REFUNDS, $refundId, $params, $options);
+    }
+
+    /**
+     * Update a refund.
+     *
+     * @param  string             $id
+     * @param  string             $refundId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\ApplicationFeeRefund
+     */
+    public static function updateRefund($id, $refundId, $params = null, $options = null)
+    {
+        return self::updateNestedResource($id, static::PATH_REFUNDS, $refundId, $params, $options);
+    }
+
+    /**
+     * Get all the refund.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    public static function allRefunds($id, $params = null, $options = null)
+    {
+        return self::allNestedResources($id, static::PATH_REFUNDS, $params, $options);
     }
 }
