@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Account;
+use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -343,6 +344,134 @@ class AccountTest extends StripeTestCase
 
         $this->assertSame('login_link', $loginLink->object);
         $this->assertInstanceOf(\Arcanedev\Stripe\Resources\LoginLink::class, $loginLink);
+    }
+
+    /** @test */
+    public function it_can_deauthorize()
+    {
+        Stripe::setClientId('ca_test');
+
+        $accountId = 'acct_test_deauth';
+
+        $this->mockRequest('GET', "/v1/accounts/$accountId", [], [
+            'id'     => $accountId,
+            'object' => 'account',
+        ]);
+
+        $this->mockRequest(
+            'POST',
+            '/oauth/deauthorize',
+            ['client_id' => 'ca_test', 'stripe_user_id' => $accountId],
+            ['stripe_user_id' => $accountId],
+            200,
+            Stripe::$connectBase
+        );
+
+        $response = Account::retrieve($accountId)->deauthorize();
+
+        $this->assertSame($accountId, $response->stripe_user_id);
+
+        Stripe::setClientId(null);
+    }
+
+    /** @test */
+    public function it_can_create_external_account()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/acct_123/external_accounts',
+            ['source' => 'btok_123'],
+            ['id' => 'ba_123', 'object' => 'bank_account']
+        );
+
+        $externalAccount = Account::createExternalAccount('acct_123', ['source' => 'btok_123']);
+
+        $this->assertSame('ba_123', $externalAccount->id);
+        $this->assertSame('bank_account', $externalAccount->object);
+    }
+
+    /** @test */
+    public function it_can_retrieve_external_account()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/accounts/acct_123/external_accounts/ba_123',
+            [],
+            ['id' => 'ba_123', 'object' => 'bank_account']
+        );
+
+        $externalAccount = Account::retrieveExternalAccount('acct_123', 'ba_123');
+
+        $this->assertSame('ba_123', $externalAccount->id);
+        $this->assertSame('bank_account', $externalAccount->object);
+    }
+
+    /** @test */
+    public function it_can_update_external_account()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/acct_123/external_accounts/ba_123',
+            ['metadata' => ['foo' => 'bar']],
+            ['id' => 'ba_123', 'object' => 'bank_account']
+        );
+
+        $externalAccount = Account::updateExternalAccount(
+            'acct_123',
+            'ba_123',
+            ['metadata' => ['foo' => 'bar']]
+        );
+
+        $this->assertSame('ba_123', $externalAccount->id);
+        $this->assertSame('bank_account', $externalAccount->object);
+    }
+
+    /** @test */
+    public function it_can_delete_external_account()
+    {
+        $this->mockRequest(
+            'DELETE',
+            '/v1/accounts/acct_123/external_accounts/ba_123',
+            [],
+            ['id' => 'ba_123', 'deleted' => true]
+        );
+
+        $externalAccount = Account::deleteExternalAccount('acct_123', 'ba_123');
+
+        $this->assertSame('ba_123', $externalAccount->id);
+        $this->assertSame(true, $externalAccount->deleted);
+    }
+
+    /** @test */
+    public function it_can_get_all_external_accounts()
+    {
+        $this->mockRequest(
+            'GET',
+            '/v1/accounts/acct_123/external_accounts',
+            [],
+            ['object' => 'list', 'data' => []]
+        );
+
+        $externalAccounts = Account::allExternalAccounts('acct_123');
+
+        $this->assertSame('list', $externalAccounts->object);
+        $this->assertEmpty($externalAccounts->data);
+    }
+
+    /** @test */
+    public function it_can_create_login_link()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/acct_123/login_links',
+            [],
+            ['object' => 'login_link', 'url' => 'https://example.com']
+        );
+
+        $loginLink = Account::createLoginLink('acct_123');
+
+        $this->assertSame('login_link', $loginLink->object);
+        $this->assertSame('https://example.com', $loginLink->url);
     }
 
     /* -----------------------------------------------------------------

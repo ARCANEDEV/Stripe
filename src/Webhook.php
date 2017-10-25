@@ -50,7 +50,7 @@ abstract class Webhook
         }
 
         /** @var  \Arcanedev\Stripe\Resources\Event  $event */
-        $event = StripeObject::scopedConstructFrom(Event::class, $data, null);
+        $event = Event::scopedConstructFrom($data, null);
 
         WebhookSignature::verifyHeader($payload, $sigHeader, $secret, $tolerance);
 

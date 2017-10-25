@@ -176,20 +176,24 @@ class SourceTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_delete_attached_source()
+    public function it_can_detach_attached_source()
     {
         $response = [
             'id'       => 'src_foo',
             'object'   => 'source',
             'customer' => 'cus_bar',
         ];
-        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
+
+        /** @var  \Arcanedev\Stripe\Resources\Source  $source */
+        $source = Source::scopedConstructFrom(
+            $response,
+            new \Arcanedev\Stripe\Http\RequestOptions
+        );
 
         unset($response['customer']);
         $this->mockRequest('DELETE', '/v1/customers/cus_bar/sources/src_foo', [], $response);
 
-        $source = Source::retrieve('src_foo');
-        $source->delete();
+        $source->detach();
 
         $this->assertFalse(array_key_exists('customer', $source));
     }
@@ -199,15 +203,19 @@ class SourceTest extends StripeTestCase
      *
      * @expectedException \Arcanedev\Stripe\Exceptions\ApiException
      */
-    public function it_can_not_delete_unattached()
+    public function it_can_not_detach_unattached()
     {
         $response = [
             'id'     => 'src_foo',
             'object' => 'source',
         ];
-        $this->mockRequest('GET', '/v1/sources/src_foo', [], $response);
 
-        $source = Source::retrieve('src_foo');
-        $source->delete();
+        /** @var  Source  $source */
+        $source = Source::scopedConstructFrom(
+            $response,
+            new \Arcanedev\Stripe\Http\RequestOptions
+        );
+
+        $source->detach();
     }
 }

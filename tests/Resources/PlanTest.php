@@ -11,20 +11,22 @@ use Arcanedev\Stripe\Tests\StripeTestCase;
  */
 class PlanTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var \Arcanedev\Stripe\Resources\Plan */
     private $plan;
 
     /** @var string */
     private $planId = '';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -41,10 +43,11 @@ class PlanTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -97,7 +100,7 @@ class PlanTest extends StripeTestCase
      *
      * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
      * @expectedExceptionCode    404
-     * @expectedExceptionMessage No such plan: 0
+     * @expectedExceptionMessage No such Plan: 0
      */
     public function it_must_throw_invalid_request_exception_on_false_id()
     {

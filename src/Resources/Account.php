@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\Account as AccountContract;
+use Arcanedev\Stripe\StripeOAuth;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -43,10 +44,19 @@ use Arcanedev\Stripe\StripeResource;
  */
 class Account extends StripeResource implements AccountContract
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Constants
+     | -----------------------------------------------------------------
      */
+
+    const PATH_EXTERNAL_ACCOUNTS = '/external_accounts';
+    const PATH_LOGIN_LINKS = '/login_links';
+
+    /* -----------------------------------------------------------------
+     |  Getters & Setters
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Get the instance url.
      *
@@ -168,5 +178,112 @@ class Account extends StripeResource implements AccountContract
         return $this->scopedPostCall(
             $this->instanceUrl() . '/reject', $params, $options
         );
+    }
+
+    /**
+     * Deauthorize the account.
+     *
+     * @param  array|null  $clientId
+     * @param  array|null  $options
+     *
+     * @return \Arcanedev\Stripe\StripeObject
+     */
+    public function deauthorize($clientId = null, $options = null)
+    {
+        $params = [
+            'client_id'      => $clientId,
+            'stripe_user_id' => $this->id,
+        ];
+
+        return StripeOAuth::deauthorize($params, $options);
+    }
+
+    /**
+     * Create an external account.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function createExternalAccount($id, $params = null, $options = null)
+    {
+        return self::createNestedResource($id, static::PATH_EXTERNAL_ACCOUNTS, $params, $options);
+    }
+
+    /**
+     * Retrieve an external account.
+     *
+     * @param  string             $id
+     * @param  string             $externalAccountId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function retrieveExternalAccount($id, $externalAccountId, $params = null, $options = null)
+    {
+        return self::retrieveNestedResource($id, static::PATH_EXTERNAL_ACCOUNTS, $externalAccountId, $params, $options);
+    }
+
+    /**
+     * Update an external account.
+     *
+     * @param  string             $id
+     * @param  string             $externalAccountId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function updateExternalAccount($id, $externalAccountId, $params = null, $options = null)
+    {
+        return self::updateNestedResource($id, static::PATH_EXTERNAL_ACCOUNTS, $externalAccountId, $params, $options);
+    }
+
+    /**
+     * Delete an external account.
+     *
+     * @param  string             $id
+     * @param  string             $externalAccountId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function deleteExternalAccount($id, $externalAccountId, $params = null, $options = null)
+    {
+        return self::deleteNestedResource($id, static::PATH_EXTERNAL_ACCOUNTS, $externalAccountId, $params, $options);
+    }
+
+    /**
+     * Get all the external accounts.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    public static function allExternalAccounts($id, $params = null, $options = null)
+    {
+        return self::allNestedResources($id, static::PATH_EXTERNAL_ACCOUNTS, $params, $options);
+    }
+
+    /**
+     * Create a login link.
+     *
+     * @link  https://stripe.com/docs/api#create_login_link
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\LoginLink
+     */
+    public static function createLoginLink($id, $params = null, $options = null)
+    {
+        return self::createNestedResource($id, static::PATH_LOGIN_LINKS, $params, $options);
     }
 }

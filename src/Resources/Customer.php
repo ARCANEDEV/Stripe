@@ -29,10 +29,18 @@ use Arcanedev\Stripe\StripeResource;
  */
 class Customer extends StripeResource implements CustomerContract
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Constants
+     | -----------------------------------------------------------------
      */
+
+    const PATH_SOURCES = '/sources';
+
+    /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Allow to check attributes while setting.
      *
@@ -40,10 +48,11 @@ class Customer extends StripeResource implements CustomerContract
      */
     protected $checkUnsavedAttributes = true;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get Subscription URL.
      *
@@ -68,10 +77,11 @@ class Customer extends StripeResource implements CustomerContract
         return $this->instanceUrl().'/discount';
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * List all Customers.
      * @link   https://stripe.com/docs/api/php#list_customers
@@ -156,10 +166,11 @@ class Customer extends StripeResource implements CustomerContract
         return self::scopedDelete($params, $options);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Relationships Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Relationships Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Add an invoice item.
      *
@@ -261,10 +272,84 @@ class Customer extends StripeResource implements CustomerContract
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /**
+     * Create a source.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
      */
+    public static function createSource($id, $params = null, $options = null)
+    {
+        return self::createNestedResource($id, static::PATH_SOURCES, $params, $options);
+    }
+
+    /**
+     * Retrieve a source.
+     *
+     * @param  string             $id
+     * @param  string             $sourceId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function retrieveSource($id, $sourceId, $params = null, $options = null)
+    {
+        return self::retrieveNestedResource($id, static::PATH_SOURCES, $sourceId, $params, $options);
+    }
+
+    /**
+     * Update a source.
+     *
+     * @param  string             $id
+     * @param  string             $sourceId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function updateSource($id, $sourceId, $params = null, $options = null)
+    {
+        return self::updateNestedResource($id, static::PATH_SOURCES, $sourceId, $params, $options);
+    }
+
+    /**
+     * Delete a source.
+     *
+     * @param  string             $id
+     * @param  string             $sourceId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Bases\ExternalAccount
+     */
+    public static function deleteSource($id, $sourceId, $params = null, $options = null)
+    {
+        return self::deleteNestedResource($id, static::PATH_SOURCES, $sourceId, $params, $options);
+    }
+
+    /**
+     * List all the sources.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    public static function allSources($id, $params = null, $options = null)
+    {
+        return self::allNestedResources($id, static::PATH_SOURCES, $params, $options);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Add Customer ID to parameters.
      *

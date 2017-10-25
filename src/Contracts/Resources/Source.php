@@ -73,12 +73,12 @@ interface Source
     public function save($options = null);
 
     /**
-     * Delete a source.
+     * Detach a source.
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
      * @return self
      */
-    public function delete($params = null, $options = null);
+    public function detach($params = null, $options = null);
 }

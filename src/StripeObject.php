@@ -382,16 +382,14 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
      * This unfortunately needs to be public to be used in Util.php
      * Return The object constructed from the given values.
      *
-     * @param  string                                                   $class
      * @param  array                                                    $values
      * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      *
      * @return self
      */
-    public static function scopedConstructFrom($class, $values, $options)
+    public static function scopedConstructFrom($values, $options)
     {
-        /** @var self $obj */
-        $obj = new $class(isset($values['id']) ? $values['id'] : null);
+        $obj = new static(isset($values['id']) ? $values['id'] : null);
         $obj->refreshFrom($values, $options);
 
         return $obj;
@@ -456,7 +454,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
     private function constructValue($key, $value, $options)
     {
         return (self::$nestedUpdatableAttributes->includes($key) && is_array($value))
-            ? self::scopedConstructFrom(AttachedObject::class, $value, $options)
+            ? AttachedObject::scopedConstructFrom($value, $options)
             : Util::convertToStripeObject($value, $options);
     }
 

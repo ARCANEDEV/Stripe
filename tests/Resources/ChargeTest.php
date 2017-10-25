@@ -255,4 +255,69 @@ class ChargeTest extends StripeTestCase
         $updatedCharge = Charge::retrieve($charge->id);
         $this->assertSame('safe', $updatedCharge['fraud_details']['user_report']);
     }
+
+    /** @test */
+    public function it_can_handle_invalid_request_exception()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/charges',
+            [],
+            [
+                'error' => [
+                    'type'    => 'invalid_request_error',
+                    'message' => 'Missing id',
+                    'param'   => 'id',
+                ],
+            ],
+            400
+        );
+
+        try {
+            Charge::create();
+
+            $this->fail('Did not raise error');
+        }
+        catch (\Arcanedev\Stripe\Exceptions\InvalidRequestException $e) {
+            $this->assertSame('Missing id', $e->getMessage());
+            $this->assertSame('id', $e->getParams());
+        }
+        catch (\Exception $e) {
+            $this->fail('Unexpected exception: '.get_class($e));
+        }
+    }
+
+    /** @test */
+    public function it_can_handle_card_exception_bis()
+    {
+        $this->mockRequest(
+            'POST',
+            '/v1/charges',
+            [],
+            [
+                'error' => [
+                    'type'         => 'card_error',
+                    'message'      => 'Your card was declined.',
+                    'code'         => 'card_declined',
+                    'decline_code' => 'generic_decline',
+                    'charge'       => 'ch_declined_charge',
+                ],
+            ],
+            402
+        );
+
+        try {
+            Charge::create();
+
+            $this->fail('Did not raise error');
+        }
+        catch (\Arcanedev\Stripe\Exceptions\CardException $e) {
+            $this->assertSame('Your card was declined.', $e->getMessage());
+            $this->assertSame('card_declined', $e->getStripeCode());
+            $this->assertSame('generic_decline', $e->getDeclineCode());
+        }
+        catch (\Exception $e) {
+            $this->fail("Unexpected exception: " . get_class($e));
+        }
+    }
 }

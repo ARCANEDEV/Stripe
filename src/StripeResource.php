@@ -327,6 +327,134 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     }
 
     /* -----------------------------------------------------------------
+     |  Nested Resources Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Create a nested resource.
+     *
+     * @param  string             $id
+     * @param  string             $nestedPath
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return mixed
+     */
+    protected static function createNestedResource($id, $nestedPath, $params = null, $options = null)
+    {
+        $url = static::nestedResourceUrl($id, $nestedPath);
+
+        return static::nestedResourceRequest('post', $url, $params, $options);
+    }
+
+    /**
+     * Retrieve a nested resource.
+     *
+     * @param  string             $id
+     * @param  string             $nestedPath
+     * @param  string             $nestedId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return mixed
+     */
+    protected static function retrieveNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    {
+        $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
+
+        return static::nestedResourceRequest('get', $url, $params, $options);
+    }
+
+    /**
+     * Update a nested resource.
+     *
+     * @param  string             $id
+     * @param  string             $nestedPath
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return mixed
+     */
+    protected static function updateNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    {
+        $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
+
+        return static::nestedResourceRequest('post', $url, $params, $options);
+    }
+
+    /**
+     * Delete a nested resource.
+     *
+     * @param  string             $id
+     * @param  string             $nestedPath
+     * @param  string             $nestedId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return mixed
+     */
+    protected static function deleteNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    {
+        $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
+
+        return static::nestedResourceRequest('delete', $url, $params, $options);
+    }
+
+    /**
+     * Get all the nested resources.
+     *
+     * @param  string             $id
+     * @param  string             $nestedPath
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    protected static function allNestedResources($id, $nestedPath, $params = null, $options = null)
+    {
+        $url = static::nestedResourceUrl($id, $nestedPath);
+
+        return static::nestedResourceRequest('get', $url, $params, $options);
+    }
+
+    /**
+     * Make a request call to a nested nested resource.
+     *
+     * @param  string             $method
+     * @param  string             $url
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return mixed
+     */
+    protected static function nestedResourceRequest($method, $url, $params = null, $options = null)
+    {
+        static::checkParameters($params);
+
+        list($response, $opts) = static::staticRequest($method, $url, $params, $options);
+
+        return Utilities\Util::convertToStripeObject($response->getJson(), $opts)
+                             ->setLastResponse($response);
+    }
+
+    /**
+     * Prepare the nested resource URL.
+     *
+     * @param  string       $id
+     * @param  string       $nestedPath
+     * @param  string|null  $nestedId
+     *
+     * @return string
+     */
+    protected static function nestedResourceUrl($id, $nestedPath, $nestedId = null)
+    {
+        $url = static::resourceUrl($id).$nestedPath;
+
+        return is_null($nestedId) ? $url : "$url/$nestedId";
+    }
+
+    /* -----------------------------------------------------------------
      |  Custom Scope Methods
      | -----------------------------------------------------------------
      */

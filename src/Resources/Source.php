@@ -102,17 +102,17 @@ class Source extends StripeResource implements SourceContract
     }
 
     /**
-     * Delete a source.
+     * Detach a source.
      *
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return Source
+     * @return self
      *
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      */
-    public function delete($params = null, $options = null)
+    public function detach($params = null, $options = null)
     {
         static::checkArguments($params, $options);
 
@@ -137,8 +137,22 @@ class Source extends StripeResource implements SourceContract
         }
 
         throw new ApiException(
-            'Source objects cannot be deleted, they can only be detached from customer objects. '.
             'This source object does not appear to be currently attached to a customer object.'
         );
+    }
+
+    /**
+     * Delete a source.
+     *
+     * @deprecated Use the `detach` method instead.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return self
+     */
+    public function delete($params = null, $options = null)
+    {
+        return $this->detach($params, $options);
     }
 }

@@ -28,10 +28,18 @@ use Arcanedev\Stripe\StripeResource;
  */
 class Transfer extends StripeResource implements TransferContract
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Constants
+     | -----------------------------------------------------------------
      */
+
+    const PATH_REVERSALS = '/reversals';
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * List all Transfers.
      * @link   https://stripe.com/docs/api/php#list_transfers
@@ -132,5 +140,63 @@ class Transfer extends StripeResource implements TransferContract
         $this->refreshFrom($response, $opts);
 
         return $this;
+    }
+
+    /**
+     * Create a transfer reversal.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\TransferReversal
+     */
+    public static function createReversal($id, $params = null, $options = null)
+    {
+        return self::createNestedResource($id, static::PATH_REVERSALS, $params, $options);
+    }
+
+    /**
+     * Retrieve a transfer reversal.
+     *
+     * @param  string             $id
+     * @param  string             $reversalId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\TransferReversal
+     */
+    public static function retrieveReversal($id, $reversalId, $params = null, $options = null)
+    {
+        return self::retrieveNestedResource($id, static::PATH_REVERSALS, $reversalId, $params, $options);
+    }
+
+    /**
+     * Update a transfer reversal.
+     *
+     * @param  string             $id
+     * @param  string             $reversalId
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Resources\TransferReversal
+     */
+    public static function updateReversal($id, $reversalId, $params = null, $options = null)
+    {
+        return self::updateNestedResource($id, static::PATH_REVERSALS, $reversalId, $params, $options);
+    }
+
+    /**
+     * List all the transfer reversals.
+     *
+     * @param  string             $id
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    public static function allReversals($id, $params = null, $options = null)
+    {
+        return self::allNestedResources($id, static::PATH_REVERSALS, $params, $options);
     }
 }
