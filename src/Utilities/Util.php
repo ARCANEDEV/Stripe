@@ -116,8 +116,9 @@ abstract class Util implements UtilContract
             }, $response);
         }
         elseif (is_array($response)) {
-            return StripeObject::scopedConstructFrom(
-                self::getClassTypeObject($response),
+            $class = self::getClassTypeObject($response);
+
+            return $class::scopedConstructFrom(
                 $response,
                 $options
             );
