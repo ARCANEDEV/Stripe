@@ -38,11 +38,25 @@ abstract class Stripe implements StripeContract
     private static $apiKey;
 
     /**
+     * The Stripe client_id to be used for Connect requests.
+     *
+     * @var string
+     */
+    public static $clientId;
+
+    /**
      * The base URL for the Stripe API.
      *
      * @var string
      */
     public static $apiBaseUrl    = 'https://api.stripe.com';
+
+    /**
+     * The base URL for the OAuth API.
+     *
+     * @var string
+     */
+    public static $connectBase = 'https://connect.stripe.com';
 
     /**
      * The base URL for the Stripe API uploads endpoint.
@@ -133,6 +147,26 @@ abstract class Stripe implements StripeContract
         self::checkApiBaseUrl($apiBaseUrl);
 
         self::$apiBaseUrl = $apiBaseUrl;
+    }
+
+    /**
+     * The client_id used for Connect requests.
+     *
+     * @return string
+     */
+    public static function getClientId()
+    {
+        return self::$clientId;
+    }
+
+    /**
+     * Sets the client_id to be used for Connect requests.
+     *
+     * @param  string  $clientId
+     */
+    public static function setClientId($clientId)
+    {
+        self::$clientId = $clientId;
     }
 
     /**

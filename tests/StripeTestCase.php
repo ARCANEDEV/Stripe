@@ -97,13 +97,14 @@ abstract class StripeTestCase extends TestCase
      * @param  array   $params
      * @param  array   $return
      * @param  int     $rcode
+     * @param  string  $base
      */
-    protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200)
+    protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200, $base = 'https://api.stripe.com')
     {
         $mock = $this->setUpMockRequest();
 
         $mock->setApiKey(self::API_KEY)->willReturn($mock);
-        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, [], false)
+        $mock->request(strtolower($method), $base.$path, $params, [], false)
             ->willReturn([json_encode($return), $rcode, []]);
     }
 

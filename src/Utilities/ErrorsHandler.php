@@ -11,10 +11,11 @@ use Arcanedev\Stripe\Exceptions;
  */
 class ErrorsHandler implements ApiErrorsHandlerContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var string */
     private $respBody;
 
@@ -28,7 +29,7 @@ class ErrorsHandler implements ApiErrorsHandlerContract
     private $response   = [];
 
     /** @var array */
-    private static $exceptions = [
+    private static $apiExceptions = [
         400 => Exceptions\InvalidRequestException::class,
         401 => Exceptions\AuthenticationException::class,
         402 => Exceptions\CardException::class,
@@ -38,10 +39,20 @@ class ErrorsHandler implements ApiErrorsHandlerContract
         500 => Exceptions\ApiException::class,
     ];
 
-    /* ------------------------------------------------------------------------------------------------
+    /** @var array */
+    private static $oauthExceptions = [
+        'invalid_grant'             => Exceptions\OAuth\InvalidGrantException::class,
+        'invalid_request'           => Exceptions\OAuth\InvalidRequestException::class,
+        'invalid_scope'             => Exceptions\OAuth\InvalidScopeException::class,
+        'unsupported_grant_type'    => Exceptions\OAuth\UnsupportedGrantTypeException::class,
+        'unsupported_response_type' => Exceptions\OAuth\UnsupportedResponseTypeException::class,
+    ];
+
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Set Response body (JSON).
      *
@@ -101,33 +112,22 @@ class ErrorsHandler implements ApiErrorsHandlerContract
     }
 
     /**
-     * Get Exception class.
-     *
-     * @return string
-     */
-    private function getException()
-    {
-        return $this->getExceptionByCode(
-            $this->hasException() ? $this->respCode : 500
-        );
-    }
-
-    /**
      * Get Exception class by status code.
      *
      * @param  int  $code
      *
      * @return string
      */
-    private function getExceptionByCode($code)
+    private function getApiExceptionByCode($code)
     {
-        return self::$exceptions[$code];
+        return self::$apiExceptions[$code];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Handle API Errors.
      *
@@ -145,38 +145,26 @@ class ErrorsHandler implements ApiErrorsHandlerContract
      */
     public function handle($respBody, $respCode, $respHeaders, $response)
     {
-        if ($respCode >= 200 && $respCode < 300) return;
+        if ($respCode >= 200 && $respCode < 300)
+            return;
 
         $this->setRespBody($respBody);
         $this->setRespCode($respCode);
         $this->setRespHeaders($respHeaders);
         $this->setResponse($response);
 
-        list($message, $type, $stripeCode, $params) = $this->parseResponseError();
+        $exception = is_string($this->response['error'])
+            ? $this->getOAuthException()
+            : $this->getAPIException();
 
-        $exception = $this->getException();
-
-        if ($this->respCode === 400 && $stripeCode === 'rate_limit') {
-            $this->setRespCode(429);
-            $exception = $this->getExceptionByCode(429);
-        }
-
-        throw new $exception(
-            $message,
-            $this->respCode,
-            $type,
-            $stripeCode,
-            $this->respBody,
-            $this->response,
-            $params,
-            $this->respHeaders
-        );
+        throw $exception;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Check Response.
      *
@@ -218,7 +206,7 @@ class ErrorsHandler implements ApiErrorsHandlerContract
      */
     private function hasException()
     {
-        return array_key_exists($this->respCode, self::$exceptions);
+        return array_key_exists($this->respCode, self::$apiExceptions);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -228,16 +216,52 @@ class ErrorsHandler implements ApiErrorsHandlerContract
     /**
      * Parse response error.
      *
-     * @return array
+     * @return \Arcanedev\Stripe\Exceptions\StripeException
      */
-    private function parseResponseError()
+    private function getAPIException()
     {
-        return [
+        $stripeCode = $this->getResponseError('code');
+        $exception  = $this->getApiExceptionByCode(
+            $this->hasException() ? $this->respCode : 500
+        );
+
+        if ($this->respCode === 400 && $stripeCode === 'rate_limit') {
+            $this->setRespCode(429);
+            $exception = $this->getApiExceptionByCode(429);
+        }
+
+        return new $exception(
             $this->getResponseError('message'),
+            $this->respCode,
             $this->getResponseError('type'),
-            $this->getResponseError('code'),
+            $stripeCode,
+            $this->respBody,
+            $this->response,
             $this->getResponseError('param'),
-        ];
+            $this->respHeaders
+        );
+    }
+
+    /**
+     * Get the OAuth exception.
+     *
+     * @return \Arcanedev\Stripe\Exceptions\OAuth\OAuthException
+     */
+    private function getOAuthException()
+    {
+        $errorCode   = $this->response['error'];
+        $description = $this->response['error_description'] ?: $errorCode;
+
+        $exception = self::$oauthExceptions[$errorCode];
+
+        return new $exception(
+            $errorCode,
+            $description,
+            $this->respCode,
+            $this->respBody,
+            $this->response,
+            $this->respHeaders
+        );
     }
 
     /**
