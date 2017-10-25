@@ -345,7 +345,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         $url = static::nestedResourceUrl($id, $nestedPath);
 
-        return self::nestedResourceRequest('post', $url, $params, $options);
+        return static::nestedResourceRequest('post', $url, $params, $options);
     }
 
     /**
@@ -363,7 +363,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
 
-        return self::nestedResourceRequest('get', $url, $params, $options);
+        return static::nestedResourceRequest('get', $url, $params, $options);
     }
 
     /**
@@ -380,7 +380,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
 
-        return self::nestedResourceRequest('post', $url, $params, $options);
+        return static::nestedResourceRequest('post', $url, $params, $options);
     }
 
     /**
@@ -398,7 +398,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         $url = static::nestedResourceUrl($id, $nestedPath, $nestedId);
 
-        return self::nestedResourceRequest('delete', $url, $params, $options);
+        return static::nestedResourceRequest('delete', $url, $params, $options);
     }
 
     /**
@@ -415,7 +415,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     {
         $url = static::nestedResourceUrl($id, $nestedPath);
 
-        return self::nestedResourceRequest('get', $url, $params, $options);
+        return static::nestedResourceRequest('get', $url, $params, $options);
     }
 
     /**
@@ -435,7 +435,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
         list($response, $opts) = static::staticRequest($method, $url, $params, $options);
 
         return Utilities\Util::convertToStripeObject($response->getJson(), $opts)
-            ->setLastResponse($response);
+                             ->setLastResponse($response);
     }
 
     /**
@@ -447,7 +447,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      *
      * @return string
      */
-    private static function nestedResourceUrl($id, $nestedPath, $nestedId = null)
+    protected static function nestedResourceUrl($id, $nestedPath, $nestedId = null)
     {
         $url = static::resourceUrl($id).$nestedPath;
 

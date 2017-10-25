@@ -183,8 +183,8 @@ class Account extends StripeResource implements AccountContract
     /**
      * Deauthorize the account.
      *
-     * @param  array|null         $clientId
-     * @param  array|string|null  $options
+     * @param  array|null  $clientId
+     * @param  array|null  $options
      *
      * @return \Arcanedev\Stripe\StripeObject
      */
