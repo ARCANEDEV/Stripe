@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Resources;
 
 use Arcanedev\Stripe\Contracts\Resources\Account as AccountContract;
+use Arcanedev\Stripe\StripeOAuth;
 use Arcanedev\Stripe\StripeResource;
 
 /**
@@ -168,5 +169,15 @@ class Account extends StripeResource implements AccountContract
         return $this->scopedPostCall(
             $this->instanceUrl() . '/reject', $params, $options
         );
+    }
+
+    public function deauthorize($clientId = null, $opts = null)
+    {
+        $params = [
+            'client_id'      => $clientId,
+            'stripe_user_id' => $this->id,
+        ];
+
+        return StripeOAuth::deauthorize($params, $opts);
     }
 }

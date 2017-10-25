@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
 use Arcanedev\Stripe\Resources\Account;
+use Arcanedev\Stripe\Stripe;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
 /**
@@ -343,6 +344,34 @@ class AccountTest extends StripeTestCase
 
         $this->assertSame('login_link', $loginLink->object);
         $this->assertInstanceOf(\Arcanedev\Stripe\Resources\LoginLink::class, $loginLink);
+    }
+
+    /** @test */
+    public function it_can_deauthorize()
+    {
+        Stripe::setClientId('ca_test');
+
+        $accountId = 'acct_test_deauth';
+
+        $this->mockRequest('GET', "/v1/accounts/$accountId", [], [
+            'id'     => $accountId,
+            'object' => 'account',
+        ]);
+
+        $this->mockRequest(
+            'POST',
+            '/oauth/deauthorize',
+            ['client_id' => 'ca_test', 'stripe_user_id' => $accountId],
+            ['stripe_user_id' => $accountId],
+            200,
+            Stripe::$connectBase
+        );
+
+        $response = Account::retrieve($accountId)->deauthorize();
+
+        $this->assertSame($accountId, $response->stripe_user_id);
+
+        Stripe::setClientId(null);
     }
 
     /* -----------------------------------------------------------------
