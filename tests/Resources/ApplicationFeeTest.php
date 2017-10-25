@@ -79,21 +79,21 @@ class ApplicationFeeTest extends StripeTestCase
         $this->assertSame('/v1/application_fees', $fees->url);
     }
 
-    /** @test */
-    public function it_can_retrieve()
-    {
-        // TODO: Complete the retrieve test
-    }
+//    /** @test */
+//    public function it_can_retrieve()
+//    {
+//        // TODO: Complete the retrieve test
+//    }
 
-    /** @test */
-    public function it_can_update()
-    {
-        // TODO: Complete the update test
-    }
+//    /** @test */
+//    public function it_can_update()
+//    {
+//        // TODO: Complete the update test
+//    }
 
-    /** @test */
-    public function it_can_refund()
-    {
-        // TODO: Complete the refund test
-    }
+//    /** @test */
+//    public function it_can_refund()
+//    {
+//        // TODO: Complete the refund test
+//    }
 }

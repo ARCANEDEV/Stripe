@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Stripe\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use ReflectionClass;
 
 /**
@@ -9,12 +9,13 @@ use ReflectionClass;
  * @package  Arcanedev\Stripe\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Assertion Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Custom Assertions
+     | -----------------------------------------------------------------
      */
+
     /**
      * Asserts that a count value is greater than another value.
      *
@@ -27,10 +28,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan($expected, count($actual), $message);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Common Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Common Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get private or protected method of a given class
      *
@@ -78,10 +80,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         return 'dev-platform-bots+php-'.self::generateRandomString(12).'@stripe.com';
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Dump and die.
      */

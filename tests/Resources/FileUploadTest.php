@@ -12,20 +12,22 @@ use CURLFile;
  */
 class FileUploadTest extends StripeTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var FileUpload */
+
+    /** @var \Arcanedev\Stripe\Resources\FileUpload */
     private $fileUpload;
 
     /** @var string */
     private $filePath = '';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -42,10 +44,11 @@ class FileUploadTest extends StripeTestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -67,12 +70,13 @@ class FileUploadTest extends StripeTestCase
 
         $this->assertSame(95, $file->size);
         $this->assertSame('png', $file->type);
+        $this->assertInstanceOf(FileUpload::class, $file);
     }
 
     /** @test */
     public function it_can_create_curl_file()
     {
-        if (! class_exists('CurlFile')) {
+        if ( ! class_exists('CurlFile')) {
             // Older PHP versions don't support this
             return;
         }
@@ -97,16 +101,17 @@ class FileUploadTest extends StripeTestCase
         $this->assertSame($this->fileUpload->type, $file->type);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create file
      *
-     * @param mixed $file
+     * @param  mixed  $file
      *
-     * @return FileUpload|array
+     * @return \Arcanedev\Stripe\Resources\FileUpload|array
      */
     private function createFile($file)
     {

@@ -5,7 +5,6 @@ use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\Http\Curl\HttpClient;
 use Arcanedev\Stripe\Http\Requestor;
 use Arcanedev\Stripe\Resources\Account;
-use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Resources\Coupon;
 use Arcanedev\Stripe\Resources\Customer;
@@ -194,23 +193,6 @@ abstract class StripeTestCase extends TestCase
                 'routing_number' => '110000000',
                 'account_number' => '000123456789',
             ],
-        ]);
-    }
-
-    /**
-     * Create Test Bitcoin Receiver
-     *
-     * @param  string $email
-     *
-     * @return \Arcanedev\Stripe\Resources\BitcoinReceiver
-     */
-    protected function createTestBitcoinReceiver($email = 'do+fill_now@stripe.com')
-    {
-        return BitcoinReceiver::create([
-            'amount'      => 100,
-            'currency'    => 'usd',
-            'description' => 'some details',
-            'email'       => $email,
         ]);
     }
 

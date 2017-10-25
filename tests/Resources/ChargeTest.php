@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\Stripe\Tests\Resources;
 
-use Arcanedev\Stripe\Resources\BitcoinReceiver;
 use Arcanedev\Stripe\Resources\Charge;
 use Arcanedev\Stripe\Tests\StripeTestCase;
 
@@ -175,23 +174,6 @@ class ChargeTest extends StripeTestCase
     }
 
     /** @test */
-    public function it_can_create_with_bitcoin_receiver_source()
-    {
-        $receiver = $this->createTestBitcoinReceiver();
-
-        $charge = Charge::create([
-            'amount'   => 100,
-            'currency' => 'usd',
-            'source'   => $receiver->id,
-        ]);
-
-        $this->assertSame($receiver->id, $charge->source->id);
-        $this->assertSame('bitcoin_receiver', $charge->source->object);
-        $this->assertSame('succeeded', $charge->status);
-        $this->assertSame(BitcoinReceiver::class, get_class($charge->source));
-    }
-
-    /** @test */
     public function it_can_update()
     {
         $this->charge = Charge::create($this->chargeData);
@@ -208,17 +190,17 @@ class ChargeTest extends StripeTestCase
         $this->assertSame('foo bar', $this->charge->metadata['test']);
     }
 
-    /** @test */
-    public function testCanUpdateDispute()
-    {
-        // TODO: Complete testCanUpdateDispute() implementation
-    }
+//    /** @test */
+//    public function testCanUpdateDispute()
+//    {
+//        // TODO: Complete testCanUpdateDispute() implementation
+//    }
 
-    /** @test */
-    public function testCanCloseDispute()
-    {
-        // TODO: Complete testCanCloseDispute() implementation
-    }
+//    /** @test */
+//    public function testCanCloseDispute()
+//    {
+//        // TODO: Complete testCanCloseDispute() implementation
+//    }
 
     /* -----------------------------------------------------------------
      |  Metadata Tests
