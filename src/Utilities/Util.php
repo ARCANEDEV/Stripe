@@ -56,6 +56,7 @@ abstract class Util implements UtilContract
         'refund'              => Resources\Refund::class,
         'sku'                 => Resources\Sku::class,
         'source'              => Resources\Source::class,
+        'source_transaction'  => Resources\SourceTransaction::class,
         'subscription'        => Resources\Subscription::class,
         'subscription_item'   => Resources\SubscriptionItem::class,
         'three_d_secure'      => Resources\ThreeDSecure::class,
