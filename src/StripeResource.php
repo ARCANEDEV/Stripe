@@ -43,7 +43,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
     /**
      * Get the refreshed resource.
      *
-     * @return self
+     * @return static
      */
     public function refresh()
     {
@@ -196,7 +196,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      * @param  string             $id
      * @param  array|string|null  $options
      *
-     * @return self
+     * @return static
      */
     protected static function scopedRetrieve($id, $options = null)
     {
@@ -247,7 +247,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      * @throws \Arcanedev\Stripe\Exceptions\ApiException
      * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      *
-     * @return self
+     * @return static
      */
     protected static function scopedCreate($params = [], $options = null)
     {
@@ -269,7 +269,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return self
+     * @return static
      *
      * @throws \Arcanedev\Stripe\Exceptions\InvalidArgumentException
      */
@@ -293,7 +293,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      *
      * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
-     * @return self
+     * @return static
      */
     protected function scopedSave($options = null)
     {
@@ -314,7 +314,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      *
      * @throws \Arcanedev\Stripe\Exceptions\InvalidRequestException
      *
-     * @return self
+     * @return static
      */
     protected function scopedDelete($params = [], $options = null)
     {
@@ -466,7 +466,7 @@ abstract class StripeResource extends StripeObject implements StripeResourceCont
      * @param  array|null         $params
      * @param  array|string|null  $options
      *
-     * @return self
+     * @return static
      */
     protected function scopedPostCall($url, $params = [], $options = null)
     {

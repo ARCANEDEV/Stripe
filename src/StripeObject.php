@@ -253,7 +253,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
      *
      * @param  \Arcanedev\Stripe\Http\Response  $response
      *
-     * @return self
+     * @return static
      */
     public function setLastResponse(Response $response)
     {
@@ -385,7 +385,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
      * @param  array                                                    $values
      * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      *
-     * @return self
+     * @return static
      */
     public static function scopedConstructFrom($values, $options)
     {
@@ -449,7 +449,7 @@ class StripeObject implements StripObjectContract, ArrayAccess, JsonSerializable
      * @param  mixed                                                    $value
      * @param  \Arcanedev\Stripe\Http\RequestOptions|array|string|null  $options
      *
-     * @return self|\Arcanedev\Stripe\StripeResource|\Arcanedev\Stripe\Collection|array
+     * @return static|\Arcanedev\Stripe\StripeResource|\Arcanedev\Stripe\Collection|array
      */
     private function constructValue($key, $value, $options)
     {

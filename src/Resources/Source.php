@@ -4,6 +4,7 @@ use Arcanedev\Stripe\Contracts\Resources\Source as SourceContract;
 use Arcanedev\Stripe\Exceptions\ApiException;
 use Arcanedev\Stripe\Exceptions\InvalidRequestException;
 use Arcanedev\Stripe\StripeResource;
+use Arcanedev\Stripe\Utilities\Util;
 
 /**
  * Class     Source
@@ -154,5 +155,24 @@ class Source extends StripeResource implements SourceContract
     public function delete($params = null, $options = null)
     {
         return $this->detach($params, $options);
+    }
+
+    /**
+     * Get the source transactions.
+     *
+     * @param  array|null         $params
+     * @param  array|string|null  $options
+     *
+     * @return \Arcanedev\Stripe\Collection
+     */
+    public function sourceTransactions($params = null, $options = null)
+    {
+        list($response, $opts) = static::staticRequest(
+            'get', $this->instanceUrl().'/source_transactions', $params, $options
+        );
+
+        /** @var  \Arcanedev\Stripe\Http\Response  $response */
+        return Util::convertToStripeObject($response->getJson(), $opts)
+                   ->setLastResponse($response);
     }
 }
