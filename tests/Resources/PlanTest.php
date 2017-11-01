@@ -100,7 +100,7 @@ class PlanTest extends StripeTestCase
      *
      * @expectedException        \Arcanedev\Stripe\Exceptions\InvalidRequestException
      * @expectedExceptionCode    404
-     * @expectedExceptionMessage No such Plan: 0
+     * @expectedExceptionMessage No such plan: 0
      */
     public function it_must_throw_invalid_request_exception_on_false_id()
     {

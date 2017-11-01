@@ -146,20 +146,21 @@ class EphemeralKeyTest extends StripeTestCase
     }
 
     /**
-     * Mock request
+     * Mock request.
      *
-     * @param  string $method
-     * @param  string $path
-     * @param  array $params
-     * @param  array $return
-     * @param  int $rcode
+     * @param  string  $method
+     * @param  string  $path
+     * @param  array   $params
+     * @param  array   $return
+     * @param  int     $rcode
+     * @param  string  $base
      */
-    protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200)
+    protected function mockRequest($method, $path, $params = [], $return = ['id' => 'myId'], $rcode = 200, $base = 'https://api.stripe.com')
     {
         $mock = $this->setUpMockRequest();
 
         $mock->setApiKey(self::API_KEY)->willReturn($mock);
-        $mock->request(strtolower($method), 'https://api.stripe.com' . $path, $params, ['Stripe-Version' => '2017-05-25'], false)
+        $mock->request(strtolower($method), $base.$path, $params, ['Stripe-Version' => '2017-05-25'], false)
             ->willReturn([json_encode($return), $rcode, []]);
     }
 
