@@ -23,7 +23,7 @@ abstract class Stripe implements StripeContract
      *
      * @var string
      */
-    const VERSION = '5.1.0';
+    const VERSION = '5.2.0';
 
     /* -----------------------------------------------------------------
      |  Properties
