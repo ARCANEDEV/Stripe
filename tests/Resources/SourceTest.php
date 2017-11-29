@@ -198,6 +198,44 @@ class SourceTest extends StripeTestCase
         $this->assertFalse(array_key_exists('customer', $source));
     }
 
+    /** @test */
+    public function it_can_save_card_expiry_date()
+    {
+        $source = Source::scopedConstructFrom(
+            $response = [
+                'id'     => 'src_foo',
+                'object' => 'source',
+                'card'   => [
+                    'exp_month' => 8,
+                    'exp_year'  => 2019,
+                ],
+            ],
+            new \Arcanedev\Stripe\Http\RequestOptions
+        );
+
+        $response['card']['exp_month'] = 12;
+        $response['card']['exp_year']  = 2022;
+
+        $this->mockRequest(
+            'POST',
+            '/v1/sources/src_foo',
+            [
+                'card' => [
+                    'exp_month' => 12,
+                    'exp_year'  => 2022,
+                ],
+            ],
+            $response
+        );
+
+        $source->card->exp_month = 12;
+        $source->card->exp_year  = 2022;
+        $source->save();
+
+        $this->assertSame(12, $source->card->exp_month);
+        $this->assertSame(2022, $source->card->exp_year);
+    }
+
     /**
      * @test
      *
