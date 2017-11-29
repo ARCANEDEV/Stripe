@@ -12,15 +12,6 @@ interface Source
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * List all Sources.
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = [], $options = null);
 
     /**
      * Retrieve a Source.

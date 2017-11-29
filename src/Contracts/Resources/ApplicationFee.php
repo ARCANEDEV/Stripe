@@ -36,17 +36,6 @@ interface ApplicationFee
     public static function retrieve($id, $options = null);
 
     /**
-     * Update an Application Fee.
-     *
-     * @param  string             $id
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return self
-     */
-    public static function update($id, $params = [], $options = null);
-
-    /**
      * Creating an Application Fee Refund
      * @link   https://stripe.com/docs/api/php#create_fee_refund
      *

@@ -22,19 +22,6 @@ class Source extends StripeResource implements SourceContract
      */
 
     /**
-     * List all Sources.
-     *
-     * @param  array|null         $params
-     * @param  array|string|null  $options
-     *
-     * @return \Arcanedev\Stripe\Collection|array
-     */
-    public static function all($params = [], $options = null)
-    {
-        return self::scopedAll($params, $options);
-    }
-
-    /**
      * Retrieve a Source.
      *
      * @param  string             $id
