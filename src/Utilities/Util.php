@@ -24,6 +24,10 @@ abstract class Util implements UtilContract
      * @var array
      */
     private static $resources = [
+        // Data structures
+        'list'                => Collection::class,
+
+        // Resources
         'account'             => Resources\Account::class,
         'alipay_account'      => Resources\AlipayAccount::class,
         'apple_pay_domain'    => Resources\ApplePayDomain::class,
@@ -44,7 +48,6 @@ abstract class Util implements UtilContract
         'file_upload'         => Resources\FileUpload::class,
         'invoice'             => Resources\Invoice::class,
         'invoiceitem'         => Resources\InvoiceItem::class,
-        'list'                => Collection::class,                      // List Object
         'login_link'          => Resources\LoginLink::class,
         'order'               => Resources\Order::class,
         'order_item'          => Resources\OrderItem::class,

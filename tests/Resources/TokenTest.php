@@ -61,6 +61,7 @@ class TokenTest extends StripeTestCase
 
         $this->assertInstanceOf(Token::class, $this->token);
         $this->assertSame('card', $this->token->type);
+
         $this->assertInstanceOf(Card::class, $this->token->card);
         $this->assertSame('Visa', $this->token->card->brand);
     }
